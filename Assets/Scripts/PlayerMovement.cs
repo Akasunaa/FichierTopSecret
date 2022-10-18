@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector3Int tilemapPosition;
+    [SerializeField] private int walkFrameCooldown;
+    private int frameCounter;
     private Vector3Int targetTilemapPosition;
     private Vector2Int direction;
 
@@ -25,28 +27,38 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(grid);
-        // set position exactly on a tile
+  
+
         targetTilemapPosition = Vector3Int.zero;
         direction = Vector2Int.zero;
+        frameCounter = 0;
+        orientation = Orientation.front;
+
+        // set position exactly on a tile
         tilemapPosition = grid.WorldToCell(transform.position);
         transform.position = grid.CellToWorld(tilemapPosition);
+    }
 
-
-        orientation = Orientation.front;
+    private void Update()
+    {
+        if (frameCounter < walkFrameCooldown)
+        {
+            frameCounter++;
+        }
     }
 
     private void FixedUpdate()
-    {
-        Move();
+    {   
+        if (frameCounter >= walkFrameCooldown)
+        {
+          Move();
+        }
     }
 
     private void Move()
     {
         if (direction != Vector2Int.zero)
         {
-            // set the player's orientation
-            ChangeOrientation();
-
             // calculate target position
             targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
 
@@ -65,6 +77,9 @@ public class PlayerMovement : MonoBehaviour
             // move the player if no obstacle was found
             transform.position = grid.CellToWorld(targetTilemapPosition);
             tilemapPosition = grid.WorldToCell(transform.position);
+
+            // reset counter
+            frameCounter = 0;
         }
     }
 
@@ -79,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         } else if (direction == Vector2Int.right)
         {
             orientation = Orientation.right;
-        } else
+        } else if (direction == Vector2Int.left) 
         {
             orientation = Orientation.left;
         }
@@ -87,6 +102,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void SetDirection(Vector2Int dir)
     {
+        Debug.Log(dir);
+        if (dir != Vector2Int.zero)
+        {
+            ChangeOrientation();
+        }
         direction = dir;
     }
 }
