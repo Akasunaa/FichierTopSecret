@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,36 +12,35 @@ using UnityEngine.Assertions;
 public class FileParser : MonoBehaviour
 {
     private string[] dataArray; //data read from the file
-    private string filePath; //informations to access file
+    public string filePath { get; private set; } //informations to access file
     [Header("Object File infos")]
     [SerializeField] private string targetObjectFileName;           //file (name) where the modification is
-    [SerializeField] private string targetObjectModifiedVariable;   //variable that will be looked for and modified
-    private ModifiableController targetModifiable;                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
+    public ModifiableController targetModifiable { get; private set; }                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
+
+    void Awake()
+    {
+        filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
+    }
 
     private void Start()
     {
-        filePath = Application.streamingAssetsPath + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
-    }
-
-    private void Update() //FOR NOW, SHOULD BE DELETED LATER with check being done by calls from FileWatcher rather than every frame
-    {
-        ReadFromFile();
     }
 
     /**
      *  Function called by FileWatcher upon detection of a file modification
      */
-    public bool OnChange(FileInfo fileInfo)
+    public bool OnChange(string path)
     {
+        ReadFromFile(filePath);
         return true;
     }
 
      /**
      *  Function called by FileWatcher
      */
-    public bool OnDelete(FileInfo fileInfo)
+    public bool OnDelete(string path)
     {
         if (targetModifiable.canBeDeleted)
         {
@@ -55,17 +55,21 @@ public class FileParser : MonoBehaviour
      *  Function that will analyse the file found at filePath and will obtain the value needed (targetObjectModifiedVariable)
      *  called from ???
      */
-    public void ReadFromFile()
+    public void ReadFromFile(string path)
     {
-        dataArray = File.ReadAllLines(filePath);
+        const string separator = ":";
+        dataArray = File.ReadAllLines(path);
         foreach(string line in dataArray)
         {
-            if(line.Contains(targetObjectModifiedVariable + " : ")) //FOR NOW IT ONLY SCANS FOR A SINGLE VARIABLE -> SHOULD BE A LIST LATER TO CHECK FOR ALL RELEVANT VARIABLES
+            if(line.Contains(separator))
             {
-                string value = line.Split(" : ")[1];                                    //obtaining value (modified or not)
-                targetModifiable.OnModification(targetObjectModifiedVariable, value);   //modifiying appropriate variable
-                return; //FOR NOW, ONCE THE CORRECT VAR IS FOUND, WE QUIT THE SEARCH AFTERWARDS (since we search only 1 var)
+                var lineSplit = line.Split(separator);
+                string name = lineSplit[0];
+                string value = string.Join("", lineSplit[1..]);
+                targetModifiable.OnModification(name.Trim().ToLower(), value.Trim().ToLower()); // modifiying appropriate variable
             }
         }
+
+        targetModifiable.UpdateModification();
     }
 }
