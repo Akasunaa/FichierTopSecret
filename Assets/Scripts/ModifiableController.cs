@@ -7,6 +7,8 @@ using UnityEngine;
  */
 public class ModifiableController : MonoBehaviour
 {
+
+    public bool canBeDeleted;
     public void OnModification(string variableModified, string value)
     {
         print("Modifying " + variableModified + " with value " + value);

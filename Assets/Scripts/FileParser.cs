@@ -13,7 +13,6 @@ public class FileParser : MonoBehaviour
     private string[] dataArray; //data read from the file
     private string filePath; //informations to access file
     [Header("Object File infos")]
-    [SerializeField] private GameObject targetObject;               //object that will take the modification searched for
     [SerializeField] private string targetObjectFileName;           //file (name) where the modification is
     [SerializeField] private string targetObjectModifiedVariable;   //variable that will be looked for and modified
     private ModifiableController targetModifiable;                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
@@ -21,7 +20,7 @@ public class FileParser : MonoBehaviour
     private void Start()
     {
         filePath = Application.streamingAssetsPath + "/" + targetObjectFileName;
-        targetModifiable = targetObject.GetComponent<ModifiableController>();
+        targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
     }
 
@@ -30,6 +29,20 @@ public class FileParser : MonoBehaviour
      */
     public bool OnChange(FileInfo fileInfo)
     {
+        return true;
+    }
+
+     /**
+     *  Function called by FileWatcher
+     */
+    public bool OnDelete(FileInfo fileInfo)
+    {
+        if (targetModifiable.canBeDeleted)
+        {
+            print("ah je pouvais");
+            return true;
+        }
+        print("ah mince bah faut le recreer");
         return true;
     }
 
