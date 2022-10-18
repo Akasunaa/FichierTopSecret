@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using FileProperty;
+using FileUtils;
 using UnityEngine;
 
 public class FilesWatcher : MonoBehaviour
 {
-    // private Dictionary<string, FileLink> pathToScript;
+    // Associate each file path (which already exists in the game) to a FileParser
+    private static Dictionary<string, FileParser> pathToScript;
 
     void Start()
     {
@@ -21,8 +22,11 @@ public class FilesWatcher : MonoBehaviour
         
         FileSystemWatcher watcher = new FileSystemWatcher(di.FullName);
         
+        // Open the file explorer of the client
         Application.OpenURL("file:///" + di.FullName); 
 
+        // Watch for everything
+        // TODO: maybe remove some filters ??
         watcher.NotifyFilter = NotifyFilters.Attributes
                                | NotifyFilters.CreationTime
                                | NotifyFilters.DirectoryName
@@ -32,16 +36,21 @@ public class FilesWatcher : MonoBehaviour
                                | NotifyFilters.Security
                                | NotifyFilters.Size;
 
+        // Add callbacks to those events
         watcher.Changed += OnChanged;
         watcher.Created += OnCreated;
         watcher.Deleted += OnDeleted;
-        watcher.Renamed += OnRenamed;
 
-        watcher.Filter = "*.txt"; // Maybe a need to change this
+        // Watch only .txt files
+        watcher.Filter = "*.txt";
         watcher.IncludeSubdirectories = true;
+        // Start the watcher
         watcher.EnableRaisingEvents = true;
     }
 
+    /*
+     * Call when a file is modified
+     */
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         Debug.Log("Changed: " + e.FullPath);
@@ -49,63 +58,45 @@ public class FilesWatcher : MonoBehaviour
         FileInfo fi = new FileInfo(e.FullPath);
         if (fi.Exists)
         {
-            FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
-            // Read the file and parse the values
-
-            FileChange fc = new FileChange();
-            fc.path = e.FullPath;
-            fc.type = FileChangeType.Change;
-            
-            // Call a function to FileLink : pathToScript[e.FullPath]
-            fs.Close();
+            if (pathToScript.TryGetValue(e.FullPath, out FileParser fileParser))
+            {
+                if (!fileParser.OnChange(fi))
+                {
+                    Debug.LogWarning(e.FullPath + " has made an impossible change !");
+                }
+            }
         }
     }
 
+    /*
+     * Call when a file is created
+     */
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
         Debug.Log("Created: " + e.FullPath);
         FileInfo fi = new FileInfo(e.FullPath);
         if (fi.Exists)
         {
-            FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
-            // Read the file
-            
-            FileChange fc = new FileChange();
-            fc.path = e.FullPath;
-            fc.type = FileChangeType.New;
-            
-            // Call a function to FileLink : pathToScript[e.FullPath]
-            fs.Close();
+            // Create a object from the file if possible
         }
     }
 
-    private static void OnRenamed(object sender, RenamedEventArgs e)
-    {
-        Debug.Log("Renamed: " + e.FullPath + " from " + e.OldFullPath);
-        FileInfo fi = new FileInfo(e.FullPath);
-        if (fi.Exists)
-        {
-            FileStream fs = fi.Open(FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read);
-            // Read the file
-
-            // TODO: I don't know how to handle renamed event
-            
-            // Call a function to FileLink : pathToScript[e.FullPath]
-            fs.Close();
-        }
-    }
-
+    /*
+     * Call when a file is deleted
+     */
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         Debug.Log("Deleted: " + e.FullPath);
         FileInfo fi = new FileInfo(e.FullPath);
         if (!fi.Exists)
         {
-            FileChange fc = new FileChange();
-            fc.path = e.FullPath;
-            fc.type = FileChangeType.Delete;
-
-            // Call a function to FileLink : pathToScript[e.FullPath]
+            if (pathToScript.TryGetValue(e.FullPath, out FileParser fileParser))
+            {
+                // if (!fileParser.OnDelete(fi))
+                // {
+                //     Debug.LogWarning(e.FullPath + " has made an impossible delete !");
+                // }
+            }
         }
     }
 }
