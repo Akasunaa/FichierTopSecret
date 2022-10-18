@@ -73,10 +73,14 @@ public class FilesWatcher : MonoBehaviour
             FileChange fc = new FileChange();
             fc.path = e.FullPath;
             fc.type = FileChangeType.New;
-            
             // Call a function to FileLink : pathToScript[e.FullPath]
             fs.Close();
         }
+    }
+
+    private void Update()
+    {
+        ApplyPlayerChange.VisualChange("ag", "bh", GameObject.FindGameObjectWithTag("Player"));
     }
 
     private static void OnRenamed(object sender, RenamedEventArgs e)
