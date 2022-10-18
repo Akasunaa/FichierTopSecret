@@ -26,15 +26,7 @@ public class InputController : MonoBehaviour
             playerMovement.SetDirection(new Vector2Int(0, (int)value));
         }
 
-        if (context.canceled)
-        {
-            // decrease the number of keys pressed, reset movement only if all the keys are released
-            nbKeyPressed--;
-            if (nbKeyPressed == 0)
-            {
-                playerMovement.SetDirection(Vector2Int.zero);
-            }
-        }
+        ResetInput(context);
     }
 
     public void MoveHorizontally(InputAction.CallbackContext context)
@@ -46,6 +38,11 @@ public class InputController : MonoBehaviour
             playerMovement.SetDirection(new Vector2Int((int)value, 0));
         }
 
+        ResetInput(context);
+    }
+
+    private void ResetInput(InputAction.CallbackContext context)
+    {
         if (context.canceled)
         {
             // decrease the number of keys pressed,reset movement only if all the keys are released
@@ -56,7 +53,6 @@ public class InputController : MonoBehaviour
             }
         }
     }
-
 
     private void OnEnable()
     {
