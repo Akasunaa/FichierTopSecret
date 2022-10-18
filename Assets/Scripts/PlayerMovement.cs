@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 enum Orientation
 {
@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Grid grid;
+    [SerializeField] private Tilemap[] obstacleTilemaps;
 
     [Header("Movement variables")]
     [SerializeField] private Vector3Int tilemapPosition;
@@ -24,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(grid);
-
         // set position exactly on a tile
         targetTilemapPosition = Vector3Int.zero;
         direction = Vector2Int.zero;
@@ -38,15 +38,50 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        transform.position = grid.CellToWorld(targetTilemapPosition);
-        tilemapPosition = grid.WorldToCell(transform.position);
     }
 
     private void Move()
     {
         if (direction != Vector2Int.zero)
         {
+            // set the player's orientation
+            ChangeOrientation();
+
+            // calculate target position
             targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
+
+            // check if the cell is occupied
+            if (obstacleTilemaps != null)
+            {
+                foreach(Tilemap tilemap in obstacleTilemaps)
+                {
+                    if (tilemap.HasTile(targetTilemapPosition))
+                    {
+                        return;
+                    }
+                }
+            }
+
+            // move the player if no obstacle was found
+            transform.position = grid.CellToWorld(targetTilemapPosition);
+            tilemapPosition = grid.WorldToCell(transform.position);
+        }
+    }
+
+    private void ChangeOrientation()
+    {
+        if (direction == Vector2Int.down)
+        {
+            orientation = Orientation.front;
+        } else if (direction == Vector2Int.up)
+        {
+            orientation = Orientation.back;
+        } else if (direction == Vector2Int.right)
+        {
+            orientation = Orientation.right;
+        } else
+        {
+            orientation = Orientation.left;
         }
     }
 
@@ -54,4 +89,8 @@ public class PlayerMovement : MonoBehaviour
     {
         direction = dir;
     }
+}
+
+internal class List<T>
+{
 }
