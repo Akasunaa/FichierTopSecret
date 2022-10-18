@@ -37,9 +37,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
+        Move();
         transform.position = grid.CellToWorld(targetTilemapPosition);
         tilemapPosition = grid.WorldToCell(transform.position);
+    }
+
+    private void Move()
+    {
+        if (direction != Vector2Int.zero)
+        {
+            targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
+        }
     }
 
     public void SetDirection(Vector2Int dir)

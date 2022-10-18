@@ -19,26 +19,25 @@ public class InputController : MonoBehaviour
 
     public void MoveVertically(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            nbKeyPressed++;
-            float value = context.ReadValue<float>();
-            playerMovement.SetDirection(new Vector2Int(0, (int)value));
-        }
-
+        PerformInput(context, Vector2Int.up);
         ResetInput(context);
     }
 
     public void MoveHorizontally(InputAction.CallbackContext context)
     {
+        PerformInput(context, Vector2Int.right);
+        ResetInput(context);
+    }
+
+    private void PerformInput(InputAction.CallbackContext context, Vector2Int direction)
+    {
         if (context.performed)
         {
+            // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed++;
             float value = context.ReadValue<float>();
-            playerMovement.SetDirection(new Vector2Int((int)value, 0));
+            playerMovement.SetDirection((int) value * direction);
         }
-
-        ResetInput(context);
     }
 
     private void ResetInput(InputAction.CallbackContext context)
