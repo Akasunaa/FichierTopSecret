@@ -24,8 +24,13 @@ public class FileParser : MonoBehaviour
         Assert.IsNotNull(targetModifiable);
     }
 
+    private void Update() //FOR NOW, SHOULD BE DELETED LATER with check being done by calls from FileWatcher rather than every frame
+    {
+        ReadFromFile();
+    }
+
     /**
-     *  Function called by FileWatcher
+     *  Function called by FileWatcher upon detection of a file modification
      */
     public bool OnChange(FileInfo fileInfo)
     {
@@ -48,18 +53,18 @@ public class FileParser : MonoBehaviour
 
     /**
      *  Function that will analyse the file found at filePath and will obtain the value needed (targetObjectModifiedVariable)
+     *  called from ???
      */
     public void ReadFromFile()
     {
         dataArray = File.ReadAllLines(filePath);
         foreach(string line in dataArray)
         {
-            if(line.Contains(targetObjectModifiedVariable + " :")) //FOR NOW IT ONLY SCANS FOR A SINGLE VARIABLE -> SHOULD BE A LIST LATER TO CHECK FOR ALL RELEVANT VARIABLES
+            if(line.Contains(targetObjectModifiedVariable + " : ")) //FOR NOW IT ONLY SCANS FOR A SINGLE VARIABLE -> SHOULD BE A LIST LATER TO CHECK FOR ALL RELEVANT VARIABLES
             {
-                string value = line.Split(" : ")[1];
-                //IMPLEMENT VALUE TO CORRESPONDING VARIABLE IN SCRIPT OF ENTITY
-                targetModifiable.OnModification(targetObjectModifiedVariable, value);
-                return;
+                string value = line.Split(" : ")[1];                                    //obtaining value (modified or not)
+                targetModifiable.OnModification(targetObjectModifiedVariable, value);   //modifiying appropriate variable
+                return; //FOR NOW, ONCE THE CORRECT VAR IS FOUND, WE QUIT THE SEARCH AFTERWARDS (since we search only 1 var)
             }
         }
     }
