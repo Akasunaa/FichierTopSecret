@@ -6,24 +6,21 @@ public class InputController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private InteractionController interactionController;
     private Inputs input;
     private Inputs.OnFootActions onFoot;
     private int nbKeyPressed;
 
     private void Awake()
     {
+        if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
+        if (!interactionController) interactionController = GetComponent<InteractionController>();
         input = new Inputs();
         onFoot = input.onFoot;
         nbKeyPressed = 0;
     }
 
-    public void MoveVertically(InputAction.CallbackContext context)
-    {
-        PerformInput(context);
-        ResetInput(context);
-    }
-
-    public void MoveHorizontally(InputAction.CallbackContext context)
+    public void Move(InputAction.CallbackContext context)
     {
         PerformInput(context);
         ResetInput(context);
@@ -97,6 +94,14 @@ public class InputController : MonoBehaviour
         }
         return Vector2Int.zero;
     } 
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            interactionController.InteractionOrder();
+        }
+    }
 
     private void OnEnable()
     {

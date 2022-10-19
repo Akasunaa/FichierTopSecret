@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6320083818522056956}
   - component: {fileID: 6320083818522056957}
+  - component: {fileID: 7588447500401278529}
   - component: {fileID: 6320083818522056958}
   - component: {fileID: 6320083818522056959}
   m_Layer: 0
@@ -138,7 +139,7 @@ Transform:
   m_Children:
   - {fileID: 6320083818459328202}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6320083818522056957
 MonoBehaviour:
@@ -156,9 +157,23 @@ MonoBehaviour:
   obstacleTilemaps:
   - {fileID: 0}
   animator: {fileID: 0}
-  tilemapPosition: {x: 0, y: 0, z: 0}
+  tilemapPosition: {x: 0, y: 0}
   walkFrameCooldown: 48
-  orientation: 0
+  inputPile: []
+--- !u!114 &7588447500401278529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320083818522056946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04a02a7cd1b2362499699500df72f53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 6320083818522056957}
+  interactableTilemaps: []
 --- !u!114 &6320083818522056958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 6320083818522056957}
+  interactionController: {fileID: 7588447500401278529}
 --- !u!114 &6320083818522056959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +217,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6320083818522056958}
         m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: MoveVertically
+        m_MethodName: Move
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -214,14 +230,26 @@ MonoBehaviour:
     m_ActionId: c6643643-413c-4493-8798-07e21711239f
     m_ActionName: onFoot/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6320083818522056958}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 538b9d8a-084f-4b59-a6c9-89d6568e37bc
     m_ActionName: onFoot/Interaction[/Keyboard/e]
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6320083818522056958}
         m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: MoveHorizontally
+        m_MethodName: Move
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
