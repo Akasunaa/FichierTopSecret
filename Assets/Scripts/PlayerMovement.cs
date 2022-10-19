@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Grid grid;
     [SerializeField] private Tilemap[] obstacleTilemaps;
+    [SerializeField] private Animator animator;
 
     [Header("Movement variables")]
     [SerializeField] private Vector3Int tilemapPosition;
@@ -27,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(grid);
-  
+        if (!animator) animator = GetComponentInChildren<Animator>();
 
         targetTilemapPosition = Vector3Int.zero;
         direction = Vector2Int.zero;
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ChangeOrientation()
+    private void ChangeOrientation(Vector2Int direction)
     {
         if (direction == Vector2Int.down)
         {
@@ -98,6 +99,9 @@ public class PlayerMovement : MonoBehaviour
         {
             orientation = Orientation.left;
         }
+
+        animator.SetFloat("X", direction.x);
+        animator.SetFloat("Y", direction.y);
     }
 
     public void SetDirection(Vector2Int dir)
@@ -105,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(dir);
         if (dir != Vector2Int.zero)
         {
-            ChangeOrientation();
+            ChangeOrientation(dir);
         }
         direction = dir;
     }
