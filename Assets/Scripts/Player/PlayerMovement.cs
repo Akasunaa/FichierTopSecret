@@ -82,13 +82,13 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("WalkTrigger");
         
         yield return new WaitForSeconds(0.001f);
-        float walkFrameCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
        
-        float frameCounter = 0;
-        while (frameCounter < walkFrameCooldown)
+        float timer = 0;
+        while (timer < movementCooldown)
         {
-            frameCounter += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), frameCounter / walkFrameCooldown) ;
+            timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), timer / movementCooldown) ;
             yield return null;
         }
 
@@ -97,8 +97,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void RefreshOrientationSprite(Vector2Int direction)
     {
-        animator.SetFloat("X", direction.x);
-        animator.SetFloat("Y", direction.y);
+        animator.SetFloat("dirX", direction.x);
+        animator.SetFloat("dirY", direction.y);
     }
 
 
@@ -112,17 +112,7 @@ public class PlayerMovement : MonoBehaviour
      */
     public void RemoveMovementInPile(Vector2Int dir)
     {
-        if (inputPile.Count > 0)
-        {
-            for (int i = 0; i < inputPile.Count; i++)
-            {
-                Vector2Int vec = inputPile[i];
-                if (vec == dir)
-                {
-                    inputPile.Remove(vec);
-                }
-            }
-        }
+        inputPile.Remove(dir);
     }
 
     public void ClearInputPile()
