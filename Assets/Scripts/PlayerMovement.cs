@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -17,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement variables")]
     [SerializeField] private Vector3Int tilemapPosition;
     [SerializeField] private int walkFrameCooldown;
+    [SerializeField] private List<Vector2Int> inputPile;
     private int frameCounter;
     private Vector3Int targetTilemapPosition;
     private Vector2Int direction;
@@ -34,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         direction = Vector2Int.zero;
         frameCounter = 0;
         orientation = Orientation.front;
+        inputPile = new List<Vector2Int>();
 
         // set position exactly on a tile
         tilemapPosition = grid.WorldToCell(transform.position);
@@ -58,8 +62,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (direction != Vector2Int.zero)
+        if (inputPile.Count > 0)
         {
+            // set direction as the top of the input pile
+            direction = inputPile[inputPile.Count - 1];
             // calculate target position
             targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
 
@@ -84,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ChangeOrientation(Vector2Int direction)
+    private void RefreshOrientation(Vector2Int direction)
     {
         if (direction == Vector2Int.down)
         {
@@ -104,17 +110,39 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Y", direction.y);
     }
 
-    public void SetDirection(Vector2Int dir)
-    {
-        Debug.Log(dir);
-        if (dir != Vector2Int.zero)
-        {
-            ChangeOrientation(dir);
-        }
-        direction = dir;
-    }
-}
 
-internal class List<T>
-{
+    public void AddMovementInPile(Vector2Int dir)
+    {
+        inputPile.Add(dir);
+        RefreshOrientation(dir);
+    }
+
+    /**
+     * find the right vector in the input pile and removes it
+     */
+    public void RemoveMovementInPile(Vector2Int dir)
+    {
+        if (inputPile.Count > 0)
+        {
+            for (int i = 0; i < inputPile.Count; i++)
+            {
+                Vector2Int vec = inputPile[i];
+                if (vec == dir)
+                {
+                    inputPile.Remove(vec);
+                }
+            }
+
+        }
+        if (inputPile.Count > 0)
+        {
+            // refresh orientation to the last maintained key or key the last one if there are no more inputs
+            RefreshOrientation(inputPile[inputPile.Count - 1]);
+        }
+    }
+
+    public void ClearInputPile()
+    {
+        inputPile.Clear();
+    }
 }

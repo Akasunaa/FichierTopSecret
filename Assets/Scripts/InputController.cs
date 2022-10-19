@@ -19,39 +19,84 @@ public class InputController : MonoBehaviour
 
     public void MoveVertically(InputAction.CallbackContext context)
     {
-        PerformInput(context, Vector2Int.up);
+        PerformInput(context);
         ResetInput(context);
     }
 
     public void MoveHorizontally(InputAction.CallbackContext context)
     {
-        PerformInput(context, Vector2Int.right);
+        PerformInput(context);
         ResetInput(context);
     }
 
-    private void PerformInput(InputAction.CallbackContext context, Vector2Int direction)
+    /**
+     * action realised when pressing a key
+     * increment the number of keys pressed and adds the corresponding vector on top of the input pile
+     */
+    private void PerformInput(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            // decrease the number of keys pressed,reset movement only if all the keys are released
+            // increase the number of keys pressed
             nbKeyPressed++;
-            float value = context.ReadValue<float>();
-            playerMovement.SetDirection((int) value * direction);
+
+            playerMovement.AddMovementInPile(InputVectorConversion(context.action.activeControl));
         }
     }
 
+    /**
+     * action realised when releasing a key
+     * decrement the number of keys pressed and removes the corresponding vector in the input pile
+     */
     private void ResetInput(InputAction.CallbackContext context)
     {
         if (context.canceled)
         {
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
+
+            playerMovement.RemoveMovementInPile(InputVectorConversion(context.action.activeControl));
             if (nbKeyPressed == 0)
             {
-                playerMovement.SetDirection(Vector2Int.zero);
+                // we clear the input pile if no keys are pressed anymore for safe measure
+                playerMovement.ClearInputPile();
             }
         }
     }
+
+    /**
+     * Convert the InputControl that the context gives us into its vector equivalent
+     */
+    private Vector2Int InputVectorConversion(InputControl inputControl)
+    {
+        string inputName = inputControl.name;
+        if (inputName == "w")
+        {
+            inputName = "z";
+        }
+        if (inputName == "a")
+        {
+            inputName = "q";
+        }
+
+        if (inputName.Equals(input.onFoot.HorizontalMovement.GetBindingDisplayString(1).ToLower()))
+        {
+            return Vector2Int.left;
+        }
+        if (inputName.Equals(input.onFoot.VerticalMovement.GetBindingDisplayString(2).ToLower()))
+        {
+            return Vector2Int.up;
+        }
+        if (inputName.Equals(input.onFoot.VerticalMovement.GetBindingDisplayString(1).ToLower()))
+        {
+            return Vector2Int.down;
+        }
+        if (inputName.Equals(input.onFoot.HorizontalMovement.GetBindingDisplayString(2).ToLower()))
+        {
+            return Vector2Int.right;
+        }
+        return Vector2Int.zero;
+    } 
 
     private void OnEnable()
     {
