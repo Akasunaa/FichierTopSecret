@@ -14,8 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
-    private int walkFrameCooldown;                         // cooldown between to tile displacement, should be equal to the walk animation duration
-    [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
+     [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
 
     private bool isMoving;
     private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing  
@@ -62,9 +61,6 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-
-
-            
             
             // start the movement
             StartCoroutine(SmoothMovement(targetTilemapPosition));
@@ -84,16 +80,16 @@ public class PlayerMovement : MonoBehaviour
 
         // get animation clip information 
         animator.SetTrigger("WalkTrigger");
-        float walkFrameCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
-
-        int frameCounter = 0;
+        
+        yield return new WaitForSeconds(0.001f);
+        float walkFrameCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+       
+        float frameCounter = 0;
         while (frameCounter < walkFrameCooldown)
         {
-            frameCounter++;
-
-            //transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), (float) frameCounter / walkFrameCooldown) + new Vector3(grid.cellSize.x / 2, 0, 0);
+            Debug.Log(frameCounter);
+            frameCounter += Time.deltaTime;
             transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), (float) frameCounter / walkFrameCooldown);
-
             yield return null;
         }
 
@@ -102,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void RefreshOrientationSprite(Vector2Int direction)
     {
-
         animator.SetFloat("X", direction.x);
         animator.SetFloat("Y", direction.y);
     }
