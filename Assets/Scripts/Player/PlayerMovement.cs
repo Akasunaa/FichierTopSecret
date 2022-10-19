@@ -4,28 +4,22 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
 
-enum Orientation
-{
-    front, back, left, right
-}
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private Grid grid;
-    [SerializeField] private Tilemap[] obstacleTilemaps;
-    [SerializeField] private Animator animator;
+    [SerializeField] private Grid grid;                                     // grid guiding the tilemaps
+    [SerializeField] private Tilemap[] obstacleTilemaps;                    // array with all the tilemaps with which the player should collide
+    [SerializeField] private Animator animator;                             // player animations 
 
     [Header("Movement variables")]
-    [SerializeField] private Vector3Int tilemapPosition;
-    [SerializeField] private int walkFrameCooldown;
-    [SerializeField] private List<Vector2Int> inputPile;
-    private int frameCounter;
-    private Vector3Int targetTilemapPosition;
-    private Vector2Int direction;
+    [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
+    [SerializeField] private int walkFrameCooldown;                         // cooldown between to tile displacement, should be equal to the walk animation duration
+    [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
+    
+    private int frameCounter;                                               // frame counter used for the movement cooldown
+    private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing
 
-    [Header("States")]
-    [SerializeField] private Orientation orientation;
     
 
     private void Awake()
@@ -33,15 +27,13 @@ public class PlayerMovement : MonoBehaviour
         Assert.IsNotNull(grid);
         if (!animator) animator = GetComponentInChildren<Animator>();
 
-        targetTilemapPosition = Vector3Int.zero;
-        direction = Vector2Int.zero;
+        facingDirection = Vector2Int.zero;
         frameCounter = 0;
-        orientation = Orientation.front;
         inputPile = new List<Vector2Int>();
 
         // set position exactly on a tile
-        tilemapPosition = grid.WorldToCell(transform.position);
-        transform.position = grid.CellToWorld(tilemapPosition);
+        tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
+        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
     }
 
     private void Update()
@@ -65,9 +57,9 @@ public class PlayerMovement : MonoBehaviour
         if (inputPile.Count > 0)
         {
             // set direction as the top of the input pile
-            direction = inputPile[inputPile.Count - 1];
+            facingDirection = inputPile[inputPile.Count - 1];
             // calculate target position
-            targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)direction;
+            Vector3Int targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)facingDirection;
 
             // check if the cell is occupied
             if (obstacleTilemaps != null)
@@ -83,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
 
             // move the player if no obstacle was found
             transform.position = grid.CellToWorld(targetTilemapPosition);
-            tilemapPosition = grid.WorldToCell(transform.position);
+            tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
 
             // reset counter
             frameCounter = 0;
@@ -92,20 +84,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void RefreshOrientation(Vector2Int direction)
     {
-        if (direction == Vector2Int.down)
-        {
-            orientation = Orientation.front;
-        } else if (direction == Vector2Int.up)
-        {
-            orientation = Orientation.back;
-        } else if (direction == Vector2Int.right)
-        {
-            orientation = Orientation.right;
-        } else if (direction == Vector2Int.left) 
-        {
-            orientation = Orientation.left;
-        }
-
         animator.SetFloat("X", direction.x);
         animator.SetFloat("Y", direction.y);
     }
@@ -144,5 +122,15 @@ public class PlayerMovement : MonoBehaviour
     public void ClearInputPile()
     {
         inputPile.Clear();
+    }
+
+    public Vector2Int GetTilemapPosition()
+    {
+        return tilemapPosition;
+    }
+
+    public Vector2Int GetOrientation()
+    {
+        return facingDirection;
     }
 }
