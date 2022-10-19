@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
         // set position exactly on a tile
         tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
-        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
+        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition) + new Vector3(grid.cellSize.x / 2, 0, 0);
     }
 
     private void FixedUpdate()
@@ -87,9 +87,8 @@ public class PlayerMovement : MonoBehaviour
         float frameCounter = 0;
         while (frameCounter < walkFrameCooldown)
         {
-            Debug.Log(frameCounter);
             frameCounter += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), (float) frameCounter / walkFrameCooldown);
+            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), frameCounter / walkFrameCooldown) ;
             yield return null;
         }
 
@@ -106,7 +105,6 @@ public class PlayerMovement : MonoBehaviour
     public void AddMovementInPile(Vector2Int dir)
     {
         inputPile.Add(dir);
-        RefreshOrientationSprite(dir);
     }
 
     /**
@@ -124,12 +122,6 @@ public class PlayerMovement : MonoBehaviour
                     inputPile.Remove(vec);
                 }
             }
-
-        }
-        if (inputPile.Count > 0)
-        {
-            // refresh orientation to the last maintained key or key the last one if there are no more inputs
-            RefreshOrientationSprite(inputPile[inputPile.Count - 1]);
         }
     }
 
