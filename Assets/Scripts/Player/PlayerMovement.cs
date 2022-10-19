@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
-     [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
+    [SerializeField] private List<Vector2Int> inputStack;                  // stack of inputs from least to most recent
 
     private bool isMoving;
     private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing  
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         if (!animator) animator = GetComponentInChildren<Animator>();
 
         facingDirection = Vector2Int.zero;
-        inputPile = new List<Vector2Int>();
+        inputStack = new List<Vector2Int>();
         isMoving = false;
 
         // set position exactly on a tile
@@ -43,10 +43,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (inputPile.Count > 0)
+        if (inputStack.Count > 0)
         {
-            // set direction as the top of the input pile
-            facingDirection = inputPile[inputPile.Count - 1];
+            // set direction as the top of the input stack
+            facingDirection = inputStack[inputStack.Count - 1];
             // calculate target position
             Vector3Int targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)facingDirection;
 
@@ -102,22 +102,22 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    public void AddMovementInPile(Vector2Int dir)
+    public void AddMovementInStack(Vector2Int dir)
     {
-        inputPile.Add(dir);
+        inputStack.Add(dir);
     }
 
     /**
-     * find the right vector in the input pile and removes it
+     * find the right vector in the input stack and removes it
      */
-    public void RemoveMovementInPile(Vector2Int dir)
+    public void RemoveMovementInStack(Vector2Int dir)
     {
-        inputPile.Remove(dir);
+        inputStack.Remove(dir);
     }
 
-    public void ClearInputPile()
+    public void ClearInputStack()
     {
-        inputPile.Clear();
+        inputStack.Clear();
     }
 
     public Vector2Int GetTilemapPosition()

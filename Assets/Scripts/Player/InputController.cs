@@ -37,7 +37,7 @@ public class InputController : MonoBehaviour
             // increase the number of keys pressed
             nbKeyPressed++;
 
-            playerMovement.AddMovementInPile(InputVectorConversion(context.action.activeControl));
+            playerMovement.AddMovementInStack(InputVectorConversion(context.action.activeControl));
         }
     }
 
@@ -52,11 +52,11 @@ public class InputController : MonoBehaviour
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
 
-            playerMovement.RemoveMovementInPile(InputVectorConversion(context.action.activeControl));
+            playerMovement.RemoveMovementInStack(InputVectorConversion(context.action.activeControl));
             if (nbKeyPressed == 0)
             {
                 // we clear the input pile if no keys are pressed anymore for safe measure
-                playerMovement.ClearInputPile();
+                playerMovement.ClearInputStack();
             }
         }
     }
