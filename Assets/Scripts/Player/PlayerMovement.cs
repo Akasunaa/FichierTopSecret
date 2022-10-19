@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,13 +14,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
-    [SerializeField] private int walkFrameCooldown;                         // cooldown between to tile displacement, should be equal to the walk animation duration
+    private int walkFrameCooldown;                         // cooldown between to tile displacement, should be equal to the walk animation duration
     [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
-    
-    private int frameCounter;                                               // frame counter used for the movement cooldown
-    private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing
 
-    
+    private bool isMoving;
+    private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing  
 
     private void Awake()
     {
@@ -28,25 +26,17 @@ public class PlayerMovement : MonoBehaviour
         if (!animator) animator = GetComponentInChildren<Animator>();
 
         facingDirection = Vector2Int.zero;
-        frameCounter = 0;
         inputPile = new List<Vector2Int>();
+        isMoving = false;
 
         // set position exactly on a tile
         tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
         transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
     }
 
-    private void Update()
-    {
-        if (frameCounter < walkFrameCooldown)
-        {
-            frameCounter++;
-        }
-    }
-
     private void FixedUpdate()
     {   
-        if (frameCounter >= walkFrameCooldown)
+        if (!isMoving)
         {
           Move();
         }
@@ -73,17 +63,46 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            // move the player if no obstacle was found
-            transform.position = grid.CellToWorld(targetTilemapPosition);
-            tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
 
-            // reset counter
-            frameCounter = 0;
+            
+            
+            // start the movement
+            StartCoroutine(SmoothMovement(targetTilemapPosition));
+            tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
         }
     }
 
-    private void RefreshOrientation(Vector2Int direction)
+    private IEnumerator SmoothMovement(Vector3Int targetPosition)
     {
+        isMoving = true;
+
+        // refresh the info containing which side the character is facing
+        RefreshOrientationSprite(facingDirection);
+
+        // keep initial position
+        Vector3 initialPosition = transform.position;
+
+        // get animation clip information 
+        animator.SetTrigger("WalkTrigger");
+        float walkFrameCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length * animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
+
+        int frameCounter = 0;
+        while (frameCounter < walkFrameCooldown)
+        {
+            frameCounter++;
+
+            //transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), (float) frameCounter / walkFrameCooldown) + new Vector3(grid.cellSize.x / 2, 0, 0);
+            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), (float) frameCounter / walkFrameCooldown);
+
+            yield return null;
+        }
+
+        isMoving = false;
+    }
+
+    private void RefreshOrientationSprite(Vector2Int direction)
+    {
+
         animator.SetFloat("X", direction.x);
         animator.SetFloat("Y", direction.y);
     }
@@ -92,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
     public void AddMovementInPile(Vector2Int dir)
     {
         inputPile.Add(dir);
-        RefreshOrientation(dir);
+        RefreshOrientationSprite(dir);
     }
 
     /**
@@ -115,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         if (inputPile.Count > 0)
         {
             // refresh orientation to the last maintained key or key the last one if there are no more inputs
-            RefreshOrientation(inputPile[inputPile.Count - 1]);
+            RefreshOrientationSprite(inputPile[inputPile.Count - 1]);
         }
     }
 
