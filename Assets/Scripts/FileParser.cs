@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.Assertions;
+using Mono.Cecil.Rocks;
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
@@ -44,10 +45,16 @@ public class FileParser : MonoBehaviour
     {
         if (targetModifiable.canBeDeleted)
         {
-            print("ah je pouvais");
+            Destroy(targetModifiable.gameObject);
+            //todo : moyen de le recreer si unique
             return true;
         }
-        print("ah mince bah faut le recreer");
+        FileInfo fileInfo = new FileInfo(filePath);
+        using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
+        {
+            sw.Write(targetModifiable.ToFileString());
+            //todo : completer selon ce que le prefabs contient 
+        }
         return true;
     }
 

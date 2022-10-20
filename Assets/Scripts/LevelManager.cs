@@ -15,7 +15,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LoadScene("PierreTestScene"));
+        StartCoroutine(LoadScene("PromTestScene"));
     }
 
     public IEnumerator LoadScene(string levelName)

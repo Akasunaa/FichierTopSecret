@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PierreTestScene.unity
     guid: aeabf61f8bc5c92439b7998f519f0247
+  - enabled: 1
+    path: Assets/Scenes/PromTestScene.unity
+    guid: 4a4b19ee355f8b84f83b7f7bf3f4cb6b
   m_configObjects: {}
