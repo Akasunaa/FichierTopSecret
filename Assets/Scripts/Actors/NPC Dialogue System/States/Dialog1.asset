@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dialog1
   speech:
-  - Hello this is me
-  - Do u know the way ?
-  currentSpeech: 
-  nextState: {fileID: 11400000, guid: 23e0ea7be8b99b0439f281c31cd3d669, type: 2}
+  - 'Dialog 1 State : Text 1'
+  - 'Dialog 1 State : Text 2 (ending text)'
+  currentSpeech: Do u know the way ?
+  nextStates:
+  - {fileID: 11400000, guid: 23e0ea7be8b99b0439f281c31cd3d669, type: 2}

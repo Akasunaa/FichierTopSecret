@@ -10,6 +10,7 @@ public class TEST : MonoBehaviour
 {
     public bool Interact;
     public bool ChangeState;
+    public int newStateIndex;
     [SerializeField] private GameObject NPC;
 
     // Start is called before the first frame update
@@ -29,7 +30,7 @@ public class TEST : MonoBehaviour
         }
         if(ChangeState == true)
         {
-            NPC.GetComponent<DialogSM>().ChangeState(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().nextState);
+            NPC.GetComponent<DialogSM>().ChangeState(newStateIndex);
             ChangeState = false;
         }
     }

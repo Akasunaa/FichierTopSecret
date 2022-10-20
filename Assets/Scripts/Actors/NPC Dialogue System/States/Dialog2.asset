@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Dialog2
   speech:
-  - Wow you passed ?
-  - OMOSHIROI !
+  - 'Dialog 2 State : Text 1'
+  - 'Dialog 2 State : Text 2 (ending). Possible next states : 0 or 1.'
   currentSpeech: OMOSHIROI !
-  nextState: {fileID: 11400000, guid: d2bf5ad7a20bee940b6de475eb6ebc15, type: 2}
+  nextStates:
+  - {fileID: 11400000, guid: d2bf5ad7a20bee940b6de475eb6ebc15, type: 2}
+  - {fileID: 11400000, guid: c33f29a9683803f49b2ebbddea106d8b, type: 2}
