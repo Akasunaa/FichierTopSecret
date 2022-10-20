@@ -1,5 +1,8 @@
-# Hide StreamingAssets
+# Ignore StreamingAssets
 Assets/StreamingAssets/
+
+# Ignore UserSettings
+UserSettings/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
