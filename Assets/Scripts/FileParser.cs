@@ -21,10 +21,6 @@ public class FileParser : MonoBehaviour
     void Awake()
     {
         filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
-    }
-
-    private void Start()
-    {
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
     }

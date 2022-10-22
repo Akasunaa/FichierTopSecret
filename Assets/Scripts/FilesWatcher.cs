@@ -3,9 +3,8 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
-using System.Threading;
 using UnityEngine;
-using System.Threading;
+using System;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -27,8 +26,15 @@ public class FilesWatcher : MonoBehaviour
             this.type = type;
         }
     }
+
+
+    [Serializable] private struct RegToGoPair
+    {
+        [SerializeField] public string reg;
+        [SerializeField] public GameObject go;
+    }
     
-    [SerializeField] private List<(string, GameObject)> instantiable;
+    [SerializeField] private List<RegToGoPair> instantiable;
 
     // Associate each file path (which already exists in the game) to a FileParser
     private static Dictionary<string, FileParser> pathToScript = new Dictionary<string, FileParser>(10);
@@ -141,11 +147,11 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.type)
             {
                 case FileChangeType.New:
-                    foreach ((string name, GameObject obj) in instantiable)
+                    foreach (var pair in instantiable)
                     {
-                        if (Regex.IsMatch(fc.fi.Name, name, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                        if (Regex.IsMatch(fc.fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
                         {
-                            GameObject newObj = Instantiate(obj);
+                            GameObject newObj = Instantiate(pair.go);
                             FileParser fp = newObj.AddComponent<FileParser>();
                             fp.filePath = fc.fi.FullName;
                             fp.ReadFromFile(fc.fi.FullName);

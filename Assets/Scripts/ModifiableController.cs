@@ -10,6 +10,8 @@ public abstract class ModifiableController : MonoBehaviour
     public bool canBeDeleted;
     [SerializeField] protected Dictionary<string, string> properties = new Dictionary<string, string>(5);
 
+    public abstract void setDefaultProperties();
+
     /**
      *      Function called by the FileParser associated to the gameObject containing ModifiableController
      */

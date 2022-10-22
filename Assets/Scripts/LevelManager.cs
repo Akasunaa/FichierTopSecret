@@ -60,6 +60,7 @@ public class LevelManager : MonoBehaviour
             else if (!directoryExists)
             {
                 Debug.Log("Creating file: " + fileInfo.FullName);
+                fileParser.targetModifiable.setDefaultProperties();
                 using (StreamWriter sw = new StreamWriter(fileInfo.FullName))  
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
