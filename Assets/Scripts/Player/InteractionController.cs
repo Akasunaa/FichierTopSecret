@@ -25,10 +25,12 @@ public class InteractionController : MonoBehaviour
         Vector2Int orientation = playerMovement.GetOrientation();
         Vector2Int targetTilemapPosition = playerMovement.GetTilemapPosition() + orientation;
 
+
+        //todo : to rework 
+
         // check if the cell is occupied by an interactible object
         if (interactableTilemaps != null)
         {
-            print("ohoh");
             foreach (Tilemap tilemap in interactableTilemaps)
             {
                 if (tilemap.HasTile((Vector3Int) targetTilemapPosition))
