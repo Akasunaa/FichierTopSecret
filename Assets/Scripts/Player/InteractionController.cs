@@ -16,6 +16,10 @@ public class InteractionController : MonoBehaviour
         Assert.IsNotNull(interactableTilemaps);
     }
 
+    private void Update()
+    {
+        InteractionOrder();
+    }
     public void InteractionOrder()
     {
         Vector2Int orientation = playerMovement.GetOrientation();
@@ -24,6 +28,7 @@ public class InteractionController : MonoBehaviour
         // check if the cell is occupied by an interactible object
         if (interactableTilemaps != null)
         {
+            print("ohoh");
             foreach (Tilemap tilemap in interactableTilemaps)
             {
                 if (tilemap.HasTile((Vector3Int) targetTilemapPosition))
