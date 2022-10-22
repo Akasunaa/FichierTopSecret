@@ -53,24 +53,27 @@ public static class ApplyPlayerChange
 
     }
 
-    
-
     public static int LevenshteinDistance(string subject, string model)
     {
-        string subSubject = subject.Substring(1);
-        string subModel = model.Substring(1);
+        
 
         if ( Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
-        } else if (subject[0] == model[0])
-        {
-            return LevenshteinDistance(subSubject, subModel);
         } else
         {
-            return 1 + Mathf.Min(LevenshteinDistance(subSubject, model),
-                             LevenshteinDistance(subject, subModel),
-                             LevenshteinDistance(subSubject, subModel));
+            string subSubject = subject.Substring(1);
+            string subModel = model.Substring(1);
+
+            if (subject[0] == model[0])
+            {
+                return LevenshteinDistance(subSubject, subModel);
+            } else
+            {
+                return 1 + Mathf.Min(LevenshteinDistance(subSubject, model),
+                                 LevenshteinDistance(subject, subModel),
+                                 LevenshteinDistance(subSubject, subModel));
+            }
         }
     }
 
@@ -81,6 +84,8 @@ public static class ApplyPlayerChange
      */
     public static string PropertyNameValidation(string propertyNameInput, int inclusiveValidationThreshold = 2)
     {
+        if (propertyNameInput.Length == 0) return "";
+
         string closestPropertyName = propertyNames[0];
         int levenshteinDistance = 10;
 
