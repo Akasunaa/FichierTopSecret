@@ -5,7 +5,6 @@ using UnityEngine.Assertions;
 
 /**
  *      Main component of the NPCs that will control their behaviors and overall actions
- * 
  */
 public class NPCController : MonoBehaviour
 {

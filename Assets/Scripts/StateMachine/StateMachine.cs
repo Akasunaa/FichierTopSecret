@@ -41,7 +41,7 @@ public class StateMachine : MonoBehaviour
         }
         else
         {
-            Debug.Log("ERROR : NO NEW ACCESSIBLE STATE");
+            Debug.LogError("ERROR : NO NEW ACCESSIBLE STATE");
         }
     }
 

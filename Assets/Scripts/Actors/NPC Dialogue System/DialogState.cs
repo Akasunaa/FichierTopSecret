@@ -13,10 +13,10 @@ using UnityEngine;
 public class DialogState : BaseState
 {
     [TextArea(3,10)]
-    [SerializeField] private string[] speech;           //the different speech bubbles accsessible in a state (in descending order)
-    private int interactionIndicator;                   //indicator of the current speech bubble
-    [HideInInspector] public string currentSpeech;      //current selected speech bubble
-    [SerializeField] public DialogState nextState;      //next state from the current state (called upon the change state method of the State machine)
+    [SerializeField] private string[] speech;               //the different speech bubbles accsessible in a state (in descending order)
+    private int interactionIndex;                           //indicator of the current speech bubble
+    [HideInInspector] public string currentSpeech;          //current selected speech bubble
+    [SerializeField] public DialogState[] nextStates;       //all the currently possible next states 
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 
@@ -30,7 +30,7 @@ public class DialogState : BaseState
     {
         base.Enter();
         currentSpeech = speech[0];
-        interactionIndicator = 0;
+        interactionIndex = 0;
     }
 
     public override void Exit()
@@ -39,14 +39,14 @@ public class DialogState : BaseState
     }
 
     /**
-     *  Function that will change the currently displayed speech of the state
+     *  Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
      */
     public void ChangeSpeech()
     {
-        interactionIndicator++;
-        if (interactionIndicator < speech.Length)
+        interactionIndex++;
+        if (interactionIndex < speech.Length)
         {
-            currentSpeech = speech[interactionIndicator];
+            currentSpeech = speech[interactionIndex];
         }
         else //when reaching the end of the various speeches, the NPC will repeat the last inputted speech
         {
