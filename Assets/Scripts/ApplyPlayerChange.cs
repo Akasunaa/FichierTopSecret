@@ -55,6 +55,22 @@ public static class ApplyPlayerChange
 
     }
 
+    
 
+    public static int LevenshteinDistance(string subject, string model)
+    {
+        if ( Mathf.Min(subject.Length, model.Length) == 0)
+        {
+            return Mathf.Max(subject.Length, model.Length);
+        } else if (subject[0] == model[0])
+        {
+            return LevenshteinDistance(subject.Substring(1), model.Substring(1));
+        } else
+        {
+            return 1 + Mathf.Min(LevenshteinDistance(subject.Substring(1), model),
+                             LevenshteinDistance(subject, model.Substring(1)),
+                             LevenshteinDistance(subject.Substring(1), model.Substring(1)));
+        }
+    }
 }
 
