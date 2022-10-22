@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
-     [SerializeField] private List<Vector2Int> inputPile;                    // pile of inputs from least to most recent
+    [SerializeField] private List<Vector2Int> inputStack;                  // stack of inputs from least to most recent
 
     private bool isMoving;
     private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing  
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         if (!animator) animator = GetComponentInChildren<Animator>();
 
         facingDirection = Vector2Int.zero;
-        inputPile = new List<Vector2Int>();
+        inputStack = new List<Vector2Int>();
         isMoving = false;
 
         // set position exactly on a tile
@@ -43,10 +43,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        if (inputPile.Count > 0)
+        if (inputStack.Count > 0)
         {
-            // set direction as the top of the input pile
-            facingDirection = inputPile[inputPile.Count - 1];
+            // set direction as the top of the input stack
+            facingDirection = inputStack[inputStack.Count - 1];
             // calculate target position
             Vector3Int targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)facingDirection;
 
@@ -82,13 +82,13 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("WalkTrigger");
         
         yield return new WaitForSeconds(0.001f);
-        float walkFrameCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
        
-        float frameCounter = 0;
-        while (frameCounter < walkFrameCooldown)
+        float timer = 0;
+        while (timer < movementCooldown)
         {
-            frameCounter += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), frameCounter / walkFrameCooldown) ;
+            timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), timer / movementCooldown) ;
             yield return null;
         }
 
@@ -97,37 +97,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void RefreshOrientationSprite(Vector2Int direction)
     {
-        animator.SetFloat("X", direction.x);
-        animator.SetFloat("Y", direction.y);
+        animator.SetFloat("dirX", direction.x);
+        animator.SetFloat("dirY", direction.y);
     }
 
 
-    public void AddMovementInPile(Vector2Int dir)
+    public void AddMovementInStack(Vector2Int dir)
     {
-        inputPile.Add(dir);
+        inputStack.Add(dir);
     }
 
     /**
-     * find the right vector in the input pile and removes it
+     * find the right vector in the input stack and removes it
      */
-    public void RemoveMovementInPile(Vector2Int dir)
+    public void RemoveMovementInStack(Vector2Int dir)
     {
-        if (inputPile.Count > 0)
-        {
-            for (int i = 0; i < inputPile.Count; i++)
-            {
-                Vector2Int vec = inputPile[i];
-                if (vec == dir)
-                {
-                    inputPile.Remove(vec);
-                }
-            }
-        }
+        inputStack.Remove(dir);
     }
 
-    public void ClearInputPile()
+    public void ClearInputStack()
     {
-        inputPile.Clear();
+        inputStack.Clear();
     }
 
     public Vector2Int GetTilemapPosition()

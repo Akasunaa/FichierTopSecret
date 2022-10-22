@@ -20,6 +20,9 @@ public class InputController : MonoBehaviour
         nbKeyPressed = 0;
     }
 
+    /**
+     * Called on each movement input
+     */
     public void Move(InputAction.CallbackContext context)
     {
         PerformInput(context);
@@ -37,7 +40,7 @@ public class InputController : MonoBehaviour
             // increase the number of keys pressed
             nbKeyPressed++;
 
-            playerMovement.AddMovementInPile(InputVectorConversion(context.action.activeControl));
+            playerMovement.AddMovementInStack(InputVectorConversion(context.action.activeControl));
         }
     }
 
@@ -49,14 +52,15 @@ public class InputController : MonoBehaviour
     {
         if (context.canceled)
         {
+        Debug.Log("^canceled");
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
 
-            playerMovement.RemoveMovementInPile(InputVectorConversion(context.action.activeControl));
+            playerMovement.RemoveMovementInStack(InputVectorConversion(context.action.activeControl));
             if (nbKeyPressed == 0)
             {
                 // we clear the input pile if no keys are pressed anymore for safe measure
-                playerMovement.ClearInputPile();
+                playerMovement.ClearInputStack();
             }
         }
     }
