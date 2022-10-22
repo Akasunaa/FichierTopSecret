@@ -27,4 +27,8 @@ public class DoorObjectController : ModifiableController
             }
         }
     }
+
+    public override void setDefaultProperties()
+    {
+    }
 }

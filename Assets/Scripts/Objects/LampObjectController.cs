@@ -20,6 +20,12 @@ public class LampObjectController :  ModifiableController
         Assert.AreNotEqual(0, lights.Length);
     }
 
+    public override void setDefaultProperties()
+    {
+        properties["power"] = "on";
+        properties["color"] = "white";
+    }
+
     public override void UpdateModification()
     {
         base.UpdateModification();
