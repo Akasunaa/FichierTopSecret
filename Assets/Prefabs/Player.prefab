@@ -158,7 +158,7 @@ MonoBehaviour:
   - {fileID: 0}
   animator: {fileID: 6320083818459328203}
   tilemapPosition: {x: 0, y: 0}
-  inputPile: []
+  inputStack: []
 --- !u!114 &7588447500401278529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,9 +261,37 @@ MonoBehaviour:
     m_ActionId: b3e37726-4518-4a79-8234-2ed6fb0d55ca
     m_ActionName: onFoot/HorizontalMovement[/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e0c57174-c978-4410-9a85-23fc49c229ed
-    m_ActionName: onFoot/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a]
+      m_Calls:
+      - m_Target: {fileID: 6320083818522056958}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0157d371-eff4-4ce2-ad9f-6192d9ae28d2
+    m_ActionName: onFoot/VerticalDownMovement[/Keyboard/s,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6320083818522056958}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c473d8e1-b0fc-4385-8805-f6685c381b4f
+    m_ActionName: onFoot/HorizontalRightMovement[/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: onFoot
