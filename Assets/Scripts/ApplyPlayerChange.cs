@@ -9,6 +9,7 @@ public static class ApplyPlayerChange
 {
 
     static string[] colors = { "black", "blue", "cyan", "gray", "green", "grey", "magenta", "red", "white", "yellow" };
+    static string[] propertyNames = { "position", "color", "size", "direction", "power" };
 
     public static void VisualChange(string name, string value, GameObject go)
     {
@@ -70,6 +71,35 @@ public static class ApplyPlayerChange
             return 1 + Mathf.Min(LevenshteinDistance(subject.Substring(1), model),
                              LevenshteinDistance(subject, model.Substring(1)),
                              LevenshteinDistance(subject.Substring(1), model.Substring(1)));
+        }
+    }
+
+
+    /**
+     * Methods takes in a string typed by the player and compares it with all the property names registered.
+     * Returns the closest one if their levenshtein distance is below the threshold.
+     */
+    public static string PropertyNameValidation(string propertyNameInput, int inclusiveValidationThreshold = 2)
+    {
+        string closestPropertyName = propertyNames[0];
+        int levenshteinDistance = 10;
+
+        foreach(string propertyName in propertyNames)
+        {
+            int currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
+            if (currentLevenshteinDistance < levenshteinDistance)
+            {
+                closestPropertyName = propertyName;
+                levenshteinDistance = currentLevenshteinDistance;
+            }
+        }
+
+        if (levenshteinDistance <= inclusiveValidationThreshold)
+        {
+            return closestPropertyName;
+        } else
+        {
+            return propertyNameInput;
         }
     }
 }
