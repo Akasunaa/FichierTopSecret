@@ -8,6 +8,8 @@ using UnityEngine;
  */
 public class TEST : MonoBehaviour
 {
+    public bool startInteraction;
+    private bool interactionStarted;
     public bool Interact;
     public bool ChangeState;
     public int newStateIndex;
@@ -23,15 +25,29 @@ public class TEST : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Interact == true)
+        if (startInteraction && !interactionStarted)
+        {
+            StartInteraction();
+            startInteraction = false;
+        }
+        if (Interact == true && interactionStarted)
         {
             NPC.GetComponent<DialogSM>().OnDialogInteraction();
+            GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech);
             Interact = false;
         }
-        if(ChangeState == true)
+        if(ChangeState == true && interactionStarted)
         {
             NPC.GetComponent<DialogSM>().ChangeState(newStateIndex);
+            GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().EndDisplay();
+            interactionStarted = false;
             ChangeState = false;
         }
+    }
+
+    private void StartInteraction()
+    {
+        interactionStarted = true;
+        GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech);
     }
 }
