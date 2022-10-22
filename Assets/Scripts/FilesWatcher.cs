@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using System.Threading;
 using UnityEngine;
@@ -18,14 +19,16 @@ public class FilesWatcher : MonoBehaviour
     public struct FileChange
     {
         public FileChangeType type;
-        public string path;
+        public FileInfo fi;
 
-        public FileChange(string path, FileChangeType type)
+        public FileChange(FileInfo fi, FileChangeType type)
         {
-            this.path = path;
+            this.fi = fi;
             this.type = type;
         }
     }
+    
+    [SerializeField] private List<(string, GameObject)> instantiable;
 
     // Associate each file path (which already exists in the game) to a FileParser
     private static Dictionary<string, FileParser> pathToScript = new Dictionary<string, FileParser>(10);
@@ -43,7 +46,7 @@ public class FilesWatcher : MonoBehaviour
         else 
         { 
             Instance = this; 
-        } 
+        }
     }
 
     void Start()
@@ -96,11 +99,10 @@ public class FilesWatcher : MonoBehaviour
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        string relativePath = RelativePath(fi.FullName);
-        Debug.Log("Changed: " + e.FullPath + " | " + relativePath);
+        Debug.Log("Changed: " + e.FullPath);
         if (fi.Exists)
         {
-            dataQueue.Enqueue(new FileChange(relativePath, FileChangeType.Change));
+            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
         }
     }
 
@@ -109,11 +111,12 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
-        Debug.Log("Created: " + e.FullPath);
         FileInfo fi = new FileInfo(e.FullPath);
+        Debug.Log("Created: " + e.FullPath);
         if (fi.Exists)
         {
             // Create a object from the file if possible
+            dataQueue.Enqueue(new FileChange(fi, FileChangeType.New));
         }
     }
 
@@ -123,11 +126,10 @@ public class FilesWatcher : MonoBehaviour
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        string relativePath = RelativePath(fi.FullName);
-        Debug.Log("Deleted: " + e.FullPath + " | " + relativePath);
+        Debug.Log("Deleted: " + e.FullPath);
         if (!fi.Exists)
         {
-            dataQueue.Enqueue(new FileChange(relativePath, FileChangeType.Delete));
+            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
     }
 
@@ -135,26 +137,39 @@ public class FilesWatcher : MonoBehaviour
     {
         while (dataQueue.TryDequeue(out FileChange fc))
         {
+            string relativePath = RelativePath(fc.fi.FullName);
             switch (fc.type)
             {
                 case FileChangeType.New:
+                    foreach ((string name, GameObject obj) in instantiable)
+                    {
+                        if (Regex.IsMatch(fc.fi.Name, name, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                        {
+                            GameObject newObj = Instantiate(obj);
+                            FileParser fp = newObj.AddComponent<FileParser>();
+                            fp.filePath = fc.fi.FullName;
+                            fp.ReadFromFile(fc.fi.FullName);
+                            pathToScript.Add(relativePath, fp);
+                            break;
+                        }
+                    }
                     break;
                 case FileChangeType.Change:
-                    if (pathToScript.TryGetValue(fc.path, out FileParser fileParser1))
+                    if (pathToScript.TryGetValue(relativePath, out FileParser fileParser1))
                     {
-                        if (!fileParser1.OnChange(fc.path))
+                        if (!fileParser1.OnChange(relativePath))
                         {
-                            Debug.LogWarning(fc.path + " has made an impossible change !");
+                            Debug.LogWarning(relativePath + " has made an impossible change !");
                         }
                     }
                     break;
 
                 case FileChangeType.Delete:
-                    if (pathToScript.TryGetValue(fc.path, out FileParser fileParser))
+                    if (pathToScript.TryGetValue(relativePath, out FileParser fileParser))
                     {
-                        if (!fileParser.OnDelete(fc.path))
+                        if (!fileParser.OnDelete(relativePath))
                         {
-                            Debug.LogWarning(fc.path + " has made an impossible delete !");
+                            Debug.LogWarning(relativePath + " has made an impossible delete !");
                         }
                     }
                     break;

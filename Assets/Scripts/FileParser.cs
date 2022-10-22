@@ -13,7 +13,7 @@ using Mono.Cecil.Rocks;
 public class FileParser : MonoBehaviour
 {
     private string[] dataArray; //data read from the file
-    public string filePath { get; private set; } //informations to access file
+    public string filePath { get; set; } //informations to access file
     [Header("Object File infos")]
     [SerializeField] private string targetObjectFileName;           //file (name) where the modification is
     public ModifiableController targetModifiable { get; private set; }                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
