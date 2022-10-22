@@ -36,22 +36,29 @@ public class PlayerInteractionController : MonoBehaviour
         pute = target + new Vector3(direction.x, 0, direction.y);
         if (hit)
         {
-            if (hit.gameObject.TryGetComponent(out Interactable interactable))
+            Component component = hit.gameObject.GetComponent(typeof(Interactable));
+            if (component)
             {
+                Interactable interactable = component as Interactable;
                 interactionPrompt.SetActive(true);
                 interactable.canBeInteracted = true;
                 lastInteractable = interactable;
             }
         }
-        else { interactionPrompt.SetActive(false); if (lastInteractable) { lastInteractable.canBeInteracted = false; } }
+        else { 
+            interactionPrompt.SetActive(false); 
+            if (lastInteractable !=  null) { 
+                lastInteractable.canBeInteracted = false; 
+            } 
+        }
     }
 
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(pute,grid.cellSize - Vector3.one * 0.1f);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireCube(pute,grid.cellSize - Vector3.one * 0.1f);
+    //}
 
     private void DisplayInteractionPrompt(Vector3 position)
     {

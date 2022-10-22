@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public abstract class Interactable : MonoBehaviour
+public interface Interactable 
 {
-    [HideInInspector]public bool canBeInteracted;
+    public bool canBeInteracted { set; get;}
 
-    public abstract void Interact();
+    public void Interact();
 
 }
