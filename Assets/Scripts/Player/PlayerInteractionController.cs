@@ -13,6 +13,7 @@ public class PlayerInteractionController : MonoBehaviour
     Grid grid;
     Vector3 pute;
     [SerializeField] private GameObject interactionPrompt;
+    private Interactable lastInteractable;
 
     private void Awake()
     {
@@ -35,16 +36,14 @@ public class PlayerInteractionController : MonoBehaviour
         pute = target + new Vector3(direction.x, 0, direction.y);
         if (hit)
         {
-            print("wanna talk?");
-            interactionPrompt.SetActive(true);
             if (hit.gameObject.TryGetComponent(out Interactable interactable))
             {
+                interactionPrompt.SetActive(true);
                 interactable.canBeInteracted = true;
-
+                lastInteractable = interactable;
             }
         }
-        //todo : put false
-        else { interactionPrompt.SetActive(false); }
+        else { interactionPrompt.SetActive(false); if (lastInteractable) { lastInteractable.canBeInteracted = false; } }
     }
 
 
