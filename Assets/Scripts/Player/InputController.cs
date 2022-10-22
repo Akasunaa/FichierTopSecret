@@ -6,7 +6,7 @@ public class InputController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private InteractionController interactionController;
+    [SerializeField] private PlayerInteractionController interactionController;
     private Inputs input;
     private Inputs.OnFootActions onFoot;
     private int nbKeyPressed;
@@ -14,7 +14,7 @@ public class InputController : MonoBehaviour
     private void Awake()
     {
         if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
-        if (!interactionController) interactionController = GetComponent<InteractionController>();
+        if (!interactionController) interactionController = GetComponent<PlayerInteractionController>();
         input = new Inputs();
         onFoot = input.onFoot;
         nbKeyPressed = 0;
@@ -103,7 +103,7 @@ public class InputController : MonoBehaviour
     {
         if (context.started)
         {
-            interactionController.InteractionOrder();
+            //interactionController.InteractionOrder();
         }
     }
 

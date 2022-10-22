@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private List<Vector2Int> inputStack;                  // stack of inputs from least to most recent
 
     private bool isMoving;
-    private Vector2Int facingDirection;                                     // vector indicating in which direction the player is facing  
+    public Vector2Int facingDirection { get; private set; }                                     // vector indicating in which direction the player is facing  
+    private PlayerInteractionController interactionController; //for collision with object in scene
 
     private void Awake()
     {
@@ -30,7 +31,9 @@ public class PlayerMovement : MonoBehaviour
 
         // set position exactly on a tile
         tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
-        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition) + new Vector3(grid.cellSize.x / 2, 0, 0);
+        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
+
+        interactionController = GetComponent<PlayerInteractionController>();
     }
 
     private void FixedUpdate()
@@ -53,17 +56,10 @@ public class PlayerMovement : MonoBehaviour
             // refresh the info containing which side the character is facing
             RefreshOrientationSprite(facingDirection);
 
-
             // check if the cell is occupied
-            if (obstacleTilemaps != null)
+            if (interactionController.IsCollid(targetTilemapPosition))
             {
-                foreach(Tilemap tilemap in obstacleTilemaps)
-                {
-                    if (tilemap.HasTile(targetTilemapPosition))
-                    {
-                        return;
-                    }
-                }
+                return;
             }
 
             // start the movement
@@ -91,17 +87,21 @@ public class PlayerMovement : MonoBehaviour
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition) + new Vector3(grid.cellSize.x / 2, 0, 0), timer / movementCooldown) ;
+            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), timer / movementCooldown) ;
             yield return null;
         }
 
         isMoving = false;
+        //Check interaction
+        //interactionController.IsInteract(targetPosition,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
     {
         animator.SetFloat("dirX", direction.x);
         animator.SetFloat("dirY", direction.y);
+        //Check interaction
+        interactionController.IsInteract(transform.position,facingDirection);
     }
 
 
@@ -140,5 +140,10 @@ public class PlayerMovement : MonoBehaviour
     public Vector2Int GetOrientation()
     {
         return facingDirection;
+    }
+
+    public Grid GetGrid()
+    {
+        return grid;
     }
 }
