@@ -103,7 +103,11 @@ public class InputController : MonoBehaviour
     {
         if (context.started)
         {
-            //interactionController.InteractionOrder();
+            PlayerInteractionController pic = GetComponent<PlayerInteractionController>();
+            if (pic.lastInteractable.canBeInteracted)
+            {
+                pic.lastInteractable.Interact();
+            }
         }
     }
 

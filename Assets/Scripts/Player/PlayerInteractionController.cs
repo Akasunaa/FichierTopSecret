@@ -13,7 +13,7 @@ public class PlayerInteractionController : MonoBehaviour
     Grid grid;
     Vector3 pute;
     [SerializeField] private GameObject interactionPrompt;
-    private Interactable lastInteractable;
+    public Interactable lastInteractable { get; private set; }
 
     private void Awake()
     {
