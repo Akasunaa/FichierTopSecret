@@ -17,13 +17,14 @@ public abstract class ModifiableController : MonoBehaviour
     {
         print("Modifying " + name + " with value " + value + " from file");
         //MODIFICATION (inherited ?)
-        if (properties.ContainsKey(name))
+        string propertyName = ApplyPlayerChange.PropertyNameValidation(name);
+        if (properties.ContainsKey(propertyName))
         {
-            properties[name] = value;
+            properties[propertyName] = value;
         }
         else
         {
-            properties.Add(name, value);
+            properties.Add(propertyName, value);
         }
     }
 
