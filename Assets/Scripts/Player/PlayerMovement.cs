@@ -46,9 +46,13 @@ public class PlayerMovement : MonoBehaviour
         if (inputStack.Count > 0)
         {
             // set direction as the top of the input stack
-            facingDirection = inputStack[inputStack.Count - 1];
+            facingDirection = inputStack[^1];
             // calculate target position
             Vector3Int targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)facingDirection;
+
+            // refresh the info containing which side the character is facing
+            RefreshOrientationSprite(facingDirection);
+
 
             // check if the cell is occupied
             if (obstacleTilemaps != null)
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                 }
             }
-            
+
             // start the movement
             StartCoroutine(SmoothMovement(targetTilemapPosition));
             tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
@@ -72,8 +76,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isMoving = true;
 
-        // refresh the info containing which side the character is facing
-        RefreshOrientationSprite(facingDirection);
+        
 
         // keep initial position
         Vector3 initialPosition = transform.position;
@@ -103,8 +106,17 @@ public class PlayerMovement : MonoBehaviour
 
 
     public void AddMovementInStack(Vector2Int dir)
-    {
+    {   
+        foreach(Vector2Int vec in inputStack)
+        {
+            print("vector : " + vec);
+        }
         inputStack.Add(dir);
+        foreach (Vector2Int vec in inputStack)
+        {
+            print("vector mais a la fin cette fois : " + vec);
+        }
+
     }
 
     /**

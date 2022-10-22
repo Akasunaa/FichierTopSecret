@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Assertions;
 
 /**
  *  Component handling the lamp's modifications and state according to its file
