@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
         isMoving = false;
         //Check interaction
-        //interactionController.IsInteract(targetPosition,facingDirection);
+        interactionController.IsInteract(transform.position,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
