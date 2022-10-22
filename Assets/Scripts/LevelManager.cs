@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 public class LevelManager : MonoBehaviour
 {
     private Scene activeLevel;
+    [SerializeField] private SceneAsset levelToLoad;
 
     void Awake()
     {
@@ -15,7 +17,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LoadScene("PromTestScene"));
+        StartCoroutine(LoadScene(levelToLoad.name));
     }
 
     public IEnumerator LoadScene(string levelName)
