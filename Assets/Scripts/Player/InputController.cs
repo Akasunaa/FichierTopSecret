@@ -20,6 +20,9 @@ public class InputController : MonoBehaviour
         nbKeyPressed = 0;
     }
 
+    /**
+     * Called on each movement input
+     */
     public void Move(InputAction.CallbackContext context)
     {
         PerformInput(context);
@@ -49,6 +52,7 @@ public class InputController : MonoBehaviour
     {
         if (context.canceled)
         {
+        Debug.Log("^canceled");
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
 
