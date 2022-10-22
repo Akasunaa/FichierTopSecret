@@ -5,11 +5,8 @@ using UnityEngine.Assertions;
 
 public abstract class Interactable : MonoBehaviour
 {
-    [SerializeField] public bool canBeInteracted;
+    [HideInInspector]public bool canBeInteracted;
 
-    public void Interact()
-    {
-        print("miaou!!!");
-    }
+    public abstract void Interact();
 
 }

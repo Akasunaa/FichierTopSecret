@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class PromTest : Interactable
 {
-
+    public override void Interact()
+    {
+        print("miaaaaaaaaou");
+    }
 }
