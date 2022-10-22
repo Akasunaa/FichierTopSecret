@@ -13,6 +13,7 @@ public class TEST : MonoBehaviour
     public bool Interact;
     public bool ChangeState;
     public int newStateIndex;
+    public string curDisplayPortrait;
     [SerializeField] private GameObject NPC;
 
     // Start is called before the first frame update
@@ -33,7 +34,7 @@ public class TEST : MonoBehaviour
         if (Interact == true && interactionStarted)
         {
             NPC.GetComponent<DialogSM>().OnDialogInteraction();
-            GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech);
+            GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech, curDisplayPortrait);
             Interact = false;
         }
         if(ChangeState == true && interactionStarted)
@@ -41,6 +42,7 @@ public class TEST : MonoBehaviour
             NPC.GetComponent<DialogSM>().ChangeState(newStateIndex);
             GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().EndDisplay();
             interactionStarted = false;
+            Time.timeScale = 1f; //restore player movement
             ChangeState = false;
         }
     }
@@ -48,6 +50,7 @@ public class TEST : MonoBehaviour
     private void StartInteraction()
     {
         interactionStarted = true;
-        GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech);
+        Time.timeScale = 0f; //prevent player movement
+        GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>().DisplayDialogue(NPC.GetComponent<DialogSM>().currentState.ConvertTo<DialogState>().currentSpeech, curDisplayPortrait);
     }
 }
