@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 609991836831715502}
   - component: {fileID: 609991836831715503}
-  - component: {fileID: 4113848041063889000}
+  - component: {fileID: 6039397175038942162}
   m_Layer: 0
   m_Name: NPCBasic
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4113848041063889000
+--- !u!114 &6039397175038942162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,8 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 609991836831715500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c25884ee5898b749bda2150c2ba3b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionPrompt: {fileID: 0}
   canBeInteracted: 0
