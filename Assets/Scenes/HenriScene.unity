@@ -1088,8 +1088,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueCanvas: {fileID: 891732925}
   backgroundDialogueImage: {fileID: 210126030}
-  portrait: {fileID: 305508101}
+  portraitImage: {fileID: 305508101}
   dialogueText: {fileID: 794028151}
+  availablePortraits:
+  - name: player
+    sprite: {fileID: 21300000, guid: 9a4fb869a3a79c446a784dd0fb21905d, type: 3}
+  - name: npc
+    sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
 --- !u!1 &1737229286
 GameObject:
   m_ObjectHideFlags: 0
@@ -3885,6 +3890,7 @@ MonoBehaviour:
   Interact: 0
   ChangeState: 0
   newStateIndex: 0
+  curDisplayPortrait: 
   NPC: {fileID: 609991836527532986}
 --- !u!114 &609991836527532988
 MonoBehaviour:
