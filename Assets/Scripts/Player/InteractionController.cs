@@ -28,7 +28,6 @@ public class InteractionController : MonoBehaviour
         // check if the cell is occupied by an interactible object
         if (interactableTilemaps != null)
         {
-            print("ohoh");
             foreach (Tilemap tilemap in interactableTilemaps)
             {
                 if (tilemap.HasTile((Vector3Int) targetTilemapPosition))

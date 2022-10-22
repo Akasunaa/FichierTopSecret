@@ -6,7 +6,7 @@
             "id": "70bbff8d-885e-4600-991b-0c58076c2dc7",
             "actions": [
                 {
-                    "name": "VerticalMovement",
+                    "name": "VerticalUpMovement",
                     "type": "Value",
                     "id": "c6643643-413c-4493-8798-07e21711239f",
                     "expectedControlType": "Axis",
@@ -15,9 +15,27 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "HorizontalMovement",
+                    "name": "VerticalDownMovement",
+                    "type": "Value",
+                    "id": "0157d371-eff4-4ce2-ad9f-6192d9ae28d2",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HorizontalLeftMovement",
                     "type": "Value",
                     "id": "b3e37726-4518-4a79-8234-2ed6fb0d55ca",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HorizontalRightMovement",
+                    "type": "Value",
+                    "id": "c473d8e1-b0fc-4385-8805-f6685c381b4f",
                     "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
@@ -31,15 +49,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "e0c57174-c978-4410-9a85-23fc49c229ed",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -47,32 +56,21 @@
                     "name": "1D Axis",
                     "id": "6c8434e4-6105-4448-adfa-4e4bac4994b4",
                     "path": "1DAxis",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "VerticalMovement",
+                    "action": "VerticalUpMovement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "Negative",
                     "id": "5a9c2297-d918-4f43-b64f-7fcbecc15bed",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "VerticalMovement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Positive",
-                    "id": "06637f15-c86d-4233-a11f-2b7195091b3f",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "VerticalMovement",
+                    "action": "VerticalUpMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -80,10 +78,10 @@
                     "name": "1D Axis",
                     "id": "3a7295e6-8756-4ea3-9d8f-ad6826045059",
                     "path": "1DAxis",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "HorizontalMovement",
+                    "action": "HorizontalLeftMovement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -94,18 +92,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HorizontalMovement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "cd50e2c2-ceb4-4747-8902-c22eacd7149f",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HorizontalMovement",
+                    "action": "HorizontalLeftMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -121,57 +108,46 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "2D Vector",
-                    "id": "1b4ea564-dafb-4528-bc81-c04bc59b9bc6",
-                    "path": "2DVector(mode=1)",
-                    "interactions": "",
+                    "name": "1D Axis",
+                    "id": "12a5eb1f-fa38-49ef-894a-3b3b6ca374c9",
+                    "path": "1DAxis",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "VerticalDownMovement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "up",
-                    "id": "c4196f70-3cda-4a88-b6ed-7634a5aa1882",
-                    "path": "<Keyboard>/upArrow",
+                    "name": "Positive",
+                    "id": "11534717-c5e5-445c-8444-02e9cdfdc7d6",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "VerticalDownMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "down",
-                    "id": "49ed6aa5-6335-42c7-961a-122f3635738a",
-                    "path": "<Keyboard>/downArrow",
-                    "interactions": "",
+                    "name": "1D Axis",
+                    "id": "2ce9f2e6-598a-4f10-8818-6ec0a97f40df",
+                    "path": "1DAxis",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
+                    "action": "HorizontalRightMovement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
                 },
                 {
-                    "name": "left",
-                    "id": "27e3e44d-0dbc-4cab-834a-b4403615c726",
-                    "path": "<Keyboard>/leftArrow",
+                    "name": "positive",
+                    "id": "c35d3bbd-d854-4f2d-8bd5-6803266e545e",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "f93f2036-e2ab-49e8-b546-3cecee7ee7e8",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
+                    "action": "HorizontalRightMovement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }

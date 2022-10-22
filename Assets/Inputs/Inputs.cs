@@ -28,7 +28,7 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
             ""id"": ""70bbff8d-885e-4600-991b-0c58076c2dc7"",
             ""actions"": [
                 {
-                    ""name"": ""VerticalMovement"",
+                    ""name"": ""VerticalUpMovement"",
                     ""type"": ""Value"",
                     ""id"": ""c6643643-413c-4493-8798-07e21711239f"",
                     ""expectedControlType"": ""Axis"",
@@ -37,9 +37,27 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""HorizontalMovement"",
+                    ""name"": ""VerticalDownMovement"",
+                    ""type"": ""Value"",
+                    ""id"": ""0157d371-eff4-4ce2-ad9f-6192d9ae28d2"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""HorizontalLeftMovement"",
                     ""type"": ""Value"",
                     ""id"": ""b3e37726-4518-4a79-8234-2ed6fb0d55ca"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""HorizontalRightMovement"",
+                    ""type"": ""Value"",
+                    ""id"": ""c473d8e1-b0fc-4385-8805-f6685c381b4f"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -53,15 +71,6 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""e0c57174-c978-4410-9a85-23fc49c229ed"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -69,32 +78,21 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""name"": ""1D Axis"",
                     ""id"": ""6c8434e4-6105-4448-adfa-4e4bac4994b4"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""VerticalMovement"",
+                    ""action"": ""VerticalUpMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""Negative"",
                     ""id"": ""5a9c2297-d918-4f43-b64f-7fcbecc15bed"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""VerticalMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""Positive"",
-                    ""id"": ""06637f15-c86d-4233-a11f-2b7195091b3f"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""VerticalMovement"",
+                    ""action"": ""VerticalUpMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -102,10 +100,10 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""name"": ""1D Axis"",
                     ""id"": ""3a7295e6-8756-4ea3-9d8f-ad6826045059"",
                     ""path"": ""1DAxis"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HorizontalMovement"",
+                    ""action"": ""HorizontalLeftMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -116,18 +114,7 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HorizontalMovement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""cd50e2c2-ceb4-4747-8902-c22eacd7149f"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HorizontalMovement"",
+                    ""action"": ""HorizontalLeftMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -143,57 +130,46 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""2D Vector"",
-                    ""id"": ""1b4ea564-dafb-4528-bc81-c04bc59b9bc6"",
-                    ""path"": ""2DVector(mode=1)"",
-                    ""interactions"": """",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""12a5eb1f-fa38-49ef-894a-3b3b6ca374c9"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""VerticalDownMovement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""c4196f70-3cda-4a88-b6ed-7634a5aa1882"",
-                    ""path"": ""<Keyboard>/upArrow"",
+                    ""name"": ""Positive"",
+                    ""id"": ""11534717-c5e5-445c-8444-02e9cdfdc7d6"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""VerticalDownMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""49ed6aa5-6335-42c7-961a-122f3635738a"",
-                    ""path"": ""<Keyboard>/downArrow"",
-                    ""interactions"": """",
+                    ""name"": ""1D Axis"",
+                    ""id"": ""2ce9f2e6-598a-4f10-8818-6ec0a97f40df"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""action"": ""HorizontalRightMovement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""left"",
-                    ""id"": ""27e3e44d-0dbc-4cab-834a-b4403615c726"",
-                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""name"": ""positive"",
+                    ""id"": ""c35d3bbd-d854-4f2d-8bd5-6803266e545e"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""f93f2036-e2ab-49e8-b546-3cecee7ee7e8"",
-                    ""path"": ""<Keyboard>/rightArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""HorizontalRightMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -204,10 +180,11 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
 }");
         // onFoot
         m_onFoot = asset.FindActionMap("onFoot", throwIfNotFound: true);
-        m_onFoot_VerticalMovement = m_onFoot.FindAction("VerticalMovement", throwIfNotFound: true);
-        m_onFoot_HorizontalMovement = m_onFoot.FindAction("HorizontalMovement", throwIfNotFound: true);
+        m_onFoot_VerticalUpMovement = m_onFoot.FindAction("VerticalUpMovement", throwIfNotFound: true);
+        m_onFoot_VerticalDownMovement = m_onFoot.FindAction("VerticalDownMovement", throwIfNotFound: true);
+        m_onFoot_HorizontalLeftMovement = m_onFoot.FindAction("HorizontalLeftMovement", throwIfNotFound: true);
+        m_onFoot_HorizontalRightMovement = m_onFoot.FindAction("HorizontalRightMovement", throwIfNotFound: true);
         m_onFoot_Interaction = m_onFoot.FindAction("Interaction", throwIfNotFound: true);
-        m_onFoot_Movement = m_onFoot.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -267,18 +244,20 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
     // onFoot
     private readonly InputActionMap m_onFoot;
     private IOnFootActions m_OnFootActionsCallbackInterface;
-    private readonly InputAction m_onFoot_VerticalMovement;
-    private readonly InputAction m_onFoot_HorizontalMovement;
+    private readonly InputAction m_onFoot_VerticalUpMovement;
+    private readonly InputAction m_onFoot_VerticalDownMovement;
+    private readonly InputAction m_onFoot_HorizontalLeftMovement;
+    private readonly InputAction m_onFoot_HorizontalRightMovement;
     private readonly InputAction m_onFoot_Interaction;
-    private readonly InputAction m_onFoot_Movement;
     public struct OnFootActions
     {
         private @Inputs m_Wrapper;
         public OnFootActions(@Inputs wrapper) { m_Wrapper = wrapper; }
-        public InputAction @VerticalMovement => m_Wrapper.m_onFoot_VerticalMovement;
-        public InputAction @HorizontalMovement => m_Wrapper.m_onFoot_HorizontalMovement;
+        public InputAction @VerticalUpMovement => m_Wrapper.m_onFoot_VerticalUpMovement;
+        public InputAction @VerticalDownMovement => m_Wrapper.m_onFoot_VerticalDownMovement;
+        public InputAction @HorizontalLeftMovement => m_Wrapper.m_onFoot_HorizontalLeftMovement;
+        public InputAction @HorizontalRightMovement => m_Wrapper.m_onFoot_HorizontalRightMovement;
         public InputAction @Interaction => m_Wrapper.m_onFoot_Interaction;
-        public InputAction @Movement => m_Wrapper.m_onFoot_Movement;
         public InputActionMap Get() { return m_Wrapper.m_onFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -288,43 +267,50 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_OnFootActionsCallbackInterface != null)
             {
-                @VerticalMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalMovement;
-                @VerticalMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalMovement;
-                @VerticalMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalMovement;
-                @HorizontalMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalMovement;
-                @HorizontalMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalMovement;
-                @HorizontalMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalMovement;
+                @VerticalUpMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalUpMovement;
+                @VerticalUpMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalUpMovement;
+                @VerticalUpMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalUpMovement;
+                @VerticalDownMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalDownMovement;
+                @VerticalDownMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalDownMovement;
+                @VerticalDownMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnVerticalDownMovement;
+                @HorizontalLeftMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalLeftMovement;
+                @HorizontalLeftMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalLeftMovement;
+                @HorizontalLeftMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalLeftMovement;
+                @HorizontalRightMovement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalRightMovement;
+                @HorizontalRightMovement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalRightMovement;
+                @HorizontalRightMovement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnHorizontalRightMovement;
                 @Interaction.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnInteraction;
                 @Interaction.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnInteraction;
                 @Interaction.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnInteraction;
-                @Movement.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnMovement;
             }
             m_Wrapper.m_OnFootActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @VerticalMovement.started += instance.OnVerticalMovement;
-                @VerticalMovement.performed += instance.OnVerticalMovement;
-                @VerticalMovement.canceled += instance.OnVerticalMovement;
-                @HorizontalMovement.started += instance.OnHorizontalMovement;
-                @HorizontalMovement.performed += instance.OnHorizontalMovement;
-                @HorizontalMovement.canceled += instance.OnHorizontalMovement;
+                @VerticalUpMovement.started += instance.OnVerticalUpMovement;
+                @VerticalUpMovement.performed += instance.OnVerticalUpMovement;
+                @VerticalUpMovement.canceled += instance.OnVerticalUpMovement;
+                @VerticalDownMovement.started += instance.OnVerticalDownMovement;
+                @VerticalDownMovement.performed += instance.OnVerticalDownMovement;
+                @VerticalDownMovement.canceled += instance.OnVerticalDownMovement;
+                @HorizontalLeftMovement.started += instance.OnHorizontalLeftMovement;
+                @HorizontalLeftMovement.performed += instance.OnHorizontalLeftMovement;
+                @HorizontalLeftMovement.canceled += instance.OnHorizontalLeftMovement;
+                @HorizontalRightMovement.started += instance.OnHorizontalRightMovement;
+                @HorizontalRightMovement.performed += instance.OnHorizontalRightMovement;
+                @HorizontalRightMovement.canceled += instance.OnHorizontalRightMovement;
                 @Interaction.started += instance.OnInteraction;
                 @Interaction.performed += instance.OnInteraction;
                 @Interaction.canceled += instance.OnInteraction;
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
             }
         }
     }
     public OnFootActions @onFoot => new OnFootActions(this);
     public interface IOnFootActions
     {
-        void OnVerticalMovement(InputAction.CallbackContext context);
-        void OnHorizontalMovement(InputAction.CallbackContext context);
+        void OnVerticalUpMovement(InputAction.CallbackContext context);
+        void OnVerticalDownMovement(InputAction.CallbackContext context);
+        void OnHorizontalLeftMovement(InputAction.CallbackContext context);
+        void OnHorizontalRightMovement(InputAction.CallbackContext context);
         void OnInteraction(InputAction.CallbackContext context);
-        void OnMovement(InputAction.CallbackContext context);
     }
 }

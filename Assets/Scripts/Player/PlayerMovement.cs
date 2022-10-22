@@ -106,8 +106,17 @@ public class PlayerMovement : MonoBehaviour
 
 
     public void AddMovementInStack(Vector2Int dir)
-    {
+    {   
+        foreach(Vector2Int vec in inputStack)
+        {
+            print("vector : " + vec);
+        }
         inputStack.Add(dir);
+        foreach (Vector2Int vec in inputStack)
+        {
+            print("vector mais a la fin cette fois : " + vec);
+        }
+
     }
 
     /**

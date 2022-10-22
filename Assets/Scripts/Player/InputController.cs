@@ -80,19 +80,19 @@ public class InputController : MonoBehaviour
             inputName = "q";
         }
 
-        if (inputName.Equals(input.onFoot.HorizontalMovement.GetBindingDisplayString(1).ToLower()))
+        if (inputName.Equals(input.onFoot.HorizontalLeftMovement.GetBindingDisplayString(1).ToLower()))
         {
             return Vector2Int.left;
         }
-        if (inputName.Equals(input.onFoot.VerticalMovement.GetBindingDisplayString(2).ToLower()))
+        if (inputName.Equals(input.onFoot.VerticalUpMovement.GetBindingDisplayString(1).ToLower()))
         {
             return Vector2Int.up;
         }
-        if (inputName.Equals(input.onFoot.VerticalMovement.GetBindingDisplayString(1).ToLower()))
+        if (inputName.Equals(input.onFoot.VerticalDownMovement.GetBindingDisplayString(1).ToLower()))
         {
             return Vector2Int.down;
         }
-        if (inputName.Equals(input.onFoot.HorizontalMovement.GetBindingDisplayString(2).ToLower()))
+        if (inputName.Equals(input.onFoot.HorizontalRightMovement.GetBindingDisplayString(1).ToLower()))
         {
             return Vector2Int.right;
         }
