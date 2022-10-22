@@ -13,9 +13,6 @@ public static class ApplyPlayerChange
 
     public static void VisualChange(string name, string value, GameObject go)
     {
-        name = "size";
-        value = "10";
-
         RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
         //Color
         if (Regex.IsMatch(name, "colou?r", options))
@@ -60,17 +57,20 @@ public static class ApplyPlayerChange
 
     public static int LevenshteinDistance(string subject, string model)
     {
+        string subSubject = subject.Substring(1);
+        string subModel = model.Substring(1);
+
         if ( Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
         } else if (subject[0] == model[0])
         {
-            return LevenshteinDistance(subject.Substring(1), model.Substring(1));
+            return LevenshteinDistance(subSubject, subModel);
         } else
         {
-            return 1 + Mathf.Min(LevenshteinDistance(subject.Substring(1), model),
-                             LevenshteinDistance(subject, model.Substring(1)),
-                             LevenshteinDistance(subject.Substring(1), model.Substring(1)));
+            return 1 + Mathf.Min(LevenshteinDistance(subSubject, model),
+                             LevenshteinDistance(subject, subModel),
+                             LevenshteinDistance(subSubject, subModel));
         }
     }
 

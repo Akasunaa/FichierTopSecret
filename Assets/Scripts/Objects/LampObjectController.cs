@@ -12,13 +12,12 @@ using UnityEngine.Assertions;
  */
 public class LampObjectController :  ModifiableController
 {
-    private Light2D light;
+    private Light2D[] lights;
 
     private void Awake()
     {
-        light = GetComponent<Light2D>();
-        Assert.IsNotNull(light);
-        light.gameObject.SetActive(false);
+        lights = GetComponentsInChildren<Light2D>();
+        Assert.AreNotEqual(0, lights.Length);
     }
 
     public override void UpdateModification()
@@ -29,11 +28,17 @@ public class LampObjectController :  ModifiableController
         {
             if (properties["power"] == "on")
             {
-                light.gameObject.SetActive(true);
+                foreach(Light2D light in lights)
+                {
+                    light.gameObject.SetActive(true);
+                }
             }
             else if (properties["power"]=="off")
             {
-                light.gameObject.SetActive(false);
+                foreach(var light in lights)
+                {
+                    light.gameObject.SetActive(false);
+                }
             }
         }
     }

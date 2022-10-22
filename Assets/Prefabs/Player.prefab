@@ -66,13 +66,37 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_Vertices:
-  - position: {x: 0, y: 0, z: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
+  - position: {x: 0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0.70710677, g: 0.70710677, b: 0, a: 0}
     uv: {x: 0, y: 0}
-  m_Triangles: 0000
+  - position: {x: 0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.9985302, y: 0.9985302, z: 0}
+    color: {r: -0.70710677, g: 0.70710677, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.9985302, y: 0.9985302, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.99853003, y: -0.9985304, z: 0}
+    color: {r: -0.70710665, g: -0.7071069, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: -0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: 0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0.70710665, g: -0.7071069, b: 0, a: 0}
+    uv: {x: 0, y: 0}
+  - position: {x: 0.99853003, y: -0.9985304, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  - position: {x: 0, y: 0, z: 0}
+    color: {r: 0, g: 0, b: 0, a: 1}
+    uv: {x: 0, y: 0}
+  m_Triangles: 030001000800020000000100030002000100050003000800040002000300050004000300070005000800060004000500070006000500010007000800000006000700010000000700
   m_LocalBounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 1.5
@@ -409,19 +433,16 @@ MonoBehaviour:
   m_ShapePath:
   - {x: -0.36191702, y: -0.67657113, z: 0}
   - {x: -0.5155976, y: -0.36582598, z: 0}
-  - {x: -0.36623883, y: -0.21646741, z: 0}
-  - {x: -0.42598224, y: -0.022301264, z: 0}
+  - {x: -0.34575874, y: -0.155027, z: 0}
   - {x: 0.27544236, y: -0.14937271, z: 0}
   - {x: 0.46245205, y: -0.33684787, z: 0}
   - {x: 0.34590876, y: -0.519686, z: 0}
   - {x: 0.26235437, y: -0.67272604, z: 0}
   - {x: 0.04449725, y: -0.686947, z: 0}
-  - {x: 0.051965237, y: -0.6197356, z: 0}
-  - {x: -0.10486126, y: -0.61226773, z: 0}
   - {x: -0.11979723, y: -0.679479, z: 0}
-  m_ShapePathHash: 1209602869
+  m_ShapePathHash: 1764495085
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41828
+  m_InstanceId: 44052
 --- !u!1 &7139471214813973377
 GameObject:
   m_ObjectHideFlags: 0
