@@ -50,7 +50,7 @@ public class DialogState : BaseState
         }
         else //when reaching the end of the various speeches, the NPC will repeat the last inputted speech
         {
-            currentSpeech = speech[speech.Length - 1];
+            currentSpeech = speech[^1];
         }
     }
 }

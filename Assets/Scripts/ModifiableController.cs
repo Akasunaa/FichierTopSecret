@@ -27,7 +27,13 @@ public abstract class ModifiableController : MonoBehaviour
         }
     }
 
-    public abstract void UpdateModification();
+    public virtual void UpdateModification()
+    {
+        foreach ((string name, string value) in properties)
+        {
+            ApplyPlayerChange.VisualChange(name, value, gameObject);
+        }
+    }
 
     public string ToFileString()
     {

@@ -11,15 +11,18 @@ using UnityEngine.Rendering.Universal;
  */
 public class LampObjectController :  ModifiableController
 {
-    [SerializeField] private Light2D light;
+    private Light2D light;
 
     private void Awake()
     {
+        light = GetComponent<Light2D>();
+        Assert.IsNotNull(light);
         light.gameObject.SetActive(false);
     }
 
     public override void UpdateModification()
     {
+        base.UpdateModification();
         //For the lamp object, we test if its power is on or off
         if (properties.ContainsKey("power")) 
         {
