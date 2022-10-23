@@ -13,7 +13,6 @@ public class NPCController : MonoBehaviour, Interactable
     [SerializeField] private bool canBeInteracted;
     bool Interactable.canBeInteracted { get; set; }
 
-    private bool inInteraction;                             //if the NPC is currently being interacted with
     private bool shouldEnd;
     [Header("Dialogue elements")]
     [SerializeField] private string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
@@ -25,7 +24,6 @@ public class NPCController : MonoBehaviour, Interactable
 
     private void Start()
     {
-        inInteraction = false;
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         dialogSM = GetComponent<DialogSM>();
@@ -50,20 +48,10 @@ public class NPCController : MonoBehaviour, Interactable
             EndDialogue();
             return;
         }
-        inInteraction = true;
         Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
         int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
-        
-        //we test if last speech has been reached  :
-        if (ret == 0) //last speech reached => at next interact(), interaction will end
-        {
-            shouldEnd = true;
-        }
-        else
-        {
-            shouldEnd = false;
-        }
+        shouldEnd = (ret == 0);
     }
 
     /**
@@ -73,7 +61,6 @@ public class NPCController : MonoBehaviour, Interactable
     private void EndDialogue()
     {
         ui.EndDisplay();
-        inInteraction = true;
         Time.timeScale = 1f;    //if player in interaction, then stop time to prevent movement
         shouldEnd = false;      //allows the player to interact again
     }

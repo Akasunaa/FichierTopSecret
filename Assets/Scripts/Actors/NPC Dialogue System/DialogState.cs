@@ -23,9 +23,12 @@ public class DialogState : BaseState
     public override void UpdateStateLogic()
     {
         base.UpdateStateLogic();
-        Debug.Log("NPC : " + currentSpeech);
+        //Debug.Log("NPC : " + currentSpeech);
     }
 
+    /**
+     *  Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
+     */
     public override void Enter()
     {
         base.Enter();
