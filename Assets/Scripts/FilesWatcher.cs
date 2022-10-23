@@ -147,16 +147,19 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.type)
             {
                 case FileChangeType.New:
-                    foreach (var pair in instantiable)
+                    if (!pathToScript.ContainsKey(relativePath))
                     {
-                        if (Regex.IsMatch(fc.fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                        foreach (var pair in instantiable)
                         {
-                            GameObject newObj = Instantiate(pair.go);
-                            FileParser fp = newObj.AddComponent<FileParser>();
-                            fp.filePath = fc.fi.FullName;
-                            fp.ReadFromFile(fc.fi.FullName);
-                            pathToScript.Add(relativePath, fp);
-                            break;
+                            if (Regex.IsMatch(fc.fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                            {
+                                GameObject newObj = Instantiate(pair.go);
+                                FileParser fp = newObj.AddComponent<FileParser>();
+                                fp.filePath = fc.fi.FullName;
+                                fp.ReadFromFile(fc.fi.FullName);
+                                pathToScript.Add(relativePath, fp);
+                                break;
+                            }
                         }
                     }
                     break;

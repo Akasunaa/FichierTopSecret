@@ -52,7 +52,6 @@ public class InputController : MonoBehaviour
     {
         if (context.canceled)
         {
-        Debug.Log("^canceled");
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
 

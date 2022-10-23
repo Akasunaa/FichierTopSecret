@@ -7,12 +7,22 @@ using UnityEditor;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager Instance { get; private set; }
+
     private Scene activeLevel;
     [SerializeField] private SceneAsset levelToLoad;
 
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     void Start()
@@ -54,6 +64,7 @@ public class LevelManager : MonoBehaviour
             FileInfo fileInfo = new FileInfo(fileParser.filePath);
             if (fileInfo.Exists)
             {
+                Debug.Log("Updating file: " + fileInfo.FullName);
                 fileParser.ReadFromFile(fileInfo.FullName);
                 FilesWatcher.Instance.Set(fileParser);
             }
