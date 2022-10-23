@@ -14,6 +14,7 @@ public class NPCController : MonoBehaviour, Interactable
     bool Interactable.canBeInteracted { get; set; }
 
     private bool inInteraction;                             //if the NPC is currently being interacted with
+    private bool shouldEnd;
     [Header("Dialogue elements")]
     [SerializeField] private string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
     private DialogueUIController ui;                        //reference to the UI used for dialogs
@@ -22,6 +23,7 @@ public class NPCController : MonoBehaviour, Interactable
     private void Start()
     {
         inInteraction = false;
+        shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         dialogSM = GetComponent<DialogSM>();
         Assert.IsNotNull(dialogSM);
@@ -34,9 +36,37 @@ public class NPCController : MonoBehaviour, Interactable
      */
     public void Interact()
     {
+        if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
+        {
+            EndDialogue();
+            return;
+        }
         inInteraction = true;
+        Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
-        dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
+        int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
+        
+        //we test if last speech has been reached  :
+        if (ret == 0) //last speech reached => at next interact(), interaction will end
+        {
+            shouldEnd = true;
+        }
+        else
+        {
+            shouldEnd = false;
+        }
+    }
+
+    /**
+     *  Function that ends the current dialogue being displayed, giving back control to player
+     *  It does NOT change the state of the NPC : if interacted again, the NPC will repeat the current State's last sentence
+     */
+    private void EndDialogue()
+    {
+        ui.EndDisplay();
+        inInteraction = true;
+        Time.timeScale = 1f;    //if player in interaction, then stop time to prevent movement
+        shouldEnd = false;      //allows the player to interact again
     }
 
     /**

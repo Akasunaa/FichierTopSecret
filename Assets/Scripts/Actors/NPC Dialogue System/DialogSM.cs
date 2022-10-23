@@ -19,9 +19,9 @@ public class DialogSM : StateMachine
     /**
      *  Function called by external scripts that will tell the SM that the current speech has been read
      */
-    public void OnDialogInteraction()
+    public int OnDialogInteraction()
     {
-        currentState.ConvertTo<DialogState>().ChangeSpeech();
+        return currentState.ConvertTo<DialogState>().ChangeSpeech();
     }
 
     /**

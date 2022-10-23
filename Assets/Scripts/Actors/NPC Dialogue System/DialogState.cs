@@ -40,17 +40,21 @@ public class DialogState : BaseState
 
     /**
      *  Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
+     *  Returns :
+     *      Int : 0 if the currentSpeech is the last speech, 1 otherwise
      */
-    public void ChangeSpeech()
+    public int ChangeSpeech()
     {
         interactionIndex++;
         if (interactionIndex < speech.Length)
         {
             currentSpeech = speech[interactionIndex];
+            return 1;
         }
         else //when reaching the end of the various speeches, the NPC will repeat the last inputted speech
         {
             currentSpeech = speech[^1];
+            return 0;
         }
     }
 }
