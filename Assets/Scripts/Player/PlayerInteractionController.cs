@@ -11,7 +11,7 @@ public class PlayerInteractionController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private PlayerMovement playerMovement;
     Grid grid;
-    Vector3 pute;
+    Vector3 pute;                                               //NEEDS TO BE RENAMED FFS
     [SerializeField] private GameObject interactionPrompt;
     public Interactable lastInteractable { get; private set; }
 
