@@ -10,6 +10,8 @@ using UnityEngine;
  */
 public class DoorObjectController : ModifiableController
 {
+    [TextArea] private string direction;
+
     public override void UpdateModification()
     {
         //For the lamp object, we test if its power is on or off
@@ -30,5 +32,7 @@ public class DoorObjectController : ModifiableController
 
     public override void setDefaultProperties()
     {
+        properties.Add("locked", "yes");
+        properties.Add("direction", direction);
     }
 }
