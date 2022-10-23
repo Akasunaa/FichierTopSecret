@@ -20,6 +20,9 @@ public class NPCController : MonoBehaviour, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
+    [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
+    [SerializeField] private bool changeState;
+
     private void Start()
     {
         inInteraction = false;
@@ -29,6 +32,12 @@ public class NPCController : MonoBehaviour, Interactable
         Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
     }
+
+    private void Update()
+    {
+        if (changeState) { changeState = false; OnStateChange(0);}//DEBUG SHOULD BE REMOVED
+    }
+
 
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
