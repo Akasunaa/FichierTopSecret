@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private Grid grid;                                     // grid guiding the tilemaps
-    [SerializeField] private Tilemap[] obstacleTilemaps;                    // array with all the tilemaps with which the player should collide
     [SerializeField] private Animator animator;                             // player animations 
 
     [Header("Movement variables")]
@@ -72,8 +71,6 @@ public class PlayerMovement : MonoBehaviour
     {
         isMoving = true;
 
-        
-
         // keep initial position
         Vector3 initialPosition = transform.position;
 
@@ -104,19 +101,9 @@ public class PlayerMovement : MonoBehaviour
         interactionController.IsInteract(transform.position,facingDirection);
     }
 
-
     public void AddMovementInStack(Vector2Int dir)
     {   
-        foreach(Vector2Int vec in inputStack)
-        {
-            print("vector : " + vec);
-        }
         inputStack.Add(dir);
-        foreach (Vector2Int vec in inputStack)
-        {
-            print("vector mais a la fin cette fois : " + vec);
-        }
-
     }
 
     /**
