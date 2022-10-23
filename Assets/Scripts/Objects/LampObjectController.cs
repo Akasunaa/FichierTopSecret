@@ -11,8 +11,28 @@ using UnityEngine.Assertions;
  *  Values in file :
  *      power : on/off
  */
-public class LampObjectController :  ModifiableController
+public class LampObjectController :  ModifiableController, Interactable
 {
+    public bool canBeInteracted { get; set; }
+
+    public void Interact()
+    {
+        if (properties.ContainsKey("power"))
+        {
+            if (properties["power"] == "off")
+            {
+                properties["power"] = "on";
+            }
+            else
+            {
+                properties["power"] = "off";
+            }
+
+            UpdateModification();
+            UpdateFile();
+        }
+    }
+
     private Light2D[] lights;
 
     private void Awake()
@@ -23,8 +43,8 @@ public class LampObjectController :  ModifiableController
 
     public override void setDefaultProperties()
     {
-        properties["power"] = "on";
-        properties["color"] = "white";
+        properties.Add("power", "on");
+        properties.Add("color", "white");
     }
 
     public override void UpdateModification()

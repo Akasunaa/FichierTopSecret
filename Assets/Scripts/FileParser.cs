@@ -75,4 +75,12 @@ public class FileParser : MonoBehaviour
 
         targetModifiable.UpdateModification();
     }
+
+    public void WriteToFile()
+    {
+        using (StreamWriter sw = new StreamWriter(filePath))  
+        {  
+            sw.Write(targetModifiable.ToFileString());
+        }
+    }
 }

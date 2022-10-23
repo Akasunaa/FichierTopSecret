@@ -410,6 +410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 6320083818522056957}
+  interactionPrompt: {fileID: 3672887277446416659}
 --- !u!114 &6320083818522056958
 MonoBehaviour:
   m_ObjectHideFlags: 0

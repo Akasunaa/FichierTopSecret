@@ -48,4 +48,9 @@ public abstract class ModifiableController : MonoBehaviour
 
         return res;
     }
+
+    public void UpdateFile()
+    {
+        GetComponent<FileParser>().WriteToFile();        
+    }
 }
