@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
@@ -11,6 +13,14 @@ public class LevelManager : MonoBehaviour
 
     private Scene activeLevel;
     [SerializeField] private SceneAsset levelToLoad;
+    
+    [Serializable] private struct RegToGoPair
+    {
+        [SerializeField] public string reg;
+        [SerializeField] public GameObject go;
+    }
+    
+    [SerializeField] private List<RegToGoPair> instantiable;
 
     void Awake()
     {
@@ -53,12 +63,13 @@ public class LevelManager : MonoBehaviour
         }
         
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
-        while (!asyncLoadLevel.isDone){
+        while (!asyncLoadLevel.isDone) {
             yield return null;
         }
 
         activeLevel = SceneManager.GetSceneByName(levelName);
         UpdateFileGameObjects(directoryExists);
+        CreateGameObjectFromFiles(di);
     }
 
     private void UpdateFileGameObjects(bool directoryExists)
@@ -87,6 +98,42 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.Log("Removing file: " + fileInfo.FullName);
                 Destroy(fileParser.gameObject);
+            }
+        }
+    }
+
+    private void CreateGameObjectFromFiles(DirectoryInfo di)
+    {
+        foreach (FileInfo fi in di.EnumerateFiles())
+        {
+            if (!FilesWatcher.Instance.ContainsFile(fi))
+            {
+                NewObject(fi);
+            }
+        }
+
+        foreach (DirectoryInfo diTmp in di.EnumerateDirectories())
+        {
+            CreateGameObjectFromFiles(diTmp);
+        }
+    }
+
+    public void NewObject(FileInfo fi)
+    {
+        if (Regex.IsMatch(fi.Name, ".*.txt$"))
+        {
+            foreach (RegToGoPair pair in instantiable)
+            {
+                if (Regex.IsMatch(fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                {
+                    Debug.Log("New file to watch: " + fi.FullName);
+                    GameObject newObj = Instantiate(pair.go);
+                    FileParser fp = newObj.AddComponent<FileParser>();
+                    fp.filePath = fi.FullName;
+                    fp.ReadFromFile(fi.FullName);
+                    FilesWatcher.Instance.Set(fp);
+                    break;
+                }
             }
         }
     }

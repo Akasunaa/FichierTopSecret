@@ -27,15 +27,6 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
-
-    [Serializable] private struct RegToGoPair
-    {
-        [SerializeField] public string reg;
-        [SerializeField] public GameObject go;
-    }
-    
-    [SerializeField] private List<RegToGoPair> instantiable;
-
     // Associate each file path (which already exists in the game) to a FileParser
     private static Dictionary<string, FileParser> pathToScript = new Dictionary<string, FileParser>(10);
     public static FilesWatcher Instance { get; private set; }
@@ -94,7 +85,7 @@ public class FilesWatcher : MonoBehaviour
         watcher.EnableRaisingEvents = true;
     }
 
-    static string RelativePath(string absolutePath)
+    public static string RelativePath(string absolutePath)
     {
         return absolutePath[Application.streamingAssetsPath.Length..].Replace('\\', '/');
     }
@@ -149,18 +140,7 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.New:
                     if (!pathToScript.ContainsKey(relativePath))
                     {
-                        foreach (var pair in instantiable)
-                        {
-                            if (Regex.IsMatch(fc.fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
-                            {
-                                GameObject newObj = Instantiate(pair.go);
-                                FileParser fp = newObj.AddComponent<FileParser>();
-                                fp.filePath = fc.fi.FullName;
-                                fp.ReadFromFile(fc.fi.FullName);
-                                pathToScript.Add(relativePath, fp);
-                                break;
-                            }
-                        }
+                        LevelManager.Instance.NewObject(fc.fi);
                     }
                     break;
                 case FileChangeType.Change:
@@ -194,6 +174,15 @@ public class FilesWatcher : MonoBehaviour
     public void Set(FileParser fileParser)
     {
         string relativePath = RelativePath(fileParser.filePath);
+        if (pathToScript.ContainsKey(relativePath))
+        {
+            Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
+        }
         pathToScript.Add(relativePath, fileParser);
+    }
+
+    public bool ContainsFile(FileInfo fi)
+    {
+        return pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
 }

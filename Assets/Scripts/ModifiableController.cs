@@ -40,7 +40,7 @@ public abstract class ModifiableController : MonoBehaviour
 
     public string ToFileString()
     {
-        string res = "\n";
+        string res = "";
         foreach ((string name, string value) in properties)
         {
             res += name + " : " + value + "\n";
