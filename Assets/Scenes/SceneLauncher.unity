@@ -299,3 +299,5 @@ MonoBehaviour:
   instantiable:
   - reg: .*light.*
     go: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
+  - reg: .*npc.*
+    go: {fileID: 609991836831715500, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
