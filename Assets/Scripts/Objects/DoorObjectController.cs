@@ -42,7 +42,7 @@ public class DoorObjectController : ModifiableController, Interactable
             if (SceneUtility.GetBuildIndexByScenePath(direction) >= 0)
             {
                 print("interact");
-                StartCoroutine(LevelManager.Instance.LoadScene(direction));
+                LevelManager.Instance.LoadScene(direction);
             }
         }
     }

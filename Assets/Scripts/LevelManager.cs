@@ -27,10 +27,15 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(LoadScene(levelToLoad.name));
+        LoadScene(levelToLoad.name);
     }
 
-    public IEnumerator LoadScene(string levelName)
+    public void LoadScene(string levelName)
+    {
+        StartCoroutine(LoadSceneCoroutine(levelName));
+    }
+
+    private IEnumerator LoadSceneCoroutine(string levelName)
     {
         FilesWatcher.Instance.Clear();
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
