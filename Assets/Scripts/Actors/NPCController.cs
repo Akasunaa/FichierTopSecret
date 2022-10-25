@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 /**
  *      Main component of the NPCs that will control their behaviors and overall actions
  */
-public class NPCController : MonoBehaviour, Interactable
+public class NPCController : ModifiableController, Interactable
 {
     //[SerializeField] private GameObject interactionPrompt; //Interaction prompt displayed when player is in interaction range with the NPC
     [SerializeField] private bool canBeInteracted;
@@ -74,5 +74,13 @@ public class NPCController : MonoBehaviour, Interactable
     {
         dialogSM.ChangeState(newStateIndex);
         ui.EndDisplay();
+    }
+
+    /**
+     *  Function inherited from ModifiableController
+     */
+    public override void setDefaultProperties()
+    {
+        properties.Add("health", "1");
     }
 }
