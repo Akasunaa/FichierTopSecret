@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7261126915776652757}
   - component: {fileID: 2117794396081477698}
   - component: {fileID: 5073555140252865689}
+  - component: {fileID: -6143100953626097704}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -141,7 +142,7 @@ MonoBehaviour:
   - {x: 1, y: -1, z: 0}
   m_ShapePathHash: 764802325
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41350
+  m_InstanceId: 51186
 --- !u!114 &7261126915776652757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,3 +189,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetObjectFileName: ScenePOC1/Door.txt
+--- !u!114 &-6143100953626097704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMoving: 0
+  spriteRenderer: {fileID: 6122924950378717427}
