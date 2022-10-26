@@ -15,13 +15,13 @@ MonoBehaviour:
   name: StateNoLights
   speech:
   - Great, I can't see scrap !
-  currentSpeech: 
+  currentSpeech: Great, I can't see scrap !
   nextStates:
-  - name: 
-    state: {fileID: 0}
-  - name: 
-    state: {fileID: 0}
-  - name: 
-    state: {fileID: 0}
-  - name: 
-    state: {fileID: 0}
+  - name: StateIdle
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: StateManyLights
+    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - name: StateClone
+    state: {fileID: 11400000, guid: 4f8ba7260792fb04988bf6786e70439c, type: 2}
+  - name: StateChangedName
+    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}

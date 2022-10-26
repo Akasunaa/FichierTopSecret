@@ -110,26 +110,36 @@ public class NPCController : ModifiableController, Interactable
     private void OnApplicationFocus()
     {
         int numLamp = DuplicationCheckManager.Instance.Search("Lamp"); //NPC counts the number of lamp instances
-        ReactSearchCount(numLamp);
+        int numNpc = DuplicationCheckManager.Instance.Search("NPC"); //NPC counts the number of lamp instances
+        ReactSearchCount(numLamp,numNpc);
     }
 
     /**
      *  Function that reacts to a search count of a tag variable
      *  RIGHT NOW, it's hardcoded, should be REWORKED
+     *      THE UPPER IFS TAKE PRECEDENCE OVER THE OTHER ONES
      */
-    private void ReactSearchCount(int num)
+    private void ReactSearchCount(int numLamp, int numNPC)
     {
-        if (num > 1)
+        if(numNPC > 1)
+        {
+            OnStateChange("StateClone");
+            return;
+        }
+        else if (numLamp > 1)
         {
             OnStateChange("StateManyLights");
+            return;
         }
-        else if (num == 0)
+        else if (numLamp == 0)
         {
             OnStateChange("StateNoLights");
+            return;
         }
-        else if(num == 1)
+        else if(numLamp == 1)
         {
             UpdateModification();
+            return;
         }
     }
 
