@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
             RefreshOrientationSprite(facingDirection);
 
             // check if the cell is occupied
-            if (interactionController.IsCollid(targetTilemapPosition))
+            if (interactionController.IsColliding(targetTilemapPosition))
             {
                 return;
             }
@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
         isMoving = false;
         //Check interaction
-        interactionController.IsInteract(transform.position,facingDirection);
+        interactionController.IsInteracting(transform.position,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("dirX", direction.x);
         animator.SetFloat("dirY", direction.y);
         //Check interaction
-        interactionController.IsInteract(transform.position,facingDirection);
+        interactionController.IsInteracting(transform.position,facingDirection);
     }
 
     public void AddMovementInStack(Vector2Int dir)
