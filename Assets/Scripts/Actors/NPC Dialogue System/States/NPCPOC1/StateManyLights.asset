@@ -7,15 +7,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: Dialog1
+  m_Name: StateManyLights
   m_EditorClassIdentifier: 
-  name: Dialog1
+  name: StateManyLights
   speech:
-  - Hello
-  - 'Dialog 1 State : Text 2 (ending text)'
-  currentSpeech: 'Dialog 1 State : Text 2 (ending text)'
+  - Arh, this is a bit too bright ! I am BLINDED !
+  currentSpeech: Arh, this is a bit too bright ! I am BLINDED !
   nextStates:
-  - {fileID: 11400000, guid: 23e0ea7be8b99b0439f281c31cd3d669, type: 2}
+  - name: StateIdle
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: StateNoLights
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}

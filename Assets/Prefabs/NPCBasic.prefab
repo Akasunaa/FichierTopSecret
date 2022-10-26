@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: f320ae78cf69c57419cfdadf900d48e6, type: 2}
+  startingState: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
 --- !u!114 &1718777866957563038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,9 +140,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeDeleted: 0
   canBeInteracted: 0
   portraitRef: npc
   changeState: 0
+  stateName: 
 --- !u!114 &1607442897434465337
 MonoBehaviour:
   m_ObjectHideFlags: 0

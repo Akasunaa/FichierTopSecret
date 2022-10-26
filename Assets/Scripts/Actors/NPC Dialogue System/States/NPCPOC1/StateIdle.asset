@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: StateIdle
+  m_EditorClassIdentifier: 
+  name: StateIdle
+  speech:
+  - Hello. I am NPC 1.
+  - Not too many lights eh ?
+  currentSpeech: Not too many lights eh ?
+  nextStates:
+  - name: StateChangedName
+    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
+  - name: StateManyLights
+    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - name: StateNoLights
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
