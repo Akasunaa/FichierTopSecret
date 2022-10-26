@@ -10,7 +10,6 @@ using UnityEngine.Rendering.Universal;
  */
 public class NPCController : ModifiableController, Interactable
 {
-    //[SerializeField] private GameObject interactionPrompt; //Interaction prompt displayed when player is in interaction range with the NPC
     [SerializeField] private bool canBeInteracted;
     bool Interactable.canBeInteracted { get; set; }
 
@@ -31,7 +30,6 @@ public class NPCController : ModifiableController, Interactable
         dialogSM = GetComponent<DialogSM>();
         Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
-        //DuplicationCheckManager.Instance.onSearchCount += ReactSearchCount; //suscribing to event
     }
 
     private void Update()

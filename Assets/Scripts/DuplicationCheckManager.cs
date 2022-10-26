@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- *  Component that will check wether or not a targetController script has been duplicated in the game
- *  Since all objects will only have ONE ModifiableController, we check for it
- *  It then sends an event with the number of objects found
+ * Singleton component that will be called by other elements that want to count other elements using a tag
  */
 public class DuplicationCheckManager : MonoBehaviour
 {
@@ -39,8 +37,5 @@ public class DuplicationCheckManager : MonoBehaviour
         var targetsFound = GameObject.FindGameObjectsWithTag(tag);
         print("Numbers of " + tag + " found in scene :" + targetsFound.Length);
         return targetsFound.Length;
-        //var targetsFound = GameObject.FindObjectsOfType(type);
-        //print("Numbers of "+ targetController.name +" found in scene :"+targetsFound.Length);
-        //return targetsFound.Length;
     }
 }
