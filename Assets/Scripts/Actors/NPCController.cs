@@ -82,6 +82,7 @@ public class NPCController : ModifiableController, Interactable
     public override void setDefaultProperties()
     {
         properties.Add("name", "Pouet Lord, Emperor of the Pouets");
+        properties.Add("origin", "Jovian Sphere");
     }
 
     /**
@@ -95,6 +96,17 @@ public class NPCController : ModifiableController, Interactable
             if (properties["name"] != "Pouet Lord, Emperor of the Pouets")
             {
                 OnStateChange("StateChangedName"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
+            }
+            else
+            {
+                OnStateChange("StateIdle");
+            }
+        }
+        if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        {
+            if (properties["origin"] != "Jovian Sphere")
+            {
+                OnStateChange("StateChangedOrigin"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
             }
             else
             {
@@ -121,7 +133,12 @@ public class NPCController : ModifiableController, Interactable
      */
     private void ReactSearchCount(int numLamp, int numNPC)
     {
-        if(numNPC > 1)
+        if (numNPC > 3)
+        {
+            OnStateChange("StateCloneArmy");
+            return;
+        }
+        else if (numNPC > 1)
         {
             OnStateChange("StateClone");
             return;

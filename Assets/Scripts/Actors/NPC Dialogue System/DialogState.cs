@@ -21,7 +21,7 @@ public class DialogState : BaseState
     [Serializable]
     private struct NEXT_STATE                               //struct used for the next states
     {
-        public string name;
+        [HideInInspector] public string name;
         public DialogState state;
     }
     [Header("Next possible states")]
@@ -39,7 +39,7 @@ public class DialogState : BaseState
         nextPossibleStates = new Dictionary<string, DialogState>();
         foreach (NEXT_STATE state in nextStates)
         {
-            nextPossibleStates.Add(state.name, state.state);
+            nextPossibleStates.Add(state.state.name, state.state);
         }
         //-------------------------------------------------------------------------------------
 

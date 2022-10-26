@@ -24,3 +24,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
   - name: StateNoLights
     state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
+  - name: StateClone
+    state: {fileID: 11400000, guid: 4f8ba7260792fb04988bf6786e70439c, type: 2}
+  - name: StateCloneArmy
+    state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}
