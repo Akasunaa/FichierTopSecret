@@ -19,14 +19,19 @@ public abstract class ModifiableController : MonoBehaviour
     {
         print("Modifying " + name + " with value " + value + " from file");
         //MODIFICATION (inherited ?)
+
+        // fix typos and find a correct property
         string propertyName = ApplyPlayerChange.PropertyNameValidation(name);
+        // return either "true" or "false" depending of the input string 
+        string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
+
         if (properties.ContainsKey(propertyName))
         {
-            properties[propertyName] = value;
+            properties[propertyName] = propertyValue;
         }
         else
         {
-            properties.Add(propertyName, value);
+            properties.Add(propertyName, propertyValue);
         }
     }
 

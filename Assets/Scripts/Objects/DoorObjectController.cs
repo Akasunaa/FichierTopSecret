@@ -36,7 +36,7 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (properties.ContainsKey("locked") && properties["locked"] == "no")
+        if (properties.ContainsKey("locked") && properties["locked"] == "true")
         {
             print(SceneUtility.GetBuildIndexByScenePath(direction));
             if (SceneUtility.GetBuildIndexByScenePath(direction) >= 0)
@@ -95,7 +95,7 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public override void setDefaultProperties()
     {
-        properties.Add("locked", "yes");
+        properties.Add("locked", "true");
         properties.Add("status", "closed");
         properties.Add("direction", direction);
     }
