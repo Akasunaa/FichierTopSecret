@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
         // set position exactly on a tile
         tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
-        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
+        transform.position = grid.GetCellCenterWorld((Vector3Int) tilemapPosition);
 
         interactionController = GetComponent<PlayerInteractionController>();
     }
