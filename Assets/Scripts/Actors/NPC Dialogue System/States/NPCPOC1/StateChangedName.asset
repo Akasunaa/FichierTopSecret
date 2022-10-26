@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: Dialog1
+  m_Name: StateChangedName
   m_EditorClassIdentifier: 
-  name: Dialog1
+  name: 
   speech:
-  - Hello
-  - 'Dialog 1 State : Text 2 (ending text)'
-  currentSpeech: 'Dialog 1 State : Text 2 (ending text)'
+  - Huh, weird... My name... It feels like...
+  - Did you change it ??
+  currentSpeech: 
   nextStates:
-  - {fileID: 11400000, guid: 23e0ea7be8b99b0439f281c31cd3d669, type: 2}
+  - {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Rendering.Universal;
 
 /**
  *      Main component of the NPCs that will control their behaviors and overall actions
@@ -81,6 +82,22 @@ public class NPCController : ModifiableController, Interactable
      */
     public override void setDefaultProperties()
     {
-        properties.Add("health", "1");
+        properties.Add("name", "Pouet Lord, Emperor of the Pouets");
     }
+
+    /**
+     *  Function that, FOR NOW, handle the modifications of the NPC files
+     */
+    public override void UpdateModification()
+    {
+        base.UpdateModification();
+        if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        {
+            if (properties["name"] != "Pouet Lord, Emperor of the Pouets")
+            {
+                OnStateChange(0); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
+            }
+        }
+    }
+
 }
