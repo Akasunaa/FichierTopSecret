@@ -395,6 +395,7 @@ MonoBehaviour:
   animator: {fileID: 6320083818459328203}
   tilemapPosition: {x: 0, y: 0}
   inputStack: []
+  speed: 1.2
 --- !u!114 &7588447500401278529
 MonoBehaviour:
   m_ObjectHideFlags: 0
