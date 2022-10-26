@@ -30,7 +30,16 @@ public static class ApplyPlayerChange
 
         if (Regex.IsMatch(name, "position", options))
         {
-            //nul
+            // pattern that we want into the value string - correct ex: (0,0) 
+            const string pattern = @"([\(\[]|^)\d+[\ \;\:\,]+\d+([\)\]]|$)";
+            
+            if (!Regex.IsMatch(value, pattern, options)) return;
+            
+            // here we just want to extract the different decimals inside the value 
+            var decodedCoordinates = Regex.Matches(value, @"\d+", options); 
+            
+            // dont know what to do with it yet ;( so debugging with logs
+            Debug.Log($"Entered coordinates are : ({decodedCoordinates[0].Value}, {decodedCoordinates[1].Value})");
         }
 
     }
