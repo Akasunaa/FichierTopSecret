@@ -48,8 +48,8 @@ public static class ApplyPlayerChange
         // here we just want to extract the different decimals inside the value 
         var decodedCoordinates = Regex.Matches(value, @"\d+", options);
 
-        float xTarget = int.Parse(decodedCoordinates[0].Value);
-        float yTarget = int.Parse(decodedCoordinates[1].Value);
+        var xTarget = float.Parse(decodedCoordinates[0].Value);
+        var yTarget = float.Parse(decodedCoordinates[1].Value);
             
         // dont know what to do with it yet ;( so debugging with logs
         Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
@@ -67,8 +67,8 @@ public static class ApplyPlayerChange
         yTarget += gridManager.GridOffset.y;
         
         // clamping values so that objects are in-bounds
-        Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
-        Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
+        xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
+        yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
 
         // creating final target vector and injecting it in go position
         var targetPosition = new Vector3(xTarget, yTarget, 0);
