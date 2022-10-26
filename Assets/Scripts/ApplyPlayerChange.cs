@@ -46,12 +46,23 @@ public static class ApplyPlayerChange
         if (!Regex.IsMatch(value, pattern, options)) return;
             
         // here we just want to extract the different decimals inside the value 
-        var decodedCoordinates = Regex.Matches(value, @"\d+", options); 
+        var decodedCoordinates = Regex.Matches(value, @"\d+", options);
+
+        var xTarget = int.Parse(decodedCoordinates[0].Value);
+        var yTarget = int.Parse(decodedCoordinates[1].Value);
             
         // dont know what to do with it yet ;( so debugging with logs
-        Debug.Log($"Entered coordinates are : ({decodedCoordinates[0].Value}, {decodedCoordinates[1].Value})");
+        Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
         
         // TIP: use GetCellCenterWorld(...);
+
+        // FIXME: Getting the grid object this way may not be perfect :/
+        var gridObj = GameObject.Find("/Grid");
+        // getting the "GridManager" in order to have bounds and offset
+        var gridManager = gridObj.GetComponent<GridManager>();
+        
+        Vector3 targetPosition = new Vector3(xTarget + gridManager.GridOffset.x, xTarget + gridManager.GridOffset.x, 0);
+        go.transform.position = targetPosition;
     }
 
     static private void Color(string value, GameObject go)
