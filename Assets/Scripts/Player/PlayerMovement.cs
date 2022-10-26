@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // start the movement
+            Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
             StartCoroutine(SmoothMovement(targetTilemapPosition));
             tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
         }
@@ -84,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), timer / movementCooldown) ;
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown) ;
             yield return null;
         }
 
