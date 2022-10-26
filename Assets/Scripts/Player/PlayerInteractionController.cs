@@ -20,7 +20,11 @@ public class PlayerInteractionController : MonoBehaviour
     private void Awake()
     {
         if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
-        grid = playerMovement.GetGrid();
+    }
+
+    private void Start()
+    {
+        grid = SceneData.Instance.grid;
     }
 
     /**
