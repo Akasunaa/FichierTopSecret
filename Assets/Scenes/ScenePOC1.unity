@@ -337,7 +337,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &546012180
+--- !u!43 &806173953
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -502,7 +502,7 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!43 &806173953
+--- !u!43 &868581243
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3476,7 +3476,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridOffset: {x: -9.5, y: -3.5}
-  gridSize: {x: 0, y: 0}
+  bottomLeft: {x: -11, y: -5}
+  topRight: {x: 11, y: 5}
 --- !u!1001 &1707490670
 PrefabInstance:
   m_ObjectHideFlags: 0
