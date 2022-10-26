@@ -48,8 +48,8 @@ public static class ApplyPlayerChange
         // here we just want to extract the different decimals inside the value 
         var decodedCoordinates = Regex.Matches(value, @"\d+", options);
 
-        var xTarget = int.Parse(decodedCoordinates[0].Value);
-        var yTarget = int.Parse(decodedCoordinates[1].Value);
+        float xTarget = int.Parse(decodedCoordinates[0].Value);
+        float yTarget = int.Parse(decodedCoordinates[1].Value);
             
         // dont know what to do with it yet ;( so debugging with logs
         Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
@@ -58,10 +58,20 @@ public static class ApplyPlayerChange
 
         // FIXME: Getting the grid object this way may not be perfect :/
         var gridObj = GameObject.Find("/Grid");
+        
         // getting the "GridManager" in order to have bounds and offset
         var gridManager = gridObj.GetComponent<GridManager>();
+
+        // adding the grid offset
+        xTarget += gridManager.GridOffset.x;
+        yTarget += gridManager.GridOffset.y;
         
-        Vector3 targetPosition = new Vector3(xTarget + gridManager.GridOffset.x, xTarget + gridManager.GridOffset.x, 0);
+        // clamping values so that objects are in-bounds
+        Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
+        Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
+
+        // creating final target vector and injecting it in go position
+        var targetPosition = new Vector3(xTarget, yTarget, 0);
         go.transform.position = targetPosition;
     }
 
