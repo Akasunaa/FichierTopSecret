@@ -11,7 +11,10 @@ using static UnityEngine.Rendering.DebugUI;
 public static class ApplyPlayerChange
 {
     static RegexOptions options;
+    // names of the properties we interact with
     static string[] propertyNames = { "position", "color", "size", "direction", "power" };
+    static string[] truthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
+    static string[] falsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
 
 
     public static void VisualChange(string name, string value, GameObject go)
@@ -79,10 +82,11 @@ public static class ApplyPlayerChange
         }
     }
 
+    /**
+     * Calculate the levenshtein distance between two words
+     */
     public static int LevenshteinDistance(string subject, string model)
     {
-        
-
         if ( Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
@@ -110,7 +114,7 @@ public static class ApplyPlayerChange
      */
     public static string PropertyNameValidation(string propertyNameInput, int inclusiveValidationThreshold = 2)
     {
-        if (propertyNameInput.Length == 0) return "";
+        if (propertyNameInput.Length == 0) return string.Empty;
 
         string closestPropertyName = propertyNames[0];
         int levenshteinDistance = 10;
@@ -132,6 +136,25 @@ public static class ApplyPlayerChange
         {
             return propertyNameInput;
         }
+    }
+
+    public static string BooleanPropertyValueValidation(string propertyValueInput)
+    {
+        if (propertyValueInput.Length == 0) return propertyValueInput;
+
+        // if truthy values contain the input return true
+        if (Array.IndexOf(truthyPropertyValues, propertyValueInput) > -1)
+        {
+            return "true";
+        }
+
+        // if falsy values contain the input return false
+        if (Array.IndexOf(falsyPropertyValues, propertyValueInput) > -1)
+        {
+            return "false";
+        }
+
+        return propertyValueInput;
     }
 }
 

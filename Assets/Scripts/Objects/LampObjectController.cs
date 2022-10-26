@@ -19,13 +19,13 @@ public class LampObjectController :  ModifiableController, Interactable
     {
         if (properties.ContainsKey("power"))
         {
-            if (properties["power"] == "off")
+            if (properties["power"] == "false")
             {
-                properties["power"] = "on";
+                properties["power"] = "true";
             }
             else
             {
-                properties["power"] = "off";
+                properties["power"] = "false";
             }
 
             UpdateModification();
@@ -43,7 +43,7 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public override void setDefaultProperties()
     {
-        properties.Add("power", "on");
+        properties.Add("power", "true");
         properties.Add("color", "white");
     }
 
@@ -53,14 +53,14 @@ public class LampObjectController :  ModifiableController, Interactable
         //For the lamp object, we test if its power is on or off
         if (properties.ContainsKey("power")) 
         {
-            if (properties["power"] == "on")
+            if (properties["power"] == "true")
             {
                 foreach(Light2D light in lights)
                 {
                     light.gameObject.SetActive(true);
                 }
             }
-            else if (properties["power"]=="off")
+            else if (properties["power"]=="false")
             {
                 foreach(var light in lights)
                 {
