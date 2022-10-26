@@ -10,30 +10,39 @@ public class PlayerInteractionController : MonoBehaviour
 {
     [Header("Components")]
     [SerializeField] private PlayerMovement playerMovement;
-    Grid grid;
-    Vector3 pute;                                               //NEEDS TO BE RENAMED FFS
     [SerializeField] private GameObject interactionPrompt;
+    Grid grid;
+
+
+    Vector3 debugValue;                                            
     public Interactable lastInteractable { get; private set; }
 
     private void Awake()
     {
         if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
-        grid=playerMovement.GetGrid();
+        grid = playerMovement.GetGrid();
     }
 
-    public bool IsCollid(Vector3Int target) //look if player can move to the target 
+    /**
+     * Method verifying if there is an obstacle at given position
+     */
+    public bool IsColliding(Vector3Int target) //look if player can move to the target 
     {
-        Collider2D hit = Physics2D.OverlapBox(grid.CellToWorld(target), grid.cellSize-Vector3.one * 0.1f,0);
-        pute = grid.CellToWorld(target);
+        // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
+        Collider2D hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(target), grid.cellSize-Vector3.one * 0.1f,0);
+        debugValue = grid.GetCellCenterWorld(target);
         if (hit) { return true;}
         return false;
     }
 
 
-    public void IsInteract(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
+    /**
+     * Method verifying if there is an object at given position, if it is interactable and start interaction prompt
+     */
+    public void IsInteracting(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
     {
         Collider2D hit = Physics2D.OverlapBox(target+(Vector3Int) direction, grid.cellSize - Vector3.one * 0.1f, 0);
-        pute = target + new Vector3(direction.x, 0, direction.y);
+        debugValue = target + new Vector3(direction.x, 0, direction.y);
         if (hit)
         {
             Component component = hit.gameObject.GetComponent(typeof(Interactable));
@@ -54,11 +63,11 @@ public class PlayerInteractionController : MonoBehaviour
     }
 
 
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireCube(pute,grid.cellSize - Vector3.one * 0.1f);
-    //}
+/*    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(debugValue , grid.cellSize - Vector3.one * 0.1f);
+    }*/
 
     private void DisplayInteractionPrompt(Vector3 position)
     {
