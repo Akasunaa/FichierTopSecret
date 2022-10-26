@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateManyLights
@@ -17,5 +17,7 @@ MonoBehaviour:
   - Arh, this is a bit too bright ! I am BLINDED !
   currentSpeech: 
   nextStates:
-  - {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
-  - {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
+  - name: StateIdle
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: StateNoLights
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}

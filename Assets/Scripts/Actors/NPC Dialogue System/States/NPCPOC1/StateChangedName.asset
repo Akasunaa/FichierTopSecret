@@ -7,7 +7,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateChangedName
@@ -16,7 +16,11 @@ MonoBehaviour:
   speech:
   - Huh, weird... My name... It feels like...
   - Did you change it ??
-  currentSpeech: 
+  currentSpeech: Did you change it ??
   nextStates:
-  - {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
-  - {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
+  - name: StateIdle
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: StateManyLights
+    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - name: StateNoLights
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}

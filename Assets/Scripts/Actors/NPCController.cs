@@ -22,6 +22,7 @@ public class NPCController : ModifiableController, Interactable
 
     [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     [SerializeField] private bool changeState;
+    [SerializeField] private string stateName;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class NPCController : ModifiableController, Interactable
 
     private void Update()
     {
-        if (changeState) { changeState = false; OnStateChange(0);}//DEBUG SHOULD BE REMOVED
+        if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
     }
 
 
@@ -71,9 +72,9 @@ public class NPCController : ModifiableController, Interactable
      *  Param :
      *      newStateIndex : int : index that references the next state that should be chosen
      */
-    public void OnStateChange(int newStateIndex)
+    public void OnStateChange(string newStateName)
     {
-        dialogSM.ChangeState(newStateIndex);
+        dialogSM.ChangeState(newStateName);
         ui.EndDisplay();
     }
 
@@ -95,7 +96,7 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties["name"] != "Pouet Lord, Emperor of the Pouets")
             {
-                OnStateChange(0); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
+                OnStateChange("StateChangedName"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
             }
         }
     }

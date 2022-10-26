@@ -29,27 +29,19 @@ public class DialogSM : StateMachine
      *  Calls the currentState's exit method to solve any remaining state's actions if needed
      *  Then attributes and calls the new state's Enter method
      */
-    public new void ChangeState(int newStateIndex)
+    public new void ChangeState(string nextStateName)
     {
-        if (currentState.ConvertTo<DialogState>().nextStates.Length == 1) //in case the current state only has one follow up, we immediately change state regardless of said follow-up
+        if (currentState.ConvertTo<DialogState>().nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit();
-            currentState = currentState.ConvertTo<DialogState>().nextStates[0];
-            currentState.Enter();
-            return;
-        }
-        if(currentState.ConvertTo<DialogState>().nextStates.Length > newStateIndex)
-        {
-            currentState.Exit();
-            currentState = currentState.ConvertTo<DialogState>().nextStates[newStateIndex];
+            currentState = dialog;
             currentState.Enter();
             return;
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE INDEX");
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME");
             return;
         }
-        
     }
 }
