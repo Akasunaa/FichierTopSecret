@@ -96,6 +96,10 @@ public class NPCController : ModifiableController, Interactable
             {
                 OnStateChange("StateChangedName"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
             }
+            else
+            {
+                OnStateChange("StateIdle");
+            }
         }
     }
 
@@ -115,13 +119,17 @@ public class NPCController : ModifiableController, Interactable
      */
     private void ReactSearchCount(int num)
     {
-        if (num > 2)
+        if (num > 1)
         {
             OnStateChange("StateManyLights");
         }
         else if (num == 0)
         {
             OnStateChange("StateNoLights");
+        }
+        else if(num == 1)
+        {
+            UpdateModification();
         }
     }
 
