@@ -66,7 +66,6 @@ public static class ApplyPlayerChange
         xTarget += gridManager.GridOffset.x;
         yTarget += gridManager.GridOffset.y;
         
-        // FIXME: does not work for some reason
         // clamping values so that objects are in-bounds
         xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
         yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
