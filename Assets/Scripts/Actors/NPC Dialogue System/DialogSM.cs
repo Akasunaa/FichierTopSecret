@@ -31,6 +31,10 @@ public class DialogSM : StateMachine
      */
     public new void ChangeState(string nextStateName)
     {
+        if(nextStateName == currentState.name) //same state
+        {
+            return;
+        }
         if (currentState.ConvertTo<DialogState>().nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit();

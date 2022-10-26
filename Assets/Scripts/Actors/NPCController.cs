@@ -21,8 +21,8 @@ public class NPCController : ModifiableController, Interactable
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
     [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
-    [SerializeField] private bool changeState;
-    [SerializeField] private string stateName;
+    [HideInInspector, SerializeField] private bool changeState;
+    [HideInInspector, SerializeField] private string stateName;
 
     private void Start()
     {
@@ -31,13 +31,13 @@ public class NPCController : ModifiableController, Interactable
         dialogSM = GetComponent<DialogSM>();
         Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
+        //DuplicationCheckManager.Instance.onSearchCount += ReactSearchCount; //suscribing to event
     }
 
     private void Update()
     {
         if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
     }
-
 
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
@@ -100,5 +100,32 @@ public class NPCController : ModifiableController, Interactable
             }
         }
     }
+
+    /**
+     *  Function called everytime the game gains or loses focus
+     *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
+     */
+    private void OnApplicationFocus()
+    {
+        int numLamp = DuplicationCheckManager.Instance.Search("Lamp"); //NPC counts the number of lamp instances
+        ReactSearchCount(numLamp);
+    }
+
+    /**
+     *  Function that reacts to a search count of a tag variable
+     *  RIGHT NOW, it's hardcoded, should be REWORKED
+     */
+    private void ReactSearchCount(int num)
+    {
+        if (num > 2)
+        {
+            OnStateChange("StateManyLights");
+        }
+        else if (num == 0)
+        {
+            OnStateChange("StateNoLights");
+        }
+    }
+
 
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateIdle
   m_EditorClassIdentifier: 
-  name: 
+  name: StateIdle
   speech:
   - Hello. I am NPC 1.
   - Not too many lights eh ?

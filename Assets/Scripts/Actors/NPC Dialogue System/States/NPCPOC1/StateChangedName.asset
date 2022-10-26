@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateChangedName
   m_EditorClassIdentifier: 
-  name: 
+  name: StateChangedName
   speech:
   - Huh, weird... My name... It feels like...
   - Did you change it ??

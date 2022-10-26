@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateManyLights
   m_EditorClassIdentifier: 
-  name: 
+  name: StateManyLights
   speech:
   - Arh, this is a bit too bright ! I am BLINDED !
-  currentSpeech: 
+  currentSpeech: Arh, this is a bit too bright ! I am BLINDED !
   nextStates:
   - name: StateIdle
     state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
