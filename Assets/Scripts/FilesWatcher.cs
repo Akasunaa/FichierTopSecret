@@ -5,9 +5,16 @@ using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 public class FilesWatcher : MonoBehaviour
 {
+
+    DirectoryInfo dicri = new DirectoryInfo(Application.streamingAssetsPath + "/Test/ScenePOC1");
     public enum FileChangeType
     {
         New,
@@ -42,7 +49,7 @@ public class FilesWatcher : MonoBehaviour
         } 
         else 
         { 
-            Instance = this; 
+            Instance = this;
         }
     }
 
@@ -55,12 +62,12 @@ public class FilesWatcher : MonoBehaviour
             di.Create();
         }
 
-        Debug.Log("BasePath: " + di.FullName);
+        //Debug.Log("BasePath: " + di.FullName);
 
         FileSystemWatcher watcher = new FileSystemWatcher(di.FullName);
-        
+
         // Open the file explorer of the client
-        Application.OpenURL("file:///" + di.FullName); 
+        Application.OpenURL("file:///" + di.FullName);
 
         // Watch for everything
         // TODO: maybe remove some filters ??
@@ -77,12 +84,15 @@ public class FilesWatcher : MonoBehaviour
         watcher.Changed += OnChanged;
         watcher.Created += OnCreated;
         watcher.Deleted += OnDeleted;
-        
+
         // Watch only .txt files
         watcher.Filter = "*.txt";
         watcher.IncludeSubdirectories = true;
         // Start the watcher
         watcher.EnableRaisingEvents = true;
+
+        //IsTooCool();
+        IsCooler();
     }
 
     public static string RelativePath(string absolutePath)
@@ -96,7 +106,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Changed: " + e.FullPath);
+        //Debug.Log("Changed: " + e.FullPath);
         if (fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
@@ -109,7 +119,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Created: " + e.FullPath);
+        //Debug.Log("Created: " + e.FullPath);
         if (fi.Exists)
         {
             // Create a object from the file if possible
@@ -123,19 +133,83 @@ public class FilesWatcher : MonoBehaviour
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Deleted: " + e.FullPath);
+        //Debug.Log("Deleted: " + e.FullPath);
         if (!fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
     }
 
+    private void IsTooCool()
+    {
+        Process[] processes = Process.GetProcessesByName("notepad");
+
+        for (int i = 0; i < processes.Length; i++)
+        {
+            //print(processes[i].Handle);
+            IntPtr handleTest = FindWindow(processes[i].ProcessName, null);
+            MoveWindow(handleTest, 0, 0,0,0,false);
+            StringBuilder windowName = new StringBuilder();
+            GetWindowText(handleTest, windowName, 10);
+            print("the pute one " + windowName);
+        }
+    }
+
+    private void IsCooler()
+    {
+        IntPtr hWnd = GetForegroundWindow(); // Get foreground window handle
+        StringBuilder windowName = new StringBuilder(100);
+        GetWindowText(hWnd, windowName, 50);
+        print("the pute one " + windowName);
+    }
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+    private void IsFileLocked(FileInfo file)
+    {
+        try
+        {
+            using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
+            {
+                print("miaou");
+                stream.Close();
+
+            }
+        }
+        catch (IOException)
+        {
+            //the file is unavailable because it is:
+            //still being written to
+            //or being processed by another thread
+            //or does not exist (has already been processed)
+            print("arg");
+        }
+    }
+
+
     void Update()
     {
+
+        foreach (var fi in dicri.EnumerateFiles())
+        {
+            IsFileLocked(fi);
+        }
+
         while (dataQueue.TryDequeue(out FileChange fc))
         {
+
             string relativePath = RelativePath(fc.fi.FullName);
-            switch (fc.type)
+
+                switch (fc.type)
             {
                 case FileChangeType.New:
                     if (!pathToScript.ContainsKey(relativePath))
@@ -148,9 +222,10 @@ public class FilesWatcher : MonoBehaviour
                     {
                         if (!fileParser1.OnChange(relativePath))
                         {
-                            Debug.LogWarning(relativePath + " has made an impossible change !");
+                            //Debug.LogWarning(relativePath + " has made an impossible change !");
                         }
                     }
+
                     break;
 
                 case FileChangeType.Delete:
@@ -158,7 +233,7 @@ public class FilesWatcher : MonoBehaviour
                     {
                         if (!fileParser.OnDelete(relativePath))
                         {
-                            Debug.LogWarning(relativePath + " has made an impossible delete !");
+                            //Debug.LogWarning(relativePath + " has made an impossible delete !");
                         }
                     }
                     break;
@@ -176,7 +251,7 @@ public class FilesWatcher : MonoBehaviour
         string relativePath = RelativePath(fileParser.filePath);
         if (pathToScript.ContainsKey(relativePath))
         {
-            Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
+            //Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
         }
         pathToScript.Add(relativePath, fileParser);
     }
