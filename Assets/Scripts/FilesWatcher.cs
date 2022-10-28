@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -138,7 +139,7 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.type)
             {
                 case FileChangeType.New:
-                    if (!pathToScript.ContainsKey(relativePath))
+                    if (!pathToScript.ContainsKey(relativePath) && fc.fi.Directory.Name == SceneManager.GetActiveScene().name)
                     {
                         LevelManager.Instance.NewObject(fc.fi);
                     }
