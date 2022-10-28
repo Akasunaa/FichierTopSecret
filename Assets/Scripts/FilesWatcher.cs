@@ -10,6 +10,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -39,6 +41,8 @@ public class FilesWatcher : MonoBehaviour
     private static ConcurrentQueue<FileChange> dataQueue = new ConcurrentQueue<FileChange>();
 
     private bool isGettingCurrentObject;
+    FileParser currentHighlightObject;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -89,8 +93,6 @@ public class FilesWatcher : MonoBehaviour
         watcher.IncludeSubdirectories = true;
         // Start the watcher
         watcher.EnableRaisingEvents = true;
-
-        FindForegroundWindow();
     }
 
     public static string RelativePath(string absolutePath)
@@ -213,14 +215,45 @@ public class FilesWatcher : MonoBehaviour
         IntPtr hWnd = GetForegroundWindow();
         StringBuilder windowName = new StringBuilder(100);
         GetWindowText(hWnd, windowName, 100);
-        print("ooooooooo" + windowName);
-        yield return new WaitForSeconds(3);
+        try
+        {
+            string objectFileName = System.IO.Path.GetFileName(windowName.ToString()).Split()[0];
+            Scene scene = SceneManager.GetActiveScene();
+            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName;
+            //print(completObjectPath);
+            print(pathToScript[completObjectPath]);
+            print(currentHighlightObject);
+            if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
+            {
+                currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                currentHighlightObject = pathToScript[completObjectPath];
+            }
+            pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            currentHighlightObject = pathToScript[completObjectPath];
+        }
+        catch
+        {
+            if(currentHighlightObject!=null)
+                    currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                currentHighlightObject = null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
         isGettingCurrentObject = false;
     }
+
+#if UNITY_STANDALONE_WIN
+
+
+
 
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+#endif
+
 }
