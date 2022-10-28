@@ -30,7 +30,7 @@ public class NPCController : ModifiableController, Interactable
     }
     [Header("File elements")]
     [SerializeField] private FILE_ELEMENTS[] fileElements;
-    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict;
+    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>();
 
     //[Header("File elements")]
     //[SerializeField] private string name;
@@ -50,7 +50,7 @@ public class NPCController : ModifiableController, Interactable
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
-        propertyDict = new Dictionary<string, FILE_ELEMENTS>();
+        // propertyDict = new Dictionary<string, FILE_ELEMENTS>();
         foreach(var element in fileElements)
         {
             propertyDict.Add(element.propertyName, element);
