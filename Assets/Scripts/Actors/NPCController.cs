@@ -54,7 +54,6 @@ public class NPCController : ModifiableController, Interactable
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
-        // propertyDict = new Dictionary<string, FILE_ELEMENTS>();
         foreach(var element in fileElements)
         {
             propertyDict.Add(element.propertyName, element);
@@ -116,9 +115,6 @@ public class NPCController : ModifiableController, Interactable
         {
             properties.Add(element.propertyName, element.propertyValue);
         }
-        //properties.Add("name", name);
-        //properties.Add("origin", origin);
-        //properties.Add("health", health);
     }
 
     /**
@@ -148,16 +144,6 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        //if (properties.ContainsKey("health"))
-        //{
-        //    int u;
-        //    int.TryParse(properties["health"], out u);
-        //    if (u<1)
-        //    {
-        //        gameObject.SetActive(false);
-        //        return;
-        //    }
-        //}
         OnStateChange("StateIdle");
     }
 
