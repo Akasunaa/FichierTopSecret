@@ -143,6 +143,9 @@ MonoBehaviour:
   canBeDeleted: 0
   canBeInteracted: 0
   portraitRef: npc
+  name: pouet
+  origin: Jovian Sphere
+  health: 1
   changeState: 0
   stateName: 
 --- !u!114 &1607442897434465337
