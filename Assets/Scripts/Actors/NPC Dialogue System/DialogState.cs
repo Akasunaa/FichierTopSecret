@@ -18,15 +18,15 @@ public class DialogState : BaseState
     private int interactionIndex;                           //indicator of the current speech bubble
     [HideInInspector] public string currentSpeech;          //current selected speech bubble
 
-    [Serializable]
-    private struct NEXT_STATE                               //struct used for the next states
-    {
-        [HideInInspector] public string name;
-        public DialogState state;
-    }
-    [Header("Next possible states")]
-    [SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
-    [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
+    //[Serializable]
+    //private struct NEXT_STATE                               //struct used for the next states
+    //{
+    //    [HideInInspector] public string name;
+    //    public DialogState state;
+    //}
+    //[Header("Next possible states")]
+    //[SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
+    //[HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 
@@ -35,13 +35,13 @@ public class DialogState : BaseState
      */
     public override void Enter()
     {
-        // We begin the Enter function by creating the dictionary of the next possible states :
-        nextPossibleStates = new Dictionary<string, DialogState>();
-        foreach (NEXT_STATE state in nextStates)
-        {
-            nextPossibleStates.Add(state.state.name, state.state);
-        }
-        //-------------------------------------------------------------------------------------
+        //// We begin the Enter function by creating the dictionary of the next possible states :
+        //nextPossibleStates = new Dictionary<string, DialogState>();
+        //foreach (NEXT_STATE state in nextStates)
+        //{
+        //    nextPossibleStates.Add(state.state.name, state.state);
+        //}
+        ////-------------------------------------------------------------------------------------
 
         base.Enter();
         currentSpeech = speech[0];

@@ -57,14 +57,14 @@ public class LampObjectController :  ModifiableController, Interactable
             {
                 foreach(Light2D light in lights)
                 {
-                    light.gameObject.SetActive(true);
+                    light.enabled = true;
                 }
             }
             else if (properties["power"]=="false")
             {
                 foreach(var light in lights)
                 {
-                    light.gameObject.SetActive(false);
+                    light.enabled = false;
                 }
             }
         }

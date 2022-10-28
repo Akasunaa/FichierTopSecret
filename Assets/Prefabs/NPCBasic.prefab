@@ -128,6 +128,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
   startingState: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  nextStates:
+  - name: 
+    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: f997283b74f812549a3737a5a87efb4b, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: 4f8ba7260792fb04988bf6786e70439c, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
 --- !u!114 &1718777866957563038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,12 +155,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   canBeInteracted: 0
   portraitRef: npc
-  name: pouet
-  origin: Jovian Sphere
-  health: 1
+  fileElements:
+  - propertyName: name
+    propertyValue: pouet
+    propertyChangeState: StateChangedName
+  - propertyName: origin
+    propertyValue: jovian sphere
+    propertyChangeState: StateChangedOrigin
   changeState: 0
   stateName: 
 --- !u!114 &1607442897434465337
