@@ -123,40 +123,16 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        foreach (var propertyString in propertyDict.Keys)
+        foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico
         {
-            if (properties.ContainsKey(propertyString))
+            if (properties.ContainsKey(propertyString)) //we check if they eexist in the file
             {
-                Debug.Log("NPC : Attempting to detect changes in property : " + propertyDict[propertyString].propertyName + "with initial value :"+ propertyDict[propertyString].propertyValue);
-                if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString())
+                if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
-                    Debug.Log("NPC : Change detected, changing to state : " + propertyDict[propertyString].propertyChangeState + " for new value detected : "+ properties[propertyDict[propertyString].propertyName]);
-                    OnStateChange(propertyDict[propertyString].propertyChangeState);
+                    OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
                 }
             }
         }
-        //if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
-        //{
-        //    if (properties["name"] != name)
-        //    {
-        //        OnStateChange("StateChangedName");
-        //    }
-        //    else
-        //    {
-        //        OnStateChange("StateIdle");
-        //    }
-        //}
-        //if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
-        //{
-        //    if (properties["origin"] != origin)
-        //    {
-        //        OnStateChange("StateChangedOrigin"); 
-        //    }
-        //    else
-        //    {
-        //        OnStateChange("StateIdle");
-        //    }
-        //}
         if (properties.ContainsKey("health"))
         {
             int u;
