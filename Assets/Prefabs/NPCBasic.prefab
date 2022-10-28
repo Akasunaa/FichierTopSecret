@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   canBeInteracted: 0
   portraitRef: npc
   fileElements:
@@ -164,9 +164,6 @@ MonoBehaviour:
     propertyChangeState: StateChangedName
   - propertyName: origin
     propertyValue: jovian sphere
-    propertyChangeState: StateChangedOrigin
-  - propertyName: DoesDicoWork
-    propertyValue: yes
     propertyChangeState: StateChangedOrigin
   changeState: 0
   stateName: 
