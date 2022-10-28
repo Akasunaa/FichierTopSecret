@@ -62,16 +62,20 @@ public class FileParser : MonoBehaviour
     {
         const string separator = ":";
         dataArray = File.ReadAllLines(path);
-        foreach(string line in dataArray)
+        if(dataArray != null)
         {
-            if(line.Contains(separator))
+            foreach (string line in dataArray)
             {
-                var lineSplit = line.Split(separator);
-                string name = lineSplit[0];
-                string value = string.Join("", lineSplit[1..]);
-                targetModifiable.OnModification(name.Trim().ToLower(), value.Trim().ToLower()); // modifiying appropriate variable
+                if (line.Contains(separator))
+                {
+                    var lineSplit = line.Split(separator);
+                    string name = lineSplit[0];
+                    string value = string.Join("", lineSplit[1..]);
+                    targetModifiable.OnModification(name.Trim().ToLower(), value.Trim().ToLower()); // modifiying appropriate variable
+                }
             }
         }
+       
 
         targetModifiable.UpdateModification();
     }
