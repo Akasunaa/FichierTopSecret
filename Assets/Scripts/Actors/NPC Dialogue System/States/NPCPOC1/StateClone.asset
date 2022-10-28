@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: StateClone
+  m_EditorClassIdentifier: 
+  name: StateClone
+  speech:
+  - eh ? What's this !? Did you CLONE me ??? YOU LITTLE BASTARD !
+  currentSpeech: eh ? What's this !? Did you CLONE me ??? YOU LITTLE BASTARD !
+  nextStates:
+  - name: StateManyLights
+    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
+  - name: StateNoLights
+    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
+  - name: StateIdle
+    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
+  - name: StateChangedName
+    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
+  - name: StateCloneArmy
+    state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}

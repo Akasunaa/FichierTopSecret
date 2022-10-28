@@ -10,29 +10,37 @@ public class PlayerMovement : MonoBehaviour
     [Header("Components")]
     [SerializeField] private Grid grid;                                     // grid guiding the tilemaps
     [SerializeField] private Animator animator;                             // player animations 
+    private PlayerInteractionController interactionController;              //for collision with object in scene
 
     [Header("Movement variables")]
+    [SerializeField] private float speed;
+    
+    [Header("Debug")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
-    [SerializeField] private List<Vector2Int> inputStack;                  // stack of inputs from least to most recent
-
+    [SerializeField] private List<Vector2Int> inputStack;                   // stack of inputs from least to most recent
+    public Vector2Int facingDirection { get; private set; }                 // vector indicating in which direction the player is facing  
     private bool isMoving;
-    public Vector2Int facingDirection { get; private set; }                                     // vector indicating in which direction the player is facing  
-    private PlayerInteractionController interactionController; //for collision with object in scene
+
 
     private void Awake()
     {
-        Assert.IsNotNull(grid);
         if (!animator) animator = GetComponentInChildren<Animator>();
+        interactionController = GetComponent<PlayerInteractionController>();
 
         facingDirection = Vector2Int.zero;
         inputStack = new List<Vector2Int>();
         isMoving = false;
 
-        // set position exactly on a tile
-        tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
-        transform.position = grid.CellToWorld((Vector3Int) tilemapPosition);
+        animator.speed = speed;
+    }
 
-        interactionController = GetComponent<PlayerInteractionController>();
+    private void Start()
+    {
+        grid = SceneData.Instance.grid;
+
+        // set position exactly on a tile
+        tilemapPosition = (Vector2Int)grid.WorldToCell(transform.position);
+        transform.position = grid.GetCellCenterWorld((Vector3Int)tilemapPosition);
     }
 
     private void FixedUpdate()
@@ -56,12 +64,13 @@ public class PlayerMovement : MonoBehaviour
             RefreshOrientationSprite(facingDirection);
 
             // check if the cell is occupied
-            if (interactionController.IsCollid(targetTilemapPosition))
+            if (interactionController.IsColliding(targetTilemapPosition))
             {
                 return;
             }
 
             // start the movement
+            Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
             StartCoroutine(SmoothMovement(targetTilemapPosition));
             tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
         }
@@ -78,19 +87,19 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("WalkTrigger");
         
         yield return new WaitForSeconds(0.001f);
-        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
        
         float timer = 0;
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.CellToWorld(targetPosition), timer / movementCooldown) ;
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown) ;
             yield return null;
         }
 
         isMoving = false;
         //Check interaction
-        interactionController.IsInteract(transform.position,facingDirection);
+        interactionController.IsInteracting(transform.position,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
@@ -98,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("dirX", direction.x);
         animator.SetFloat("dirY", direction.y);
         //Check interaction
-        interactionController.IsInteract(transform.position,facingDirection);
+        interactionController.IsInteracting(transform.position,facingDirection);
     }
 
     public void AddMovementInStack(Vector2Int dir)
@@ -127,10 +136,5 @@ public class PlayerMovement : MonoBehaviour
     public Vector2Int GetOrientation()
     {
         return facingDirection;
-    }
-
-    public Grid GetGrid()
-    {
-        return grid;
     }
 }

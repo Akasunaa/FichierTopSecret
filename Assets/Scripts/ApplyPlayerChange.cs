@@ -11,7 +11,10 @@ using static UnityEngine.Rendering.DebugUI;
 public static class ApplyPlayerChange
 {
     static RegexOptions options;
+    // names of the properties we interact with
     static string[] propertyNames = { "position", "color", "size", "direction", "power" };
+    static string[] truthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
+    static string[] falsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
 
 
     public static void VisualChange(string name, string value, GameObject go)
@@ -30,9 +33,25 @@ public static class ApplyPlayerChange
 
         if (Regex.IsMatch(name, "position", options))
         {
-            //nul
+            Position(value, go);
         }
 
+    }
+
+    static private void Position(string value, GameObject go)
+    {
+        // pattern that we want into the value string - correct ex: (0,0) 
+        const string pattern = @"([\(\[]|^)\d+[\ \;\:\,]+\d+([\)\]]|$)";
+            
+        if (!Regex.IsMatch(value, pattern, options)) return;
+            
+        // here we just want to extract the different decimals inside the value 
+        var decodedCoordinates = Regex.Matches(value, @"\d+", options); 
+            
+        // dont know what to do with it yet ;( so debugging with logs
+        Debug.Log($"Entered coordinates are : ({decodedCoordinates[0].Value}, {decodedCoordinates[1].Value})");
+        
+        // TIP: use GetCellCenterWorld(...);
     }
 
     static private void Color(string value, GameObject go)
@@ -63,10 +82,11 @@ public static class ApplyPlayerChange
         }
     }
 
+    /**
+     * Calculate the levenshtein distance between two words
+     */
     public static int LevenshteinDistance(string subject, string model)
     {
-        
-
         if ( Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
@@ -94,7 +114,7 @@ public static class ApplyPlayerChange
      */
     public static string PropertyNameValidation(string propertyNameInput, int inclusiveValidationThreshold = 2)
     {
-        if (propertyNameInput.Length == 0) return "";
+        if (propertyNameInput.Length == 0) return string.Empty;
 
         string closestPropertyName = propertyNames[0];
         int levenshteinDistance = 10;
@@ -116,6 +136,25 @@ public static class ApplyPlayerChange
         {
             return propertyNameInput;
         }
+    }
+
+    public static string BooleanPropertyValueValidation(string propertyValueInput)
+    {
+        if (propertyValueInput.Length == 0) return propertyValueInput;
+
+        // if truthy values contain the input return true
+        if (Array.IndexOf(truthyPropertyValues, propertyValueInput) > -1)
+        {
+            return "true";
+        }
+
+        // if falsy values contain the input return false
+        if (Array.IndexOf(falsyPropertyValues, propertyValueInput) > -1)
+        {
+            return "false";
+        }
+
+        return propertyValueInput;
     }
 }
 

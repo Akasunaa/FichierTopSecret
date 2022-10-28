@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     private Scene activeLevel;
-    [SerializeField] private SceneAsset levelToLoad;
+    [SerializeField] private string levelToLoad;
     
     [Serializable] private struct RegToGoPair
     {
@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        LoadScene(levelToLoad.name);
+        LoadScene(levelToLoad);
     }
 
     public void LoadScene(string levelName)

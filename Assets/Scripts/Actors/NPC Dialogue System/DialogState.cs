@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -16,30 +17,37 @@ public class DialogState : BaseState
     [SerializeField] private string[] speech;               //the different speech bubbles accsessible in a state (in descending order)
     private int interactionIndex;                           //indicator of the current speech bubble
     [HideInInspector] public string currentSpeech;          //current selected speech bubble
-    [SerializeField] public DialogState[] nextStates;       //all the currently possible next states 
+
+    [Serializable]
+    private struct NEXT_STATE                               //struct used for the next states
+    {
+        [HideInInspector] public string name;
+        public DialogState state;
+    }
+    [Header("Next possible states")]
+    [SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
+    [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
-
-    public override void UpdateStateLogic()
-    {
-        base.UpdateStateLogic();
-        //Debug.Log("NPC : " + currentSpeech);
-    }
 
     /**
      *  Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
      */
     public override void Enter()
     {
+        // We begin the Enter function by creating the dictionary of the next possible states :
+        nextPossibleStates = new Dictionary<string, DialogState>();
+        foreach (NEXT_STATE state in nextStates)
+        {
+            nextPossibleStates.Add(state.state.name, state.state);
+        }
+        //-------------------------------------------------------------------------------------
+
         base.Enter();
         currentSpeech = speech[0];
         interactionIndex = 0;
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
 
     /**
      *  Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
