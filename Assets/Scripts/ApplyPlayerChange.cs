@@ -57,6 +57,7 @@ public static class ApplyPlayerChange
         // TIP: use GetCellCenterWorld(...);
 
         // FIXME: Getting the grid object this way may not be perfect :/
+        // pretty slow
         var gridObj = GameObject.Find("/Grid");
         
         // getting the "GridManager" in order to have bounds and offset
