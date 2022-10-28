@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -18,6 +19,11 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] private string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
+
+    [Header("File elements")]
+    [SerializeField] private string name;
+    [SerializeField] private string origin;
+    [SerializeField] private string health;
 
     [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     [HideInInspector, SerializeField] private bool changeState;
@@ -78,11 +84,13 @@ public class NPCController : ModifiableController, Interactable
 
     /**
      *  Function inherited from ModifiableController
+     *  Should be reworked to use a list or something, rather than hard-coded properties.Add
      */
     public override void setDefaultProperties()
     {
-        properties.Add("name", "Pouet Lord, Emperor of the Pouets");
-        properties.Add("origin", "Jovian Sphere");
+        properties.Add("name", name);
+        properties.Add("origin", origin);
+        properties.Add("health", health);
     }
 
     /**
@@ -93,9 +101,9 @@ public class NPCController : ModifiableController, Interactable
         base.UpdateModification();
         if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
         {
-            if (properties["name"] != "Pouet Lord, Emperor of the Pouets")
+            if (properties["name"] != name)
             {
-                OnStateChange("StateChangedName"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
+                OnStateChange("StateChangedName");
             }
             else
             {
@@ -104,13 +112,22 @@ public class NPCController : ModifiableController, Interactable
         }
         if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
         {
-            if (properties["origin"] != "Jovian Sphere")
+            if (properties["origin"] != origin)
             {
-                OnStateChange("StateChangedOrigin"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
+                OnStateChange("StateChangedOrigin"); 
             }
             else
             {
                 OnStateChange("StateIdle");
+            }
+        }
+        if (properties.ContainsKey("health"))
+        {
+            int u;
+            int.TryParse(properties["health"], out u);
+            if (u<1)
+            {
+                gameObject.SetActive(false);
             }
         }
     }
@@ -153,7 +170,7 @@ public class NPCController : ModifiableController, Interactable
             OnStateChange("StateNoLights");
             return;
         }
-        else if(numLamp == 1)
+        else
         {
             UpdateModification();
             return;
