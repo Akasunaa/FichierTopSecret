@@ -33,7 +33,8 @@ public class NPCController : ModifiableController, Interactable
     {
         public string propertyName;
         public string propertyValue;
-        public TYPE propertyType;
+        public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
+        public int propertyCondition;
         public string propertyChangeState;
     }
     [Header("File elements")]
@@ -137,10 +138,19 @@ public class NPCController : ModifiableController, Interactable
             {
                 int integerValue;
                 int.TryParse(properties[propertyString], out integerValue);
-                if(integerValue < 1) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                if(integerValue < propertyDict[propertyString].propertyCondition) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                 {
-                    OnStateChange(propertyDict[propertyString].propertyChangeState);
-                    return;
+                    if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
+                    {
+                        gameObject.SetActive(false);
+                        return;
+                    }
+                    else
+                    {
+                        OnStateChange(propertyDict[propertyString].propertyChangeState);
+                        return;
+                    }
+                    
                 }
             }
         }

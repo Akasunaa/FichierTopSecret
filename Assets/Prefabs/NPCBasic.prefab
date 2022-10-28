@@ -164,17 +164,18 @@ MonoBehaviour:
   - propertyName: name
     propertyValue: pouet
     propertyType: 1
+    propertyCondition: 0
     propertyChangeState: StateChangedName
   - propertyName: origin
     propertyValue: jovian sphere
     propertyType: 1
+    propertyCondition: 0
     propertyChangeState: StateChangedOrigin
   - propertyName: health
     propertyValue: 1
     propertyType: 0
+    propertyCondition: 1
     propertyChangeState: StateDeath
-  changeState: 0
-  stateName: 
 --- !u!114 &1607442897434465337
 MonoBehaviour:
   m_ObjectHideFlags: 0
