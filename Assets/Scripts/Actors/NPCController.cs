@@ -123,9 +123,9 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico
+        foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
-            if (properties.ContainsKey(propertyString)) //we check if they eexist in the file
+            if (properties.ContainsKey(propertyString)) //we check if they exist in the file
             {
                 if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
