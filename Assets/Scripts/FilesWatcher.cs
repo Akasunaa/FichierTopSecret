@@ -13,8 +13,6 @@ using System.Text;
 
 public class FilesWatcher : MonoBehaviour
 {
-
-    DirectoryInfo dicri = new DirectoryInfo(Application.streamingAssetsPath + "/Test/ScenePOC1");
     public enum FileChangeType
     {
         New,
@@ -40,6 +38,7 @@ public class FilesWatcher : MonoBehaviour
 
     private static ConcurrentQueue<FileChange> dataQueue = new ConcurrentQueue<FileChange>();
 
+    private bool isGettingCurrentObject;
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -91,8 +90,7 @@ public class FilesWatcher : MonoBehaviour
         // Start the watcher
         watcher.EnableRaisingEvents = true;
 
-        //IsTooCool();
-        IsCooler();
+        FindForegroundWindow();
     }
 
     public static string RelativePath(string absolutePath)
@@ -140,69 +138,9 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
-    private void IsTooCool()
-    {
-        Process[] processes = Process.GetProcessesByName("notepad");
-
-        for (int i = 0; i < processes.Length; i++)
-        {
-            //print(processes[i].Handle);
-            IntPtr handleTest = FindWindow(processes[i].ProcessName, null);
-            MoveWindow(handleTest, 0, 0,0,0,false);
-            StringBuilder windowName = new StringBuilder();
-            GetWindowText(handleTest, windowName, 10);
-            print("the pute one " + windowName);
-        }
-    }
-
-    private void IsCooler()
-    {
-        IntPtr hWnd = GetForegroundWindow(); // Get foreground window handle
-        StringBuilder windowName = new StringBuilder(100);
-        GetWindowText(hWnd, windowName, 50);
-        print("the pute one " + windowName);
-    }
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetForegroundWindow();
-
-    [DllImport("user32.dll", SetLastError = true)]
-    static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
-
-    [DllImport("user32.dll", SetLastError = true)]
-    internal static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-    private void IsFileLocked(FileInfo file)
-    {
-        try
-        {
-            using (FileStream stream = file.Open(FileMode.Open, FileAccess.Read, FileShare.None))
-            {
-                print("miaou");
-                stream.Close();
-
-            }
-        }
-        catch (IOException)
-        {
-            //the file is unavailable because it is:
-            //still being written to
-            //or being processed by another thread
-            //or does not exist (has already been processed)
-            print("arg");
-        }
-    }
-
 
     void Update()
     {
-
-        foreach (var fi in dicri.EnumerateFiles())
-        {
-            IsFileLocked(fi);
-        }
 
         while (dataQueue.TryDequeue(out FileChange fc))
         {
@@ -239,6 +177,13 @@ public class FilesWatcher : MonoBehaviour
                     break;
             }
         }
+
+        #if UNITY_STANDALONE_WIN
+        if (!isGettingCurrentObject)
+        {
+            StartCoroutine(FindForegroundWindow());
+        }
+        #endif
     }
 
     public void Clear()
@@ -260,4 +205,22 @@ public class FilesWatcher : MonoBehaviour
     {
         return pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
+
+
+    IEnumerator FindForegroundWindow()
+    {
+        isGettingCurrentObject = true;
+        IntPtr hWnd = GetForegroundWindow();
+        StringBuilder windowName = new StringBuilder(100);
+        GetWindowText(hWnd, windowName, 100);
+        print("ooooooooo" + windowName);
+        yield return new WaitForSeconds(3);
+        isGettingCurrentObject = false;
+    }
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
 }
