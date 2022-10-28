@@ -143,9 +143,16 @@ MonoBehaviour:
   canBeDeleted: 0
   canBeInteracted: 0
   portraitRef: npc
-  name: pouet
-  origin: Jovian Sphere
-  health: 1
+  fileElements:
+  - propertyName: name
+    propertyValue: pouet
+    propertyChangeState: StateChangedName
+  - propertyName: origin
+    propertyValue: jovian sphere
+    propertyChangeState: StateChangedOrigin
+  - propertyName: DoesDicoWork
+    propertyValue: yes
+    propertyChangeState: StateChangedOrigin
   changeState: 0
   stateName: 
 --- !u!114 &1607442897434465337

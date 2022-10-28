@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -20,10 +21,21 @@ public class NPCController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
+    [Serializable]
+    public struct FILE_ELEMENTS
+    {
+        public string propertyName;
+        public string propertyValue;
+        public string propertyChangeState;
+    }
     [Header("File elements")]
-    [SerializeField] private string name;
-    [SerializeField] private string origin;
-    [SerializeField] private string health;
+    [SerializeField] private FILE_ELEMENTS[] fileElements;
+    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict;
+
+    //[Header("File elements")]
+    //[SerializeField] private string name;
+    //[SerializeField] private string origin;
+    //[SerializeField] private string health;
 
     [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     [HideInInspector, SerializeField] private bool changeState;
@@ -36,6 +48,14 @@ public class NPCController : ModifiableController, Interactable
         dialogSM = GetComponent<DialogSM>();
         Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
+
+        //Creating the dict of the values :
+        propertyDict = new Dictionary<string, FILE_ELEMENTS>();
+        foreach(var element in fileElements)
+        {
+            propertyDict.Add(element.propertyName, element);
+        }
+        //-----------------------------------
     }
 
     private void Update()
@@ -88,9 +108,13 @@ public class NPCController : ModifiableController, Interactable
      */
     public override void setDefaultProperties()
     {
-        properties.Add("name", name);
-        properties.Add("origin", origin);
-        properties.Add("health", health);
+        foreach(var element in propertyDict.Values)
+        {
+            properties.Add(element.propertyName, element.propertyValue);
+        }
+        //properties.Add("name", name);
+        //properties.Add("origin", origin);
+        //properties.Add("health", health);
     }
 
     /**
@@ -99,28 +123,40 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        foreach (var propertyString in propertyDict.Keys)
         {
-            if (properties["name"] != name)
+            if (properties.ContainsKey(propertyString))
             {
-                OnStateChange("StateChangedName");
-            }
-            else
-            {
-                OnStateChange("StateIdle");
+                Debug.Log("NPC : Attempting to detect changes in property : " + propertyDict[propertyString].propertyName + "with initial value :"+ propertyDict[propertyString].propertyValue);
+                if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString())
+                {
+                    Debug.Log("NPC : Change detected, changing to state : " + propertyDict[propertyString].propertyChangeState + " for new value detected : "+ properties[propertyDict[propertyString].propertyName]);
+                    OnStateChange(propertyDict[propertyString].propertyChangeState);
+                }
             }
         }
-        if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
-        {
-            if (properties["origin"] != origin)
-            {
-                OnStateChange("StateChangedOrigin"); 
-            }
-            else
-            {
-                OnStateChange("StateIdle");
-            }
-        }
+        //if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        //{
+        //    if (properties["name"] != name)
+        //    {
+        //        OnStateChange("StateChangedName");
+        //    }
+        //    else
+        //    {
+        //        OnStateChange("StateIdle");
+        //    }
+        //}
+        //if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        //{
+        //    if (properties["origin"] != origin)
+        //    {
+        //        OnStateChange("StateChangedOrigin"); 
+        //    }
+        //    else
+        //    {
+        //        OnStateChange("StateIdle");
+        //    }
+        //}
         if (properties.ContainsKey("health"))
         {
             int u;

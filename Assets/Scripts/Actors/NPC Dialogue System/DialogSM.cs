@@ -44,7 +44,7 @@ public class DialogSM : StateMachine
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME");
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. IPUTTED NAME : "+nextStateName);
             return;
         }
     }
