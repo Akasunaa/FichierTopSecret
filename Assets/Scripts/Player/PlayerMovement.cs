@@ -24,7 +24,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        Assert.IsNotNull(grid);
         if (!animator) animator = GetComponentInChildren<Animator>();
         interactionController = GetComponent<PlayerInteractionController>();
 
@@ -32,11 +31,16 @@ public class PlayerMovement : MonoBehaviour
         inputStack = new List<Vector2Int>();
         isMoving = false;
 
-        // set position exactly on a tile
-        tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
-        transform.position = grid.GetCellCenterWorld((Vector3Int) tilemapPosition);
-
         animator.speed = speed;
+    }
+
+    private void Start()
+    {
+        grid = SceneData.Instance.grid;
+
+        // set position exactly on a tile
+        tilemapPosition = (Vector2Int)grid.WorldToCell(transform.position);
+        transform.position = grid.GetCellCenterWorld((Vector3Int)tilemapPosition);
     }
 
     private void FixedUpdate()
@@ -132,10 +136,5 @@ public class PlayerMovement : MonoBehaviour
     public Vector2Int GetOrientation()
     {
         return facingDirection;
-    }
-
-    public Grid GetGrid()
-    {
-        return grid;
     }
 }

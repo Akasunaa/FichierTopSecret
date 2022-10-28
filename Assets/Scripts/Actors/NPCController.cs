@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -19,6 +21,22 @@ public class NPCController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
+    [Serializable]
+    public struct FILE_ELEMENTS
+    {
+        public string propertyName;
+        public string propertyValue;
+        public string propertyChangeState;
+    }
+    [Header("File elements")]
+    [SerializeField] private FILE_ELEMENTS[] fileElements;
+    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict;
+
+    //[Header("File elements")]
+    //[SerializeField] private string name;
+    //[SerializeField] private string origin;
+    //[SerializeField] private string health;
+
     [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     [HideInInspector, SerializeField] private bool changeState;
     [HideInInspector, SerializeField] private string stateName;
@@ -30,6 +48,14 @@ public class NPCController : ModifiableController, Interactable
         dialogSM = GetComponent<DialogSM>();
         Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
+
+        //Creating the dict of the values :
+        propertyDict = new Dictionary<string, FILE_ELEMENTS>();
+        foreach(var element in fileElements)
+        {
+            propertyDict.Add(element.propertyName, element);
+        }
+        //-----------------------------------
     }
 
     private void Update()
@@ -78,11 +104,17 @@ public class NPCController : ModifiableController, Interactable
 
     /**
      *  Function inherited from ModifiableController
+     *  Should be reworked to use a list or something, rather than hard-coded properties.Add
      */
     public override void setDefaultProperties()
     {
-        properties.Add("name", "Pouet Lord, Emperor of the Pouets");
-        properties.Add("origin", "Jovian Sphere");
+        foreach(var element in propertyDict.Values)
+        {
+            properties.Add(element.propertyName, element.propertyValue);
+        }
+        //properties.Add("name", name);
+        //properties.Add("origin", origin);
+        //properties.Add("health", health);
     }
 
     /**
@@ -91,26 +123,23 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        if (properties.ContainsKey("name")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico
         {
-            if (properties["name"] != "Pouet Lord, Emperor of the Pouets")
+            if (properties.ContainsKey(propertyString)) //we check if they eexist in the file
             {
-                OnStateChange("StateChangedName"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
-            }
-            else
-            {
-                OnStateChange("StateIdle");
+                if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                {
+                    OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
+                }
             }
         }
-        if (properties.ContainsKey("origin")) //TEST FOR CHANGED NAME ==> HARDCODED = SHIT
+        if (properties.ContainsKey("health"))
         {
-            if (properties["origin"] != "Jovian Sphere")
+            int u;
+            int.TryParse(properties["health"], out u);
+            if (u<1)
             {
-                OnStateChange("StateChangedOrigin"); //DEFINITELY SHOULD CHANGE STATE CHANGE SYSTEM (index is not the best)
-            }
-            else
-            {
-                OnStateChange("StateIdle");
+                gameObject.SetActive(false);
             }
         }
     }
@@ -153,7 +182,7 @@ public class NPCController : ModifiableController, Interactable
             OnStateChange("StateNoLights");
             return;
         }
-        else if(numLamp == 1)
+        else
         {
             UpdateModification();
             return;
