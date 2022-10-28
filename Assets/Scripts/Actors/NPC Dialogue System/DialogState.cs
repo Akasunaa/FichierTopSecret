@@ -18,15 +18,6 @@ public class DialogState : BaseState
     private int interactionIndex;                           //indicator of the current speech bubble
     [HideInInspector] public string currentSpeech;          //current selected speech bubble
 
-    //[Serializable]
-    //private struct NEXT_STATE                               //struct used for the next states
-    //{
-    //    [HideInInspector] public string name;
-    //    public DialogState state;
-    //}
-    //[Header("Next possible states")]
-    //[SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
-    //[HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 

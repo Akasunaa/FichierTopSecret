@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -21,25 +22,28 @@ public class NPCController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
+    public enum TYPE
+    {
+        INTEGER,
+        STRING
+    }
+
     [Serializable]
-    public struct FILE_ELEMENTS
+    public struct FILE_ELEMENTS                             //struct used for the dictionnary of the properties of the object 
     {
         public string propertyName;
         public string propertyValue;
+        public TYPE propertyType;
         public string propertyChangeState;
     }
     [Header("File elements")]
     [SerializeField] private FILE_ELEMENTS[] fileElements;
-    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>();
+    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
-    //[Header("File elements")]
-    //[SerializeField] private string name;
-    //[SerializeField] private string origin;
-    //[SerializeField] private string health;
 
-    [Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
-    [HideInInspector, SerializeField] private bool changeState;
-    [HideInInspector, SerializeField] private string stateName;
+    //[Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
+    //[HideInInspector, SerializeField] private bool changeState;
+    //[HideInInspector, SerializeField] private string stateName;
 
     private void Start()
     {
@@ -60,7 +64,7 @@ public class NPCController : ModifiableController, Interactable
 
     private void Update()
     {
-        if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
+        //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
     }
 
     /**
@@ -125,7 +129,7 @@ public class NPCController : ModifiableController, Interactable
         base.UpdateModification();
         foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
-            if (properties.ContainsKey(propertyString)) //we check if they exist in the file
+            if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
                 if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
@@ -133,17 +137,27 @@ public class NPCController : ModifiableController, Interactable
                     return;
                 }
             }
-        }
-        if (properties.ContainsKey("health"))
-        {
-            int u;
-            int.TryParse(properties["health"], out u);
-            if (u<1)
+            else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER
             {
-                gameObject.SetActive(false);
-                return;
+                int integerValue;
+                int.TryParse(properties[propertyString], out integerValue);
+                if(integerValue < 1) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                {
+                    OnStateChange(propertyDict[propertyString].propertyChangeState);
+                    return;
+                }
             }
         }
+        //if (properties.ContainsKey("health"))
+        //{
+        //    int u;
+        //    int.TryParse(properties["health"], out u);
+        //    if (u<1)
+        //    {
+        //        gameObject.SetActive(false);
+        //        return;
+        //    }
+        //}
         OnStateChange("StateIdle");
     }
 
