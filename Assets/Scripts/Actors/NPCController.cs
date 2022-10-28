@@ -130,6 +130,7 @@ public class NPCController : ModifiableController, Interactable
                 if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
                     OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
+                    return;
                 }
             }
         }
@@ -140,8 +141,10 @@ public class NPCController : ModifiableController, Interactable
             if (u<1)
             {
                 gameObject.SetActive(false);
+                return;
             }
         }
+        OnStateChange("StateIdle");
     }
 
     /**
