@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,6 +11,27 @@ using UnityEngine.InputSystem.LowLevel;
 public class DialogSM : StateMachine
 {
     [SerializeField] private DialogState startingState;
+    [Serializable]
+    private struct NEXT_STATE                               //struct used for the next states
+    {
+        [HideInInspector] public string name;
+        public DialogState state;
+    }
+    [Header("Next possible states")]
+    [SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
+    [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
+
+    protected void Start()
+    {
+        base.Start();
+        // We begin the Enter function by creating the dictionary of the next possible states :
+        nextPossibleStates = new Dictionary<string, DialogState>();
+        foreach (NEXT_STATE state in nextStates)
+        {
+            nextPossibleStates.Add(state.state.name, state.state);
+        }
+        //-------------------------------------------------------------------------------------
+    }
 
     public override BaseState GetInitialState()
     {
@@ -35,7 +57,7 @@ public class DialogSM : StateMachine
         {
             return;
         }
-        if (currentState.ConvertTo<DialogState>().nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
+        if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit();
             currentState = dialog;
