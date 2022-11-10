@@ -27,3 +27,5 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
   - name: StateCloneArmy
     state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}
+  - name: StateCloneArmy
+    state: {fileID: 11400000, guid: f997283b74f812549a3737a5a87efb4b, type: 2}

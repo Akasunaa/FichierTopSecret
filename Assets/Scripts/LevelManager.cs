@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     private Scene activeLevel;
-    [SerializeField] private SceneAsset levelToLoad;
+    [SerializeField] private string levelToLoad;
     
     [Serializable] private struct RegToGoPair
     {
@@ -37,7 +37,7 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        LoadScene(levelToLoad.name);
+        LoadScene(levelToLoad);
     }
 
     public void LoadScene(string levelName)
@@ -130,6 +130,7 @@ public class LevelManager : MonoBehaviour
                     GameObject newObj = Instantiate(pair.go);
                     FileParser fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
+                    print(fp.filePath);
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
                     break;

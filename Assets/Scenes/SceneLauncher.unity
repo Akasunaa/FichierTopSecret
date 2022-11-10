@@ -329,9 +329,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bff91f69daef7f4ca6449676105e070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToLoad: {fileID: 102900000, guid: 3a95548720efa9241ac1ac67e030e72d, type: 3}
+  levelToLoad: ScenePOC1
   instantiable:
   - reg: .*light.*
     go: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
   - reg: .*npc.*
     go: {fileID: 609991836831715500, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
+  - reg: .*door.*
+    go: {fileID: 244007217957566919, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
+  - reg: .*
+    go: {fileID: 244007217957566919, guid: 7ff96bcae5ab45d4293e1a178172dec8, type: 3}

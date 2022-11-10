@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &609991836831715500
+--- !u!1 &244007217957566919
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,26 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 609991836831715502}
-  - component: {fileID: 609991836831715503}
-  - component: {fileID: 1909100091497169864}
-  - component: {fileID: 222251909557027830}
-  - component: {fileID: 1718777866957563038}
-  - component: {fileID: 1607442897434465337}
+  - component: {fileID: 5596418771676856235}
+  - component: {fileID: -5503394062961146130}
+  - component: {fileID: 4961505963263090231}
+  - component: {fileID: -3039540857413572706}
+  - component: {fileID: 1700917928409655332}
   m_Layer: 0
-  m_Name: NPCBasic
-  m_TagString: NPC
+  m_Name: Nothing
+  m_TagString: Lamp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &609991836831715502
+--- !u!4 &5596418771676856235
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
+  m_GameObject: {fileID: 244007217957566919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -36,13 +35,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &609991836831715503
+--- !u!212 &-5503394062961146130
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
+  m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -76,25 +75,25 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 1f771c5763604a946b5103506b214429, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2, y: 4}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1909100091497169864
+--- !u!61 &4961505963263090231
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
+  m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -105,8 +104,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 2}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 2, y: 4}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -114,69 +113,30 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &222251909557027830
+--- !u!114 &-3039540857413572706
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
+  m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ebd7b5513f2b6440bb1f9783d0e0885, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
-  nextStates:
-  - name: 
-    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: f997283b74f812549a3737a5a87efb4b, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 4f8ba7260792fb04988bf6786e70439c, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
---- !u!114 &1718777866957563038
+  isMoving: 0
+  spriteRenderer: {fileID: -5503394062961146130}
+--- !u!114 &1700917928409655332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
+  m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
+  m_Script: {fileID: 11500000, guid: 9d14ffb6882376d4f98a946a98402ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
-  canBeInteracted: 0
-  portraitRef: npc
-  fileElements:
-  - propertyName: name
-    propertyValue: pouet
-    propertyChangeState: StateChangedName
-  - propertyName: origin
-    propertyValue: jovian sphere
-    propertyChangeState: StateChangedOrigin
-  changeState: 0
-  stateName: 
---- !u!114 &1607442897434465337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: ScenePOC1/NPC.txt

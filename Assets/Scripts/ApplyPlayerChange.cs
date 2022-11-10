@@ -33,9 +33,47 @@ public static class ApplyPlayerChange
 
         if (Regex.IsMatch(name, "position", options))
         {
-            //nul
+            Position(value, go);
         }
 
+    }
+
+    static private void Position(string value, GameObject go)
+    {
+        // pattern that we want into the value string - correct ex: (0,0) 
+        const string pattern = @"([\(\[]|^)\d+[\ \;\:\,]+\d+([\)\]]|$)";
+            
+        if (!Regex.IsMatch(value, pattern, options)) return;
+            
+        // here we just want to extract the different decimals inside the value 
+        var decodedCoordinates = Regex.Matches(value, @"\d+", options);
+
+        var xTarget = float.Parse(decodedCoordinates[0].Value);
+        var yTarget = float.Parse(decodedCoordinates[1].Value);
+            
+        // dont know what to do with it yet ;( so debugging with logs
+        Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
+        
+        // TIP: use GetCellCenterWorld(...);
+
+        // FIXME: Getting the grid object this way may not be perfect :/
+        // pretty slow
+        var gridObj = GameObject.Find("/Grid");
+        
+        // getting the "GridManager" in order to have bounds and offset
+        var gridManager = gridObj.GetComponent<GridManager>();
+
+        // adding the grid offset
+        xTarget += gridManager.GridOffset.x;
+        yTarget += gridManager.GridOffset.y;
+        
+        // clamping values so that objects are in-bounds
+        xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
+        yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
+
+        // creating final target vector and injecting it in go position
+        var targetPosition = new Vector3(xTarget, yTarget, 0);
+        go.transform.position = targetPosition;
     }
 
     static private void Color(string value, GameObject go)

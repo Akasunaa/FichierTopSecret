@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4043939557026862744}
   - component: {fileID: 7261126915776652757}
   - component: {fileID: 2117794396081477698}
-  - component: {fileID: 5073555140252865689}
   - component: {fileID: -6143100953626097704}
   m_Layer: 0
   m_Name: Door
@@ -79,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9852cfba8b1c40c4ab3c538314c37037, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 829b89b03797f834abe5a5da963b7855, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2, y: 4}
+  m_Size: {x: 2, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -108,7 +107,7 @@ BoxCollider2D:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 2, y: 3}
-    newSize: {x: 2, y: 4}
+    newSize: {x: 2, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
   - {x: 1, y: -1, z: 0}
   m_ShapePathHash: 764802325
   m_Mesh: {fileID: 0}
-  m_InstanceId: 51186
+  m_InstanceId: 28996
 --- !u!114 &7261126915776652757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,8 +157,8 @@ MonoBehaviour:
   canBeDeleted: 1
   direction: 
   spriteRenderer: {fileID: 6122924950378717427}
-  closedSprite: {fileID: 21300000, guid: 9852cfba8b1c40c4ab3c538314c37037, type: 3}
-  openedSprite: {fileID: 21300000, guid: d3f9a020060c5cb4289be61e8d413bb7, type: 3}
+  closedSprite: {fileID: 21300000, guid: 829b89b03797f834abe5a5da963b7855, type: 3}
+  openedSprite: {fileID: 21300000, guid: 91f9f088f287658449921ccb420a9859, type: 3}
 --- !u!111 &2117794396081477698
 Animation:
   m_ObjectHideFlags: 0
@@ -176,19 +175,6 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &5073555140252865689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244007217957566919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: ScenePOC1/Door.txt
 --- !u!114 &-6143100953626097704
 MonoBehaviour:
   m_ObjectHideFlags: 0
