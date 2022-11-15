@@ -130,6 +130,7 @@ public class LevelManager : MonoBehaviour
                     GameObject newObj = Instantiate(pair.go);
                     FileParser fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
+                    print(fp.filePath);
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
                     break;

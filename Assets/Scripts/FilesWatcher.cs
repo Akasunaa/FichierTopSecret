@@ -5,6 +5,12 @@ using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System;
+using UnityEngine.Rendering;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 public class FilesWatcher : MonoBehaviour
@@ -34,6 +40,9 @@ public class FilesWatcher : MonoBehaviour
 
     private static ConcurrentQueue<FileChange> dataQueue = new ConcurrentQueue<FileChange>();
 
+    private bool isGettingCurrentObject;
+    FileParser currentHighlightObject;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -43,7 +52,7 @@ public class FilesWatcher : MonoBehaviour
         } 
         else 
         { 
-            Instance = this; 
+            Instance = this;
         }
     }
 
@@ -56,12 +65,12 @@ public class FilesWatcher : MonoBehaviour
             di.Create();
         }
 
-        Debug.Log("BasePath: " + di.FullName);
+        print("BasePath: " + di.FullName);
 
         FileSystemWatcher watcher = new FileSystemWatcher(di.FullName);
-        
+
         // Open the file explorer of the client
-        Application.OpenURL("file:///" + di.FullName); 
+        Application.OpenURL("file:///" + di.FullName);
 
         // Watch for everything
         // TODO: maybe remove some filters ??
@@ -78,7 +87,7 @@ public class FilesWatcher : MonoBehaviour
         watcher.Changed += OnChanged;
         watcher.Created += OnCreated;
         watcher.Deleted += OnDeleted;
-        
+
         // Watch only .txt files
         watcher.Filter = "*.txt";
         watcher.IncludeSubdirectories = true;
@@ -97,7 +106,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Changed: " + e.FullPath);
+       print("Changed: " + e.FullPath);
         if (fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
@@ -110,7 +119,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Created: " + e.FullPath);
+        print("Created: " + e.FullPath);
         if (fi.Exists)
         {
             // Create a object from the file if possible
@@ -124,19 +133,23 @@ public class FilesWatcher : MonoBehaviour
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("Deleted: " + e.FullPath);
+        print("Deleted: " + e.FullPath);
         if (!fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
     }
 
+
     void Update()
     {
+
         while (dataQueue.TryDequeue(out FileChange fc))
         {
+
             string relativePath = RelativePath(fc.fi.FullName);
-            switch (fc.type)
+
+                switch (fc.type)
             {
                 case FileChangeType.New:
                     if (!pathToScript.ContainsKey(relativePath) && fc.fi.Directory.Name == SceneManager.GetActiveScene().name)
@@ -149,9 +162,10 @@ public class FilesWatcher : MonoBehaviour
                     {
                         if (!fileParser1.OnChange(relativePath))
                         {
-                            Debug.LogWarning(relativePath + " has made an impossible change !");
+                            //Debug.LogWarning(relativePath + " has made an impossible change !");
                         }
                     }
+
                     break;
 
                 case FileChangeType.Delete:
@@ -159,12 +173,19 @@ public class FilesWatcher : MonoBehaviour
                     {
                         if (!fileParser.OnDelete(relativePath))
                         {
-                            Debug.LogWarning(relativePath + " has made an impossible delete !");
+                            print(relativePath + " has made an impossible delete !");
                         }
                     }
                     break;
             }
         }
+
+        #if UNITY_STANDALONE_WIN
+        if (!isGettingCurrentObject)
+        {
+            StartCoroutine(FindForegroundWindow());
+        }
+        #endif
     }
 
     public void Clear()
@@ -177,7 +198,7 @@ public class FilesWatcher : MonoBehaviour
         string relativePath = RelativePath(fileParser.filePath);
         if (pathToScript.ContainsKey(relativePath))
         {
-            Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
+            print("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
         }
         pathToScript.Add(relativePath, fileParser);
     }
@@ -186,4 +207,52 @@ public class FilesWatcher : MonoBehaviour
     {
         return pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
+
+
+    IEnumerator FindForegroundWindow()
+    {
+        isGettingCurrentObject = true;
+        IntPtr hWnd = GetForegroundWindow();
+        StringBuilder windowName = new StringBuilder(100);
+        GetWindowText(hWnd, windowName, 100);
+        try
+        {
+            string objectFileName = System.IO.Path.GetFileName(windowName.ToString()).Split()[0];
+            Scene scene = SceneManager.GetActiveScene();
+            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName;
+            print(pathToScript[completObjectPath]);
+            print(currentHighlightObject);
+            if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
+            {
+                currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                currentHighlightObject = pathToScript[completObjectPath];
+            }
+            pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            currentHighlightObject = pathToScript[completObjectPath];
+        }
+        catch
+        {
+            if(currentHighlightObject!=null)
+                    currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+                currentHighlightObject = null;
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        isGettingCurrentObject = false;
+    }
+
+#if UNITY_STANDALONE_WIN
+
+
+
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+#endif
+
 }

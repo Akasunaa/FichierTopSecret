@@ -335,3 +335,7 @@ MonoBehaviour:
     go: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
   - reg: .*npc.*
     go: {fileID: 609991836831715500, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
+  - reg: .*door.*
+    go: {fileID: 244007217957566919, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
+  - reg: .*
+    go: {fileID: 244007217957566919, guid: 7ff96bcae5ab45d4293e1a178172dec8, type: 3}
