@@ -143,16 +143,15 @@ public class FilesWatcher : MonoBehaviour
 
     void Update()
     {
-
         while (dataQueue.TryDequeue(out FileChange fc))
         {
 
             string relativePath = RelativePath(fc.fi.FullName);
 
-                switch (fc.type)
+            switch (fc.type)
             {
                 case FileChangeType.New:
-                    if (!pathToScript.ContainsKey(relativePath) && fc.fi.Directory.Name == SceneManager.GetActiveScene().name)
+                    if (!pathToScript.ContainsKey(relativePath) && relativePath.Length > "/Test/".Length + fc.fi.Directory.Name.Length && relativePath.Substring("/Test/".Length, fc.fi.Directory.Name.Length) == SceneManager.GetActiveScene().name)
                     {
                         LevelManager.Instance.NewObject(fc.fi);
                     }
