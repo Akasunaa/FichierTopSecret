@@ -22,7 +22,7 @@ public class FileParser : MonoBehaviour
     {
         if (String.IsNullOrEmpty(targetObjectFileName))
         {
-            Debug.LogError("targetObjectFileName cannot be null !");
+            Debug.LogError("targetObjectFileName in " + name + "cannot be null !");
             #if UNITY_EDITOR
             if (Application.isEditor)
             {
