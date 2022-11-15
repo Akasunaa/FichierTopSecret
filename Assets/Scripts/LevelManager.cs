@@ -135,23 +135,18 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.Log("New file to watch: " + fi.FullName);
                     GameObject newObj = Instantiate(pair.go);
-                    if (newObj.TryGetComponent(out FileParser fp))
+                    if (newObj.GetComponent<FileParser>() != null)
                     {
-                        fp.filePath = fi.FullName;
-                        print(fp.filePath);
-                        fp.ReadFromFile(fi.FullName);
-                        FilesWatcher.Instance.Set(fp);
-                        break;
+                        Debug.LogError("Object " + newObj.name + " should not have a FileParser");
+                        throw new Exception("Prefab should not have FileParser");
                     }
-                    else
-                    {
-                        FileParser fp_tmp = newObj.AddComponent<FileParser>();
-                        fp_tmp.filePath = fi.FullName;
-                        print(fp_tmp.filePath);
-                        fp_tmp.ReadFromFile(fi.FullName);
-                        FilesWatcher.Instance.Set(fp_tmp);
-                        break;
-                    }
+
+                    FileParser fp_tmp = newObj.AddComponent<FileParser>();
+                    fp_tmp.filePath = fi.FullName;
+                    print(fp_tmp.filePath);
+                    fp_tmp.ReadFromFile(fi.FullName);
+                    FilesWatcher.Instance.Set(fp_tmp);
+                    break;
                 }
             }
         }
