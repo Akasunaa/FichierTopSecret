@@ -36,13 +36,19 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (properties.ContainsKey("locked") && properties["locked"] == "true")
+        if (properties.ContainsKey("locked") && properties["locked"] != "true")
         {
-            print(SceneUtility.GetBuildIndexByScenePath(direction));
-            if (SceneUtility.GetBuildIndexByScenePath(direction) >= 0)
+            if (properties.TryGetValue("direction", out string dir))
             {
-                print("interact");
-                LevelManager.Instance.LoadScene(direction);
+                if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0)
+                {
+                    print("Door interact");
+                    LevelManager.Instance.LoadScene(dir);
+                }
+                else
+                {
+                    Debug.LogWarning("Scene: " + dir + " does not exists or is not in build");
+                }
             }
         }
     }
