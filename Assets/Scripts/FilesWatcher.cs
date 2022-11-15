@@ -217,7 +217,7 @@ public class FilesWatcher : MonoBehaviour
         GetWindowText(hWnd, windowName, 100);
         try
         {
-            string objectFileName = System.IO.Path.GetFileName(windowName.ToString()).Split()[0];
+            string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             Scene scene = SceneManager.GetActiveScene();
             string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
             print(pathToScript[completObjectPath]);

@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Assertions;
 using Mono.Cecil.Rocks;
+[RequireComponent(typeof(ModifiableController))]
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
