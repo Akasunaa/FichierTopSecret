@@ -47,7 +47,7 @@ public class PlayerInteractionController : MonoBehaviour
     /**
      * Method verifying if there is an object at given position, if it is interactable and start interaction prompt
      */
-    public void IsInteracting(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
+    public void CheckForInteraction(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
     {
         //We save the direction and target to allow check for when window comes back in focus
         lastDirection = direction;
@@ -82,7 +82,7 @@ public class PlayerInteractionController : MonoBehaviour
     {
         if(lastTarget!=null && lastDirection != null)
         {
-            IsInteracting(lastTarget, lastDirection);
+            CheckForInteraction(lastTarget, lastDirection);
         }
     }
 
