@@ -45,7 +45,7 @@ public class NPCController : ModifiableController, Interactable
     //[HideInInspector, SerializeField] private bool changeState;
     //[HideInInspector, SerializeField] private string stateName;
 
-    private void Start()
+    private void Awake()
     {
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
