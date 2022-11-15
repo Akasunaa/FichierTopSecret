@@ -143,6 +143,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
   - name: 
     state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: 363703cbbef1d7a4f8da57a4b0f0867e, type: 2}
 --- !u!114 &1718777866957563038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,12 +163,19 @@ MonoBehaviour:
   fileElements:
   - propertyName: name
     propertyValue: pouet
+    propertyType: 1
+    propertyCondition: 0
     propertyChangeState: StateChangedName
   - propertyName: origin
     propertyValue: jovian sphere
+    propertyType: 1
+    propertyCondition: 0
     propertyChangeState: StateChangedOrigin
-  changeState: 0
-  stateName: 
+  - propertyName: health
+    propertyValue: 1
+    propertyType: 0
+    propertyCondition: 1
+    propertyChangeState: StateDeath
 --- !u!114 &1607442897434465337
 MonoBehaviour:
   m_ObjectHideFlags: 0
