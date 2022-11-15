@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(FileParser))]
 
 /**
- *      Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
+ *   Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
  */
 public abstract class ModifiableController : MonoBehaviour
 {

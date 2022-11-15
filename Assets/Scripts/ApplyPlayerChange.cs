@@ -20,7 +20,7 @@ public static class ApplyPlayerChange
     public static void VisualChange(string name, string value, GameObject go)
     {
         RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-        //Color
+
         if (Regex.IsMatch(name, "colou?r", options))
         {
             Color(value, go);

@@ -208,7 +208,7 @@ public class FilesWatcher : MonoBehaviour
         return pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
 
-
+    //Use to search for file open in first plan and highlight the object associated with this file
     IEnumerator FindForegroundWindow()
     {
         isGettingCurrentObject = true;
@@ -219,7 +219,7 @@ public class FilesWatcher : MonoBehaviour
         {
             string objectFileName = System.IO.Path.GetFileName(windowName.ToString()).Split()[0];
             Scene scene = SceneManager.GetActiveScene();
-            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName;
+            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
             print(pathToScript[completObjectPath]);
             print(currentHighlightObject);
             if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
@@ -243,9 +243,6 @@ public class FilesWatcher : MonoBehaviour
     }
 
 #if UNITY_STANDALONE_WIN
-
-
-
 
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
