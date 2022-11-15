@@ -102,7 +102,7 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public override void setDefaultProperties()
     {
-        properties.Add("locked", "true");
+        properties.Add("locked", "false");
         properties.Add("status", "closed");
         properties.Add("direction", direction);
     }
