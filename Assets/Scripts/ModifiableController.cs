@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(FileParser))]
 /**
  *      Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
  */

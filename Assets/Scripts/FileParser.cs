@@ -20,6 +20,15 @@ public class FileParser : MonoBehaviour
 
     void Awake()
     {
+        if (String.IsNullOrEmpty(targetObjectFileName))
+        {
+            Debug.LogError("targetObjectFileName cannot be null !");
+            if (Application.isEditor)
+            {
+                UnityEditor.EditorApplication.isPaused = true;
+            }
+            throw new ArgumentNullException("targetObjectFileName cannot be null !");
+        }
         filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
