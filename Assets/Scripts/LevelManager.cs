@@ -79,6 +79,9 @@ public class LevelManager : MonoBehaviour
         CreateGameObjectFromFiles(di);
     }
 
+    /*
+     * Update game objects in the sscene to load base on the files present
+     */
     private void UpdateFileGameObjects(bool directoryExists)
     {
         FileParser[] fileGameObjects = FindObjectsOfType<FileParser>();
@@ -109,6 +112,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /*
+     * Recursively browse all files in the directory and create game objects from the files
+     */
     private void CreateGameObjectFromFiles(DirectoryInfo di)
     {
         foreach (FileInfo fi in di.EnumerateFiles())
@@ -125,6 +131,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /*
+     * Create a new game object from a file if it match a regex
+     */
     public void NewObject(FileInfo fi)
     {
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
