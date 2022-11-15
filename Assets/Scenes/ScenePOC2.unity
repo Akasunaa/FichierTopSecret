@@ -3559,27 +3559,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6917647993681836115, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
+      propertyPath: targetObjectFileName
+      value: ScenePOC2/light02.txt
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
---- !u!1 &521736712 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
-  m_PrefabInstance: {fileID: 521736711}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &521736713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 521736712}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: ScenePOC2/light02.txt
 --- !u!1001 &552447745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3651,6 +3637,10 @@ PrefabInstance:
     - target: {fileID: 7261126915776652757, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
       propertyPath: direction
       value: ScenePOC1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7778127789622345252, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
+      propertyPath: targetObjectFileName
+      value: ScenePOC2/door02.txt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
@@ -3773,7 +3763,7 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!43 &1318461893
+--- !u!43 &1162855341
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3998,27 +3988,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6917647993681836115, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
+      propertyPath: targetObjectFileName
+      value: ScenePOC2/light01.txt
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
---- !u!1 &1493931967 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
-  m_PrefabInstance: {fileID: 1493931966}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1493931968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493931967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: ScenePOC2/light01.txt
 --- !u!1001 &1609288613
 PrefabInstance:
   m_ObjectHideFlags: 0
