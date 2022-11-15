@@ -53,11 +53,13 @@ public class PlayerInteractionController : MonoBehaviour
         lastDirection = direction;
         lastTarget = target;
 
-        Collider2D hit = Physics2D.OverlapBox(target+(Vector3Int) direction, grid.cellSize - Vector3.one * 0.1f, 0);
         debugValue = target + new Vector3(direction.x, 0, direction.y);
-        if (hit)
+
+        GameObject hitObject = Utils.CheckPresenceOnTile(grid, target + (Vector3Int)direction);
+
+        if (hitObject)
         {
-            Component component = hit.gameObject.GetComponent(typeof(Interactable));
+            Component component = hitObject.GetComponent(typeof(Interactable));
             if (component)
             {
                 Interactable interactable = component as Interactable;
@@ -80,17 +82,17 @@ public class PlayerInteractionController : MonoBehaviour
      */
     private void OnApplicationFocus(bool focus)
     {
-        if(lastTarget!=null && lastDirection != null)
+        if (lastTarget!=null && lastDirection != null)
         {
             CheckForInteraction(lastTarget, lastDirection);
         }
     }
 
-    /*void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(debugValue , grid.cellSize - Vector3.one * 0.1f);
-    }*/
+    }
 
     private void DisplayInteractionPrompt(Vector3 position)
     {
