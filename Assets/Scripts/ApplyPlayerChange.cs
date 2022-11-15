@@ -42,7 +42,7 @@ public static class ApplyPlayerChange
     {
         // pattern that we want into the value string - correct ex: (0,0) 
         const string number = @"(\-?)\d+";
-        const string separator = @"[\ \;\:\,]+";
+        const string separator = @"[\ \;\,]+";
 
         if (!Regex.IsMatch(value, number + separator + number, options)) return;
             
