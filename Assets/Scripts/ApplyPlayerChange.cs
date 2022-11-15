@@ -53,28 +53,11 @@ public static class ApplyPlayerChange
         float yTarget = float.Parse(decodedCoordinates[1].Value);
             
         // dont know what to do with it yet ;( so debugging with logs
-        Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
+        //Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
         
-        // TIP: use GetCellCenterWorld(...);
-
-        // FIXME: Getting the grid object this way may not be perfect :/
-        // pretty slow
-        var gridObj = GameObject.Find("/Grid");
-        
-        // getting the "GridManager" in order to have bounds and offset
-        var gridManager = gridObj.GetComponent<GridManager>();
-
-        // adding the grid offset
-        xTarget += gridManager.GridOffset.x;
-        yTarget += gridManager.GridOffset.y;
-        
-        // clamping values so that objects are in-bounds
-        /*xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
-        yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);*/
-
         // creating final target vector and injecting it in go position
-        var targetPosition = new Vector3(xTarget, yTarget, 0);
-        go.transform.position = targetPosition;
+        var targetPosition = new Vector3Int((int) xTarget, (int) yTarget, 0);
+        go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
     }
 
     static private void Color(string value, GameObject go)
