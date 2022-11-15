@@ -14,7 +14,7 @@ public class StateMachine : MonoBehaviour
         currentState = GetInitialState();
         if(currentState != null)
         {
-            currentState.Enter();
+            currentState.Enter(this);
         }
     }
 
@@ -37,7 +37,7 @@ public class StateMachine : MonoBehaviour
         {
             currentState.Exit();
             currentState = newState;
-            currentState.Enter();
+            currentState.Enter(this);
         }
         else
         {

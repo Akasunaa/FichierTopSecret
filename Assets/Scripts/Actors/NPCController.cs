@@ -205,5 +205,16 @@ public class NPCController : ModifiableController, Interactable
         }
     }
 
+    /**
+     *  Function that will recuperates a certain value from the properties, if such value exists
+     */
+    public string GetPropertyValue(String propertyName)
+    {
+        if (properties.ContainsKey(propertyName))
+        {
+            return properties[propertyName];
+        }
+        return "DATA NOT FOUND";
+    }
 
 }

@@ -20,7 +20,7 @@ public class BaseState : ScriptableObject
     /**
      *  Function called when entering state
      */
-    public virtual void Enter() { }
+    public virtual void Enter(StateMachine SM) { }
 
     /**
      *  Function called when exiting state

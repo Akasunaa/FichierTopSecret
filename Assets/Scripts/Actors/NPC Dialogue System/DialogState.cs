@@ -20,14 +20,17 @@ public class DialogState : BaseState
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 
+    private StateMachine SM;
     /**
      *  Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
      */
-    public override void Enter()
+    public override void Enter(StateMachine sm)
     {
-        base.Enter();
+        SM = sm;
+        base.Enter(SM);
         currentSpeech = speech[0];
         interactionIndex = 0;
+        GetSpeechVariables(SM);
     }
 
 
@@ -42,12 +45,30 @@ public class DialogState : BaseState
         if (interactionIndex < speech.Length)
         {
             currentSpeech = speech[interactionIndex];
+            GetSpeechVariables(SM);
             return 1;
         }
         else //when reaching the end of the various speeches, the NPC will repeat the last inputted speech
         {
             currentSpeech = speech[^1];
+            GetSpeechVariables(SM);
             return 0;
+        }
+    }
+
+    /**
+     *  Function that will recover the NPC's data for the current spoken speech, if need be
+     *  Relevant data is seen with $dataname$ tag
+     */
+    private void GetSpeechVariables(StateMachine SM)
+    {
+        if (currentSpeech.Contains("$"))
+        {
+            String newSpeech = "";
+            newSpeech += currentSpeech.Split("$")[0];
+            newSpeech += SM.gameObject.GetComponent<NPCController>().GetPropertyValue(currentSpeech.Split("$")[1]);
+            newSpeech += currentSpeech.Split("$")[2];
+            currentSpeech = newSpeech;
         }
     }
 }

@@ -61,7 +61,7 @@ public class DialogSM : StateMachine
         {
             currentState.Exit();
             currentState = dialog;
-            currentState.Enter();
+            currentState.Enter(this);
             return;
         }
         else
