@@ -23,10 +23,12 @@ public class FileParser : MonoBehaviour
         if (String.IsNullOrEmpty(targetObjectFileName))
         {
             Debug.LogError("targetObjectFileName cannot be null !");
+            #if UNITY_EDITOR
             if (Application.isEditor)
             {
                 UnityEditor.EditorApplication.isPaused = true;
             }
+            #endif
             throw new ArgumentNullException("targetObjectFileName cannot be null !");
         }
         filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
