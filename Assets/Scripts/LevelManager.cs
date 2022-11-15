@@ -37,6 +37,13 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        #if UNITY_EDITOR
+        if (Application.isEditor)
+        {
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/");
+            di.Delete(true);
+        }
+        #endif
         LoadScene(levelToLoad);
     }
 
