@@ -51,14 +51,19 @@ public static class ApplyPlayerChange
 
         float xTarget = float.Parse(decodedCoordinates[0].Value);
         float yTarget = float.Parse(decodedCoordinates[1].Value);
-            
-        // dont know what to do with it yet ;( so debugging with logs
+
         //Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
-        
+
         // creating final target vector and injecting it in go position
-        var targetPosition = new Vector3Int((int) xTarget, (int) yTarget, 0);
-        go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
+        Vector3Int targetPosition = new Vector3Int((int) xTarget, (int) yTarget, 0);
+
+        // check if the position is occupied
+        if (!Utils.CheckPresenceOnTile(SceneData.Instance.grid, SceneData.Instance.grid.GetCellCenterWorld(targetPosition)))
+        {
+            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
+        } 
     }
+
 
     static private void Color(string value, GameObject go)
     {

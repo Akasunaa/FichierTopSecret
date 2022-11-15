@@ -565,7 +565,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!43 &768783780
+--- !u!43 &655515673
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1177,11 +1177,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5596418771676856235, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.1171803
+      value: -2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5596418771676856235, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3409619
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5596418771676856235, guid: c42031d6131d3954eb487d3d3bd82b66, type: 3}
       propertyPath: m_LocalPosition.z
