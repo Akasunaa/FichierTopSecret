@@ -41,15 +41,16 @@ public static class ApplyPlayerChange
     static private void Position(string value, GameObject go)
     {
         // pattern that we want into the value string - correct ex: (0,0) 
-        const string pattern = @"([\(\[]|^)\d+[\ \;\:\,]+\d+([\)\]]|$)";
-            
-        if (!Regex.IsMatch(value, pattern, options)) return;
+        const string number = @"(\-?)\d+";
+        const string separator = @"[\ \;\:\,]+";
+
+        if (!Regex.IsMatch(value, number + separator + number, options)) return;
             
         // here we just want to extract the different decimals inside the value 
-        var decodedCoordinates = Regex.Matches(value, @"\d+", options);
+        var decodedCoordinates = Regex.Matches(value, number, options);
 
-        var xTarget = float.Parse(decodedCoordinates[0].Value);
-        var yTarget = float.Parse(decodedCoordinates[1].Value);
+        float xTarget = float.Parse(decodedCoordinates[0].Value);
+        float yTarget = float.Parse(decodedCoordinates[1].Value);
             
         // dont know what to do with it yet ;( so debugging with logs
         Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
@@ -68,8 +69,8 @@ public static class ApplyPlayerChange
         yTarget += gridManager.GridOffset.y;
         
         // clamping values so that objects are in-bounds
-        xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
-        yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);
+        /*xTarget = Math.Clamp(xTarget, gridManager.BottomLeft.x, gridManager.TopRight.x);
+        yTarget = Math.Clamp(yTarget, gridManager.BottomLeft.y, gridManager.TopRight.y);*/
 
         // creating final target vector and injecting it in go position
         var targetPosition = new Vector3(xTarget, yTarget, 0);
