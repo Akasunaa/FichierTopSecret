@@ -21,14 +21,17 @@ public class FileParser : MonoBehaviour
 
     void Awake()
     {
-        if (String.IsNullOrEmpty(targetObjectFileName))
-        {
-            Debug.LogError("targetObjectFileName in " + name + " cannot be null !");
-            throw new ArgumentNullException("targetObjectFileName cannot be null !");
-        }
         filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
+    }
+
+    private void Start()
+    {
+        if (!File.Exists(filePath))
+        {
+            Debug.LogWarning("\"" + filePath + "\" should exist !");
+        }
     }
 
     /**
