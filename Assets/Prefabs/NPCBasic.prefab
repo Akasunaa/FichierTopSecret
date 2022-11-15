@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1909100091497169864}
   - component: {fileID: 222251909557027830}
   - component: {fileID: 1718777866957563038}
-  - component: {fileID: 1607442897434465337}
   m_Layer: 0
   m_Name: NPCBasic
   m_TagString: NPC
@@ -176,16 +175,3 @@ MonoBehaviour:
     propertyType: 0
     propertyCondition: 1
     propertyChangeState: StateDeath
---- !u!114 &1607442897434465337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609991836831715500}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: ScenePOC1/NPC.txt

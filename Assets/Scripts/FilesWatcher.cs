@@ -143,16 +143,15 @@ public class FilesWatcher : MonoBehaviour
 
     void Update()
     {
-
         while (dataQueue.TryDequeue(out FileChange fc))
         {
 
             string relativePath = RelativePath(fc.fi.FullName);
 
-                switch (fc.type)
+            switch (fc.type)
             {
                 case FileChangeType.New:
-                    if (!pathToScript.ContainsKey(relativePath) && fc.fi.Directory.Name == SceneManager.GetActiveScene().name)
+                    if (!pathToScript.ContainsKey(relativePath) && relativePath.Length > "/Test/".Length + fc.fi.Directory.Name.Length && relativePath.Substring("/Test/".Length, fc.fi.Directory.Name.Length) == SceneManager.GetActiveScene().name)
                     {
                         LevelManager.Instance.NewObject(fc.fi);
                     }
@@ -217,7 +216,7 @@ public class FilesWatcher : MonoBehaviour
         GetWindowText(hWnd, windowName, 100);
         try
         {
-            string objectFileName = System.IO.Path.GetFileName(windowName.ToString()).Split()[0];
+            string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             Scene scene = SceneManager.GetActiveScene();
             string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
             print(pathToScript[completObjectPath]);

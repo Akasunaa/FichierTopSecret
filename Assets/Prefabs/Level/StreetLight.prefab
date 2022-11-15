@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
   - component: {fileID: 3405090116942763846}
+  - component: {fileID: -3039540857413572706}
   - component: {fileID: 6917647993681836115}
   m_Layer: 0
   m_Name: StreetLight
@@ -187,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMoving: 0
+  spriteRenderer: {fileID: -5503394062961146130}
   spriteRenderer: {fileID: 7200008761772708580}
 --- !u!1 &5296944608038776853
 GameObject:

@@ -5,6 +5,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Assertions;
 using Mono.Cecil.Rocks;
+[RequireComponent(typeof(ModifiableController))]
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
@@ -20,18 +21,17 @@ public class FileParser : MonoBehaviour
 
     void Awake()
     {
-        if (String.IsNullOrEmpty(targetObjectFileName))
-        {
-            Debug.LogError("targetObjectFileName cannot be null !");
-            if (Application.isEditor)
-            {
-                UnityEditor.EditorApplication.isPaused = true;
-            }
-            throw new ArgumentNullException("targetObjectFileName cannot be null !");
-        }
         filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
+    }
+
+    private void Start()
+    {
+        if (!File.Exists(filePath))
+        {
+            Debug.LogWarning("\"" + filePath + "\" should exist !");
+        }
     }
 
     /**
@@ -80,7 +80,7 @@ public class FileParser : MonoBehaviour
                     var lineSplit = line.Split(separator);
                     string name = lineSplit[0];
                     string value = string.Join("", lineSplit[1..]);
-                    targetModifiable.OnModification(name.Trim().ToLower(), value.Trim().ToLower()); // modifiying appropriate variable
+                    targetModifiable.OnModification(name.Trim().ToLower(), value.Trim()/*.ToLower()*/); // modifiying appropriate variable
                 }
             }
         }

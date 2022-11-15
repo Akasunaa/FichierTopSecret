@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -98,12 +97,16 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function triggered by external scripts yet to be defined that will change the NPC's state
      *  Param :
-     *      newStateIndex : int : index that references the next state that should be chosen
+     *      newStateName : string : name that references the next state that should be chosen
      */
     public void OnStateChange(string newStateName)
     {
+        dialogSM = GetComponent<DialogSM>();
         dialogSM.ChangeState(newStateName);
-        ui.EndDisplay();
+        if (ui!=null) 
+        {
+            ui.EndDisplay();
+        } 
     }
 
     /**
@@ -154,7 +157,7 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        OnStateChange("StateIdle");
+        //OnStateChange("StateIdle");
     }
 
     /**

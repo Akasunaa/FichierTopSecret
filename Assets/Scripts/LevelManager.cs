@@ -37,6 +37,13 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        #if UNITY_EDITOR
+        if (Application.isEditor)
+        {
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/");
+            di.Delete(true);
+        }
+        #endif
         LoadScene(levelToLoad);
     }
 
@@ -128,12 +135,24 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.Log("New file to watch: " + fi.FullName);
                     GameObject newObj = Instantiate(pair.go);
-                    FileParser fp = newObj.AddComponent<FileParser>();
-                    fp.filePath = fi.FullName;
-                    print(fp.filePath);
-                    fp.ReadFromFile(fi.FullName);
-                    FilesWatcher.Instance.Set(fp);
-                    break;
+                    if (newObj.TryGetComponent(out FileParser fp))
+                    {
+                        FileParser fp_tmp = newObj.AddComponent<FileParser>();
+                        fp_tmp.filePath = fi.FullName;
+                        print(fp_tmp.filePath);
+                        fp_tmp.ReadFromFile(fi.FullName);
+                        FilesWatcher.Instance.Set(fp_tmp);
+                        break;
+                    }
+                    else
+                    {
+                        FileParser fp_tmp = newObj.AddComponent<FileParser>();
+                        fp_tmp.filePath = fi.FullName;
+                        print(fp_tmp.filePath);
+                        fp_tmp.ReadFromFile(fi.FullName);
+                        FilesWatcher.Instance.Set(fp_tmp);
+                        break;
+                    }
                 }
             }
         }
