@@ -370,6 +370,8 @@ GameObject:
   - component: {fileID: 7588447500401278529}
   - component: {fileID: 6320083818522056958}
   - component: {fileID: 6320083818522056959}
+  - component: {fileID: 1454093498404834182}
+  - component: {fileID: 5071354990999242549}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -549,3 +551,29 @@ MonoBehaviour:
   m_DefaultActionMap: onFoot
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1454093498404834182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320083818522056946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35f328785f3ba840ae7053aa2591343, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDeleted: 0
+--- !u!114 &5071354990999242549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320083818522056946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjectFileName: Player/player.txt
