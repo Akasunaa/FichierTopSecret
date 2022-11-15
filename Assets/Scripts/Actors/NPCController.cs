@@ -45,7 +45,7 @@ public class NPCController : ModifiableController, Interactable
     //[HideInInspector, SerializeField] private bool changeState;
     //[HideInInspector, SerializeField] private string stateName;
 
-    private void Awake()
+    private void Start()
     {
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
@@ -101,8 +101,12 @@ public class NPCController : ModifiableController, Interactable
      */
     public void OnStateChange(string newStateName)
     {
+        dialogSM = GetComponent<DialogSM>();
         dialogSM.ChangeState(newStateName);
-        ui.EndDisplay();
+        if (ui!=null) 
+        {
+            ui.EndDisplay();
+        } 
     }
 
     /**
@@ -153,7 +157,7 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        OnStateChange("StateIdle");
+        //OnStateChange("StateIdle");
     }
 
     /**
