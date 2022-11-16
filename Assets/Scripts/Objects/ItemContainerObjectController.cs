@@ -11,6 +11,8 @@ using UnityEngine.Rendering.Universal;
 public class ItemContainerObjectController : ModifiableController, Interactable
 {
     [SerializeField] private GameObject item; //Item that the desk contains
+    private bool hasItem = true; //boolean that will remove the container giving infinite items
+
     public bool canBeInteracted { get; set; }
 
     public override void setDefaultProperties()
@@ -22,10 +24,14 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     {
         if (properties.ContainsKey("locked"))
         {
-            if (properties["locked"] == "false")
+            if (properties["locked"] == "false" && hasItem)
             {
                 RecuperateItem();
-                Debug.Log("ITEM CONTAINER : RECUPERATED ITEM");
+                Debug.Log("ITEM CONTAINER : RECUPERATING ITEM");
+            }
+            else if (!hasItem)
+            {
+                Debug.Log("ITEM CONTAINER : ITEM ALREADY TAKEN");
             }
             else
             {
@@ -62,6 +68,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
      */
     private void RecuperateItem()
     {
+        hasItem = false;
         GameObject new_item = Instantiate(item);
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
