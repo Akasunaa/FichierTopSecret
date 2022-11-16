@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
         isMoving = false;
         //Check interaction
-        interactionController.IsInteracting(transform.position,facingDirection);
+        interactionController.CheckForInteraction(transform.position,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
@@ -107,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("dirX", direction.x);
         animator.SetFloat("dirY", direction.y);
         //Check interaction
-        interactionController.IsInteracting(transform.position,facingDirection);
+        interactionController.CheckForInteraction(transform.position,facingDirection);
     }
 
     public void AddMovementInStack(Vector2Int dir)
