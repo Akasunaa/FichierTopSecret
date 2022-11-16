@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /*
-     * Update game objects in the sscene to load base on the files present
+     * Update game objects in the scene to load base on the files present
      */
     private void UpdateFileGameObjects(bool directoryExists)
     {
