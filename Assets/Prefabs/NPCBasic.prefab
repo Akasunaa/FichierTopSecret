@@ -144,6 +144,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
   - name: 
     state: {fileID: 11400000, guid: 363703cbbef1d7a4f8da57a4b0f0867e, type: 2}
+  - name: 
+    state: {fileID: 11400000, guid: 19a92f6bb26099141995c519b7253e60, type: 2}
 --- !u!114 &1718777866957563038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,3 +177,6 @@ MonoBehaviour:
     propertyType: 0
     propertyCondition: 1
     propertyChangeState: StateDeath
+  objectsElements:
+  - objectName: item
+    objectChangeState: StateItemObtained

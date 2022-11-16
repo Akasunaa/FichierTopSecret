@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -30,16 +31,25 @@ public class NPCController : ModifiableController, Interactable
     [Serializable]
     public struct FILE_ELEMENTS                             //struct used for the dictionnary of the properties of the object 
     {
-        public string propertyName;
-        public string propertyValue;
+        public string propertyName;                         //name of the property
+        public string propertyValue;                        //value of the property
         public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
-        public int propertyCondition;
-        public string propertyChangeState;
+        public int propertyCondition;                       //condition of the property
+        public string propertyChangeState;                  //associated state of the property if changed
     }
     [Header("File elements")]
     [SerializeField] private FILE_ELEMENTS[] fileElements;
     [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
+    [Serializable]
+    public struct OBJECTS_ELEMENTS                          //struct used for the dictionnary of the objects that the NPC will look out for
+    {
+        public string objectName;                           //name of the object (must be exact)
+        public string objectChangeState;                    //state that will change if object detected in player's inventory
+    }
+    [Header("Quest elements")]
+    [SerializeField] private OBJECTS_ELEMENTS[] objectsElements;
+    [HideInInspector] public Dictionary<string, OBJECTS_ELEMENTS> objectDict = new Dictionary<string, OBJECTS_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     //[Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     //[HideInInspector, SerializeField] private bool changeState;
@@ -59,6 +69,13 @@ public class NPCController : ModifiableController, Interactable
             propertyDict.Add(element.propertyName, element);
         }
         //-----------------------------------
+
+        //Creating the dict of the objects :
+        foreach (var element in objectsElements)
+        {
+            objectDict.Add(element.objectName, element);
+        }
+        //-----------------------------------
     }
 
     private void Update()
@@ -72,6 +89,14 @@ public class NPCController : ModifiableController, Interactable
      */
     public void Interact()
     {
+        foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for
+        {
+            bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
+            if (playerHasObject)
+            {
+                OnStateChange(objectDict[checkedObject].objectChangeState);
+            }
+        }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
         {
             EndDialogue();
@@ -215,6 +240,26 @@ public class NPCController : ModifiableController, Interactable
             return properties[propertyName];
         }
         return "DATA NOT FOUND";
+    }
+
+    /**
+     *  Function that will scan the player's inventory for a specific object
+     */
+    private bool ScanPlayerInventory(String objectName)
+    {
+        //GameObject.FindGameObjectWithTag("Player");
+        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/"+objectName+".txt");
+        Debug.Log("NPC ITEM : searching for " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+        if (fileInfo.Exists)
+        {
+            Debug.Log("NPC ITEM : found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+            return true;
+        }
+        else
+        {
+            Debug.Log("NPC ITEM : not found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+            return false;
+        }
     }
 
 }
