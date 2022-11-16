@@ -89,12 +89,12 @@ public class NPCController : ModifiableController, Interactable
      */
     public void Interact()
     {
-        foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for
+        foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for when the interaction starts
         {
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
             if (playerHasObject)
             {
-                OnStateChange(objectDict[checkedObject].objectChangeState);
+                OnStateChange(objectDict[checkedObject].objectChangeState); //if player has the item, change the NPC's state accordingly
             }
         }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
@@ -244,20 +244,21 @@ public class NPCController : ModifiableController, Interactable
 
     /**
      *  Function that will scan the player's inventory for a specific object
+     *  Param :
+     *      @objectName : String : name of the object the npc will check for
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        //GameObject.FindGameObjectWithTag("Player");
         FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/"+objectName+".txt");
-        Debug.Log("NPC ITEM : searching for " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+        //Debug.Log("NPC ITEM : searching for " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
         if (fileInfo.Exists)
         {
-            Debug.Log("NPC ITEM : found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+            //Debug.Log("NPC ITEM : found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
             return true;
         }
         else
         {
-            Debug.Log("NPC ITEM : not found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+            //Debug.Log("NPC ITEM : not found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
             return false;
         }
     }
