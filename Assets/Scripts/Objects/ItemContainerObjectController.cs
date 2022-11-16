@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
 
 /**
@@ -11,9 +12,16 @@ using UnityEngine.Rendering.Universal;
 public class ItemContainerObjectController : ModifiableController, Interactable
 {
     [SerializeField] private GameObject item; //Item that the desk contains
+    private DialogueUIController ui;                        //reference to the UI used for dialogs
     private bool hasItem = true; //boolean that will remove the container giving infinite items
 
     public bool canBeInteracted { get; set; }
+
+    private void Start()
+    {
+        ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
+        Assert.IsNotNull(ui);
+    }
 
     public override void setDefaultProperties()
     {
@@ -22,20 +30,30 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
+        if (Time.timeScale == 0f)
+        {
+            ui.EndDisplay();
+            Time.timeScale = 1f;
+            return;
+        }
+        else
+        {
+            Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
+        }
         if (properties.ContainsKey("locked"))
         {
             if (properties["locked"] == "false" && hasItem)
             {
                 RecuperateItem();
-                Debug.Log("ITEM CONTAINER : RECUPERATING ITEM");
+                ui.DisplayDialogue("Looks like I found an item !", "player");
             }
             else if (!hasItem)
             {
-                Debug.Log("ITEM CONTAINER : ITEM ALREADY TAKEN");
+                ui.DisplayDialogue("Seems like I have already taken that item...", "player");
             }
             else
             {
-                Debug.Log("ITEM CONTAINER : ITEM CONTAINER LOCKED");
+                ui.DisplayDialogue("Looks like it's locked ! I need to find a way to unlock it...", "player");
             }
 
             UpdateModification();
