@@ -713,20 +713,20 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 07544ab702d81054ba9fad43a8a8300c, type: 2}
     - target: {fileID: 222251909557027830, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: nextStates.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 222251909557027830, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: nextStates.Array.data[0].state
       value: 
-      objectReference: {fileID: 11400000, guid: c37a33ca399f29849a402565604649d2, type: 2}
+      objectReference: {fileID: 11400000, guid: 75142206398d27c409a5cd80925a8361, type: 2}
     - target: {fileID: 222251909557027830, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: nextStates.Array.data[1].state
       value: 
-      objectReference: {fileID: 11400000, guid: 75142206398d27c409a5cd80925a8361, type: 2}
+      objectReference: {fileID: 11400000, guid: 7fce0aecce8fc464b8612493e073f3d9, type: 2}
     - target: {fileID: 222251909557027830, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: nextStates.Array.data[2].state
       value: 
-      objectReference: {fileID: 11400000, guid: 7fce0aecce8fc464b8612493e073f3d9, type: 2}
+      objectReference: {fileID: 11400000, guid: a4c1ff8de611fa44d92cba0eea09ba61, type: 2}
     - target: {fileID: 222251909557027830, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: nextStates.Array.data[3].state
       value: 
@@ -784,6 +784,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
+      propertyPath: questItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
+      propertyPath: questItems.Array.data[0].item
+      value: 
+      objectReference: {fileID: 1381264106732799180, guid: ba5e5b30d1e42f548bda7c0ab15988d6, type: 3}
+    - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: fileElements.Array.data[0].propertyValue
       value: XV6
       objectReference: {fileID: 0}
@@ -794,6 +802,10 @@ PrefabInstance:
     - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: objectsElements.Array.data[0].objectName
       value: insignia
+      objectReference: {fileID: 0}
+    - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
+      propertyPath: questItems.Array.data[0].questChangeState
+      value: StateInsigniaObtained
       objectReference: {fileID: 0}
     - target: {fileID: 1718777866957563038, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
       propertyPath: objectsElements.Array.data[0].objectChangeState
@@ -4232,7 +4244,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 726355f376daf724ab797951f308d44a, type: 3}
---- !u!43 &2030116531
+--- !u!43 &1953569513
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

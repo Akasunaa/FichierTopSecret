@@ -47,9 +47,19 @@ public class NPCController : ModifiableController, Interactable
         public string objectName;                           //name of the object (must be exact)
         public string objectChangeState;                    //state that will change if object detected in player's inventory
     }
-    [Header("Quest elements")]
+    [Header("Element to check")]
     [SerializeField] private OBJECTS_ELEMENTS[] objectsElements;
     [HideInInspector] public Dictionary<string, OBJECTS_ELEMENTS> objectDict = new Dictionary<string, OBJECTS_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
+
+    [Serializable]
+    public struct QUEST_ITEMS
+    {
+        public GameObject item;                             //item that the NPC will give the player
+        public string questChangeState;                    //state that will trigger the NPC giving the item
+    }
+    [Header("Quest item")]
+    [SerializeField] private QUEST_ITEMS[] questItems;
+    [HideInInspector] public Dictionary<string,QUEST_ITEMS> questItemsDict = new Dictionary<string, QUEST_ITEMS>();
 
     //[Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
     //[HideInInspector, SerializeField] private bool changeState;
@@ -76,6 +86,13 @@ public class NPCController : ModifiableController, Interactable
             objectDict.Add(element.objectName, element);
         }
         //-----------------------------------
+
+        //Creating the dict of the quest items to give out :
+        foreach (var element in questItems)
+        {
+            questItemsDict.Add(element.questChangeState, element);
+        }
+        //-----------------------------------
     }
 
     /**
@@ -90,6 +107,11 @@ public class NPCController : ModifiableController, Interactable
             if (playerHasObject)
             {
                 OnStateChange(objectDict[checkedObject].objectChangeState); //if player has the item, change the NPC's state accordingly
+                if (questItemsDict.ContainsKey(objectDict[checkedObject].objectChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
+                {
+                    GiveItem(questItemsDict[objectDict[checkedObject].objectChangeState].item);
+                    questItemsDict.Remove(objectDict[checkedObject].objectChangeState); //we remove the item to avoid giving it twice
+                }
             }
         }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
@@ -256,6 +278,17 @@ public class NPCController : ModifiableController, Interactable
             //Debug.Log("NPC ITEM : not found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
             return false;
         }
+    }
+
+    /**
+    *  Function called when the npc changes state by responding to a player bringing a correct item
+    *  It will create an instance of the stored item, and call its internal ItemController.RecuperatingItem() function
+    */
+    private void GiveItem(GameObject item)
+    { 
+        GameObject new_item = Instantiate(item);
+        new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        new_item.GetComponent<ItemController>().RecuperatingItem();
     }
 
 }
