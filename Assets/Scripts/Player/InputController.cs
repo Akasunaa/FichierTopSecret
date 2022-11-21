@@ -114,4 +114,9 @@ public class InputController : MonoBehaviour
     {
         onFoot.Enable();
     }
+
+    private void OnDestroy()
+    {
+        onFoot.Disable();
+    }
 }
