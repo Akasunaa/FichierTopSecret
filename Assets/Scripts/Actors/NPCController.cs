@@ -78,11 +78,6 @@ public class NPCController : ModifiableController, Interactable
         //-----------------------------------
     }
 
-    private void Update()
-    {
-        //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
-    }
-
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
      *  For now, at each click on E button, Interact() will be called, updating the text 
