@@ -47,17 +47,19 @@ public class PlayerInteractionController : MonoBehaviour
     /**
      * Method verifying if there is an object at given position, if it is interactable and start interaction prompt
      */
-    public void IsInteracting(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
+    public void CheckForInteraction(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
     {
         //We save the direction and target to allow check for when window comes back in focus
         lastDirection = direction;
         lastTarget = target;
 
-        Collider2D hit = Physics2D.OverlapBox(target+(Vector3Int) direction, grid.cellSize - Vector3.one * 0.1f, 0);
         debugValue = target + new Vector3(direction.x, 0, direction.y);
-        if (hit)
+
+        GameObject hitObject = Utils.CheckPresenceOnTile(grid, target + (Vector3Int)direction);
+
+        if (hitObject)
         {
-            Component component = hit.gameObject.GetComponent(typeof(Interactable));
+            Component component = hitObject.GetComponent(typeof(Interactable));
             if (component)
             {
                 Interactable interactable = component as Interactable;
@@ -80,17 +82,17 @@ public class PlayerInteractionController : MonoBehaviour
      */
     private void OnApplicationFocus(bool focus)
     {
-        if(lastTarget!=null && lastDirection != null)
+        if (lastTarget!=null && lastDirection != null)
         {
-            IsInteracting(lastTarget, lastDirection);
+            CheckForInteraction(lastTarget, lastDirection);
         }
     }
 
-    /*void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(debugValue , grid.cellSize - Vector3.one * 0.1f);
-    }*/
+        //Gizmos.DrawWireCube(debugValue , grid.cellSize - Vector3.one * 0.1f);
+    }
 
     private void DisplayInteractionPrompt(Vector3 position)
     {

@@ -15,6 +15,10 @@ using UnityEngine.SceneManagement;
 
 public class FilesWatcher : MonoBehaviour
 {
+
+    [SerializeField] Material highlightMaterial;
+    [SerializeField] Material unhighlightMaterial;
+
     public enum FileChangeType
     {
         New,
@@ -219,22 +223,20 @@ public class FilesWatcher : MonoBehaviour
             string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             Scene scene = SceneManager.GetActiveScene();
             string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
-            print(pathToScript[completObjectPath]);
-            print(currentHighlightObject);
             if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
             {
-                currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+                currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+                pathToScript[completObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
                 currentHighlightObject = pathToScript[completObjectPath];
             }
-            pathToScript[completObjectPath].gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            pathToScript[completObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
             currentHighlightObject = pathToScript[completObjectPath];
         }
         catch
         {
             if(currentHighlightObject!=null)
-                    currentHighlightObject.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
-                currentHighlightObject = null;
+                currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+            currentHighlightObject = null;
         }
 
         yield return new WaitForSeconds(0.5f);

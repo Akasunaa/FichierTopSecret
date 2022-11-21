@@ -43,6 +43,7 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public override void setDefaultProperties()
     {
+        properties.Add("position", SceneData.Instance.grid.WorldToCell(transform.position).x + " " + SceneData.Instance.grid.WorldToCell(transform.position).y);
         properties.Add("power", "true");
         properties.Add("color", "white");
     }

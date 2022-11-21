@@ -24,7 +24,6 @@ public class LayerOrderManager : MonoBehaviour
     private void Start()
     {
         spriteRenderer.sortingOrder = 0 + (-1 * SceneData.Instance.grid.WorldToCell(root.position).y) + offset;
-        
         // if the object is static no need to keep the component updated
         if (!isMoving)
         {
@@ -33,6 +32,11 @@ public class LayerOrderManager : MonoBehaviour
     }
         
     private void Update()
+    {
+        CalculateOrderInLayer();
+    }
+
+    public void CalculateOrderInLayer()
     {
         spriteRenderer.sortingOrder = 0 + (-1 * SceneData.Instance.grid.WorldToCell(root.position).y) + offset;
     }
