@@ -70,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // start the movement
-            Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
+            //Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
             StartCoroutine(SmoothMovement(targetTilemapPosition));
             tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
         }
@@ -79,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator SmoothMovement(Vector3Int targetPosition)
     {
         isMoving = true;
+        bool hasUpdatedOrderInLayer = false;
 
         // keep initial position
         Vector3 initialPosition = transform.position;
@@ -94,11 +95,20 @@ public class PlayerMovement : MonoBehaviour
         {
             timer += Time.deltaTime;
             transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown) ;
+
+            // Update Order in layer in the middle of the movements
+            if (timer >= movementCooldown/2 && !hasUpdatedOrderInLayer)
+            {
+                Utils.UpdateOrderInLayer(gameObject);
+                hasUpdatedOrderInLayer = true;
+            }
+            
             yield return null;
         }
 
         isMoving = false;
-        //Check interaction
+
+        // Check interaction
         interactionController.CheckForInteraction(transform.position,facingDirection);
     }
 
