@@ -309,7 +309,7 @@ public class NPCController : ModifiableController, Interactable
         {
             //the NPC can have various reactions depending on the number : as such, the list of conditions and possible states can be >1 in length to have different outcomes
             //However, that means that elements with low index take precedence over others
-            for (int i=0;i< reactElementsDict[searchedTag].superiorCondition.Length; i++) 
+            for (int i = 0; i < reactElementsDict[searchedTag].superiorCondition.Length; i++)
             {
                 if (tagCount > reactElementsDict[searchedTag].superiorCondition[i])
                 {
@@ -317,7 +317,7 @@ public class NPCController : ModifiableController, Interactable
                     return;
                 }
             }
-        else if (numLamp == 0)
+        }
         UpdateModification();
         return;
         //if (numNPC > 3)
@@ -345,10 +345,6 @@ public class NPCController : ModifiableController, Interactable
         //    UpdateModification();
         //    return;
         //}
-        {
-            UpdateModification();
-            return;
-        }
     }
 
     /**
