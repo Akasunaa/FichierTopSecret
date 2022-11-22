@@ -178,8 +178,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
   spriteRenderer: {fileID: 7200008761772708580}
+  offset: 1
 --- !u!114 &3791274082491869360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,10 +200,14 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -0.75, y: -1.65, z: 0}
-  - {x: -0.75, y: -0.25, z: 0}
-  - {x: 0.75, y: -0.25, z: 0}
-  - {x: 0.75, y: -1.65, z: 0}
-  m_ShapePathHash: 826248477
+  - {x: -0.67188483, y: -1.2125546, z: 0}
+  - {x: -0.6718848, y: -0.79680675, z: 0}
+  - {x: -0.3085612, y: -0.37375772, z: 0}
+  - {x: 0.33198375, y: -0.37375766, z: 0}
+  - {x: 0.73818296, y: -0.74871075, z: 0}
+  - {x: 0.6875077, y: -1.1873828, z: 0}
+  - {x: 0.25386855, y: -1.5923554, z: 0}
+  - {x: -0.18738277, y: -1.5875077, z: 0}
+  m_ShapePathHash: -984881100
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46850
+  m_InstanceId: 53632
