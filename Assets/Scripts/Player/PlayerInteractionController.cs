@@ -29,9 +29,6 @@ public class PlayerInteractionController : MonoBehaviour
         grid = SceneData.Instance.grid;
     }
 
-  
-
-
     /**
      * Method verifying if there is an object at given position, if it is interactable and start interaction prompt
      */
@@ -69,16 +66,14 @@ public class PlayerInteractionController : MonoBehaviour
      */
     private void OnApplicationFocus(bool focus)
     {
-        if (lastTarget != null && lastDirection != null)
+        //maybe can be used to check for new object near to player 
+        if (focus)
         {
-            CheckForInteraction(lastTarget, lastDirection);
+            if (lastTarget != null && lastDirection != null)
+            {
+                CheckForInteraction(lastTarget, lastDirection);
+            }
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(debugValue , grid.cellSize - Vector3.one * 0.1f);
     }
 
     private void DisplayInteractionPrompt(Vector3 position)
