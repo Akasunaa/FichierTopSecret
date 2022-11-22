@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
   spriteRenderer: {fileID: 7200008761772708580}
+  offset: 0
 --- !u!114 &3791274082491869360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +179,10 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -0.5, y: 0, z: 0}
-  - {x: -0.25, y: 0.8, z: 0}
-  - {x: 0.25, y: 0.8, z: 0}
-  - {x: 0.5, y: 0, z: 0}
-  m_ShapePathHash: -1391606307
+  - {x: -0.2919413, y: -0.5758239, z: 0}
+  - {x: -0.2, y: 0, z: 0}
+  - {x: 0.2, y: 0, z: 0}
+  - {x: 0.3, y: -0.56776524, z: 0}
+  m_ShapePathHash: -718447911
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45866
+  m_InstanceId: 56744
