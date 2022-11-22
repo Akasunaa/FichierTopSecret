@@ -96,22 +96,22 @@ public class PlayerMovement : MonoBehaviour
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown);
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown) ;
 
             // Update Order in layer in the middle of the movements
-            if (timer >= movementCooldown / 2 && !hasUpdatedOrderInLayer)
+            if (timer >= movementCooldown/2 && !hasUpdatedOrderInLayer)
             {
                 Utils.UpdateOrderInLayer(gameObject);
                 hasUpdatedOrderInLayer = true;
             }
-
+            
             yield return null;
         }
 
         isMoving = false;
 
         // Check interaction
-        interactionController.CheckForInteraction(transform.position, facingDirection);
+        interactionController.CheckForInteraction(transform.position,facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)

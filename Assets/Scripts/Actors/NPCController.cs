@@ -44,7 +44,7 @@ public class NPCController : ModifiableController, Interactable
     [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     [Serializable]
-    public struct OBJECTS_ELEMENTS                          //struct used for the dictionnary of the objects that the NPC will look out for
+    public struct OBJECTS_ELEMENTS                          //struct used for the dictionnary of the objects that the NPC will look out for in the player's inventory
     {
         public string objectName;                           //name of the object (must be exact)
         public string objectChangeState;                    //state that will change if object detected in player's inventory
@@ -54,7 +54,7 @@ public class NPCController : ModifiableController, Interactable
     [HideInInspector] public Dictionary<string, OBJECTS_ELEMENTS> objectDict = new Dictionary<string, OBJECTS_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     [Serializable]
-    public struct QUEST_ITEMS
+    public struct QUEST_ITEMS                               //struct used for the dictionnary of the quest items the NPC will give out upon trigger by a certain state's name
     {
         public GameObject item;                             //item that the NPC will give the player
         public string questChangeState;                    //state that will trigger the NPC giving the item
@@ -63,9 +63,15 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] private QUEST_ITEMS[] questItems;
     [HideInInspector] public Dictionary<string,QUEST_ITEMS> questItemsDict = new Dictionary<string, QUEST_ITEMS>();
 
-    //[Header("DEBUG")] //DEBUG VARIABLES, SHOULD BE REMOVED 
-    //[HideInInspector, SerializeField] private bool changeState;
-    //[HideInInspector, SerializeField] private string stateName;
+    [Serializable]
+    public struct REACT_ELEMENTS
+    {
+        public string tagToReact;
+        public string[] stateChangeName;
+        public int[] superiorCondition;
+    }
+    [SerializeField] private REACT_ELEMENTS[] reactElements;
+    [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
@@ -83,14 +89,20 @@ public class NPCController : ModifiableController, Interactable
         //Creating the dict of the values :
         foreach(var element in fileElements)
         {
-            propertyDict.Add(element.propertyName, element);
+            if (!propertyDict.ContainsKey(element.propertyName))
+            {
+                propertyDict.Add(element.propertyName, element);
+            }
         }
         //-----------------------------------
 
         //Creating the dict of the objects :
         foreach (var element in objectsElements)
         {
-            objectDict.Add(element.objectName, element);
+            if (!objectDict.ContainsKey(element.objectName))
+            {
+                objectDict.Add(element.objectName, element);
+            }
         }
 
         //For the movement
@@ -100,7 +112,20 @@ public class NPCController : ModifiableController, Interactable
         //Creating the dict of the quest items to give out :
         foreach (var element in questItems)
         {
-            questItemsDict.Add(element.questChangeState, element);
+            if (!questItemsDict.ContainsKey(element.questChangeState))
+            {
+                questItemsDict.Add(element.questChangeState, element);
+            }
+        }
+        //-----------------------------------
+
+        //Creating the dict of the react elements to check out for :
+        foreach (var element in reactElements)
+        {
+            if (reactElementsDict.ContainsKey(element.tagToReact))
+            {
+                reactElementsDict.Add(element.tagToReact, element);
+            }
         }
         //-----------------------------------
     }
@@ -267,37 +292,62 @@ public class NPCController : ModifiableController, Interactable
      */
     private void OnApplicationFocus()
     {
-        int numLamp = DuplicationCheckManager.Instance.Search("Lamp"); //NPC counts the number of lamp instances
-        int numNpc = DuplicationCheckManager.Instance.Search("NPC"); //NPC counts the number of lamp instances
-        ReactSearchCount(numLamp,numNpc);
+        foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
+        {
+            int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
+            ReactSearchCount(elementTag, elementTagCount);
+        }
     }
 
     /**
      *  Function that reacts to a search count of a tag variable
-     *  RIGHT NOW, it's hardcoded, should be REWORKED
      *      THE UPPER IFS TAKE PRECEDENCE OVER THE OTHER ONES
      */
-    private void ReactSearchCount(int numLamp, int numNPC)
+    private void ReactSearchCount(string searchedTag, int tagCount)
     {
-        if (numNPC > 3)
+        if (reactElementsDict.ContainsKey(searchedTag))
         {
-            OnStateChange("StateCloneArmy");
-        }
-        else if (numNPC > 1)
-        {
-            OnStateChange("StateClone");
-        }
-        else if (numLamp > 1)
-        {
-            OnStateChange("StateManyLights");
-        }
+            //the NPC can have various reactions depending on the number : as such, the list of conditions and possible states can be >1 in length to have different outcomes
+            //However, that means that elements with low index take precedence over others
+            for (int i=0;i< reactElementsDict[searchedTag].superiorCondition.Length; i++) 
+            {
+                if (tagCount > reactElementsDict[searchedTag].superiorCondition[i])
+                {
+                    OnStateChange(reactElementsDict[searchedTag].stateChangeName[i]);
+                    return;
+                }
+            }
         else if (numLamp == 0)
-        {
-            OnStateChange("StateNoLights");
-        }
-        else
+        UpdateModification();
+        return;
+        //if (numNPC > 3)
+        //{
+        //    OnStateChange("StateCloneArmy");
+        //    return;
+        //}
+        //else if (numNPC > 1)
+        //{
+        //    OnStateChange("StateClone");
+        //    return;
+        //}
+        //else if (numLamp > 1)
+        //{
+        //    OnStateChange("StateManyLights");
+        //    return;
+        //}
+        //else if (numLamp == 0)
+        //{
+        //    OnStateChange("StateNoLights");
+        //    return;
+        //}
+        //else
+        //{
+        //    UpdateModification();
+        //    return;
+        //}
         {
             UpdateModification();
+            return;
         }
     }
 

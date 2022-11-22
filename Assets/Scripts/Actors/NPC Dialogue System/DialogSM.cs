@@ -28,7 +28,10 @@ public class DialogSM : StateMachine
         nextPossibleStates = new Dictionary<string, DialogState>();
         foreach (NEXT_STATE state in nextStates)
         {
-            nextPossibleStates.Add(state.state.name, state.state);
+            if (!nextPossibleStates.ContainsKey(state.name))
+            {
+                nextPossibleStates.Add(state.state.name, state.state);
+            }
         }
         //-------------------------------------------------------------------------------------
     }
@@ -66,7 +69,7 @@ public class DialogSM : StateMachine
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. IPUTTED NAME : "+nextStateName);
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName);
             return;
         }
     }
