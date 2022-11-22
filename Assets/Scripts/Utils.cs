@@ -13,4 +13,15 @@ public static class Utils
         return hit?.gameObject;
     }
 
+    public static void UpdateOrderInLayer(GameObject go)
+    {
+        // update order in layer
+        LayerOrderManager layerManager;
+        if ((layerManager = go.GetComponentInChildren<LayerOrderManager>()) != null)
+        {
+            // refresh the order in layer if the object has a layer manager
+            layerManager.CalculateOrderInLayer();
+        }
+    }
+
 }

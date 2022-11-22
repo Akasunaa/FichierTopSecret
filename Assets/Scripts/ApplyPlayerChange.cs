@@ -60,14 +60,10 @@ public static class ApplyPlayerChange
         // check if the position is occupied
         if (!Utils.CheckPresenceOnTile(SceneData.Instance.grid, SceneData.Instance.grid.GetCellCenterWorld(targetPosition)))
         {
-            LayerOrderManager layerManager;
             // move the object
             go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
-            
-            if ((layerManager = go.GetComponentInChildren<LayerOrderManager>()) != null) {
-                // refresh the order in layer if the object has a layer manager
-                layerManager.CalculateOrderInLayer();
-            }
+            // update order in layer
+            Utils.UpdateOrderInLayer(go);
         } 
     }
 
