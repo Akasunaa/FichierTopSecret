@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
             RefreshOrientationSprite(facingDirection);
 
             // check if the cell is occupied
-            if (Utils.CheckPresenceOnTileWithTilemap(grid, targetTilemapPosition))
+            if (Utils.CheckPresenceOnTile(grid, targetTilemapPosition))
             {
                   return;
             }

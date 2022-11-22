@@ -167,7 +167,7 @@ public class NPCController : ModifiableController, Interactable
         }
        for (Vector3Int moved = targetGridPosition; moved.magnitude <= distance; moved += targetGridPosition)
         {
-            if (!Utils.CheckPresenceOnTileWithTilemap(grid, actualGridPosition + moved)) { 
+            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { 
                 transform.position += targetGridPosition; 
                 //do the animation
             }

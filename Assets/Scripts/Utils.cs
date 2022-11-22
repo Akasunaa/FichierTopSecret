@@ -18,7 +18,7 @@ public static class Utils
     /**
     * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
     */
-    public static GameObject? CheckPresenceOnTileWithTilemap(Grid grid, Vector3Int position) //look if player can move to the target 
+    public static GameObject? CheckPresenceOnTile(Grid grid, Vector3Int position) //look if player can move to the target 
     {
         // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
         Collider2D hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), grid.cellSize - Vector3.one * 0.1f, 0);
