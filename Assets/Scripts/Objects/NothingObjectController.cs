@@ -5,10 +5,10 @@ using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 /**
- *  Component handling the door's modifications and state according to its file
- *  Associated file : Door.txt
+ *  Component handling the nothing's modifications and state according to its file
+ *  Associated file : *.txt
  *  Values in file :
- *      status : open/closed
+ *     
  */
 public class NothingObjectController : ModifiableController
 { 

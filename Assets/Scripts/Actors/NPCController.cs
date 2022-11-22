@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 /**
  *      Main component of the NPCs that will control their behaviors and overall actions
@@ -65,6 +67,11 @@ public class NPCController : ModifiableController, Interactable
     //[HideInInspector, SerializeField] private bool changeState;
     //[HideInInspector, SerializeField] private string stateName;
 
+    [Header("Deplacement")]
+    [SerializeField] private Grid grid;
+    [SerializeField] bool canMoving;
+    bool isWaiting;
+
     private void Start()
     {
         shouldEnd = false;
@@ -85,6 +92,9 @@ public class NPCController : ModifiableController, Interactable
         {
             objectDict.Add(element.objectName, element);
         }
+
+        //For the movement
+        isWaiting = false;
         //-----------------------------------
 
         //Creating the dict of the quest items to give out :
@@ -94,6 +104,54 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
     }
+
+    private void Update()
+    {
+        //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
+        if (canMoving && !isWaiting) { Movement(); }
+
+    }
+
+    private void Movement()
+    {
+        int randomTimer = Random.Range(5, 10); //to serialize
+        int randomDistance = Random.Range(1, 4);
+        int randomDirection = Random.Range(0, 4);
+        StartCoroutine(WaitForMovement(randomTimer,randomDistance,randomDirection));
+    }
+    
+    IEnumerator WaitForMovement(int timer, int distance, int direction)
+    {
+        isWaiting = true;
+        Vector3Int actualGridPosition = grid.WorldToCell(transform.position);
+        Vector3Int targetGridPosition = new Vector3Int(0, 0, 0);
+        switch (direction)
+        {
+            case 0:
+                targetGridPosition[0] = 1;
+                break;
+            case 1:
+                targetGridPosition[0] = -1;
+                break;
+            case 2:
+                targetGridPosition[1] = 1;
+                break;
+            case 3:
+                targetGridPosition[1] = -1;
+                break;
+        }
+       for (Vector3Int moved = targetGridPosition; moved.magnitude <= distance; moved += targetGridPosition)
+        {
+            if (!Utils.CheckPresenceOnTileWithTilemap(grid, actualGridPosition + moved)) { 
+                transform.position += targetGridPosition; 
+                //do the animation
+            }
+            
+        }
+        yield return new WaitForSeconds(timer);
+        isWaiting = false;
+    }       
+
 
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
@@ -224,27 +282,22 @@ public class NPCController : ModifiableController, Interactable
         if (numNPC > 3)
         {
             OnStateChange("StateCloneArmy");
-            return;
         }
         else if (numNPC > 1)
         {
             OnStateChange("StateClone");
-            return;
         }
         else if (numLamp > 1)
         {
             OnStateChange("StateManyLights");
-            return;
         }
         else if (numLamp == 0)
         {
             OnStateChange("StateNoLights");
-            return;
         }
         else
         {
             UpdateModification();
-            return;
         }
     }
 
@@ -291,5 +344,4 @@ public class NPCController : ModifiableController, Interactable
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
     }
-
 }

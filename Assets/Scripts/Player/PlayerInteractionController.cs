@@ -17,8 +17,6 @@ public class PlayerInteractionController : MonoBehaviour
     private Vector3 lastTarget;
     private Vector2Int lastDirection;
 
-
-    Vector3 debugValue;                                            
     public Interactable lastInteractable { get; private set; }
 
     private void Awake()
@@ -31,17 +29,7 @@ public class PlayerInteractionController : MonoBehaviour
         grid = SceneData.Instance.grid;
     }
 
-    /**
-     * Method verifying if there is an obstacle at given position
-     */
-    public bool IsColliding(Vector3Int target) //look if player can move to the target 
-    {
-        // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
-        Collider2D hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(target), grid.cellSize-Vector3.one * 0.1f,0);
-        debugValue = grid.GetCellCenterWorld(target);
-        if (hit) { return true;}
-        return false;
-    }
+  
 
 
     /**
@@ -52,9 +40,6 @@ public class PlayerInteractionController : MonoBehaviour
         //We save the direction and target to allow check for when window comes back in focus
         lastDirection = direction;
         lastTarget = target;
-
-        debugValue = target + new Vector3(direction.x, 0, direction.y);
-
         GameObject hitObject = Utils.CheckPresenceOnTile(grid, target + (Vector3Int)direction);
 
         if (hitObject)
@@ -68,11 +53,13 @@ public class PlayerInteractionController : MonoBehaviour
                 lastInteractable = interactable;
             }
         }
-        else { 
-            interactionPrompt.SetActive(false); 
-            if (lastInteractable !=  null) { 
-                lastInteractable.canBeInteracted = false; 
-            } 
+        else
+        {
+            interactionPrompt.SetActive(false);
+            if (lastInteractable != null)
+            {
+                lastInteractable.canBeInteracted = false;
+            }
         }
     }
 
@@ -82,7 +69,7 @@ public class PlayerInteractionController : MonoBehaviour
      */
     private void OnApplicationFocus(bool focus)
     {
-        if (lastTarget!=null && lastDirection != null)
+        if (lastTarget != null && lastDirection != null)
         {
             CheckForInteraction(lastTarget, lastDirection);
         }

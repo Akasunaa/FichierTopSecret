@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement variables")]
     [SerializeField] private float speed;
-    
+
     [Header("Debug")]
     [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
     [SerializeField] private List<Vector2Int> inputStack;                   // stack of inputs from least to most recent
@@ -44,10 +44,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FixedUpdate()
-    {   
+    {
         if (!isMoving)
         {
-          Move();
+            Move();
         }
     }
 
@@ -64,42 +64,54 @@ public class PlayerMovement : MonoBehaviour
             RefreshOrientationSprite(facingDirection);
 
             // check if the cell is occupied
-            if (interactionController.IsColliding(targetTilemapPosition))
+            if (Utils.CheckPresenceOnTileWithTilemap(grid, targetTilemapPosition))
             {
-                return;
+                  return;
             }
 
+
+
             // start the movement
-            Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
+            //Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
             StartCoroutine(SmoothMovement(targetTilemapPosition));
-            tilemapPosition = (Vector2Int) grid.WorldToCell(transform.position);
+            tilemapPosition = (Vector2Int)grid.WorldToCell(transform.position);
         }
     }
 
     private IEnumerator SmoothMovement(Vector3Int targetPosition)
     {
         isMoving = true;
+        bool hasUpdatedOrderInLayer = false;
 
         // keep initial position
         Vector3 initialPosition = transform.position;
 
         // get animation clip information 
         animator.SetTrigger("WalkTrigger");
-        
+
         yield return new WaitForSeconds(0.001f);
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
-       
+
         float timer = 0;
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown) ;
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown);
+
+            // Update Order in layer in the middle of the movements
+            if (timer >= movementCooldown / 2 && !hasUpdatedOrderInLayer)
+            {
+                Utils.UpdateOrderInLayer(gameObject);
+                hasUpdatedOrderInLayer = true;
+            }
+
             yield return null;
         }
 
         isMoving = false;
-        //Check interaction
-        interactionController.CheckForInteraction(transform.position,facingDirection);
+
+        // Check interaction
+        interactionController.CheckForInteraction(transform.position, facingDirection);
     }
 
     private void RefreshOrientationSprite(Vector2Int direction)
@@ -107,11 +119,11 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("dirX", direction.x);
         animator.SetFloat("dirY", direction.y);
         //Check interaction
-        interactionController.CheckForInteraction(transform.position,facingDirection);
+        interactionController.CheckForInteraction(transform.position, facingDirection);
     }
 
     public void AddMovementInStack(Vector2Int dir)
-    {   
+    {
         inputStack.Add(dir);
     }
 
