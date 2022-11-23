@@ -79,18 +79,24 @@ public static class ApplyPlayerChange
 
     private static Color? CheckColor(string value)
     {
-        string[] colors = { "black", "blue", "cyan", "gray", "green", "grey", "magenta", "red", "white", "yellow" };
-        foreach (String colorValue in colors)
-        {
-            if (Regex.IsMatch(value, colorValue, options))
-            {
-                value = colorValue;
-                break;
-            }
-        }
+        // string[] colors = { "black", "blue", "cyan", "gray", "green", "grey", "magenta", "red", "white", "yellow" };
+        // foreach (String colorValue in colors)
+        // {
+        //     if (Regex.IsMatch(value, colorValue, options))
+        //     {
+        //         value = colorValue;
+        //         break;
+        //     }
+        // }
         if (ColorUtility.TryParseHtmlString(value, out Color color))
         {
             return color;
+        }
+
+        System.Drawing.Color c = System.Drawing.Color.FromName(value);
+        if (c.IsKnownColor)
+        {
+            return new Color(c.R, c.G, c.B, c.A);
         }
 
         return null;
@@ -173,11 +179,11 @@ public static class ApplyPlayerChange
 
     public static object ObjectFromValue(string value)
     {
-        Vector2Int? pos = CheckPosition(value);
-        if (pos != null) return pos;
-        
         Color? c = CheckColor(value);
         if (c != null) return c;
+
+        Vector2Int? pos = CheckPosition(value);
+        if (pos != null) return pos;
 
         bool? b = CheckBool(value);
         if (b != null) return b;

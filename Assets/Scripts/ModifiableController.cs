@@ -36,6 +36,14 @@ public abstract class ModifiableController : MonoBehaviour
         return false;
     }
 
+    protected void SetValue(String key, object value)
+    {
+        if (!properties.TryAdd(key, value))
+        {
+            properties[key] = value;
+        }
+    }
+
     public abstract void SetDefaultProperties();
 
     /**
@@ -55,6 +63,8 @@ public abstract class ModifiableController : MonoBehaviour
         // return either "true" or "false" depending of the input string 
         // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
         object objectValue = ApplyPlayerChange.ObjectFromValue(value);
+        
+        Debug.Log("Test: " + keyName + " | " + objectValue.GetType());
 
         if (properties.ContainsKey(propertyName))
         {
@@ -79,7 +89,15 @@ public abstract class ModifiableController : MonoBehaviour
         string res = "";
         foreach ((string keyName, object value) in properties)
         {
-            res += keyName + " : " + value + "\n";
+            switch (value)
+            {
+                case Color c:
+                    res += keyName + " : #" + ColorUtility.ToHtmlStringRGB(c) + "\n";
+                break;
+                default:
+                    res += keyName + " : " + value + "\n";
+                    break;
+            }
         }
 
         return res;

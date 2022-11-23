@@ -17,17 +17,9 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public void Interact()
     {
-        if (properties.ContainsKey("power"))
+        if (TryGet("power", out bool power))
         {
-            if (properties["power"] == "false")
-            {
-                properties["power"] = "true";
-            }
-            else
-            {
-                properties["power"] = "false";
-            }
-
+            SetValue("power", !power);
             UpdateModification();
             UpdateFile();
         }
@@ -43,25 +35,26 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        properties.Add("position", SceneData.Instance.grid.WorldToCell(transform.position).x + " " + SceneData.Instance.grid.WorldToCell(transform.position).y);
-        properties.Add("power", "true");
-        properties.Add("color", "white");
+        Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
+        properties.Add("position", pos);
+        properties.Add("power", true);
+        properties.Add("color", Color.white);
     }
 
     public override void UpdateModification()
     {
         base.UpdateModification();
         //For the lamp object, we test if its power is on or off
-        if (properties.ContainsKey("power")) 
+        if (TryGet("power", out bool power)) 
         {
-            if (properties["power"] == "true")
+            if (power)
             {
                 foreach(Light2D light in lights)
                 {
                     light.enabled = true;
                 }
             }
-            else if (properties["power"]=="false")
+            else
             {
                 foreach(var light in lights)
                 {

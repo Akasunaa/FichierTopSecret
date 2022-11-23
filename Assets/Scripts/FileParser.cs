@@ -54,13 +54,14 @@ public class FileParser : MonoBehaviour
             //todo : moyen de le recreer si unique
             return true;
         }
-        FileInfo fileInfo = new FileInfo(filePath);
-        using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
-        {
-            sw.Write(targetModifiable.ToFileString());
-            //todo : completer selon ce que le prefabs contient 
-        }
-        return true;
+        WriteToFile();
+        // FileInfo fileInfo = new FileInfo(filePath);
+        // using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
+        // {
+        //     sw.Write(targetModifiable.ToFileString());
+        //     //todo : completer selon ce que le prefabs contient 
+        // }
+        return false;
     }
 
     /**
@@ -84,7 +85,6 @@ public class FileParser : MonoBehaviour
                 }
             }
         }
-       
 
         targetModifiable.UpdateModification();
     }

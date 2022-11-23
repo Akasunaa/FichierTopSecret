@@ -102,8 +102,10 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        properties.Add("locked", "false");
-        properties.Add("status", "closed");
+        Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
+        properties.Add("position", pos);
+        properties.Add("locked", true);
+        // properties.Add("status", "closed");
         properties.Add("direction", direction);
     }
 }
