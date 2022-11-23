@@ -16,6 +16,14 @@ public static class ApplyPlayerChange
     private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
     private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
 
+    public static readonly Dictionary<string, Func<string, object>> name2value = new Dictionary<string, Func<string, object>>()
+    {
+        { "position", CheckPosition },
+        { "color", CheckColor },
+        { "locked", CheckBool },
+    };
+
+
     public static void VisualChange(string name, object value, GameObject go)
     {
         switch (name)
@@ -86,7 +94,7 @@ public static class ApplyPlayerChange
         }
     }
     
-    private static Vector2Int? CheckPosition(string value)
+    private static object CheckPosition(string value)
     {
         // pattern that we want into the value string - correct ex: (0,0) 
         const string number = @"(\-?)\d+";
@@ -103,7 +111,7 @@ public static class ApplyPlayerChange
         return new Vector2Int((int) xTarget, (int) yTarget);
     }
 
-    private static Color? CheckColor(string value)
+    private static object CheckColor(string value)
     {
         // string[] colors = { "black", "blue", "cyan", "gray", "green", "grey", "magenta", "red", "white", "yellow" };
         // foreach (String colorValue in colors)
@@ -183,7 +191,7 @@ public static class ApplyPlayerChange
         }
     }
 
-    private static bool? CheckBool(string propertyValueInput)
+    private static object CheckBool(string propertyValueInput)
     {
         if (propertyValueInput.Length == 0) return null;
 
@@ -202,16 +210,13 @@ public static class ApplyPlayerChange
         return null;
     }
 
-    public static object ObjectFromValue(string value)
+    public static object ObjectFromValue(string name, string value)
     {
-        Color? c = CheckColor(value);
-        if (c != null) return c;
-
-        Vector2Int? pos = CheckPosition(value);
-        if (pos != null) return pos;
-
-        bool? b = CheckBool(value);
-        if (b != null) return b;
+        if (name2value.TryGetValue(name, out Func<string, object> f))
+        {
+            object obj = f(value);
+            if (obj != null) return obj;
+        }
 
         return value;
     }
