@@ -36,7 +36,7 @@ public abstract class ModifiableController : MonoBehaviour
         return false;
     }
 
-    protected void SetValue(String key, object value)
+    protected void SetValue(string key, object value)
     {
         if (!properties.TryAdd(key, value))
         {
