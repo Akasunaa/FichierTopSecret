@@ -23,29 +23,7 @@ public static class ApplyPlayerChange
             case "position":
                 if (ModifiableController.TryParse(value, out Vector2Int pos))
                 {
-                    Vector2 offset = Vector2.zero;
-                    Vector2? size = null;
-                    
-                    if (go.TryGetComponent(out BoxCollider2D collider))
-                    {
-                        offset = collider.offset * go.transform.lossyScale;
-                        size = collider.size * go.transform.lossyScale;
-                    }
-                    
-                    GameObject hitGo = 
-                        Utils.CheckPresenceOnTile(
-                            SceneData.Instance.grid,
-                            pos + offset,
-                            size);
-                    
-                    // if the target tile is inocuppied or occupied by the go itself
-                    if (hitGo == go || hitGo == null)
-                    {
-                        // move the object
-                        go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) targetPosition);
-                        // update order in layer
-                        Utils.UpdateOrderInLayer(go);
-                    } 
+                    SetPosition(go, pos);
                 }
                 else
                 {
@@ -55,18 +33,7 @@ public static class ApplyPlayerChange
             case "color":
                 if (ModifiableController.TryParse(value, out Color color))
                 {
-                    Light2D[] lights = go.GetComponentsInChildren<Light2D>();
-                    if (lights.Length > 0)
-                    {
-                        foreach (var light in lights)
-                        {
-                            light.color = color;
-                        }
-                    }
-                    else if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
-                    {
-                        spriteRenderer.color = color;
-                    }
+                    SetColor(go, color);
                 }
                 else
                 {
@@ -76,6 +43,49 @@ public static class ApplyPlayerChange
         }
     }
 
+    private static void SetPosition(GameObject go, Vector2Int targetPosition)
+    {
+        Vector2 offset = Vector2.zero;
+        Vector2? size = null;
+                    
+        if (go.TryGetComponent(out BoxCollider2D collider))
+        {
+            offset = collider.offset * go.transform.lossyScale;
+            size = collider.size * go.transform.lossyScale;
+        }
+                    
+        GameObject hitGo = 
+            Utils.CheckPresenceOnTile(
+                SceneData.Instance.grid,
+                targetPosition + offset,
+                size);
+                    
+        // if the target tile is inocuppied or occupied by the go itself
+        if (hitGo == go || hitGo == null)
+        {
+            // move the object
+            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) targetPosition);
+            // update order in layer
+            Utils.UpdateOrderInLayer(go);
+        }
+    }
+
+    private static void SetColor(GameObject go, Color color)
+    {
+        Light2D[] lights = go.GetComponentsInChildren<Light2D>();
+        if (lights.Length > 0)
+        {
+            foreach (var light in lights)
+            {
+                light.color = color;
+            }
+        }
+        else if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            spriteRenderer.color = color;
+        }
+    }
+    
     private static Vector2Int? CheckPosition(string value)
     {
         // pattern that we want into the value string - correct ex: (0,0) 
@@ -142,7 +152,6 @@ public static class ApplyPlayerChange
             }
         }
     }
-
 
     /**
      * Methods takes in a string typed by the player and compares it with all the property names registered.
