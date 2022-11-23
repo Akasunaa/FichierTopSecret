@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = System.Object;
 
 /**
  *   Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
@@ -8,54 +10,86 @@ using UnityEngine;
 public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
-    [SerializeField] protected Dictionary<string, string> properties = new Dictionary<string, string>(5);
+    protected Dictionary<string, object> properties { private set; get; } = new Dictionary<string, object>();
+    
+    public static bool TryParse<T>(Object o, out T res)
+    {
+        if (o is T r)
+        {
+            res = r;
+            return true;
+        }
 
-    public abstract void setDefaultProperties();
+        res = default;
+        return false;
+    }
+
+    protected bool TryGet<T>(String key, out T res)
+    {
+        if (properties.TryGetValue(key, out Object o) && TryParse(o, out T r))
+        {
+            res = r;
+            return true;
+        }
+
+        res = default;
+        return false;
+    }
+
+    public abstract void SetDefaultProperties();
 
     /**
      *      Function called by the FileParser associated to the gameObject containing ModifiableController
      */
-    public virtual void OnModification(string name, string value)
+    public virtual void OnModification(string keyName, string value)
     {
-        print("Modifying " + name + " with value " + value + " from file");
-        //MODIFICATION (inherited ?)
+        if (properties.TryGetValue(keyName, out object obj) && obj.ToString() == value)
+        {
+            return;
+        }
+
+        print("Modifying " + keyName + " with value " + value + " from file");
 
         // fix typos and find a correct property
-        string propertyName = ApplyPlayerChange.PropertyNameValidation(name);
+        string propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
         // return either "true" or "false" depending of the input string 
-        string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
+        // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
+        object objectValue = ApplyPlayerChange.ObjectFromValue(value);
 
         if (properties.ContainsKey(propertyName))
         {
-            properties[propertyName] = propertyValue;
+            properties[propertyName] = objectValue;
         }
         else
         {
-            properties.Add(propertyName, propertyValue);
+            properties.Add(propertyName, objectValue);
         }
     }
 
     public virtual void UpdateModification()
     {
-        foreach ((string name, string value) in properties)
+        foreach ((string keyName, object value) in properties)
         {
-            ApplyPlayerChange.VisualChange(name, value, gameObject);
+            ApplyPlayerChange.VisualChange(keyName, value, gameObject);
         }
     }
 
     public string ToFileString()
     {
         string res = "";
-        foreach ((string name, string value) in properties)
+        foreach ((string keyName, object value) in properties)
         {
-            res += name + " : " + value + "\n";
+            res += keyName + " : " + value + "\n";
         }
 
         return res;
     }
 
-    public void UpdateFile()
+    protected void UpdateFile()
     {
-        GetComponent<FileParser>().WriteToFile();        
+        if (TryGetComponent(out FileParser fp))
+        {
+            fp.WriteToFile();
+        }        
     }
 }

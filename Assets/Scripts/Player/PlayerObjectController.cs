@@ -7,7 +7,7 @@ using UnityEngine;
  */
 public class PlayerObjectController : ModifiableController
 {
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
         properties.Add("name", "Bob");
         properties.Add("health", "10");

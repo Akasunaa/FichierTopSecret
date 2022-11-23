@@ -23,7 +23,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         Assert.IsNotNull(ui);
     }
 
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
         properties.Add("locked", "true");
     }

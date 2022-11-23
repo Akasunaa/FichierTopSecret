@@ -41,7 +41,7 @@ public class LampObjectController :  ModifiableController, Interactable
         Assert.AreNotEqual(0, lights.Length);
     }
 
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
         properties.Add("position", SceneData.Instance.grid.WorldToCell(transform.position).x + " " + SceneData.Instance.grid.WorldToCell(transform.position).y);
         properties.Add("power", "true");

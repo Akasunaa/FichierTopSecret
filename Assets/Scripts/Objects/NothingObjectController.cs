@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
  */
 public class NothingObjectController : ModifiableController
 { 
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
     }
 }

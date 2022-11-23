@@ -239,7 +239,7 @@ public class NPCController : ModifiableController, Interactable
      *  Function inherited from ModifiableController
      *  Should be reworked to use a list or something, rather than hard-coded properties.Add
      */
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
         foreach(var element in propertyDict.Values)
         {
@@ -266,7 +266,7 @@ public class NPCController : ModifiableController, Interactable
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER
             {
                 int integerValue;
-                int.TryParse(properties[propertyString], out integerValue);
+                int.TryParse(properties[propertyString].ToString(), out integerValue);
                 if(integerValue < propertyDict[propertyString].propertyCondition) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                 {
                     if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
@@ -354,7 +354,7 @@ public class NPCController : ModifiableController, Interactable
     {
         if (properties.ContainsKey(propertyName))
         {
-            return properties[propertyName];
+            return properties[propertyName].ToString();
         }
         return "DATA NOT FOUND";
     }
@@ -366,7 +366,7 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/"+objectName+".txt");
+        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
         //Debug.Log("NPC ITEM : searching for " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
         if (fileInfo.Exists)
         {

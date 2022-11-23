@@ -10,68 +10,77 @@ using static UnityEngine.Rendering.DebugUI;
 
 public static class ApplyPlayerChange
 {
-    static RegexOptions options;
+    static RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
     // names of the properties we interact with
-    static string[] propertyNames = { "position", "color", "size", "direction", "power" };
-    static string[] truthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
-    static string[] falsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
+    private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power" };
+    private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
+    private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
 
-
-    public static void VisualChange(string name, string value, GameObject go)
+    public static void VisualChange(string name, object value, GameObject go)
     {
-        RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
-
-        if (Regex.IsMatch(name, "colou?r", options))
+        switch (name)
         {
-            Color(value, go);
+            case "position":
+                if (ModifiableController.TryParse(value, out Vector2Int pos))
+                {
+                    if (!Utils.CheckPresenceOnTile(SceneData.Instance.grid, SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) pos)))
+                    {
+                        // move the object
+                        go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) pos);
+                        // update order in layer
+                        Utils.UpdateOrderInLayer(go);
+                    } 
+                }
+                else
+                {
+                    Debug.LogWarning("Position badly written : " + value);
+                }
+                break;
+            case "color":
+                if (ModifiableController.TryParse(value, out Color color))
+                {
+                    Light2D[] lights = go.GetComponentsInChildren<Light2D>();
+                    if (lights.Length > 0)
+                    {
+                        foreach (var light in lights)
+                        {
+                            light.color = color;
+                        }
+                    }
+                    else if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
+                    {
+                        spriteRenderer.color = color;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning("Color badly written : " + value);
+                }
+                break;
         }
-
-        if (Regex.IsMatch(name, "size", options))
-        {
-            //nul
-        }
-
-        if (Regex.IsMatch(name, "position", options))
-        {
-            Position(value, go);
-        }
-
     }
 
-    static private void Position(string value, GameObject go)
+    private static Vector2Int? CheckPosition(string value)
     {
         // pattern that we want into the value string - correct ex: (0,0) 
         const string number = @"(\-?)\d+";
         const string separator = @"[\ \;\,]+";
 
-        if (!Regex.IsMatch(value, number + separator + number, options)) return;
+        if (!Regex.IsMatch(value, number + separator + number, options)) return null;
             
         // here we just want to extract the different decimals inside the value 
         var decodedCoordinates = Regex.Matches(value, number, options);
 
         float xTarget = float.Parse(decodedCoordinates[0].Value);
         float yTarget = float.Parse(decodedCoordinates[1].Value);
-
-        //Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
-
-        // creating final target vector and injecting it in go position
-        Vector3Int targetPosition = new Vector3Int((int) xTarget, (int) yTarget, 0);
-
-        // check if the position is occupied
-        if (!Utils.CheckPresenceOnTile(SceneData.Instance.grid, SceneData.Instance.grid.GetCellCenterWorld(targetPosition)))
-        {
-            // move the object
-            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
-            // update order in layer
-            Utils.UpdateOrderInLayer(go);
-        } 
+        
+        return new Vector2Int((int) xTarget, (int) yTarget);
     }
 
-
-    static private void Color(string value, GameObject go)
+    private static Color? CheckColor(string value)
     {
         string[] colors = { "black", "blue", "cyan", "gray", "green", "grey", "magenta", "red", "white", "yellow" };
-        foreach (var colorValue in colors)
+        foreach (String colorValue in colors)
         {
             if (Regex.IsMatch(value, colorValue, options))
             {
@@ -81,25 +90,16 @@ public static class ApplyPlayerChange
         }
         if (ColorUtility.TryParseHtmlString(value, out Color color))
         {
-            Light2D[] lights = go.GetComponentsInChildren<Light2D>();
-            if (lights.Length > 0)
-            {
-                foreach (var light in lights)
-                {
-                    light.color = color;
-                }
-            }
-            else if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
-            {
-                spriteRenderer.color = color;
-            }
+            return color;
         }
+
+        return null;
     }
 
     /**
      * Calculate the levenshtein distance between two words
      */
-    public static int LevenshteinDistance(string subject, string model)
+    private static int LevenshteinDistance(string subject, string model)
     {
         if ( Mathf.Min(subject.Length, model.Length) == 0)
         {
@@ -130,10 +130,10 @@ public static class ApplyPlayerChange
     {
         if (propertyNameInput.Length == 0) return string.Empty;
 
-        string closestPropertyName = propertyNames[0];
+        string closestPropertyName = PropertyNames[0];
         int levenshteinDistance = 10;
 
-        foreach(string propertyName in propertyNames)
+        foreach(string propertyName in PropertyNames)
         {
             int currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
             if (currentLevenshteinDistance < levenshteinDistance)
@@ -152,23 +152,37 @@ public static class ApplyPlayerChange
         }
     }
 
-    public static string BooleanPropertyValueValidation(string propertyValueInput)
+    private static bool? CheckBool(string propertyValueInput)
     {
-        if (propertyValueInput.Length == 0) return propertyValueInput;
+        if (propertyValueInput.Length == 0) return null;
 
         // if truthy values contain the input return true
-        if (Array.IndexOf(truthyPropertyValues, propertyValueInput) > -1)
+        if (Array.IndexOf(TruthyPropertyValues, propertyValueInput) > -1)
         {
-            return "true";
+            return true;
         }
 
         // if falsy values contain the input return false
-        if (Array.IndexOf(falsyPropertyValues, propertyValueInput) > -1)
+        if (Array.IndexOf(FalsyPropertyValues, propertyValueInput) > -1)
         {
-            return "false";
+            return false;
         }
 
-        return propertyValueInput;
+        return null;
+    }
+
+    public static object ObjectFromValue(string value)
+    {
+        Vector2Int? pos = CheckPosition(value);
+        if (pos != null) return pos;
+        
+        Color? c = CheckColor(value);
+        if (c != null) return c;
+
+        bool? b = CheckBool(value);
+        if (b != null) return b;
+
+        return value;
     }
 }
 

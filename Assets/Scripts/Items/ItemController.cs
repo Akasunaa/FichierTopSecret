@@ -37,7 +37,7 @@ public class ItemController : ModifiableController
         return 0;
     }
 
-    public override void setDefaultProperties()
+    public override void SetDefaultProperties()
     {
         
     }

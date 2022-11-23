@@ -101,7 +101,7 @@ public class LevelManager : MonoBehaviour
                 {
                     Directory.CreateDirectory(fileInfo.DirectoryName);
                 }
-                fileParser.targetModifiable.setDefaultProperties();
+                fileParser.targetModifiable.SetDefaultProperties();
                 using (StreamWriter sw = new StreamWriter(fileInfo.FullName))  
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
