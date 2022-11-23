@@ -55,13 +55,31 @@ public static class ApplyPlayerChange
         //Debug.Log($"Entered coordinates are : ({xTarget}, {yTarget})");
 
         // creating final target vector and injecting it in go position
-        Vector3Int targetPosition = new Vector3Int((int) xTarget, (int) yTarget, 0);
+        //Vector2Int targetPosition = new Vector2Int(xTarget, yTarget);
+        Vector2Int targetPosition = new Vector2Int((int) xTarget, (int) yTarget);
 
         // check if the position is occupied
-        if (!Utils.CheckPresenceOnTile(SceneData.Instance.grid, SceneData.Instance.grid.GetCellCenterWorld(targetPosition)))
+
+        Vector2? size = null;
+        Vector2 offset = Vector2.zero;
+
+        if (go.TryGetComponent(out BoxCollider2D collider))
+        {
+            offset = collider.offset * go.transform.lossyScale;
+            size = collider.size * go.transform.lossyScale;
+        }
+
+        GameObject hitGo = 
+            Utils.CheckPresenceOnTile(
+                SceneData.Instance.grid,
+                targetPosition + offset,
+                size);
+
+        // if the target tile is inocuppied or occupied by the go itself
+        if (hitGo == go || hitGo == null)
         {
             // move the object
-            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld(targetPosition);
+            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) targetPosition);
             // update order in layer
             Utils.UpdateOrderInLayer(go);
         } 
