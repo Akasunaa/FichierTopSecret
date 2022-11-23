@@ -5,12 +5,22 @@ using static UnityEngine.GraphicsBuffer;
 
 public static class Utils
 {
+    const float EPSILON = 0.1f;
     /**
      * Method checking a tile for a collider and returning it. If there are no collider on the tile, returns null.
      */
-    public static GameObject? CheckPresenceOnTile(Grid grid, Vector3 position)
+    public static GameObject CheckPresenceOnTile(Grid grid, Vector2 position, Vector2? size = null)
     {
-        Collider2D hit = Physics2D.OverlapBox(position, grid.cellSize - Vector3.one * 0.1f, 0);
+        Collider2D hit;
+        
+        if (size == null)
+        {
+            hit = Physics2D.OverlapBox(position, (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
+        } else
+        {
+            Vector2 colliderSize = (Vector2) size;
+            hit = Physics2D.OverlapBox(position, colliderSize - Vector2.one * EPSILON, 0);
+        }
         return hit?.gameObject;
     }
 
@@ -18,12 +28,24 @@ public static class Utils
     /**
     * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
     */
-    public static GameObject? CheckPresenceOnTile(Grid grid, Vector3Int position) //look if player can move to the target 
+    public static GameObject? CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
     {
         // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
-        Collider2D hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), grid.cellSize - Vector3.one * 0.1f, 0);
+        Collider2D hit;
+
+        if (size == null)
+        {
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
+        }
+        else
+        {
+            Vector2 colliderSize = (Vector2)size;
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0);
+        }
         return hit?.gameObject;
     }
+
+
 
 
     public static void UpdateOrderInLayer(GameObject go)
