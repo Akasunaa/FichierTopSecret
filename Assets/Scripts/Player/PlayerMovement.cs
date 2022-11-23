@@ -89,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         // get animation clip information 
         animator.SetTrigger("WalkTrigger");
 
-        yield return new WaitForSeconds(0.001f);
+        animator.Update(0.001f);
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
 
         float timer = 0;

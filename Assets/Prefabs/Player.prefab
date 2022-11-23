@@ -441,7 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
   animator: {fileID: 6320083818459328203}
-  speed: 1.2
+  speed: 3
   tilemapPosition: {x: 0, y: 0}
   inputStack: []
 --- !u!114 &7588447500401278529
