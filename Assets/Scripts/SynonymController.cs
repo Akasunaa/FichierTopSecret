@@ -8,6 +8,8 @@ using GroupDocs.Search.Results;
 using Index = GroupDocs.Search.Index;
 using System;
 using GroupDocs.Search;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 public static class SynonymController
 {
@@ -25,7 +27,10 @@ public static class SynonymController
 
     public static string[] SearchSynonym(string word)
     {
+        word = word.Trim().ToLower();
+        word = new string(word.Where(Char.IsLetter).ToArray());
         string[] synonyms = index.Dictionaries.SynonymDictionary.GetSynonyms(word);
+        synonyms = synonyms.Concat(new[] { word }).ToArray();
         return synonyms;
     }
 }

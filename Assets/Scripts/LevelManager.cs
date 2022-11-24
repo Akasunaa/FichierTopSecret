@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
+using System.Linq;
 
 public class LevelManager : MonoBehaviour
 {
@@ -141,24 +142,37 @@ public class LevelManager : MonoBehaviour
      */
     public void NewObject(FileInfo fi)
     {
+        GameObject newObj;
+        FileParser fp;
+        //todo : check where its instantiate
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
         {
+            string nameObject = Path.GetFileNameWithoutExtension(fi.Name);        
             foreach (RegToGoPair pair in instantiable)
             {
-                if (Regex.IsMatch(fi.Name, pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                //check all synonym
+                string[] synonyms = SynonymController.SearchSynonym(nameObject);
+                foreach (var synonym in synonyms)
                 {
-                    Debug.Log("New file to watch: " + fi.FullName);
-                    GameObject newObj = Instantiate(pair.go);
-
-                        FileParser fp_tmp = newObj.AddComponent<FileParser>();
-                        fp_tmp.filePath = fi.FullName;
-                        print(fp_tmp.filePath);
-                        fp_tmp.ReadFromFile(fi.FullName);
-                        FilesWatcher.Instance.Set(fp_tmp);
-                        break;
-                    
-                }
+                    if (Regex.IsMatch(pair.reg, synonym, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                    {
+                        Debug.Log("New file to watch: " + fi.FullName);
+                        newObj = Instantiate(pair.go);
+                        fp = newObj.AddComponent<FileParser>();
+                        fp.filePath = fi.FullName;
+                        //print(fp_tmp.filePath);
+                        fp.ReadFromFile(fi.FullName);
+                        FilesWatcher.Instance.Set(fp);
+                        return; 
+                    }
+                }     
             }
+            //nothing object : no object with the name of file 
+            newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
+            fp = newObj.AddComponent<FileParser>();
+            fp.filePath = fi.FullName;
+            fp.ReadFromFile(fi.FullName);
+            FilesWatcher.Instance.Set(fp);
         }
     }
 }

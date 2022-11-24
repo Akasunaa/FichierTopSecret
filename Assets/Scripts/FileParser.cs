@@ -48,15 +48,21 @@ public class FileParser : MonoBehaviour
      */
     public bool OnDelete(string path)
     {
-        if (targetModifiable.canBeDeleted)
+        if (targetModifiable) //Ceci est vraiment a corriger au plus vite
         {
-            Destroy(targetModifiable.gameObject);
-            //todo : moyen de le recreer si unique
-            return true;
+            if (targetModifiable.canBeDeleted)
+            {
+                Debug.Log("Deleting go : " + path + " | " + name);
+                Destroy(targetModifiable.gameObject);
+                //todo : moyen de le recreer si unique
+                return true;
+            }
+            // If the file cannot be deleted, re-write the file
+            WriteToFile();
+            return false;
         }
-        // If the file cannot be deleted, re-write the file
-        WriteToFile();
         return false;
+
     }
 
     /**

@@ -15,4 +15,5 @@ public class NothingObjectController : ModifiableController
     public override void SetDefaultProperties()
     {
     }
+
 }
