@@ -85,7 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: 
+  dialogue: This is my bookshelf. I remember buying it on Europa... It was a good
+    deal.
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(InteractableObjectController))]
 public class ObjectInteractionController : MonoBehaviour
 {
+    [TextArea(3, 10)]
     [SerializeField] private string dialogue;
     private DialogueUIController ui;                        //reference to the UI used for dialogs
 

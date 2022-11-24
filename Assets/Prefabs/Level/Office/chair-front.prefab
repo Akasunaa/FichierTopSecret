@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
+  - component: {fileID: 7999332426177301211}
+  - component: {fileID: 1934577417633760782}
   m_Layer: 0
   m_Name: chair-front
   m_TagString: Untagged
@@ -59,6 +61,32 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7999332426177301211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1934577417633760782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: This is my chair. Makemakiens might be jerks, but they sure know how
+    to make comfortable furniture...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,4 +213,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1, z: 0}
   m_ShapePathHash: 1301673237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 43218
+  m_InstanceId: 40532
