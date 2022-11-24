@@ -86,14 +86,35 @@ public abstract class ModifiableController : MonoBehaviour
 
     public string ToFileString()
     {
+        Dictionary<Color, string> col2name = new Dictionary<Color, string>()
+        {
+            { Color.white, "white" },
+            { Color.black, "black" },
+            { Color.blue, "blue" },
+            { Color.green, "green" },
+            { Color.red, "red" },
+            { Color.yellow, "yellow" },
+            { Color.grey, "grey" },
+            { Color.cyan, "cyan" }
+        };
         string res = "";
         foreach ((string keyName, object value) in properties)
         {
             switch (value)
             {
                 case Color c:
-                    res += keyName + " : #" + ColorUtility.ToHtmlStringRGB(c) + "\n";
-                break;
+                    if (col2name.TryGetValue(c, out string colorName))
+                    {
+                        res += keyName + " : " + colorName + "\n";
+                    }
+                    else
+                    {
+                        res += keyName + " : #" + ColorUtility.ToHtmlStringRGB(c) + "\n";
+                    }
+                    break;
+                case bool b:
+                    res += keyName + " : " + value.ToString().ToLower() + "\n";
+                    break;
                 default:
                     res += keyName + " : " + value + "\n";
                     break;
