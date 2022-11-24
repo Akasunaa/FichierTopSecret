@@ -8,25 +8,13 @@ using UnityEngine;
  *  Values in file :
  *      power : on/off
  */
-public class HologramObjectController : ModifiableController, Interactable
+public class HologramObjectController : ModifiableController
 {
-
     [SerializeField] private GameObject hologram;
-    public bool canBeInteracted { get; set; }
 
     private void Awake()
     {
         if (!hologram) hologram = transform.GetChild(0).gameObject;
-    }
-
-    public void Interact()
-    {
-        if (TryGet("power", out bool power))
-        {
-            SetValue("power", !power);
-            UpdateModification();
-            UpdateFile();
-        }
     }
 
     public override void SetDefaultProperties()
@@ -52,5 +40,4 @@ public class HologramObjectController : ModifiableController, Interactable
             }
         }
     }
-
 }

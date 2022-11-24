@@ -95,7 +95,7 @@ public static class ApplyPlayerChange
         } 
         else
         {
-            SpriteRenderer[] sprites = go.GetComponentsInChildren<SpriteRenderer>();
+            SpriteRenderer[] sprites = go.GetComponentsInChildren<SpriteRenderer>(true);
             foreach(SpriteRenderer sprite in sprites)
             {
                 sprite.color = color;

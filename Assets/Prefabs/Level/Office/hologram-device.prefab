@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 5751260293062742441}
   - component: {fileID: 3140115743953076082}
-  - component: {fileID: 1333444741093005371}
   m_Layer: 0
   m_Name: hologram-device
   m_TagString: Untagged
@@ -76,19 +75,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   hologram: {fileID: 7873602842453855130}
---- !u!114 &1333444741093005371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244007217957566919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: 
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +205,7 @@ MonoBehaviour:
   - {x: -0.18738277, y: -1.5875077, z: 0}
   m_ShapePathHash: -984881100
   m_Mesh: {fileID: 0}
-  m_InstanceId: 47160
+  m_InstanceId: 51984
 --- !u!1001 &7937114218275943005
 PrefabInstance:
   m_ObjectHideFlags: 0
