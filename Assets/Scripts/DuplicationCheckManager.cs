@@ -34,7 +34,6 @@ public class DuplicationCheckManager : MonoBehaviour
     public int Search(string tag)
     {
         var targetsFound = GameObject.FindGameObjectsWithTag(tag);
-        //print("Numbers of " + tag + " found in scene :" + targetsFound.Length);
         return targetsFound.Length;
     }
 }
