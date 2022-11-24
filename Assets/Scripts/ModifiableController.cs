@@ -63,8 +63,6 @@ public abstract class ModifiableController : MonoBehaviour
         // return either "true" or "false" depending of the input string 
         // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
         object objectValue = ApplyPlayerChange.ObjectFromValue(keyName, value);
-        
-        Debug.Log("Test: " + keyName + " | " + objectValue.GetType());
 
         if (properties.ContainsKey(propertyName))
         {

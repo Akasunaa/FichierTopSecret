@@ -54,13 +54,8 @@ public class FileParser : MonoBehaviour
             //todo : moyen de le recreer si unique
             return true;
         }
+        // If the file cannot be deleted, re-write the file
         WriteToFile();
-        // FileInfo fileInfo = new FileInfo(filePath);
-        // using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
-        // {
-        //     sw.Write(targetModifiable.ToFileString());
-        //     //todo : completer selon ce que le prefabs contient 
-        // }
         return false;
     }
 
