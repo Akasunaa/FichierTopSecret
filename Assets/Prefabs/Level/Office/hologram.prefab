@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5596418771676856235}
-  - component: {fileID: 4961505963263090231}
   m_Layer: 0
   m_Name: hologram
   m_TagString: Untagged
@@ -33,32 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4961505963263090231
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244007217957566919}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 4}
-    newSize: {x: 2, y: 4}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 3, y: 3}
-  m_EdgeRadius: 0
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -71,7 +44,6 @@ GameObject:
   - component: {fileID: 7200008761772708580}
   - component: {fileID: 2922010142214990025}
   - component: {fileID: 6018901778347687138}
-  - component: {fileID: 3791274082491869360}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -179,35 +151,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 7200008761772708580}
-  offset: 1
---- !u!114 &3791274082491869360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2302938657009832474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000
-  m_ShapePath:
-  - {x: -0.67188483, y: -1.2125546, z: 0}
-  - {x: -0.6718848, y: -0.79680675, z: 0}
-  - {x: -0.3085612, y: -0.37375772, z: 0}
-  - {x: 0.33198375, y: -0.37375766, z: 0}
-  - {x: 0.73818296, y: -0.74871075, z: 0}
-  - {x: 0.6875077, y: -1.1873828, z: 0}
-  - {x: 0.25386855, y: -1.5923554, z: 0}
-  - {x: -0.18738277, y: -1.5875077, z: 0}
-  m_ShapePathHash: -984881100
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 43380
+  offset: 2

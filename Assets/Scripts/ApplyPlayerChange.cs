@@ -21,6 +21,7 @@ public static class ApplyPlayerChange
         { "position", CheckPosition },
         { "color", CheckColor },
         { "locked", CheckBool },
+        { "power", CheckBool },
     };
 
 
@@ -91,6 +92,14 @@ public static class ApplyPlayerChange
         else if (go.TryGetComponent(out SpriteRenderer spriteRenderer))
         {
             spriteRenderer.color = color;
+        } 
+        else
+        {
+            SpriteRenderer[] sprites = go.GetComponentsInChildren<SpriteRenderer>();
+            foreach(SpriteRenderer sprite in sprites)
+            {
+                sprite.color = color;
+            }
         }
     }
 
