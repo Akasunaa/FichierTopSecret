@@ -13,8 +13,8 @@ public static class ApplyPlayerChange
     static RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
     // names of the properties we interact with
     private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power" };
-    private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated"};
-    private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated"};
+    private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated" };
+    private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated" };
 
     public static readonly Dictionary<string, Func<string, object>> name2value = new Dictionary<string, Func<string, object>>()
     {
@@ -55,24 +55,24 @@ public static class ApplyPlayerChange
     {
         Vector2 offset = Vector2.zero;
         Vector2? size = null;
-                    
+
         if (go.TryGetComponent(out BoxCollider2D collider))
         {
             offset = collider.offset * go.transform.lossyScale;
             size = collider.size * go.transform.lossyScale;
         }
-                    
-        GameObject hitGo = 
+
+        GameObject hitGo =
             Utils.CheckPresenceOnTile(
                 SceneData.Instance.grid,
                 targetPosition + offset,
                 size);
-                    
+
         // if the target tile is inocuppied or occupied by the go itself
         if (hitGo == go || hitGo == null)
         {
             // move the object
-            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int) targetPosition);
+            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
             // update order in layer
             Utils.UpdateOrderInLayer(go);
         }
@@ -93,7 +93,7 @@ public static class ApplyPlayerChange
             spriteRenderer.color = color;
         }
     }
-    
+
     private static object CheckPosition(string value)
     {
         // pattern that we want into the value string - correct ex: (0,0) 
@@ -101,14 +101,14 @@ public static class ApplyPlayerChange
         const string separator = @"[\ \;\,]+";
 
         if (!Regex.IsMatch(value, number + separator + number, options)) return null;
-            
+
         // here we just want to extract the different decimals inside the value 
         var decodedCoordinates = Regex.Matches(value, number, options);
 
         float xTarget = float.Parse(decodedCoordinates[0].Value);
         float yTarget = float.Parse(decodedCoordinates[1].Value);
-        
-        return new Vector2Int((int) xTarget, (int) yTarget);
+
+        return new Vector2Int((int)xTarget, (int)yTarget);
     }
 
     private static object CheckColor(string value)
@@ -141,10 +141,11 @@ public static class ApplyPlayerChange
      */
     private static int LevenshteinDistance(string subject, string model)
     {
-        if ( Mathf.Min(subject.Length, model.Length) == 0)
+        if (Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
-        } else
+        }
+        else
         {
             string subSubject = subject.Substring(1);
             string subModel = model.Substring(1);
@@ -152,7 +153,8 @@ public static class ApplyPlayerChange
             if (subject[0] == model[0])
             {
                 return LevenshteinDistance(subSubject, subModel);
-            } else
+            }
+            else
             {
                 return 1 + Mathf.Min(LevenshteinDistance(subSubject, model),
                                  LevenshteinDistance(subject, subModel),
@@ -172,7 +174,7 @@ public static class ApplyPlayerChange
         string closestPropertyName = PropertyNames[0];
         int levenshteinDistance = 10;
 
-        foreach(string propertyName in PropertyNames)
+        foreach (string propertyName in PropertyNames)
         {
             int currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
             if (currentLevenshteinDistance < levenshteinDistance)
@@ -185,7 +187,8 @@ public static class ApplyPlayerChange
         if (levenshteinDistance <= inclusiveValidationThreshold)
         {
             return closestPropertyName;
-        } else
+        }
+        else
         {
             return propertyNameInput;
         }
@@ -221,4 +224,3 @@ public static class ApplyPlayerChange
         return value;
     }
 }
-
