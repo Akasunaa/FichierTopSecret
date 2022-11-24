@@ -26,7 +26,7 @@ public abstract class ModifiableController : MonoBehaviour
 
     protected bool TryGet<T>(String key, out T res)
     {
-        if (properties.TryGetValue(key, out Object o) && TryParse(o, out T r))
+        if (properties.TryGetValue(key, out object o) && TryParse(o, out T r))
         {
             res = r;
             return true;
