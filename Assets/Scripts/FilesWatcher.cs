@@ -221,6 +221,7 @@ public class FilesWatcher : MonoBehaviour
         try
         {
             string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
+            objectFileName = objectFileName.Replace("*", "");
             Scene scene = SceneManager.GetActiveScene();
             string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
             if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)

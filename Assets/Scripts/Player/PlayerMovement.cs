@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using GroupDocs.Search;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -41,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
         // set position exactly on a tile
         tilemapPosition = (Vector2Int)grid.WorldToCell(transform.position);
         transform.position = grid.GetCellCenterWorld((Vector3Int)tilemapPosition);
+   
     }
 
     private void FixedUpdate()
@@ -68,8 +72,6 @@ public class PlayerMovement : MonoBehaviour
             {
                   return;
             }
-
-
 
             // start the movement
             //Debug.DrawRay(grid.GetCellCenterWorld(targetTilemapPosition), Vector2.up/100 , Color.green, 10);
