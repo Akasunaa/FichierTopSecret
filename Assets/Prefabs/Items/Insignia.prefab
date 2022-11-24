@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7356846346285365609}
   - component: {fileID: 1149313033280587997}
   m_Layer: 0
-  m_Name: BasicItem
+  m_Name: Insignia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

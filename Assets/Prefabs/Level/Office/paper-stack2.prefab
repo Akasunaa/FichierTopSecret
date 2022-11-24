@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5596418771676856235}
   m_Layer: 0
   m_Name: paper-stack2
-  m_TagString: Lamp
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,5 +129,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
   spriteRenderer: {fileID: 7200008761772708580}
+  offset: 0

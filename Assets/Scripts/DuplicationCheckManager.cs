@@ -8,7 +8,6 @@ using UnityEngine;
  */
 public class DuplicationCheckManager : MonoBehaviour
 {
-    public string targetTag;
     #region SINGLETON PATTERN
     private static DuplicationCheckManager _instance;
     public static DuplicationCheckManager Instance
