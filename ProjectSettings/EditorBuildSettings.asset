@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OpenWorld.unity
     guid: 8c7b57ef7c0b05148bf2a79463d38b0e
+  - enabled: 1
+    path: Assets/Scenes/CosmicBin.unity
+    guid: 9950f2987acd3154cbcc09d83d06d3e7
   m_configObjects: {}

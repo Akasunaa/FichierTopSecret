@@ -25,7 +25,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        properties.Add("locked", "true");
+        properties.Add("locked", true);
     }
 
     public void Interact()
@@ -40,9 +40,9 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         {
             Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
         }
-        if (properties.ContainsKey("locked"))
+        if (TryGet("locked", out bool locked))
         {
-            if (properties["locked"] == "false" && hasItem)
+            if (!locked && hasItem)
             {
                 RecuperateItem();
                 ui.DisplayDialogue("Looks like I found an item !", "player");
@@ -65,14 +65,14 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     {
         base.UpdateModification();
         //For Item Container, we test if player can open it or not (visual change)
-        if (properties.ContainsKey("status"))
+        if (TryGet("locked", out bool locked))
         {
-            if (properties["locked"] == "true")
+            if (locked)
             {
                 //CHANGE VISUALLY
                 Debug.Log("ITEM CONTAINER : LOCKED");
             }
-            else if (properties["locked"] == "false")
+            else
             {
                 //CHANGE VISUALLY
                 Debug.Log("ITEM CONTAINER : NOT LOCKED");

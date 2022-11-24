@@ -24,9 +24,9 @@ public abstract class ModifiableController : MonoBehaviour
         return false;
     }
 
-    protected bool TryGet<T>(String key, out T res)
+    public bool TryGet<T>(String key, out T res)
     {
-        if (properties.TryGetValue(key, out Object o) && TryParse(o, out T r))
+        if (properties.TryGetValue(key, out object o) && TryParse(o, out T r))
         {
             res = r;
             return true;
@@ -36,7 +36,7 @@ public abstract class ModifiableController : MonoBehaviour
         return false;
     }
 
-    protected void SetValue(string key, object value)
+    public void SetValue(string key, object value)
     {
         if (!properties.TryAdd(key, value))
         {
@@ -122,7 +122,7 @@ public abstract class ModifiableController : MonoBehaviour
         return res;
     }
 
-    protected void UpdateFile()
+    public void UpdateFile()
     {
         if (TryGetComponent(out FileParser fp))
         {
