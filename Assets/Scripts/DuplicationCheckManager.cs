@@ -8,7 +8,6 @@ using UnityEngine;
  */
 public class DuplicationCheckManager : MonoBehaviour
 {
-    public string targetTag;
     #region SINGLETON PATTERN
     private static DuplicationCheckManager _instance;
     public static DuplicationCheckManager Instance
@@ -35,7 +34,6 @@ public class DuplicationCheckManager : MonoBehaviour
     public int Search(string tag)
     {
         var targetsFound = GameObject.FindGameObjectsWithTag(tag);
-        //print("Numbers of " + tag + " found in scene :" + targetsFound.Length);
         return targetsFound.Length;
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4961505963263090231}
   m_Layer: 0
   m_Name: hologram
-  m_TagString: Lamp
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,4 +210,4 @@ MonoBehaviour:
   - {x: -0.18738277, y: -1.5875077, z: 0}
   m_ShapePathHash: -984881100
   m_Mesh: {fileID: 0}
-  m_InstanceId: 56118
+  m_InstanceId: 43380

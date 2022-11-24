@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4961505963263090231}
   m_Layer: 0
   m_Name: bookshelves-front
-  m_TagString: Lamp
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,8 +157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
   spriteRenderer: {fileID: 7200008761772708580}
+  offset: 0
 --- !u!114 &3791274082491869360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,4 +185,4 @@ MonoBehaviour:
   - {x: 1, y: -1.5, z: 0}
   m_ShapePathHash: 1872098581
   m_Mesh: {fileID: 0}
-  m_InstanceId: 43656
+  m_InstanceId: 43154
