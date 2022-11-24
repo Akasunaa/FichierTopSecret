@@ -178,6 +178,10 @@ public class FilesWatcher : MonoBehaviour
                         {
                             print(relativePath + " has made an impossible delete !");
                         }
+                        else
+                        {
+                            pathToScript.Remove(relativePath);
+                        }
                     }
                     break;
             }
