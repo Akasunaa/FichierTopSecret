@@ -40,4 +40,13 @@ public class HologramObjectController : ModifiableController
             }
         }
     }
+
+    /**
+     *  Function called by HologramConsoleController that will activate/deactivate the holo's dialogue
+     */
+    public void OnChangeHologramState()
+    {
+        GetComponent<ObjectInteractionController>().OnChangeDialogue();
+    }
+
 }

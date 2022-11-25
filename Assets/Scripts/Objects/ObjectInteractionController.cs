@@ -10,29 +10,55 @@ using UnityEngine.Assertions;
 public class ObjectInteractionController : MonoBehaviour
 {
     [TextArea(3, 10)]
-    [SerializeField] private string dialogue;
+    [SerializeField] private string dialogueStandard;         //standard dialogue
+    [TextArea(3, 10)]
+    [SerializeField] private string dialogueOnConditionChange; //dialogue when change condition applied
+    private string curDialogue;
     private DialogueUIController ui;                        //reference to the UI used for dialogs
 
     private void Start()
     {
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         Assert.IsNotNull(ui);
-        if (dialogue == null)
+        if (dialogueStandard == null)
         {
-            dialogue = "ERROR : NO DIALOGUE WAS INPUTTED FOR THIS INTERACTION";
+            dialogueStandard = "ERROR : NO DIALOGUE WAS INPUTTED FOR THIS INTERACTION";
         }
+        if (dialogueOnConditionChange == null)
+        {
+            dialogueOnConditionChange = "WARNING : NO INPUTTED DIALOGUE FOR CHANGED CONDITION OF PREFAB. CHECK EDITOR.";
+        }
+        curDialogue = dialogueStandard;
     }
 
     /**
-     *  Function called by ObjectControllers to display dialogue when interacting with them
+     *  Function called by ObjectControllers to display the currently loaded dialogue when interacting with them
      */
     public void DisplayInteractionDialogue()
     {
-        ui.DisplayDialogue(dialogue, "player");
+        ui.DisplayDialogue(curDialogue, "player");
     }
 
+    /**
+     *  Function that will end the dialogue display
+     */
     public void EndDisplay()
     {
         ui.EndDisplay();
+    }
+
+    /**
+     *  Function called by exterior scripts to change the currently displayed dialogue
+     */
+    public void OnChangeDialogue()
+    {
+        if (curDialogue == dialogueOnConditionChange)
+        {
+            curDialogue = dialogueStandard;
+        }
+        else
+        {
+            curDialogue = dialogueOnConditionChange;
+        }
     }
 }

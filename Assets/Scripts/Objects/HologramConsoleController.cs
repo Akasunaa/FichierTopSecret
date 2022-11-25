@@ -24,6 +24,8 @@ public class HologramConsoleController : ModifiableController, Interactable
                     hologram.SetValue("power", !power);
                     hologram.UpdateModification();
                     hologram.UpdateFile();
+
+                    hologram.OnChangeHologramState();
                 }
             }
         }
