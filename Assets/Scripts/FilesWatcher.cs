@@ -10,13 +10,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 public class FilesWatcher : MonoBehaviour
 {
 
     [SerializeField] Material highlightMaterial;
+    [SerializeField] Material selectedMaterial;
     [SerializeField] Material unhighlightMaterial;
 
     public enum FileChangeType
@@ -43,6 +46,7 @@ public class FilesWatcher : MonoBehaviour
     public static FilesWatcher Instance { get; private set; }
 
     private static ConcurrentQueue<FileChange> dataQueue = new ConcurrentQueue<FileChange>();
+    private static ConcurrentQueue<(string, bool)> selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
 
     private bool isGettingCurrentObject;
     FileParser currentHighlightObject;
@@ -97,7 +101,74 @@ public class FilesWatcher : MonoBehaviour
         watcher.IncludeSubdirectories = true;
         // Start the watcher
         watcher.EnableRaisingEvents = true;
+
+        #if UNITY_STANDALONE_WIN
+        Thread thread = new Thread(() => HighlightSelectedFiles(selectedFilesQueue));
+        thread.Start();
+        #endif
     }
+    
+    #if UNITY_STANDALONE_WIN
+    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue)
+    {
+        HashSet<string> selectedFiles = new HashSet<string>();
+        HashSet<string> viewFiles = new HashSet<string>();
+
+        string command =
+            "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { foreach($item in $window.Document.SelectedItems()) { $item.Path } }";
+
+        Process compiler = new Process();
+        compiler.StartInfo.FileName = "powershell.exe";
+        compiler.StartInfo.Arguments = command;
+        compiler.StartInfo.UseShellExecute = false;
+        compiler.StartInfo.RedirectStandardOutput = true;
+        compiler.StartInfo.CreateNoWindow = true;
+        while (true)
+        {
+            compiler.Start();
+
+            string[] paths = compiler.StandardOutput.ReadToEnd().Split('\n');
+            foreach (string pathOutput in paths)
+            {
+                string path = pathOutput.Trim().Replace('\\', '/');
+                if (
+                    pathOutput.Length >= Application.streamingAssetsPath.Length
+                    && path.Substring(0, Application.streamingAssetsPath.Length) ==
+                    Application.streamingAssetsPath)
+                {
+                    string relativePath = RelativePath(path);
+                    if (pathToScript.TryGetValue(relativePath, out FileParser fp))
+                    {
+                        if (!selectedFiles.Contains(relativePath))
+                        {
+                            // Highlight the object
+                            selectedQueue.Enqueue((relativePath, true));
+                            selectedFiles.Add(relativePath);
+                        }
+                        viewFiles.Add(relativePath);
+                    }
+                }
+
+            }
+
+            foreach (string relativePath in selectedFiles.ToArray())
+            {
+                if (!viewFiles.Contains(relativePath))
+                {
+                    if (pathToScript.TryGetValue(relativePath, out FileParser fp))
+                    {
+                        selectedQueue.Enqueue((relativePath, false));
+                    }
+                    selectedFiles.Remove(relativePath);
+                }
+            }
+            viewFiles.Clear();
+
+            compiler.WaitForExit();
+            compiler.Refresh();
+        }
+    }
+    #endif
 
     public static string RelativePath(string absolutePath)
     {
@@ -184,6 +255,21 @@ public class FilesWatcher : MonoBehaviour
                         }
                     }
                     break;
+            }
+        }
+
+        while (selectedFilesQueue.TryDequeue(out (string, bool) a))
+        {
+            if (pathToScript.TryGetValue(a.Item1, out FileParser fp))
+            {
+                if (a.Item2)
+                {
+                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = selectedMaterial;
+                }
+                else
+                {
+                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+                }
             }
         }
 

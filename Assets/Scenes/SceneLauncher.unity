@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightMaterial: {fileID: 2100000, guid: 5e438d3b6584b814dbc41b56b188ea56, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: a8985107ddd49de41837202d1414fbbb, type: 2}
   unhighlightMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!4 &59574806
 Transform:
