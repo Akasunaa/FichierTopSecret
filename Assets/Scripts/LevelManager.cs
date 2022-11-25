@@ -50,9 +50,19 @@ public class LevelManager : MonoBehaviour
 
     public void LoadScene(string levelName)
     {
-        StartCoroutine(LoadSceneCoroutine(levelName));
+        StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
     }
 
+    public static string Capitalize(string input)
+    {
+        switch (input)
+        {
+            case null: return input;
+            case "": return input;
+            default: return input[0].ToString().ToUpper() + input.ToLower().Substring(1);
+        }
+    }
+    
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
         FilesWatcher.Instance.Clear();
@@ -61,7 +71,7 @@ public class LevelManager : MonoBehaviour
         bool directoryExists = di.Exists;
         if (!directoryExists)
         {
-            Debug.Log("Create new directory: " + di.FullName);
+            Debug.Log("Create new directory: " + di.FullName + " | " + levelName);
             di.Create();
         }
 
