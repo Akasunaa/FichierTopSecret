@@ -229,6 +229,7 @@ public class NPCController : ModifiableController, Interactable
     {
         dialogSM = GetComponent<DialogSM>();
         dialogSM.ChangeState(newStateName);
+        Debug.Log("NPC : Changing state to " + newStateName);
         if (ui!=null) 
         {
             ui.EndDisplay();
@@ -257,10 +258,17 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                if (properties[propertyDict[propertyString].propertyName] != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                Debug.Log("NPC : Checking value : " + propertyString + " currently has : " + properties[propertyDict[propertyString].propertyName]+ " compared to : "+ propertyDict[propertyString].propertyValue.ToString());
+                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
+                    Debug.Log("NPC : switching to state " + propertyDict[propertyString].propertyChangeState);
                     OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
                     return;
+                }
+                else
+                {
+                    Debug.Log("NPC : switching to state IDLE");
+                    OnStateChange("StateIdle");
                 }
             }
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER
@@ -283,7 +291,6 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        //OnStateChange("StateIdle");
     }
 
     /**

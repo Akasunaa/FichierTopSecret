@@ -26,6 +26,7 @@ public class DialogSM : StateMachine
         base.Start();
         // We begin the Enter function by creating the dictionary of the next possible states :
         nextPossibleStates = new Dictionary<string, DialogState>();
+        nextPossibleStates.Add(startingState.name, startingState);
         foreach (NEXT_STATE state in nextStates)
         {
             if (!nextPossibleStates.ContainsKey(state.name))
