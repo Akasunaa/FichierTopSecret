@@ -15,6 +15,14 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private bool hasItem = true; //boolean that will remove the container giving infinite items
 
+    //The various dialogues that can be displayed :
+    [TextArea(3, 10)]
+    [SerializeField] private string dialogueLocked;
+    [TextArea(3, 10)]
+    [SerializeField] private string dialogueAlreadyTakenItem;
+    [TextArea(3, 10)]
+    [SerializeField] private string dialogueItemRecuperate;
+
     public bool canBeInteracted { get; set; }
 
     private void Start()
@@ -45,15 +53,15 @@ public class ItemContainerObjectController : ModifiableController, Interactable
             if (!locked && hasItem)
             {
                 RecuperateItem();
-                ui.DisplayDialogue("Looks like I found an item !", "player");
+                ui.DisplayDialogue(dialogueItemRecuperate, "player");
             }
             else if (!hasItem)
             {
-                ui.DisplayDialogue("Seems like I have already taken that item...", "player");
+                ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
             }
             else
             {
-                ui.DisplayDialogue("Looks like it's locked ! I need to find a way to unlock it...", "player");
+                ui.DisplayDialogue(dialogueLocked, "player");
             }
 
             UpdateModification();
