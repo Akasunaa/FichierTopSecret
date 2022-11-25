@@ -8,19 +8,19 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneLauncher.unity
     guid: 08811a0d17c722b4eb3258f351dca7a9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ScenePOC1.unity
     guid: 3a95548720efa9241ac1ac67e030e72d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ScenePOC2.unity
     guid: 7cb6f20619a0da447b3e82fe45a8077b
   - enabled: 1
     path: Assets/Scenes/Office.unity
     guid: e4047e9580605684d929f1aa72555fa9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OpenWorld.unity
     guid: 8c7b57ef7c0b05148bf2a79463d38b0e
-  - enabled: 1
-    path: Assets/Scenes/CosmicBin.unity
-    guid: 9950f2987acd3154cbcc09d83d06d3e7
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}
