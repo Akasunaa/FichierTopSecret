@@ -134,11 +134,14 @@ MonoBehaviour:
     stateChangeName:
     - StateCloned
     - StateCloneArmy
-    superiorCondition: 0100000003000000
+    isSuperior: 0101
+    condition: 0100000003000000
   - tagToReact: Lamp
     stateChangeName:
     - StateTooManyLights
-    superiorCondition: 01000000
+    - StateNotEnoughLights
+    isSuperior: 0100
+    condition: 1e00000001000000
   grid: {fileID: 0}
   canMoving: 0
 --- !u!1 &8005445728654904466
