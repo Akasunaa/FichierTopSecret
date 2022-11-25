@@ -8,7 +8,7 @@ using UnityEngine;
  */
 public class BaseState : ScriptableObject
 {
-    public string name;
+    //public string name;
     protected StateMachine stateMachine;
 
     public BaseState(string name, StateMachine stateMachine)
