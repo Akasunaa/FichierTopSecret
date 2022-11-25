@@ -67,7 +67,8 @@ public class NPCController : ModifiableController, Interactable
     {
         public string tagToReact;
         public string[] stateChangeName;
-        public int[] superiorCondition;
+        public bool[] isSuperior;
+        public int[] condition;
     }
     [SerializeField] private REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
@@ -308,42 +309,29 @@ public class NPCController : ModifiableController, Interactable
         {
             //the NPC can have various reactions depending on the number : as such, the list of conditions and possible states can be >1 in length to have different outcomes
             //However, that means that elements with low index take precedence over others
-            for (int i = 0; i < reactElementsDict[searchedTag].superiorCondition.Length; i++)
+            for (int i = 0; i < reactElementsDict[searchedTag].condition.Length; i++)
             {
-                if (tagCount > reactElementsDict[searchedTag].superiorCondition[i])
+                if (reactElementsDict[searchedTag].isSuperior[i]) //if the tested condition is a superior one, we'll test for a superior condition
                 {
-                    OnStateChange(reactElementsDict[searchedTag].stateChangeName[i]);
-                    return;
+                    if (tagCount > reactElementsDict[searchedTag].condition[i])
+                    {
+                        OnStateChange(reactElementsDict[searchedTag].stateChangeName[i]);
+                        return;
+                    }
                 }
+                else
+                {
+                    if (tagCount < reactElementsDict[searchedTag].condition[i])
+                    {
+                        OnStateChange(reactElementsDict[searchedTag].stateChangeName[i]);
+                        return;
+                    }
+                }
+               
             }
         }
         UpdateModification();
         return;
-        //if (numNPC > 3)
-        //{
-        //    OnStateChange("StateCloneArmy");
-        //    return;
-        //}
-        //else if (numNPC > 1)
-        //{
-        //    OnStateChange("StateClone");
-        //    return;
-        //}
-        //else if (numLamp > 1)
-        //{
-        //    OnStateChange("StateManyLights");
-        //    return;
-        //}
-        //else if (numLamp == 0)
-        //{
-        //    OnStateChange("StateNoLights");
-        //    return;
-        //}
-        //else
-        //{
-        //    UpdateModification();
-        //    return;
-        //}
     }
 
     /**
