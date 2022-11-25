@@ -26,14 +26,6 @@ public class FileParser : MonoBehaviour
         Assert.IsNotNull(targetModifiable);
     }
 
-    private void Start()
-    {
-        if (!File.Exists(filePath))
-        {
-            Debug.LogWarning("\"" + filePath + "\" should exist !");
-        }
-    }
-
     /**
      *  Function called by FileWatcher upon detection of a file modification
      */
