@@ -386,7 +386,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46416
+  m_InstanceId: 40470
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,8 +401,8 @@ GameObject:
   - component: {fileID: 6320083818522056958}
   - component: {fileID: 6320083818522056959}
   - component: {fileID: 1454093498404834182}
-  - component: {fileID: 5071354990999242549}
   - component: {fileID: 3510808418412436298}
+  - component: {fileID: 5071354990999242549}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -595,19 +595,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 0
---- !u!114 &5071354990999242549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6320083818522056946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: Player/player.txt
 --- !u!61 &3510808418412436298
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -634,3 +621,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5071354990999242549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6320083818522056946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjectFileName: Player/player.txt

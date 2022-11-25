@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5798933098644633974}
   - component: {fileID: 5265295558358186312}
   - component: {fileID: 6763806151426580000}
-  - component: {fileID: 5334388993153645244}
   m_Layer: 0
   m_Name: XV6
   m_TagString: NPC
@@ -132,19 +131,8 @@ MonoBehaviour:
     - StateCloned
     - StateCloneArmy
     superiorCondition: 0100000003000000
---- !u!114 &5334388993153645244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4787518617515403794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: Office/XV6.txt
+  grid: {fileID: 0}
+  canMoving: 0
 --- !u!1 &8005445728654904466
 GameObject:
   m_ObjectHideFlags: 0
