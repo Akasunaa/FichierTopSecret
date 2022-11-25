@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateChangedOrigin
   m_EditorClassIdentifier: 
-  name: StateIdle
+  name: StateChangedOrigin
   speech:
   - Hey, what did you do ?
   - Good try, but I know I'm not from $origin$, my memory banks tells me that I'm
     from...
   - ............................
   - Oh, you have to be KIDDING ME !
-  currentSpeech: 
+  currentSpeech: Oh, you have to be KIDDING ME !
