@@ -49,6 +49,7 @@ public class DoorObjectController : ModifiableController, Interactable
         }
         else if(TryGet("locked", out locked) && locked && interactionController != null && displayingDialogue)
         {
+            displayingDialogue = false;
             Time.timeScale = 1f;
             interactionController.EndDisplay();
         }
