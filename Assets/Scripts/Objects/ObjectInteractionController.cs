@@ -6,7 +6,6 @@ using UnityEngine.Assertions;
 /**
  *  Component used by objects that will allow the player to spew dialogue when interacting with them
  */
-[RequireComponent(typeof(InteractableObjectController))]
 public class ObjectInteractionController : MonoBehaviour
 {
     [TextArea(3, 10)]

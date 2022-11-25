@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
+  - component: {fileID: 3969105620170318530}
   m_Layer: 0
   m_Name: door
   m_TagString: Untagged
@@ -59,6 +60,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3969105620170318530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54021d1bdb8fd9e4fb4dac349d4d4523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDeleted: 0
+  direction: Openworld
+  spriteRenderer: {fileID: 7200008761772708580}
+  closedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
+  openedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0

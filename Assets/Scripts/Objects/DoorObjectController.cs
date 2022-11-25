@@ -20,6 +20,9 @@ public class DoorObjectController : ModifiableController, Interactable
     [SerializeField] private Sprite closedSprite;
     [SerializeField] private Sprite openedSprite;
 
+    private ObjectInteractionController interactionController;
+    private bool displayingDialogue;
+
     private bool isOpened;
     public bool canBeInteracted { get; set; }
 
@@ -31,12 +34,25 @@ public class DoorObjectController : ModifiableController, Interactable
         //Assert.IsNotNull(transitionAnimation);
         Assert.IsNotNull(closedSprite);
         Assert.IsNotNull(openedSprite);
+        interactionController = GetComponent<ObjectInteractionController>();
         isOpened = false;
+        displayingDialogue = false;
     }
 
     public void Interact()
     {
-        if (TryGet("locked", out bool locked) && !locked)
+        if(TryGet("locked", out bool locked) && locked && interactionController!=null && !displayingDialogue) //UGLY, NEEDS TO BE REWRITTEN
+        {
+            displayingDialogue = true;
+            Time.timeScale = 0f;
+            interactionController.DisplayInteractionDialogue();
+        }
+        else if(TryGet("locked", out locked) && locked && interactionController != null && displayingDialogue)
+        {
+            Time.timeScale = 1f;
+            interactionController.EndDisplay();
+        }
+        if (TryGet("locked", out locked) && !locked)
         {
             if (TryGet("direction", out string dir))
             {
