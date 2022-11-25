@@ -46,7 +46,6 @@ public class LevelManager : MonoBehaviour
         }
         #endif
         LoadScene(levelToLoad);
-        SynonymController.SetSynonym();
     }
 
     public void LoadScene(string levelName)
@@ -152,21 +151,18 @@ public class LevelManager : MonoBehaviour
             {
                 //check all synonym
                 string[] synonyms = SynonymController.SearchSynonym(nameObject);
-                foreach (var synonym in synonyms)
+                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(pair.reg, x, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
+                if (synonym!=null)
                 {
-                    if (Regex.IsMatch(pair.reg, synonym, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
-                    {
-                        Debug.Log("New file to watch: " + fi.FullName);
-                        newObj = Instantiate(pair.go);
-                        fp = newObj.AddComponent<FileParser>();
-                        fp.filePath = fi.FullName;
-                        //print(fp_tmp.filePath);
-                        fp.ReadFromFile(fi.FullName);
-                        FilesWatcher.Instance.Set(fp);
-                        return; 
-                    }
-                }     
-            }
+                    Debug.Log("New file to watch: " + fi.FullName);
+                    newObj = Instantiate(pair.go);
+                    fp = newObj.AddComponent<FileParser>();
+                    fp.filePath = fi.FullName;
+                    fp.ReadFromFile(fi.FullName);
+                    FilesWatcher.Instance.Set(fp);
+                    return;
+                }
+            }   
             //nothing object : no object with the name of file 
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
             fp = newObj.AddComponent<FileParser>();

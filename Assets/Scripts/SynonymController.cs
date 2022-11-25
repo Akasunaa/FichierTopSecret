@@ -8,23 +8,29 @@ using System;
 
 public static class SynonymController
 {
-   
-    public static void SetSynonym()
+    static string[][] synonymGroups = new string[][]
     {
-        string[][] synonymGroups = new string[][]
-        {
-                new string[] { "chair", "stool" },
-                new string[] { "desk", "desktop"}
-        };
-    }
+        new string[] { "chair", "stool" },
+        new string[] { "desk", "desktop"},
+        new string[] { "lamp", "light", "streetlight"},
+        new string[] { "door", "ordi"}
+    };
 
     public static string[] SearchSynonym(string word)
     {
         word = word.Trim().ToLower();
         word = new string(word.Where(Char.IsLetter).ToArray());
+        foreach(var group in synonymGroups)
+        {
+            foreach(var synword in group)
+            {
+                if(synword == word)
+                {
+                    return group;
+                }
+            }
+        }
         string[] syno = new string[] { word };
-        /*string[] synonyms = index.Dictionaries.SynonymDictionary.GetSynonyms(word);
-        synonyms = synonyms.Concat(new[] { word }).ToArray();*/
         return syno ;
     }
 }
