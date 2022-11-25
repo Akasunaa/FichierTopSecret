@@ -85,8 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: This is my chair. Makemakiens might be jerks, but they sure know how
-    to make comfortable furniture...
+  dialogueStandard: This is my chair. Makemakiens may be jerks, but they sure know
+    how to make good furniture.
+  dialogueOnConditionChange: 
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +214,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1, z: 0}
   m_ShapePathHash: 1301673237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40532
+  m_InstanceId: 42084

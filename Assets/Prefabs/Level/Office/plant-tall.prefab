@@ -85,8 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogue: This is my plant. It grew so big ! I wonder if they'll let me keep it
-    when it cracks the ceiling...
+  dialogueStandard: This is my big plant. I wonder if the landlord will kick me out
+    if it breaks the ceiling.
+  dialogueOnConditionChange: This is my big plant. I wonder if the landlord will
+    kick me out if it breaks the ceiling.
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +215,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1.5, z: 0}
   m_ShapePathHash: 1201009941
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40838
+  m_InstanceId: 42314
