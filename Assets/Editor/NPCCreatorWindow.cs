@@ -33,6 +33,9 @@ public class NPCCreatorWindow : EditorWindow
     private GameObject instantiatedNPC;             //the ref towards the NPC that will be created
     private DialogSM dialogSM;
     private NPCController npcController;
+    private DialogueUIController dialogueUIController;  //ref towards the dialogueUIController present in scene
+
+    //Elements for npc :
     private string npcName;                         //name of the NPC
 
     //Elements for DialogSM :
@@ -40,7 +43,7 @@ public class NPCCreatorWindow : EditorWindow
     [SerializeField] List<DialogStateEditorItem> availableStatesList = new List<DialogStateEditorItem>();
 
     //Elements for NPCController :
-    [SerializeField] private string portraitRef;
+    private string portraitRef;
     [SerializeField] List<FILE_ELEMENTS> npcProperties = new List<FILE_ELEMENTS>();
     
 
@@ -48,14 +51,29 @@ public class NPCCreatorWindow : EditorWindow
 
     private void OnGUI()
     {
-        if (!editor) { editor = Editor.CreateEditor(this); }
-        if (editor) { editor.OnInspectorGUI(); }
+        GUILayout.Label("NPC creator window", EditorStyles.boldLabel); //label of the window
 
-        GUILayout.Label("NPC creator window",EditorStyles.boldLabel); //label of the window
+        //we'll obtain the UI present in the scene, to test if the portrait is possible or not --------------------
+        if (GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>() != null) { dialogueUIController = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>(); }
+        else { dialogueUIController = null; }
+        // -------------------------------------------------------------------------------------------------------
 
         npcName = EditorGUILayout.TextField("NPC name", npcName); //we get the NPC's name value
 
+        //we get the various lists of serialized elements of the NPC
+        if (!editor) { editor = Editor.CreateEditor(this); }
+        if (editor) { editor.OnInspectorGUI(); }
 
+        //we get the portrait's string ref for the NPC
+        portraitRef = EditorGUILayout.TextField("NPC portrait", portraitRef);
+
+        //test if the inputted portrait name is available :
+        if (dialogueUIController && !dialogueUIController.ContainsPortrait(portraitRef))
+        {
+            GUILayout.Label("WRONG PORTRAIT NAME INPUTTED, PLEASE REFER TO AVAILABLE PORTRAITS IN CURRENTLY UI PREFAB", EditorStyles.boldLabel); //label of the window
+            return;
+
+        }
         //button that will instantiate the prefab in the scene with the corresponding NPC :
         if (GUILayout.Button("Press to create NPC"))
         {
