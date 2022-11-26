@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
   - component: {fileID: 1700917928409655332}
+  - component: {fileID: 7266619612979862629}
+  - component: {fileID: 1843693500570814826}
   m_Layer: 0
   m_Name: Nothing
   m_TagString: Lamp
@@ -73,6 +75,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
+--- !u!114 &7266619612979862629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1843693500570814826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueStandard: This is... Huh... This is strange, I don't recognize this at
+    all... It feels like... A void... Of unending darkness... I should leave it alone...
+  dialogueOnConditionChange: This is... Huh... This is strange, I don't recognize
+    this at all... It feels like... A void... Of unending darkness... I should leave
+    it alone...
 --- !u!1 &8112455998170446846
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,3 +202,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5546779668956738768}
+  offset: 0
