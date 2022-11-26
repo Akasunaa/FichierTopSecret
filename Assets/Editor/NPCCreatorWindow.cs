@@ -46,11 +46,16 @@ public class NPCCreatorWindow : EditorWindow
     //Elements for NPCController :
     private string portraitRef;
     [SerializeField] List<FILE_PROPERTIES> npcProperties = new List<FILE_PROPERTIES>();
+    [SerializeField] List<PLAYER_ITEMS> playerItems = new List<PLAYER_ITEMS>();
+    [SerializeField] List<QUEST_ITEMS> questItems = new List<QUEST_ITEMS>();
+    [SerializeField] List<REACT_ELEMENTS> reactElements = new List<REACT_ELEMENTS>();
 
     Editor editor;
+    private Vector2 scrollPos;
 
     private void OnGUI()
     {
+        scrollPos = GUILayout.BeginScrollView(scrollPos, false, true);
         GUILayout.Label("NPC creator window", EditorStyles.boldLabel); //label of the window
 
         //we'll obtain the UI present in the scene, to test if the portrait is possible or not --------------------
@@ -74,24 +79,28 @@ public class NPCCreatorWindow : EditorWindow
         if (npcName == "")
         {
             GUILayout.Label("NO NPC NAME INPUTTED", EditorStyles.boldLabel);
+            GUILayout.EndScrollView();
             return;
         }
         //test if the inputted portrait name is available :
         if (dialogueUIController && !dialogueUIController.ContainsPortrait(portraitRef))
         {
             GUILayout.Label("WRONG PORTRAIT NAME INPUTTED, PLEASE REFER TO AVAILABLE PORTRAITS IN CURRENTLY UI PREFAB", EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
             return;
         }
         //test if npc has at least starting state :
         if (startingState == null)
         {
             GUILayout.Label("NO STARTING STATE INPUTTED", EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
             return;
         }
         //test if the properties are correct :
         if (CheckPropertiesCorrectness())
         {
             GUILayout.Label(errorProperties, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
             return;
         }
         #endregion
@@ -102,6 +111,8 @@ public class NPCCreatorWindow : EditorWindow
         {
             CreateNPC();
         }
+
+        GUILayout.EndScrollView();
     }
 
     /**
@@ -193,10 +204,30 @@ public class NPCCreatorWindowDrawer : Editor
 {
     public override void OnInspectorGUI()
     {
+        EditorGUILayout.BeginHorizontal();
         var statesList = serializedObject.FindProperty("AvailableStatesList");
         EditorGUILayout.PropertyField(statesList, new GUIContent("Available States List"), true);
+        EditorGUILayout.EndHorizontal();
 
+        EditorGUILayout.BeginHorizontal();
         var propertiesList = serializedObject.FindProperty("NPCProperties");
         EditorGUILayout.PropertyField(propertiesList, new GUIContent("NPC Properties"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var playerItemsList = serializedObject.FindProperty("PlayerItems");
+        EditorGUILayout.PropertyField(playerItemsList, new GUIContent("Player Items to React to"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var questItemsList = serializedObject.FindProperty("QuestItems");
+        EditorGUILayout.PropertyField(questItemsList, new GUIContent("Quest Items to give out"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var reactElementsList = serializedObject.FindProperty("ReactElements");
+        EditorGUILayout.PropertyField(reactElementsList, new GUIContent("Tagged Elements to react to"), true);
+        EditorGUILayout.EndHorizontal();
+
     }
 }
