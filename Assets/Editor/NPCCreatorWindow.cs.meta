@@ -3,7 +3,9 @@ guid: c038a5a056c0038428a8db29eb714479
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - basicNPC: {fileID: 609991836831715500, guid: a32b949df03bedd4caa3f9dde1e746ba, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
