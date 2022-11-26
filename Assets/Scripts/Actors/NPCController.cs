@@ -28,15 +28,15 @@ public class NPCController : ModifiableController, Interactable
     [HideInInspector] public Dictionary<string, FILE_PROPERTIES> propertyDict = new Dictionary<string, FILE_PROPERTIES>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     [Header("Element to check")]
-    [SerializeField] private PLAYER_ITEMS[] objectsElements;
+    [SerializeField] public PLAYER_ITEMS[] objectsElements;
     [HideInInspector] public Dictionary<string, PLAYER_ITEMS> objectDict = new Dictionary<string, PLAYER_ITEMS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     [Header("Quest item")]
-    [SerializeField] private QUEST_ITEMS[] questItems;
+    [SerializeField] public QUEST_ITEMS[] questItems;
     [HideInInspector] public Dictionary<string,QUEST_ITEMS> questItemsDict = new Dictionary<string, QUEST_ITEMS>();
 
     [Header("Tagged elements to react to")]
-    [SerializeField] private REACT_ELEMENTS[] reactElements;
+    [SerializeField] public REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
     [Header("Deplacement")]

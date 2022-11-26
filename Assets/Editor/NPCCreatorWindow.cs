@@ -173,6 +173,42 @@ public class NPCCreatorWindow : EditorWindow
             propIndex++;
         }
         //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of playerItems to NPCController --------------------------------------------------
+        npcController.objectsElements = new PLAYER_ITEMS[playerItems.Count];
+        int playerItemsIndex = 0;
+        foreach (var playerItem in playerItems)
+        {
+            PLAYER_ITEMS pItem = new PLAYER_ITEMS();
+            pItem = playerItem;
+            npcController.objectsElements[playerItemsIndex] = pItem;
+            playerItemsIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of questItems to NPCController --------------------------------------------------
+        npcController.questItems = new QUEST_ITEMS[questItems.Count];
+        int questItemsIndex = 0;
+        foreach (var questItem in questItems)
+        {
+            QUEST_ITEMS qItem = new QUEST_ITEMS();
+            qItem = questItem;
+            npcController.questItems[questItemsIndex] = qItem;
+            questItemsIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of reactElements to NPCController --------------------------------------------------
+        npcController.reactElements = new REACT_ELEMENTS[reactElements.Count];
+        int reactElementsIndex = 0;
+        foreach (var reactElement in reactElements)
+        {
+            REACT_ELEMENTS rElement = new REACT_ELEMENTS();
+            rElement = reactElement;
+            npcController.reactElements[reactElementsIndex] = rElement;
+            reactElementsIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
         npcController = instantiatedNPC.GetComponent<NPCController>();
     }
 
