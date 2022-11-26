@@ -23,53 +23,19 @@ public class NPCController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
-    public enum TYPE
-    {
-        INTEGER,
-        STRING
-    }
-
-    [Serializable]
-    public struct FILE_ELEMENTS                             //struct used for the dictionnary of the properties of the object 
-    {
-        public string propertyName;                         //name of the property
-        public string propertyValue;                        //value of the property
-        public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
-        public int propertyCondition;                       //condition of the property
-        public string propertyChangeState;                  //associated state of the property if changed
-    }
     [Header("File elements")]
     [SerializeField] private FILE_ELEMENTS[] fileElements;
     [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
-    [Serializable]
-    public struct OBJECTS_ELEMENTS                          //struct used for the dictionnary of the objects that the NPC will look out for in the player's inventory
-    {
-        public string objectName;                           //name of the object (must be exact)
-        public string objectChangeState;                    //state that will change if object detected in player's inventory
-    }
     [Header("Element to check")]
-    [SerializeField] private OBJECTS_ELEMENTS[] objectsElements;
-    [HideInInspector] public Dictionary<string, OBJECTS_ELEMENTS> objectDict = new Dictionary<string, OBJECTS_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
+    [SerializeField] private PLAYER_ITEMS[] objectsElements;
+    [HideInInspector] public Dictionary<string, PLAYER_ITEMS> objectDict = new Dictionary<string, PLAYER_ITEMS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
-    [Serializable]
-    public struct QUEST_ITEMS                               //struct used for the dictionnary of the quest items the NPC will give out upon trigger by a certain state's name
-    {
-        public GameObject item;                             //item that the NPC will give the player
-        public string questChangeState;                    //state that will trigger the NPC giving the item
-    }
     [Header("Quest item")]
     [SerializeField] private QUEST_ITEMS[] questItems;
     [HideInInspector] public Dictionary<string,QUEST_ITEMS> questItemsDict = new Dictionary<string, QUEST_ITEMS>();
 
-    [Serializable]
-    public struct REACT_ELEMENTS
-    {
-        public string tagToReact;
-        public string[] stateChangeName;
-        public bool[] isSuperior;
-        public int[] condition;
-    }
+    [Header("Tagged elements to react to")]
     [SerializeField] private REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
@@ -99,9 +65,9 @@ public class NPCController : ModifiableController, Interactable
         //Creating the dict of the objects :
         foreach (var element in objectsElements)
         {
-            if (!objectDict.ContainsKey(element.objectName))
+            if (!objectDict.ContainsKey(element.playerItemName))
             {
-                objectDict.Add(element.objectName, element);
+                objectDict.Add(element.playerItemName, element);
             }
         }
 
@@ -189,12 +155,12 @@ public class NPCController : ModifiableController, Interactable
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
             if (playerHasObject)
             {
-                OnStateChange(objectDict[checkedObject].objectChangeState); //if player has the item, change the NPC's state accordingly
+                OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
 
-                if (questItemsDict.ContainsKey(objectDict[checkedObject].objectChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
+                if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
-                    GiveItem(questItemsDict[objectDict[checkedObject].objectChangeState].item);
-                    questItemsDict.Remove(objectDict[checkedObject].objectChangeState); //we remove the item to avoid giving it twice
+                    GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
+                    questItemsDict.Remove(objectDict[checkedObject].playerItemChangeState); //we remove the item to avoid giving it twice
                 }
             }
         }
@@ -384,4 +350,44 @@ public class NPCController : ModifiableController, Interactable
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
     }
+}
+
+[System.Serializable]
+public enum TYPE                                        //enum used to indicate if a property is of type integer or string
+{
+    INTEGER,
+    STRING
+}
+
+[System.Serializable]
+public struct FILE_ELEMENTS                             //struct used for the dictionnary of the properties of the object 
+{
+    public string propertyName;                         //name of the property
+    public string propertyValue;                        //value of the property
+    public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
+    public int propertyCondition;                       //condition of the property
+    public string propertyChangeState;                  //associated state of the property if changed
+}
+
+[System.Serializable]
+public struct PLAYER_ITEMS                          //struct used for the dictionnary of the objects that the NPC will look out for in the player's inventory
+{
+    public string playerItemName;                           //name of the object (must be exact)
+    public string playerItemChangeState;                    //state that will change if object detected in player's inventory
+}
+
+[System.Serializable]
+public struct QUEST_ITEMS                               //struct used for the dictionnary of the quest items the NPC will give out upon trigger by a certain state's name
+{
+    public GameObject item;                             //item that the NPC will give the player
+    public string questChangeState;                    //state that will trigger the NPC giving the item
+}
+
+[System.Serializable]
+public struct REACT_ELEMENTS                            //struct used for elements that the NPC will react to by their tag 
+{
+    public string tagToReact;                           //tag that it will react to
+    public string[] stateChangeName;                    //associated name of the state
+    public bool[] isSuperior;                           //if the associated condition is a superior condition or not
+    public int[] condition;                             //the value for the condition
 }

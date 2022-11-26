@@ -34,8 +34,16 @@ public class NPCCreatorWindow : EditorWindow
     private DialogSM dialogSM;
     private NPCController npcController;
     private string npcName;                         //name of the NPC
+
+    //Elements for DialogSM :
+    [SerializeField] DialogStateEditorItem startingState;
+    [SerializeField] List<DialogStateEditorItem> availableStatesList = new List<DialogStateEditorItem>();
+
+    //Elements for NPCController :
+    [SerializeField] private string portraitRef;
+    [SerializeField] List<FILE_ELEMENTS> npcProperties = new List<FILE_ELEMENTS>();
     
-    [SerializeField] List<DialogStateEditorItem> AvailableStatesList = new List<DialogStateEditorItem>();
+
     Editor editor;
 
     private void OnGUI()
@@ -45,9 +53,7 @@ public class NPCCreatorWindow : EditorWindow
 
         GUILayout.Label("NPC creator window",EditorStyles.boldLabel); //label of the window
 
-        npcName = EditorGUILayout.TextField("NPC name",npcName); //we get the NPC's name value
-
-        //we begin to setup the dialogSM's available dialogs : this will be all the accessible dialogs to the NPC
+        npcName = EditorGUILayout.TextField("NPC name", npcName); //we get the NPC's name value
 
 
         //button that will instantiate the prefab in the scene with the corresponding NPC :
@@ -67,9 +73,9 @@ public class NPCCreatorWindow : EditorWindow
         dialogSM = instantiatedNPC.GetComponent<DialogSM>();
 
         //Adding the list of states to the dialogSM component ----------------------------------------------
-        dialogSM.nextStates = new NEXT_STATE[AvailableStatesList.Count]; //we will simply add the items to the list of the dialogSM's inspector, dialogSM's script will handle the rest
+        dialogSM.nextStates = new NEXT_STATE[availableStatesList.Count]; //we will simply add the items to the list of the dialogSM's inspector, dialogSM's script will handle the rest
         int i = 0;  
-        foreach (var element in AvailableStatesList)
+        foreach (var element in availableStatesList)
         {
             NEXT_STATE nextState;
             nextState.state = element.state;
@@ -96,11 +102,15 @@ public class DialogStateEditorItem
     public DialogState state;
 }
 
+
 public class NPCCreatorWindowDrawer : Editor
 {
     public override void OnInspectorGUI()
     {
         var statesList = serializedObject.FindProperty("AvailableStatesList");
         EditorGUILayout.PropertyField(statesList, new GUIContent("Available States List"), true);
+
+        var propertiesList = serializedObject.FindProperty("NPCProperties");
+        EditorGUILayout.PropertyField(propertiesList, new GUIContent("NPC Properties"), true);
     }
 }
