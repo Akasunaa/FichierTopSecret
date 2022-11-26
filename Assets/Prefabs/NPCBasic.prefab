@@ -74,26 +74,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
-  nextStates:
-  - name: 
-    state: {fileID: 11400000, guid: bba1dd50dee126a4090bb4f3714d9c1f, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: f997283b74f812549a3737a5a87efb4b, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 4f8ba7260792fb04988bf6786e70439c, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 25a9cc62004b8074b9a6912b72107e8d, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: a19ce22cabfaaa04bb715800311fafec, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 8ec1af27ac36e3d43a6537cdebe4564d, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: d74a80eef5952df42aa66a3df96f17f6, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 363703cbbef1d7a4f8da57a4b0f0867e, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 19a92f6bb26099141995c519b7253e60, type: 2}
+  startingState: {fileID: 0}
+  nextStates: []
 --- !u!114 &1718777866957563038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,26 +91,12 @@ MonoBehaviour:
   canBeDeleted: 1
   canBeInteracted: 0
   portraitRef: npc
-  fileElements:
-  - propertyName: name
-    propertyValue: pouet
-    propertyType: 1
-    propertyCondition: 0
-    propertyChangeState: StateChangedName
-  - propertyName: origin
-    propertyValue: jovian sphere
-    propertyType: 1
-    propertyCondition: 0
-    propertyChangeState: StateChangedOrigin
-  - propertyName: health
-    propertyValue: 1
-    propertyType: 0
-    propertyCondition: 1
-    propertyChangeState: StateDeath
-  objectsElements:
-  - objectName: item
-    objectChangeState: StateItemObtained
+  fileElements: []
+  objectsElements: []
   questItems: []
+  reactElements: []
+  grid: {fileID: 0}
+  canMoving: 0
 --- !u!1 &2674717063482308140
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,5 +194,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 1
   spriteRenderer: {fileID: 6302621173359886219}
+  offset: 0

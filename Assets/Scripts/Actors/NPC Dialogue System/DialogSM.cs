@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
@@ -11,14 +12,8 @@ using UnityEngine.InputSystem.LowLevel;
 public class DialogSM : StateMachine
 {
     [SerializeField] private DialogState startingState;
-    [Serializable]
-    private struct NEXT_STATE                               //struct used for the next states
-    {
-        [HideInInspector] public string name;
-        public DialogState state;
-    }
     [Header("Next possible states")]
-    [SerializeField] private NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
+    [SerializeField] public NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
 
     protected void Start()
@@ -74,4 +69,15 @@ public class DialogSM : StateMachine
             return;
         }
     }
+}
+
+/**
+ *  Structure of elements used to create the list of new states
+ *  We made it a different class to allow other scripts to use it (notably the custom editor window)
+ */
+[System.Serializable]
+public struct NEXT_STATE                               //struct used for the next states
+{
+    [HideInInspector] public string name;
+    public DialogState state;
 }

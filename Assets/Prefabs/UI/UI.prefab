@@ -93,7 +93,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.8
+  m_fontSize: 16.45
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -256,10 +256,8 @@ MonoBehaviour:
   portraitImage: {fileID: 2637594484115763881}
   dialogueText: {fileID: 2637594483630912987}
   availablePortraits:
-  - name: player
-    sprite: {fileID: 21300000, guid: 9a4fb869a3a79c446a784dd0fb21905d, type: 3}
-  - name: npc
-    sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
+  - {fileID: 11400000, guid: 22059f1b266d9484095fd47fbc04f1db, type: 2}
+  - {fileID: 11400000, guid: 8a87887357c9c6e4881477663e450471, type: 2}
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0

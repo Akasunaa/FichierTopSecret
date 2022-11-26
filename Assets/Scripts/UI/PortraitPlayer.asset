@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: StateNotEnoughLights
+  m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
+  m_Name: PortraitPlayer
   m_EditorClassIdentifier: 
-  speech:
-  - 'Shutting all the lights ? '
-  - 'What''s the point ? You''re trying to steal my explosives ? '
-  - I have IR sensors you bio-idiot. I can see you.
-  currentSpeech: 
+  portraitName: player
+  portraitSprite: {fileID: -912566128, guid: 4c7d411af7266b541b05c1f7452d8980, type: 3}
