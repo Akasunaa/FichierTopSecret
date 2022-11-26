@@ -23,9 +23,9 @@ public class NPCController : ModifiableController, Interactable
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
-    [Header("File elements")]
-    [SerializeField] private FILE_ELEMENTS[] fileElements;
-    [HideInInspector] public Dictionary<string, FILE_ELEMENTS> propertyDict = new Dictionary<string, FILE_ELEMENTS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
+    [Header("File Properties")]
+    [SerializeField] public FILE_PROPERTIES[] fileProperties;
+    [HideInInspector] public Dictionary<string, FILE_PROPERTIES> propertyDict = new Dictionary<string, FILE_PROPERTIES>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
     [Header("Element to check")]
     [SerializeField] private PLAYER_ITEMS[] objectsElements;
@@ -53,7 +53,7 @@ public class NPCController : ModifiableController, Interactable
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
-        foreach(var element in fileElements)
+        foreach(var element in fileProperties)
         {
             if (!propertyDict.ContainsKey(element.propertyName))
             {
@@ -360,7 +360,7 @@ public enum TYPE                                        //enum used to indicate 
 }
 
 [System.Serializable]
-public struct FILE_ELEMENTS                             //struct used for the dictionnary of the properties of the object 
+public struct FILE_PROPERTIES                             //struct used for the dictionnary of the properties of the object 
 {
     public string propertyName;                         //name of the property
     public string propertyValue;                        //value of the property

@@ -39,12 +39,12 @@ public class NPCCreatorWindow : EditorWindow
     private string npcName;                         //name of the NPC
 
     //Elements for DialogSM :
-    [SerializeField] DialogStateEditorItem startingState;
+    [SerializeField] DialogState startingState;
     [SerializeField] List<DialogStateEditorItem> availableStatesList = new List<DialogStateEditorItem>();
 
     //Elements for NPCController :
     private string portraitRef;
-    [SerializeField] List<FILE_ELEMENTS> npcProperties = new List<FILE_ELEMENTS>();
+    [SerializeField] List<FILE_PROPERTIES> npcProperties = new List<FILE_PROPERTIES>();
     
 
     Editor editor;
@@ -67,13 +67,21 @@ public class NPCCreatorWindow : EditorWindow
         //we get the portrait's string ref for the NPC
         portraitRef = EditorGUILayout.TextField("NPC portrait", portraitRef);
 
+
+        // ----------------- WE TEST IF ALL VALUES INPUTTED CAN CREATE A VALID NPC ---------------------------
         //test if the inputted portrait name is available :
         if (dialogueUIController && !dialogueUIController.ContainsPortrait(portraitRef))
         {
             GUILayout.Label("WRONG PORTRAIT NAME INPUTTED, PLEASE REFER TO AVAILABLE PORTRAITS IN CURRENTLY UI PREFAB", EditorStyles.boldLabel); //label of the window
             return;
-
         }
+        //test if npc has at least starting state :
+        if (startingState == null)
+        {
+            GUILayout.Label("NO STARTING STATE INPUTTED", EditorStyles.boldLabel); //label of the window
+            return;
+        }
+        // ----------------- WE TEST IF ALL VALUES INPUTTED CAN CREATE A VALID NPC ---------------------------
         //button that will instantiate the prefab in the scene with the corresponding NPC :
         if (GUILayout.Button("Press to create NPC"))
         {
@@ -89,19 +97,32 @@ public class NPCCreatorWindow : EditorWindow
         instantiatedNPC = Instantiate(basicNPC);
         instantiatedNPC.name = npcName;
         dialogSM = instantiatedNPC.GetComponent<DialogSM>();
+        npcController = instantiatedNPC.GetComponent<NPCController>();
 
         //Adding the list of states to the dialogSM component ----------------------------------------------
         dialogSM.nextStates = new NEXT_STATE[availableStatesList.Count]; //we will simply add the items to the list of the dialogSM's inspector, dialogSM's script will handle the rest
-        int i = 0;  
+        int stateIndex = 0;  
         foreach (var element in availableStatesList)
         {
             NEXT_STATE nextState;
             nextState.state = element.state;
             nextState.name = element.state.name;
-            dialogSM.nextStates[i] = nextState;
-            i++;
+            dialogSM.nextStates[stateIndex] = nextState;
+            stateIndex++;
         }
         // ------------------------------------------------------------------------------------------------
+
+        //Adding the list of properties to NPCController --------------------------------------------------
+        npcController.fileProperties = new FILE_PROPERTIES[npcProperties.Count];
+        int propIndex = 0;
+        foreach(var property in npcProperties)
+        {
+            FILE_PROPERTIES prop = new FILE_PROPERTIES();
+            prop = property;
+            npcController.fileProperties[propIndex] = prop;
+            propIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
         npcController = instantiatedNPC.GetComponent<NPCController>();
     }
 
