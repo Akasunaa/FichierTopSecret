@@ -34,6 +34,7 @@ public class NPCCreatorWindow : EditorWindow
     private DialogSM dialogSM;
     private NPCController npcController;
     private DialogueUIController dialogueUIController;  //ref towards the dialogueUIController present in scene
+    private string errorProperties = "ERROR IN THE PROPERTIES FIELDS";
 
     //Elements for npc :
     private string npcName;                         //name of the NPC
@@ -45,7 +46,6 @@ public class NPCCreatorWindow : EditorWindow
     //Elements for NPCController :
     private string portraitRef;
     [SerializeField] List<FILE_PROPERTIES> npcProperties = new List<FILE_PROPERTIES>();
-    
 
     Editor editor;
 
@@ -69,6 +69,13 @@ public class NPCCreatorWindow : EditorWindow
 
 
         // ----------------- WE TEST IF ALL VALUES INPUTTED CAN CREATE A VALID NPC ---------------------------
+        #region TEST CORRECTNESS IN INPUTTED VALUES
+        //test if the npc has a name :
+        if (npcName == "")
+        {
+            GUILayout.Label("NO NPC NAME INPUTTED", EditorStyles.boldLabel);
+            return;
+        }
         //test if the inputted portrait name is available :
         if (dialogueUIController && !dialogueUIController.ContainsPortrait(portraitRef))
         {
@@ -81,7 +88,15 @@ public class NPCCreatorWindow : EditorWindow
             GUILayout.Label("NO STARTING STATE INPUTTED", EditorStyles.boldLabel); //label of the window
             return;
         }
-        // ----------------- WE TEST IF ALL VALUES INPUTTED CAN CREATE A VALID NPC ---------------------------
+        //test if the properties are correct :
+        if (CheckPropertiesCorrectness())
+        {
+            GUILayout.Label(errorProperties, EditorStyles.boldLabel); //label of the window
+            return;
+        }
+        #endregion
+        // ------------------------------------------------------------------------------------------------------
+
         //button that will instantiate the prefab in the scene with the corresponding NPC :
         if (GUILayout.Button("Press to create NPC"))
         {
@@ -133,6 +148,39 @@ public class NPCCreatorWindow : EditorWindow
     {
         Repaint();
     }
+
+    /**
+     *  Function that will check that an inputted state name in the properties field is the correct one 
+     */
+    private bool CheckPropertiesCorrectness()
+    {
+        for(int index=0; index < npcProperties.Count; index++)
+        {
+            bool nameFound = false;
+            //Check if the property has a name :
+            if (npcProperties[index].propertyName == "")
+            {
+                errorProperties = "MISSING NAME IN PROPERTY "+index;
+                return true;
+            }
+            //Check if the property has an initial value :
+            if(npcProperties[index].propertyValue == "")
+            {
+                errorProperties = "MISSING VALUE IN PROPERTY " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            foreach (var state in availableStatesList)
+            {
+                if (state.state && state.state.name == npcProperties[index].propertyChangeState) //if the name is found in the list
+                {
+                    nameFound = true;
+                }
+            }
+            if (!nameFound) { errorProperties = "WRONGLY INPUTTED STATE NAME IN PROPERTY " + index; return true; }
+        }
+        return false;
+    }
 }
 
 [System.Serializable]
@@ -140,7 +188,6 @@ public class DialogStateEditorItem
 {
     public DialogState state;
 }
-
 
 public class NPCCreatorWindowDrawer : Editor
 {
