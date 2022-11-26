@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: StateIdle
   m_EditorClassIdentifier: 
-  name: StateIdle
   speech:
   - Hello citizen. I am $name$, roboguard of this fine...
   - ...of this relatively fine...
@@ -23,6 +22,6 @@ MonoBehaviour:
   - What I am doing here ?
   - I'm keeping some explosives off the grabby hands of you bio-lot.
   - 'What ? Of course not ! I''m not going to GIVE them to you ! '
-  - Why would I ? You're a cop ?
-  - Unless you prove to me you're some kind of authority, I ain't giving no explosives...
+  - Why would I ? You're representative of the Protectorate ?
+  - Unless you show me your insignia, I ain't giving you no explosives...
   currentSpeech: I'm keeping some explosives off the grabby hands of you bio-lot.
