@@ -35,6 +35,9 @@ public class NPCCreatorWindow : EditorWindow
     private NPCController npcController;
     private DialogueUIController dialogueUIController;  //ref towards the dialogueUIController present in scene
     private string errorProperties = "ERROR IN THE PROPERTIES FIELDS";
+    private string errorPlayerItems = "ERROR IN THE PLAYER ITEM FIELDS";
+    private string errorQuestItems = "ERROR IN THE QUEST ITEM FIELDS";
+    private string errorReactElements = "ERROR IN THE REACT ELEMENTS FIELDS";
 
     //Elements for npc :
     private string npcName;                         //name of the NPC
@@ -103,6 +106,27 @@ public class NPCCreatorWindow : EditorWindow
             GUILayout.EndScrollView();
             return;
         }
+        //test if the player items are correct :
+        if (CheckPlayerItemsCorrectness())
+        {
+            GUILayout.Label(errorPlayerItems, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
+        //test if the quest items are correct :
+        if (CheckQuestItemsCorrectness())
+        {
+            GUILayout.Label(errorQuestItems, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
+        //test if the react elements are correct :
+        if (CheckReactElementsCorrectness())
+        {
+            GUILayout.Label(errorReactElements, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
         #endregion
         // ------------------------------------------------------------------------------------------------------
 
@@ -161,7 +185,7 @@ public class NPCCreatorWindow : EditorWindow
     }
 
     /**
-     *  Function that will check that an inputted state name in the properties field is the correct one 
+     *  Function that will check that the properties are correct
      */
     private bool CheckPropertiesCorrectness()
     {
@@ -189,6 +213,97 @@ public class NPCCreatorWindow : EditorWindow
                 }
             }
             if (!nameFound) { errorProperties = "WRONGLY INPUTTED STATE NAME IN PROPERTY " + index; return true; }
+        }
+        return false;
+    }
+
+    /**
+     *  Function that will check that the player items are correct
+     */
+    private bool CheckPlayerItemsCorrectness()
+    {
+        for (int index = 0; index < playerItems.Count; index++)
+        {
+            bool nameFound = false;
+            //Check if the property has a name :
+            if (playerItems[index].playerItemName == "")
+            {
+                errorPlayerItems = "MISSING NAME IN ITEM " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            foreach (var state in availableStatesList)
+            {
+                if (state.state && state.state.name == playerItems[index].playerItemChangeState) //if the name is found in the list
+                {
+                    nameFound = true;
+                }
+            }
+            if (!nameFound) { errorPlayerItems = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN ITEM " + index; return true; }
+        }
+        return false;
+    }
+
+    /**
+     *  Function that will check that the quest items are correct
+     */
+    private bool CheckQuestItemsCorrectness()
+    {
+        for (int index = 0; index < questItems.Count; index++)
+        {
+            bool nameFound = false;
+            //Check if the quest item is not null :
+            if (questItems[index].item == null)
+            {
+                errorPlayerItems = "MISSING ITEM PREFAB REF IN ITEM " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            foreach (var state in availableStatesList)
+            {
+                if (state.state && questItems[index].item!=null && state.state.name == questItems[index].questChangeState) //if the name is found in the list
+                {
+                    nameFound = true;
+                }
+            }
+            if (!nameFound) { errorPlayerItems = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN ITEM " + index; return true; }
+        }
+        return false;
+    }
+
+    /**
+     *  Function that will check that the quest items are correct
+     */
+    private bool CheckReactElementsCorrectness()
+    {
+        for (int index = 0; index < reactElements.Count; index++)
+        {
+            //Check if the tag is not void :
+            if (reactElements[index].tagToReact == "")
+            {
+                errorReactElements = "MISSING TAG REF IN REACT ELEMENT " + index;
+                return true;
+            }
+            //Check if the three lists have the same amount of elements in each of them :
+            if(reactElements[index].condition.Length != reactElements[index].isSuperior.Length || reactElements[index].isSuperior.Length != reactElements[index].stateChangeName.Length || reactElements[index].condition.Length != reactElements[index].stateChangeName.Length)
+            {
+                errorReactElements = "SUBLISTS ARE NOT EQUAL IN REACT ELEMENT " + index;
+                return true;
+            }
+
+            //Check if the state is correctly linked :
+            for(int subIndex = 0; subIndex < reactElements[index].stateChangeName.Length; subIndex++)
+            {
+                bool nameFound = false;
+                foreach (var state in availableStatesList)
+                {
+                    if (state.state && state.state.name == reactElements[index].stateChangeName[subIndex]) //if the name is found in the list
+                    {
+                        nameFound = true;
+                    }
+                }
+                if (!nameFound) { errorReactElements = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN ITEM " + index + " FOR ELEMENT " + subIndex; return true; }
+            }
         }
         return false;
     }
