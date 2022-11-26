@@ -94,6 +94,8 @@ public class NPCController : ModifiableController, Interactable
             }
         }
         //-----------------------------------
+
+        //UpdateModification();
     }
 
     private void Update()
