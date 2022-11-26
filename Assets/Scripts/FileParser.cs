@@ -45,7 +45,13 @@ public class FileParser : MonoBehaviour
             if (targetModifiable.canBeDeleted)
             {
                 Debug.Log("Deleting go : " + path + " | " + name);
-                Destroy(targetModifiable.gameObject);
+
+                WriteToFile();
+                MoveFile(Application.streamingAssetsPath + path, Application.streamingAssetsPath + "/Test/CosmicBin");
+                File.SetAttributes(Application.streamingAssetsPath + "/Test/CosmicBin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+                CosmicBinManager.Instance.MoveGameObjectInComsicBin(gameObject);
+                //Destroy(targetModifiable.gameObject);
+
                 //todo : moyen de le recreer si unique
                 return true;
             }
@@ -56,6 +62,7 @@ public class FileParser : MonoBehaviour
         return false;
 
     }
+
 
     /**
      *  Function that will analyse the file found at filePath and will obtain the value needed (targetObjectModifiedVariable)
@@ -88,5 +95,11 @@ public class FileParser : MonoBehaviour
         {  
             sw.Write(targetModifiable.ToFileString());
         }
+    }
+
+    public void MoveFile(string pathToFile, string targetFolder)
+    {
+        string fileName = pathToFile.Split("/")[^1];
+        File.Move(pathToFile, targetFolder + "/" + fileName);
     }
 }
