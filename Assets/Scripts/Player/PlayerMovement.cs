@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
@@ -10,15 +12,14 @@ using UnityEngine.Tilemaps;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private Grid grid;                                     // grid guiding the tilemaps
+    [SerializeField] private Grid grid; //todo : search the grid in SceneData // grid guiding the tilemaps
     [SerializeField] private Animator animator;                             // player animations 
     private PlayerInteractionController interactionController;              //for collision with object in scene
 
     [Header("Movement variables")]
     [SerializeField] private float speed;
 
-    [Header("Debug")]
-    [SerializeField] private Vector2Int tilemapPosition;                    // position of the player on the tilemap
+    [SerializeField] public Vector2Int tilemapPosition { get; private set; } // position of the player on the tilemap
     [SerializeField] private List<Vector2Int> inputStack;                   // stack of inputs from least to most recent
     public Vector2Int facingDirection { get; private set; }                 // vector indicating in which direction the player is facing  
     private bool isMoving;

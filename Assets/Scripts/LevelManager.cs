@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEditor;
 using System.Linq;
+using JetBrains.Annotations;
+using Mono.Cecil.Rocks;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class LevelManager : MonoBehaviour
 
     private Scene activeLevel;
     [SerializeField] private string levelToLoad;
+
+    PlayerMovement player;
     
     [Serializable] private struct RegToGoPair
     {
@@ -47,10 +51,9 @@ public class LevelManager : MonoBehaviour
         #endif
         LoadScene(levelToLoad);
     }
-
     public void LoadScene(string levelName)
     {
-        StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
+        StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));  
     }
 
     public static string Capitalize(string input)
@@ -88,6 +91,12 @@ public class LevelManager : MonoBehaviour
         activeLevel = SceneManager.GetSceneByName(levelName);
         UpdateFileGameObjects(directoryExists);
         CreateGameObjectFromFiles(di);
+        yield return new WaitForSeconds(1);
+        try
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        }
+        catch (Exception error) { print("no player found"); }
     }
 
     /*
@@ -153,7 +162,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject newObj;
         FileParser fp;
-        //todo : check where its instantiate
+        Vector3Int pos;
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
         {
             string nameObject = Path.GetFileNameWithoutExtension(fi.Name);        
@@ -162,23 +171,39 @@ public class LevelManager : MonoBehaviour
                 //check all synonym
                 string[] synonyms = SynonymController.SearchSynonym(nameObject);
                 var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(pair.reg, x, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
+                
                 if (synonym!=null)
                 {
                     Debug.Log("New file to watch: " + fi.FullName);
                     newObj = Instantiate(pair.go);
+                    pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
+                    fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                    using (StreamWriter sw = new StreamWriter(fp.filePath))
+                    {
+                        sw.Write(fp.targetModifiable.ToFileString());
+                    }
+
                     return;
                 }
             }   
             //nothing object : no object with the name of file 
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
+            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+            newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
             FilesWatcher.Instance.Set(fp);
+            fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+            using (StreamWriter sw = new StreamWriter(fp.filePath))
+            {
+                sw.Write(fp.targetModifiable.ToFileString());
+            }
         }
     }
 }

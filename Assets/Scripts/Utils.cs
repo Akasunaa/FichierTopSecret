@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
 {
@@ -56,6 +57,29 @@ public static class Utils
         {
             // refresh the order in layer if the object has a layer manager
             layerManager.CalculateOrderInLayer();
+        }
+    }
+
+    public static Vector3Int NearestTileEmpty(Vector2Int position, int depth=1)
+    {
+        if (depth > 1000) { return Vector3Int.zero; }
+        else
+        {
+            for (int i = -depth; i <= depth; i++)
+            {
+                for (int j = -depth; j <= depth; j++)
+                {
+                    if(i==depth || i==-depth || j==-depth || j == depth)
+                    {
+                        if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0)) == null)
+                        {
+                            return new Vector3Int(position.x + i, position.y + j, 0);
+                        }
+                    }
+                    
+                }
+            }
+            return NearestTileEmpty(position, depth + 1);
         }
     }
 }
