@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Assertions;
 using Mono.Cecil.Rocks;
@@ -45,14 +46,9 @@ public class FileParser : MonoBehaviour
             if (targetModifiable.canBeDeleted)
             {
                 Debug.Log("Deleting go : " + path + " | " + name);
+                gameObject.SetActive(false);
+                DeleteFile(path);
 
-                WriteToFile();
-                MoveFile(Application.streamingAssetsPath + path, Application.streamingAssetsPath + "/Test/CosmicBin");
-                File.SetAttributes(Application.streamingAssetsPath + "/Test/CosmicBin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
-                CosmicBinManager.Instance.MoveGameObjectInComsicBin(gameObject);
-                //Destroy(targetModifiable.gameObject);
-
-                //todo : moyen de le recreer si unique
                 return true;
             }
             // If the file cannot be deleted, re-write the file
@@ -63,6 +59,13 @@ public class FileParser : MonoBehaviour
 
     }
 
+    public void DeleteFile(string path)
+    {
+        targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
+        WriteToFile();
+        MoveFile(Application.streamingAssetsPath + path, Application.streamingAssetsPath + "/Test/CosmicBin");
+        File.SetAttributes(Application.streamingAssetsPath + "/Test/CosmicBin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+    }
 
     /**
      *  Function that will analyse the file found at filePath and will obtain the value needed (targetObjectModifiedVariable)

@@ -6,9 +6,15 @@ using System.IO;
 public class CosmicBinManager : MonoBehaviour
 {
     public static CosmicBinManager Instance { get; private set; }
-    
-    [SerializeField] private List<GameObject> gameObjectsInBin;
+    private List<GameObject> objectsSuppressed;
+    private List<Vector2> usedPositions;
+
+    [Header("Cosmic bin variables")]
     public string cosmicBinSceneName;
+    [SerializeField] private int verticalGap;
+    [SerializeField] private int horizontalGap;
+
+    private List<Vector2> neighborPos = new List<Vector2>() {Vector2.up, Vector2.down, Vector2.left, Vector2.right};
 
     private void Awake()
     {
@@ -22,7 +28,9 @@ public class CosmicBinManager : MonoBehaviour
             Instance = this;
         }
 
-        gameObjectsInBin = new List<GameObject>();
+        objectsSuppressed = new List<GameObject>();
+        usedPositions = new List<Vector2>();
+
     }
 
     private void Start()
@@ -36,17 +44,27 @@ public class CosmicBinManager : MonoBehaviour
         }
     }
 
-    public void MoveGameObjectInComsicBin(GameObject go)
-    {
-        gameObjectsInBin.Add(go);
-        DontDestroyOnLoad(go);
-    }
-
     public void OnCosmicBinLoad()
     {
-        foreach(GameObject go in gameObjectsInBin)
+        Vector2 targetPos = Vector2.zero;
+        foreach(var gameObject in objectsSuppressed)
         {
+            gameObject.transform.position = targetPos;
+            usedPositions.Add(targetPos);
 
-        }
+            do
+            {
+                // generate random position
+                int rd = Random.Range(0, objectsSuppressed.Count);
+                int rdDirection = Random.Range(0, 4);
+
+                targetPos = (Vector2)objectsSuppressed[rd].transform.position + neighborPos[rdDirection] * new Vector2(horizontalGap, verticalGap);
+            } while (usedPositions.Contains(targetPos));
+        }   
+    }
+
+    public void AddSuppressedObject(GameObject gameObject)
+    {
+        objectsSuppressed.Add(gameObject);
     }
 }

@@ -57,32 +57,31 @@ public class LevelManager : MonoBehaviour
     
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
-        if (levelName != CosmicBinManager.Instance.cosmicBinSceneName)
+        FilesWatcher.Instance.Clear();
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
+
+        bool directoryExists = di.Exists;
+        if (!directoryExists)
         {
-            FilesWatcher.Instance.Clear();
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
+            Debug.Log("Create new directory: " + di.FullName + " | " + levelName);
+            di.Create();
+        }
 
-            bool directoryExists = di.Exists;
-            if (!directoryExists)
-            {
-                Debug.Log("Create new directory: " + di.FullName + " | " + levelName);
-                di.Create();
-            }
-
-            if (activeLevel.isLoaded)
-            {
-                SceneManager.UnloadSceneAsync(activeLevel);
-            }
+        if (activeLevel.isLoaded)
+        {
+            SceneManager.UnloadSceneAsync(activeLevel);
+        }
         
-            AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
-            while (!asyncLoadLevel.isDone) {
-                yield return null;
-            }
+        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone) {
+            yield return null;
+        }
 
-            activeLevel = SceneManager.GetSceneByName(levelName);
-            UpdateFileGameObjects(directoryExists);
-            CreateGameObjectFromFiles(di);
-        } else
+        activeLevel = SceneManager.GetSceneByName(levelName);
+        UpdateFileGameObjects(directoryExists);
+        CreateGameObjectFromFiles(di);
+
+        if (levelName == CosmicBinManager.Instance.cosmicBinSceneName)
         {
             CosmicBinManager.Instance.OnCosmicBinLoad();
         }
