@@ -226,7 +226,7 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.type)
             {
                 case FileChangeType.New:
-                    if (!pathToScript.ContainsKey(relativePath) && relativePath.Length > "/Test/".Length + fc.fi.Directory.Name.Length && relativePath.Substring("/Test/".Length, fc.fi.Directory.Name.Length) == SceneManager.GetActiveScene().name)
+                    if (!pathToScript.ContainsKey(relativePath) && relativePath.Length > "/Test/".Length + fc.fi.Directory.Name.Length && relativePath.Substring("/Test/".Length, fc.fi.Directory.Name.Length) == LevelManager.Capitalize(SceneManager.GetActiveScene().name))
                     {
                         LevelManager.Instance.NewObject(fc.fi);
                     }
