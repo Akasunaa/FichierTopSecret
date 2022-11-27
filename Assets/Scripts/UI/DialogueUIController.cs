@@ -17,13 +17,7 @@ public class DialogueUIController : MonoBehaviour
     [SerializeField] private Image portraitImage;                   //portrait image that will display the correct portrait sprite
     [SerializeField] private TextMeshProUGUI dialogueText;          //the dialogue text bubble
 
-    [Serializable]
-    private struct Portrait                                         //struct of the portraits : a sprite and associated string
-    {
-        public string name;                                         //name of the portrait
-        public Sprite sprite;                                       //sprite of the portrait
-    }
-    [SerializeField] private Portrait[] availablePortraits;         //all the possible portraits in the game
+    [SerializeField] public PortraitObject[] availablePortraits;         //all the possible portraits in the game
     private Dictionary<string, Sprite> portraits;                   //all the possible portraits of the game
 
     private void Awake()
@@ -43,7 +37,7 @@ public class DialogueUIController : MonoBehaviour
         portraits = new Dictionary<string, Sprite>();
         foreach(var portrait in availablePortraits)
         {
-            portraits.Add(portrait.name, portrait.sprite);
+            portraits.Add(portrait.portraitName, portrait.portraitSprite);
         }
         print(portraits);
     }
@@ -74,5 +68,17 @@ public class DialogueUIController : MonoBehaviour
     public void EndDisplay()
     {
         dialogueCanvas.gameObject.SetActive(false);
+    }
+
+    public bool ContainsPortrait(string nameCheck)
+    {
+        foreach(var portrait in availablePortraits)
+        {
+            if (portrait.portraitName == nameCheck)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
