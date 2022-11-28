@@ -76,15 +76,20 @@ public static class ApplyPlayerChange
             go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
             // update order in layer
             Utils.UpdateOrderInLayer(go);
+
+            //since the object could be moved, we stop the error display if need be :
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            SceneData.Instance.dialogueUIController.displayingSystemMessage = false;
+            SceneData.Instance.dialogueUIController.EndDisplay();
         } else
         {
             if (go.TryGetComponent<FileParser>(out FileParser fileParser))
             {
                 fileParser.WriteToFile();
                 string errorText = "I cannot move this object here, something is in the way!";
-                // TODO : Display une bulle de texte qui previent le joueur que la position est occupée
-                // Note : Dans chaque scène j'ai référencé le dialogueUIController du canvas dans le Scene data pour y accéder facilement
+                //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
                 SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
+                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
                 SceneData.Instance.dialogueUIController.displayingSystemMessage = true;
             }
         }

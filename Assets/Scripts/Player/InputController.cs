@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class InputController : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class InputController : MonoBehaviour
     private Inputs.OnFootActions onFoot;
     private int nbKeyPressed;
 
+    private bool inInteraction;
+
     private void Awake()
     {
         if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
@@ -18,6 +21,7 @@ public class InputController : MonoBehaviour
         input = new Inputs();
         onFoot = input.onFoot;
         nbKeyPressed = 0;
+        inInteraction = false;
     }
 
     /**
@@ -25,8 +29,11 @@ public class InputController : MonoBehaviour
      */
     public void Move(InputAction.CallbackContext context)
     {
-        PerformInput(context);
-        ResetInput(context);
+        if (!inInteraction)
+        {
+            PerformInput(context);
+            ResetInput(context);
+        }
     }
 
     /**
@@ -110,9 +117,30 @@ public class InputController : MonoBehaviour
         }
     }
 
+    /**
+     *  Function called by objects when they need to stop the player's movement
+     */
+    public void StopMovement()
+    {
+        inInteraction = true;
+    }
+
+    /**
+     *  Function called by objects when they need to reactivate the player's movement
+     */
+    public void ClearMovement()
+    {
+        inInteraction=false;
+        //onInteraction.Disable();
+        //onFoot.Enable();
+        //Debug.Log("INPUTS : onFoot : " + onFoot.enabled);
+        //Debug.Log("INPUTS : onInteraction : " + onInteraction.enabled);
+    }
+
     private void OnEnable()
     {
         onFoot.Enable();
+
     }
 
     private void OnDestroy()

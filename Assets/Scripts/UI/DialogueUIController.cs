@@ -86,13 +86,4 @@ public class DialogueUIController : MonoBehaviour
         }
         return false;
     }
-
-    private void OnApplicationFocus(bool focus)
-    {
-        if (displayingSystemMessage)
-        {
-            Invoke("EndDisplay",0.5f);
-            displayingSystemMessage = false;
-        }
-    }
 }

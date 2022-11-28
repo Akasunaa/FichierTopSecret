@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
 
     private Scene activeLevel;
+    private bool isLoading = false;
     [SerializeField] private string levelToLoad;
 
     PlayerMovement player;
@@ -53,7 +54,11 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadScene(string levelName)
     {
-        StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));  
+        if (!isLoading)
+        {
+            isLoading = true;
+            StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
+        }
     }
 
     public static string Capitalize(string input)
@@ -68,6 +73,7 @@ public class LevelManager : MonoBehaviour
     
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
+        isLoading = true;
         FilesWatcher.Instance.Clear();
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
 
@@ -78,10 +84,10 @@ public class LevelManager : MonoBehaviour
             di.Create();
         }
 
-        if (activeLevel.isLoaded)
-        {
-            SceneManager.UnloadSceneAsync(activeLevel);
-        }
+        // if (activeLevel.isLoaded)
+        // {
+        //     SceneManager.UnloadSceneAsync(activeLevel);
+        // }
         
         AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone) {
@@ -91,12 +97,12 @@ public class LevelManager : MonoBehaviour
         activeLevel = SceneManager.GetSceneByName(levelName);
         UpdateFileGameObjects(directoryExists);
         CreateGameObjectFromFiles(di);
-        yield return new WaitForSeconds(1);
         try
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
-        catch (Exception error) { print("no player found"); }
+        catch (Exception error) { Debug.LogError("no player found"); }
+        isLoading = false;
     }
 
     /*
