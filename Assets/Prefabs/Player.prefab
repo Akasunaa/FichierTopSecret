@@ -386,7 +386,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40470
+  m_InstanceId: 51018
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +442,6 @@ MonoBehaviour:
   grid: {fileID: 0}
   animator: {fileID: 6320083818459328203}
   speed: 3
-  tilemapPosition: {x: 0, y: 0}
   inputStack: []
 --- !u!114 &7588447500401278529
 MonoBehaviour:
@@ -517,22 +516,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6320083818522056958}
         m_TargetAssemblyTypeName: InputController, Assembly-CSharp
-        m_MethodName: Interact
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 538b9d8a-084f-4b59-a6c9-89d6568e37bc
-    m_ActionName: onFoot/Interaction[/Keyboard/e]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6320083818522056958}
-        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
         m_MethodName: Move
         m_Mode: 0
         m_Arguments:
@@ -577,6 +560,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c473d8e1-b0fc-4385-8805-f6685c381b4f
     m_ActionName: onFoot/HorizontalRightMovement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6320083818522056958}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: adf36440-9ba6-42ff-8bd1-bee189acf000
+    m_ActionName: interaction/Interaction[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6320083818522056958}
+        m_TargetAssemblyTypeName: InputController, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 216f78a8-e93f-4804-ac01-b809567db2e4
+    m_ActionName: onFoot/Interaction[/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: onFoot

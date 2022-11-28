@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class InputController : MonoBehaviour
 {
@@ -9,7 +10,10 @@ public class InputController : MonoBehaviour
     [SerializeField] private PlayerInteractionController interactionController;
     private Inputs input;
     private Inputs.OnFootActions onFoot;
+    private Inputs.OnInteractionActions onInteraction;
     private int nbKeyPressed;
+
+    private bool inInteraction;
 
     private void Awake()
     {
@@ -17,7 +21,9 @@ public class InputController : MonoBehaviour
         if (!interactionController) interactionController = GetComponent<PlayerInteractionController>();
         input = new Inputs();
         onFoot = input.onFoot;
+        onInteraction = input.onInteraction;
         nbKeyPressed = 0;
+        inInteraction = false;
     }
 
     /**
@@ -25,8 +31,11 @@ public class InputController : MonoBehaviour
      */
     public void Move(InputAction.CallbackContext context)
     {
-        PerformInput(context);
-        ResetInput(context);
+        if (!inInteraction)
+        {
+            PerformInput(context);
+            ResetInput(context);
+        }
     }
 
     /**
@@ -110,13 +119,36 @@ public class InputController : MonoBehaviour
         }
     }
 
+    /**
+     *  Function called by objects when they need to stop the player's movement
+     */
+    public void StopMovement()
+    {
+        inInteraction = true;
+    }
+
+    /**
+     *  Function called by objects when they need to reactivate the player's movement
+     */
+    public void ClearMovement()
+    {
+        inInteraction=false;
+        //onInteraction.Disable();
+        //onFoot.Enable();
+        //Debug.Log("INPUTS : onFoot : " + onFoot.enabled);
+        //Debug.Log("INPUTS : onInteraction : " + onInteraction.enabled);
+    }
+
     private void OnEnable()
     {
         onFoot.Enable();
+        onInteraction.Disable();
+
     }
 
     private void OnDestroy()
     {
         onFoot.Disable();
+        onInteraction.Enable();
     }
 }
