@@ -41,7 +41,7 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if(TryGet("locked", out bool locked) && locked && interactionController!=null && !displayingDialogue) //UGLY, NEEDS TO BE REWRITTEN
+        if (TryGet("locked", out bool locked) && locked && interactionController!=null && !displayingDialogue) //UGLY, NEEDS TO BE REWRITTEN
         {
             displayingDialogue = true;
             //Time.timeScale = 0f;
@@ -49,14 +49,15 @@ public class DoorObjectController : ModifiableController, Interactable
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
 
         }
-        else if(TryGet("locked", out locked) && locked && interactionController != null && displayingDialogue)
+        else if(/*TryGet("locked", out locked) && locked && */interactionController != null && displayingDialogue)
         {
             displayingDialogue = false;
-            //Time.timeScale = 1f;
-            interactionController.EndDisplay();
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            interactionController.EndDisplay();
+            return;
+            //Time.timeScale = 1f;
         }
-        if (TryGet("locked", out locked) && !locked)
+        if (!displayingDialogue && TryGet("locked", out locked) && !locked)
         {
             if (TryGet("direction", out string dir))
             {
@@ -70,7 +71,7 @@ public class DoorObjectController : ModifiableController, Interactable
                     Debug.LogWarning("Scene: " + dir + " does not exists or is not in build");
                 }
             }
-        }
+        } 
     }
 
     public override void UpdateModification()
