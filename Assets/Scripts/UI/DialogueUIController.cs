@@ -19,6 +19,7 @@ public class DialogueUIController : MonoBehaviour
 
     [SerializeField] public PortraitObject[] availablePortraits;         //all the possible portraits in the game
     private Dictionary<string, Sprite> portraits;                   //all the possible portraits of the game
+    public bool displayingSystemMessage;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class DialogueUIController : MonoBehaviour
         Assert.IsNotNull(portraitImage);
         Assert.IsNotNull(dialogueText);
         dialogueCanvas.gameObject.SetActive(false);
+        displayingSystemMessage = false;
     }
 
     /**
@@ -70,6 +72,9 @@ public class DialogueUIController : MonoBehaviour
         dialogueCanvas.gameObject.SetActive(false);
     }
 
+    /**
+     *  Function that will return wether the inputted string refers to a valid portrait
+     */
     public bool ContainsPortrait(string nameCheck)
     {
         foreach(var portrait in availablePortraits)
@@ -80,5 +85,14 @@ public class DialogueUIController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (displayingSystemMessage)
+        {
+            Invoke("EndDisplay",0.5f);
+            displayingSystemMessage = false;
+        }
     }
 }
