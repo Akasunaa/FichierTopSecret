@@ -9,7 +9,7 @@ using UnityEngine;
 public class InteractableObjectController : MonoBehaviour, Interactable
 {
     private ObjectInteractionController interactionController;
-    private bool isInInteraction; //boolean at true if the player is currently in interaction
+    protected bool isInInteraction; //boolean at true if the player is currently in interaction
 
     public bool canBeInteracted { get; set; }
 
@@ -26,7 +26,6 @@ public class InteractableObjectController : MonoBehaviour, Interactable
     {
         if (isInInteraction)
         {
-            Debug.Log("INPUTS : ENDED INTERACTION");
             interactionController.EndDisplay();
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
             isInInteraction = false;
@@ -34,7 +33,6 @@ public class InteractableObjectController : MonoBehaviour, Interactable
         }
         else
         {
-            Debug.Log("INPUTS : STARTED INTERACTION");
             isInInteraction = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         }
