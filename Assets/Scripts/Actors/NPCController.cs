@@ -170,7 +170,7 @@ public class NPCController : ModifiableController, Interactable
         }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
         {
-            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             EndDialogue();
             return;
         }

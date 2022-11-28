@@ -40,6 +40,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
+        Debug.Log("INTERACTION TRIGGERED IN ITEM CONTAINER WITH STATUS : "+isInInteraction);
         if (!isInInteraction)
         {
             isInInteraction = true;
@@ -48,7 +49,8 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         else
         {
             ui.EndDisplay();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            isInInteraction = false;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             return;
         }
         //if (Time.timeScale == 0f)
@@ -65,15 +67,18 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         {
             if (!locked && hasItem)
             {
+                Debug.Log("INTERACTION : RECUPERATING ITEM");
                 RecuperateItem();
                 ui.DisplayDialogue(dialogueItemRecuperate, "player");
             }
             else if (!hasItem)
             {
+                Debug.Log("INTERACTION : NO ITEM");
                 ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
             }
             else
             {
+                Debug.Log("INTERACTION : LOCKED");
                 ui.DisplayDialogue(dialogueLocked, "player");
             }
 

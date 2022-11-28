@@ -52,7 +52,7 @@ public class DoorObjectController : ModifiableController, Interactable
         else if(/*TryGet("locked", out locked) && locked && */interactionController != null && displayingDialogue)
         {
             displayingDialogue = false;
-            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             interactionController.EndDisplay();
             return;
             //Time.timeScale = 1f;

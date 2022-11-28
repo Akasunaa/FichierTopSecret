@@ -27,7 +27,7 @@ public class InteractableObjectController : MonoBehaviour, Interactable
         if (isInInteraction)
         {
             interactionController.EndDisplay();
-            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().ClearMovement();
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             isInInteraction = false;
             return;
         }

@@ -19,7 +19,6 @@ public class DialogueUIController : MonoBehaviour
 
     [SerializeField] public PortraitObject[] availablePortraits;         //all the possible portraits in the game
     private Dictionary<string, Sprite> portraits;                   //all the possible portraits of the game
-    public bool displayingSystemMessage;
 
     private void Awake()
     {
@@ -28,7 +27,6 @@ public class DialogueUIController : MonoBehaviour
         Assert.IsNotNull(portraitImage);
         Assert.IsNotNull(dialogueText);
         dialogueCanvas.gameObject.SetActive(false);
-        displayingSystemMessage = false;
     }
 
     /**
@@ -52,6 +50,7 @@ public class DialogueUIController : MonoBehaviour
      */
     public void DisplayDialogue(string text, string name)
     {
+        Debug.Log("INTERACTION : DISPLAYING DIALOGUE");
         dialogueCanvas.gameObject.SetActive(true);
         dialogueText.text = text;
         if (portraits.TryGetValue(name, out Sprite curPortrait)) //we obtain the current portrait based on the inputted name
