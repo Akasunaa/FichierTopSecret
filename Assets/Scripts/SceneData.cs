@@ -6,7 +6,10 @@ public class SceneData : MonoBehaviour
 {
     public static SceneData Instance { get; private set; }
 
+    [Header("World")]
     [SerializeField] public Grid grid;
+    [Header("UI")]
+    [SerializeField] public DialogueUIController dialogueUIController;
 
     void Awake()
     {
