@@ -76,6 +76,16 @@ public static class ApplyPlayerChange
             go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
             // update order in layer
             Utils.UpdateOrderInLayer(go);
+        } else
+        {
+            if (go.TryGetComponent<FileParser>(out FileParser fileParser))
+            {
+                fileParser.WriteToFile();
+                string errorText = "I cannot move this object here, something is in the way!";
+                // TODO : Display une bulle de texte qui previent le joueur que la position est occupée
+                // Note : Dans chaque scène j'ai référencé le dialogueUIController du canvas dans le Scene data pour y accéder facilement
+                //SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
+            }
         }
     }
 
