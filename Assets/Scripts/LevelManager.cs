@@ -188,7 +188,6 @@ public class LevelManager : MonoBehaviour
                     Debug.Log("New file to watch: " + fi.FullName);
                     newObj = Instantiate(pair.go);
                     pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
-                    print(pos);
                     newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
@@ -206,7 +205,6 @@ public class LevelManager : MonoBehaviour
             //nothing object : no object with the name of file 
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
             pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
-            print(pos);
             newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
