@@ -81,7 +81,6 @@ public static class ApplyPlayerChange
             //since the object could be moved, we stop the error display if need be :
             if (inSystemMessage)
             {
-                Debug.Log("INTERACTION : ENDING DISPLAY");
                 SceneData.Instance.dialogueUIController.EndDisplay();
                 GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartAllActions();
                 inSystemMessage = false;
