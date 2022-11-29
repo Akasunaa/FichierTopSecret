@@ -66,7 +66,7 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Interaction"",
                     ""type"": ""Button"",
-                    ""id"": ""538b9d8a-084f-4b59-a6c9-89d6568e37bc"",
+                    ""id"": ""216f78a8-e93f-4804-ac01-b809567db2e4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -119,17 +119,6 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""5c0eab83-3bbe-46b8-ae0d-8f082f95e176"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interaction"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""1D Axis"",
                     ""id"": ""12a5eb1f-fa38-49ef-894a-3b3b6ca374c9"",
                     ""path"": ""1DAxis"",
@@ -172,6 +161,45 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
                     ""action"": ""HorizontalRightMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""767d61f2-e83c-48be-9d50-e06fc71671d0"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""onInteraction"",
+            ""id"": ""feea5878-e92c-4cc3-bb8b-f8626d3f9449"",
+            ""actions"": [
+                {
+                    ""name"": ""Interaction"",
+                    ""type"": ""Button"",
+                    ""id"": ""adf36440-9ba6-42ff-8bd1-bee189acf000"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""790ab03e-884a-4189-91de-e5c36242c2f6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +213,9 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
         m_onFoot_HorizontalLeftMovement = m_onFoot.FindAction("HorizontalLeftMovement", throwIfNotFound: true);
         m_onFoot_HorizontalRightMovement = m_onFoot.FindAction("HorizontalRightMovement", throwIfNotFound: true);
         m_onFoot_Interaction = m_onFoot.FindAction("Interaction", throwIfNotFound: true);
+        // onInteraction
+        m_onInteraction = asset.FindActionMap("onInteraction", throwIfNotFound: true);
+        m_onInteraction_Interaction = m_onInteraction.FindAction("Interaction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -305,12 +336,49 @@ public partial class @Inputs : IInputActionCollection2, IDisposable
         }
     }
     public OnFootActions @onFoot => new OnFootActions(this);
+
+    // onInteraction
+    private readonly InputActionMap m_onInteraction;
+    private IOnInteractionActions m_OnInteractionActionsCallbackInterface;
+    private readonly InputAction m_onInteraction_Interaction;
+    public struct OnInteractionActions
+    {
+        private @Inputs m_Wrapper;
+        public OnInteractionActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interaction => m_Wrapper.m_onInteraction_Interaction;
+        public InputActionMap Get() { return m_Wrapper.m_onInteraction; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(OnInteractionActions set) { return set.Get(); }
+        public void SetCallbacks(IOnInteractionActions instance)
+        {
+            if (m_Wrapper.m_OnInteractionActionsCallbackInterface != null)
+            {
+                @Interaction.started -= m_Wrapper.m_OnInteractionActionsCallbackInterface.OnInteraction;
+                @Interaction.performed -= m_Wrapper.m_OnInteractionActionsCallbackInterface.OnInteraction;
+                @Interaction.canceled -= m_Wrapper.m_OnInteractionActionsCallbackInterface.OnInteraction;
+            }
+            m_Wrapper.m_OnInteractionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Interaction.started += instance.OnInteraction;
+                @Interaction.performed += instance.OnInteraction;
+                @Interaction.canceled += instance.OnInteraction;
+            }
+        }
+    }
+    public OnInteractionActions @onInteraction => new OnInteractionActions(this);
     public interface IOnFootActions
     {
         void OnVerticalUpMovement(InputAction.CallbackContext context);
         void OnVerticalDownMovement(InputAction.CallbackContext context);
         void OnHorizontalLeftMovement(InputAction.CallbackContext context);
         void OnHorizontalRightMovement(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
+    }
+    public interface IOnInteractionActions
+    {
         void OnInteraction(InputAction.CallbackContext context);
     }
 }

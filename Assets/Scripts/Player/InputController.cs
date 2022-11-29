@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class InputController : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class InputController : MonoBehaviour
     private Inputs.OnFootActions onFoot;
     private int nbKeyPressed;
 
+    private bool inInteraction; //boolean indicating if speech is currently being displayed -> prevents player movements (allows interaction)
+    private bool inSystemMessage; //boolean indicating if system message is currently displayed -> prevents all player actions
+
     private void Awake()
     {
         if (!playerMovement) playerMovement = GetComponent<PlayerMovement>();
@@ -18,6 +22,8 @@ public class InputController : MonoBehaviour
         input = new Inputs();
         onFoot = input.onFoot;
         nbKeyPressed = 0;
+        inInteraction = false;
+        inSystemMessage = false;
     }
 
     /**
@@ -25,8 +31,11 @@ public class InputController : MonoBehaviour
      */
     public void Move(InputAction.CallbackContext context)
     {
-        PerformInput(context);
-        ResetInput(context);
+        if (!inInteraction)
+        {
+            PerformInput(context);
+            ResetInput(context);
+        }
     }
 
     /**
@@ -100,19 +109,59 @@ public class InputController : MonoBehaviour
 
     public void Interact(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && !inSystemMessage)
         {
             PlayerInteractionController pic = GetComponent<PlayerInteractionController>();
             if (pic.lastInteractable!=null && pic.lastInteractable.canBeInteracted)
             {
                 pic.lastInteractable.Interact();
+                Debug.Log("INTERACTION WITH " + pic.lastInteractable);
             }
         }
+    }
+
+    /**
+     *  Function called by objects when they need to stop the player's movement
+     */
+    public void StopMovement()
+    {
+        inInteraction = true;
+    }
+
+    /**
+     *  Function called by objects when they need to reactivate the player's movement
+     */
+    public void RestartMovement()
+    {
+        inInteraction=false;
+        //onInteraction.Disable();
+        //onFoot.Enable();
+        //Debug.Log("INPUTS : onFoot : " + onFoot.enabled);
+        //Debug.Log("INPUTS : onInteraction : " + onInteraction.enabled);
+    }
+
+    /**
+     *  Killswitch taking all controls away from the player
+     */
+    public void StopAllActions()
+    {
+        inInteraction = true;
+        inSystemMessage = true;
+    }
+
+    /**
+    *  Killswitch giving back all the controls from the player
+    */
+    public void RestartAllActions()
+    {
+        inInteraction = false;
+        inSystemMessage = false;
     }
 
     private void OnEnable()
     {
         onFoot.Enable();
+
     }
 
     private void OnDestroy()

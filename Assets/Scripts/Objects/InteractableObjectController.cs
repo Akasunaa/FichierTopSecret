@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,13 @@ using UnityEngine;
 public class InteractableObjectController : MonoBehaviour, Interactable
 {
     private ObjectInteractionController interactionController;
+    protected bool isInInteraction; //boolean at true if the player is currently in interaction
 
     public bool canBeInteracted { get; set; }
 
     private void Start()
     {
+        isInInteraction = false;
         if(gameObject.GetComponent<ObjectInteractionController>() != null)
         {
             interactionController = gameObject.GetComponent<ObjectInteractionController>();
@@ -21,15 +24,17 @@ public class InteractableObjectController : MonoBehaviour, Interactable
 
     public void Interact()
     {
-        if (Time.timeScale == 0f)
+        if (isInInteraction)
         {
             interactionController.EndDisplay();
-            Time.timeScale = 1f;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
+            isInInteraction = false;
             return;
         }
         else
         {
-            Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
+            isInInteraction = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         }
         if (interactionController)
         {

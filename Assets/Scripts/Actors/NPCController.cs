@@ -15,6 +15,7 @@ using Random = UnityEngine.Random;
 public class NPCController : ModifiableController, Interactable
 {
     [SerializeField] private bool canBeInteracted;
+    private bool isInInteraction;
     bool Interactable.canBeInteracted { get; set; }
 
     private bool shouldEnd;
@@ -46,6 +47,7 @@ public class NPCController : ModifiableController, Interactable
 
     private void Start()
     {
+        isInInteraction = false;
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         dialogSM = GetComponent<DialogSM>();
@@ -168,10 +170,12 @@ public class NPCController : ModifiableController, Interactable
         }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
         {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             EndDialogue();
             return;
         }
-        Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
+        GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
+        //Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
         int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
         shouldEnd = (ret == 0);

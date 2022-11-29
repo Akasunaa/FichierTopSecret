@@ -24,6 +24,7 @@ public static class ApplyPlayerChange
         { "power", CheckBool },
     };
 
+    private static bool inSystemMessage;
 
     public static void VisualChange(string name, object value, GameObject go)
     {
@@ -76,6 +77,27 @@ public static class ApplyPlayerChange
             go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
             // update order in layer
             Utils.UpdateOrderInLayer(go);
+
+            //since the object could be moved, we stop the error display if need be :
+            if (inSystemMessage)
+            {
+                Debug.Log("INTERACTION : ENDING DISPLAY");
+                SceneData.Instance.dialogueUIController.EndDisplay();
+                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartAllActions();
+                inSystemMessage = false;
+            }
+            
+        } else
+        {
+            if (go.TryGetComponent<FileParser>(out FileParser fileParser))
+            {
+                fileParser.WriteToFile();
+                string errorText = "I cannot move this object here, something is in the way!";
+                //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
+                SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
+                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
+                inSystemMessage = true;
+            }
         }
     }
 

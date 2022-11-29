@@ -50,6 +50,7 @@ public class DialogueUIController : MonoBehaviour
      */
     public void DisplayDialogue(string text, string name)
     {
+        Debug.Log("INTERACTION : DISPLAYING DIALOGUE");
         dialogueCanvas.gameObject.SetActive(true);
         dialogueText.text = text;
         if (portraits.TryGetValue(name, out Sprite curPortrait)) //we obtain the current portrait based on the inputted name
@@ -70,6 +71,9 @@ public class DialogueUIController : MonoBehaviour
         dialogueCanvas.gameObject.SetActive(false);
     }
 
+    /**
+     *  Function that will return wether the inputted string refers to a valid portrait
+     */
     public bool ContainsPortrait(string nameCheck)
     {
         foreach(var portrait in availablePortraits)

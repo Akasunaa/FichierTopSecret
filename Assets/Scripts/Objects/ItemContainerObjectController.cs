@@ -14,6 +14,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     [SerializeField] private GameObject item; //Item that the desk contains
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private bool hasItem = true; //boolean that will remove the container giving infinite items
+    protected bool isInInteraction;
 
     //The various dialogues that can be displayed :
     [TextArea(3, 10)]
@@ -27,6 +28,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     private void Start()
     {
+        isInInteraction = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         Assert.IsNotNull(ui);
     }
@@ -38,29 +40,45 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (Time.timeScale == 0f)
+        Debug.Log("INTERACTION TRIGGERED IN ITEM CONTAINER WITH STATUS : "+isInInteraction);
+        if (!isInInteraction)
         {
-            ui.EndDisplay();
-            Time.timeScale = 1f;
-            return;
+            isInInteraction = true;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         }
         else
         {
-            Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
+            ui.EndDisplay();
+            isInInteraction = false;
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
+            return;
         }
+        //if (Time.timeScale == 0f)
+        //{
+        //    ui.EndDisplay();
+        //    Time.timeScale = 1f;
+        //    return;
+        //}
+        //else
+        //{
+        //    Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
+        //}
         if (TryGet("locked", out bool locked))
         {
             if (!locked && hasItem)
             {
+                Debug.Log("INTERACTION : RECUPERATING ITEM");
                 RecuperateItem();
                 ui.DisplayDialogue(dialogueItemRecuperate, "player");
             }
             else if (!hasItem)
             {
+                Debug.Log("INTERACTION : NO ITEM");
                 ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
             }
             else
             {
+                Debug.Log("INTERACTION : LOCKED");
                 ui.DisplayDialogue(dialogueLocked, "player");
             }
 
