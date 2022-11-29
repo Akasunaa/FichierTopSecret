@@ -165,18 +165,24 @@ public class LevelManager : MonoBehaviour
         Vector3Int pos;
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
         {
-            string nameObject = Path.GetFileNameWithoutExtension(fi.Name);        
+            string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
+            if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
+            {
+                return;
+
+            }
             foreach (RegToGoPair pair in instantiable)
             {
                 //check all synonym
                 string[] synonyms = SynonymController.SearchSynonym(nameObject);
-                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(pair.reg, x, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
+                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
                 
                 if (synonym!=null)
                 {
                     Debug.Log("New file to watch: " + fi.FullName);
                     newObj = Instantiate(pair.go);
                     pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    print(pos);
                     newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
@@ -190,10 +196,11 @@ public class LevelManager : MonoBehaviour
 
                     return;
                 }
-            }   
+            }
             //nothing object : no object with the name of file 
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
             pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+            print(pos);
             newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
