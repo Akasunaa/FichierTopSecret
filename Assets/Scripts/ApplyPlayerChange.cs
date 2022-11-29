@@ -91,8 +91,7 @@ public static class ApplyPlayerChange
         {
             if (go.TryGetComponent<FileParser>(out FileParser fileParser))
             {
-                fileParser.WriteToFile();
-                string errorText = "I cannot move this object here, something is in the way!";
+                string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
                 //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
                 SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
                 GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
