@@ -64,17 +64,34 @@ public static class ApplyPlayerChange
             size = collider.size * go.transform.lossyScale;
         }
 
-        GameObject hitGo =
-            Utils.CheckPresenceOnTile(
+        List<GameObject> hitGos =
+            Utils.CheckPresencesOnTile(
                 SceneData.Instance.grid,
                 targetPosition + offset,
                 size);
 
+
+        bool shouldMove = true;
+
         // if the target tile is inocuppied or occupied by the go itself
-        if (hitGo == go || hitGo == null)
+        if (hitGos.Count > 0)
+        {
+            foreach (GameObject hitGo in hitGos)
+            {
+                // if one of the cllider is not the bject itself nor null
+                if (hitGo != go && hitGo != null)
+                {
+                    shouldMove = false;
+                    break;
+                }
+            }
+        }
+
+        if (shouldMove)
         {
             // move the object
-            go.transform.position = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
+            Vector3 targetPos = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPosition);
+            go.transform.position = targetPos;
             // update order in layer
             Utils.UpdateOrderInLayer(go);
 
@@ -85,18 +102,15 @@ public static class ApplyPlayerChange
                 GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartAllActions();
                 inSystemMessage = false;
             }
-            
         } else
         {
-            if (go.TryGetComponent<FileParser>(out FileParser fileParser))
-            {
-                string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
-                //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
-                SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
-                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
-                inSystemMessage = true;
-            }
+            string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
+            //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
+            SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
+            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
+            inSystemMessage = true;
         }
+        
     }
 
     private static void SetColor(GameObject go, Color color)
