@@ -115,7 +115,6 @@ public class InputController : MonoBehaviour
             if (pic.lastInteractable!=null && pic.lastInteractable.canBeInteracted)
             {
                 pic.lastInteractable.Interact();
-                Debug.Log("INTERACTION WITH " + pic.lastInteractable);
             }
         }
     }

@@ -15,7 +15,6 @@ using Random = UnityEngine.Random;
 public class NPCController : ModifiableController, Interactable
 {
     [SerializeField] private bool canBeInteracted;
-    private bool isInInteraction;
     bool Interactable.canBeInteracted { get; set; }
 
     private bool shouldEnd;
@@ -47,7 +46,6 @@ public class NPCController : ModifiableController, Interactable
 
     private void Start()
     {
-        isInInteraction = false;
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         dialogSM = GetComponent<DialogSM>();
@@ -139,7 +137,6 @@ public class NPCController : ModifiableController, Interactable
         {
             if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { 
                 transform.position += targetGridPosition; 
-                //do the animation
             }
             
         }
@@ -175,7 +172,6 @@ public class NPCController : ModifiableController, Interactable
             return;
         }
         GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
-        //Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
         int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
         shouldEnd = (ret == 0);
@@ -188,7 +184,6 @@ public class NPCController : ModifiableController, Interactable
     private void EndDialogue()
     {
         ui.EndDisplay();
-        Time.timeScale = 1f;    //if player in interaction, then stop time to prevent movement
         shouldEnd = false;      //allows the player to interact again
     }
 
@@ -201,7 +196,6 @@ public class NPCController : ModifiableController, Interactable
     {
         dialogSM = GetComponent<DialogSM>();
         dialogSM.ChangeState(newStateName);
-        Debug.Log("NPC : Changing state to " + newStateName);
         if (ui!=null) 
         {
             ui.EndDisplay();
@@ -230,16 +224,13 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                Debug.Log("NPC : Checking value : " + propertyString + " currently has : " + properties[propertyDict[propertyString].propertyName]+ " compared to : "+ propertyDict[propertyString].propertyValue.ToString());
                 if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
-                    Debug.Log("NPC : switching to state " + propertyDict[propertyString].propertyChangeState);
                     OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
                     return;
                 }
                 else
                 {
-                    Debug.Log("NPC : switching to state IDLE");
                     OnStateChange("StateIdle");
                 }
             }
@@ -333,15 +324,12 @@ public class NPCController : ModifiableController, Interactable
     private bool ScanPlayerInventory(String objectName)
     {
         FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
-        //Debug.Log("NPC ITEM : searching for " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
         if (fileInfo.Exists)
         {
-            //Debug.Log("NPC ITEM : found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
             return true;
         }
         else
         {
-            //Debug.Log("NPC ITEM : not found " + Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
             return false;
         }
     }
