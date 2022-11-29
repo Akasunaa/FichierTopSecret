@@ -25,6 +25,30 @@ public static class Utils
         return hit?.gameObject;
     }
 
+    /**
+     * Method checking a tile for colliders and returning them. If there are no collider on the tile, returns null.
+     */
+    public static List<GameObject> CheckPresencesOnTile(Grid grid, Vector2 position, Vector2? size = null)
+    {
+        Collider2D[] hits;
+
+        if (size == null)
+        {
+            hits = Physics2D.OverlapBoxAll(position, (Vector2)grid.cellSize - Vector2.one * EPSILON, 0);
+        }
+        else
+        {
+            Vector2 colliderSize = (Vector2)size;
+            hits = Physics2D.OverlapBoxAll(position, colliderSize - Vector2.one * EPSILON, 0);
+        }
+
+        List<GameObject> objects = new List<GameObject>();
+        foreach (var hit in hits)
+        {
+            objects.Add(hit.gameObject);
+        }
+        return objects;
+    }
 
     /**
     * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
