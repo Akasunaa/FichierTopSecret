@@ -73,7 +73,7 @@ public class FilesWatcher : MonoBehaviour
             di.Create();
         }
 
-        print("BasePath: " + di.FullName);
+        Debug.Log("[FileWatcher] BasePath: " + di.FullName);
 
         FileSystemWatcher watcher = new FileSystemWatcher(di.FullName);
 
@@ -181,7 +181,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-       print("Changed: " + e.FullPath);
+       Debug.Log("[FileWatcher] File Changed: " + e.FullPath);
         if (fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
@@ -194,7 +194,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        print("Created: " + e.FullPath);
+        Debug.Log("[FileWatcher] File Created: " + e.FullPath);
         if (fi.Exists)
         {
             // Create a object from the file if possible
@@ -208,7 +208,7 @@ public class FilesWatcher : MonoBehaviour
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        print("Deleted: " + e.FullPath);
+        Debug.Log("[FileWatcher] File Deleted: " + e.FullPath);
         if (!fi.Exists)
         {
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
@@ -226,14 +226,24 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.type)
             {
                 case FileChangeType.New:
-                    if (!pathToScript.ContainsKey(relativePath) && relativePath.Length > "/Test/".Length + fc.fi.Directory.Name.Length && relativePath.Substring("/Test/".Length, fc.fi.Directory.Name.Length) == LevelManager.Capitalize(SceneManager.GetActiveScene().name))
+                    string levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
+                    bool alreadyExists = pathToScript.ContainsKey(relativePath);
+                    bool rightDirectory =
+                        LevelManager.Capitalize(relativePath.Substring("/Test/".Length, levelName.Length)) == levelName;
+                    if (!alreadyExists && relativePath.Length >= "/Test/".Length + levelName.Length && rightDirectory)
                     {
+                        Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
                         LevelManager.Instance.NewObject(fc.fi);
+                    }
+                    else
+                    {
+                        Debug.Log("[FileWatcher] File " + relativePath + " is in the wrong directory (it is normal if it was already in the scene)");
                     }
                     break;
                 case FileChangeType.Change:
                     if (pathToScript.TryGetValue(relativePath, out FileParser fileParser1))
                     {
+                        Debug.Log("[FileWatcher] Applying change to " + relativePath);
                         if (!fileParser1.OnChange(relativePath))
                         {
                             //Debug.LogWarning(relativePath + " has made an impossible change !");
@@ -247,7 +257,7 @@ public class FilesWatcher : MonoBehaviour
                     {
                         if (!fileParser.OnDelete(relativePath))
                         {
-                            print(relativePath + " has made an impossible delete !");
+                            // Debug.Log("[FileWatcher]" + relativePath + " should not be deleted !");
                         }
                         else
                         {
@@ -291,7 +301,7 @@ public class FilesWatcher : MonoBehaviour
         string relativePath = RelativePath(fileParser.filePath);
         if (pathToScript.ContainsKey(relativePath))
         {
-            print("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
+            Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
         }
         pathToScript.Add(relativePath, fileParser);
     }

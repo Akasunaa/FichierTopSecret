@@ -24,7 +24,7 @@ public abstract class ModifiableController : MonoBehaviour
         return false;
     }
 
-    public bool TryGet<T>(String key, out T res)
+    public bool TryGet<T>(string key, out T res)
     {
         if (properties.TryGetValue(key, out object o) && TryParse(o, out T r))
         {
@@ -34,6 +34,14 @@ public abstract class ModifiableController : MonoBehaviour
 
         res = default;
         return false;
+    }
+
+    /*
+     * Check if properties contains the `key` and the value (associated with the key) has type T
+     */
+    public bool ContainsKey<T>(string key)
+    {
+        return TryGet(key, out T _);
     }
 
     public void SetValue(string key, object value)

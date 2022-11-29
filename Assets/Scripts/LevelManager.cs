@@ -168,7 +168,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject newObj;
         FileParser fp;
-        Vector3Int pos;
+        Vector3Int pos = Vector3Int.zero;
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
         {
             string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
@@ -185,36 +185,51 @@ public class LevelManager : MonoBehaviour
                 
                 if (synonym!=null)
                 {
-                    Debug.Log("New file to watch: " + fi.FullName);
+                    Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
                     newObj = Instantiate(pair.go);
-                    pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
-                    newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
-                    fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
-                    using (StreamWriter sw = new StreamWriter(fp.filePath))
+                    if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
                     {
-                        sw.Write(fp.targetModifiable.ToFileString());
+                        if (player != null)
+                        {
+                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                        }
+                        newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
+                        fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
+                    fp.WriteToFile();
+                    // using (StreamWriter sw = new StreamWriter(fp.filePath))
+                    // {
+                    //     sw.Write(fp.targetModifiable.ToFileString());
+                    // }
 
                     return;
                 }
             }
             //nothing object : no object with the name of file 
+            Debug.Log("[LevelManager] Instantiate a nothing : " + fi.FullName);
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
-            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
-            newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
             FilesWatcher.Instance.Set(fp);
-            fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
-            using (StreamWriter sw = new StreamWriter(fp.filePath))
+            if (fp.targetModifiable.ContainsKey<Vector2Int>("position"))
             {
-                sw.Write(fp.targetModifiable.ToFileString());
+                if (player != null)
+                {
+                    pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                }
+                newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
+                fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
             }
+            fp.WriteToFile();
+            // using (StreamWriter sw = new StreamWriter(fp.filePath))
+            // {
+            //     sw.Write(fp.targetModifiable.ToFileString());
+            // }
         }
     }
 }
