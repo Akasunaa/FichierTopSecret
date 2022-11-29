@@ -125,6 +125,7 @@ public class InputController : MonoBehaviour
      */
     public void StopMovement()
     {
+        playerMovement.ClearInputStack();
         inInteraction = true;
     }
 
@@ -133,6 +134,7 @@ public class InputController : MonoBehaviour
      */
     public void RestartMovement()
     {
+        playerMovement.ClearInputStack();
         inInteraction=false;
         //onInteraction.Disable();
         //onFoot.Enable();
@@ -145,6 +147,7 @@ public class InputController : MonoBehaviour
      */
     public void StopAllActions()
     {
+        playerMovement.ClearInputStack();
         inInteraction = true;
         inSystemMessage = true;
     }
@@ -154,6 +157,7 @@ public class InputController : MonoBehaviour
     */
     public void RestartAllActions()
     {
+        playerMovement.ClearInputStack();
         inInteraction = false;
         inSystemMessage = false;
     }
