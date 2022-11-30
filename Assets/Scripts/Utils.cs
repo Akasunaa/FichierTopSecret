@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
@@ -30,24 +31,12 @@ public static class Utils
      */
     public static List<GameObject> CheckPresencesOnTile(Grid grid, Vector2 position, Vector2? size = null)
     {
-        Collider2D[] hits;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            position,
+            (Vector2) (size == null ? grid.cellSize : size)- Vector2.one * EPSILON,
+            0);
 
-        if (size == null)
-        {
-            hits = Physics2D.OverlapBoxAll(position, (Vector2)grid.cellSize - Vector2.one * EPSILON, 0);
-        }
-        else
-        {
-            Vector2 colliderSize = (Vector2)size;
-            hits = Physics2D.OverlapBoxAll(position, colliderSize - Vector2.one * EPSILON, 0);
-        }
-
-        List<GameObject> objects = new List<GameObject>();
-        foreach (var hit in hits)
-        {
-            objects.Add(hit.gameObject);
-        }
-        return objects;
+        return hits.Select(hit => hit.gameObject).ToList();
     }
 
     /**
