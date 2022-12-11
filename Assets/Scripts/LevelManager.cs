@@ -42,6 +42,16 @@ public class LevelManager : MonoBehaviour
 
             if (di.Exists)
             {
+                // remove readonly attributes on cosmicbin items to delete them
+                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/CosmicBin");
+                if (di2.Exists)
+                {
+                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/CosmicBin"))
+                    {
+                        FileInfo fileInfo = new FileInfo(fileName);
+                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
+                    }
+                }
                 di.Delete(true);
             }
         }
