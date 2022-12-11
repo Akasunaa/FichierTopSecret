@@ -57,7 +57,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         {
             if (!locked && hasItem)
             {
-                Debug.Log("INTERACTION : RECUPERATING ITEM");
+                //Debug.Log("INTERACTION : RECUPERATING ITEM");
                 RecuperateItem();
                 ui.DisplayDialogue(dialogueItemRecuperate, "player");
             }
@@ -65,19 +65,19 @@ public class ItemContainerObjectController : ModifiableController, Interactable
             {
                 if (!CheckItemPresence()) //if the player doesn't have the item BUT it was already taken, we give it one more time
                 {
-                    Debug.Log("INTERACTION : RECUPERATING AGAIN ITEM");
+                    //Debug.Log("INTERACTION : RECUPERATING AGAIN ITEM");
                     RecuperateItem();
                     ui.DisplayDialogue(dialogueItemRecuperate, "player");
                 }
                 else
                 {
-                    Debug.Log("INTERACTION : NO ITEM");
+                    //Debug.Log("INTERACTION : NO ITEM");
                     ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
                 }
             }
             else
             {
-                Debug.Log("INTERACTION : LOCKED");
+                //Debug.Log("INTERACTION : LOCKED");
                 ui.DisplayDialogue(dialogueLocked, "player");
             }
 
@@ -117,6 +117,9 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         new_item.GetComponent<ItemController>().RecuperatingItem();
     }
 
+    /**
+     *  Function that will test, using a virtual item instantly destroyed, if said item exists or not
+     */
     private bool CheckItemPresence()
     {
         GameObject new_item = Instantiate(item);
@@ -127,6 +130,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         }
         else
         {
+            Destroy(new_item);
             return false;
         }
     }

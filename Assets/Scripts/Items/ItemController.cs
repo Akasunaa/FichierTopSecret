@@ -46,10 +46,10 @@ public class ItemController : ModifiableController
         FileInfo fileInfo = new FileInfo(fileParser.filePath);
         if (fileInfo.Exists)
         {
-            Debug.Log("PLAYER ALREADY HAS ITEM");
+            //Debug.Log("PLAYER ALREADY HAS ITEM");
             return true;
         }
-        Debug.Log("PLAYER DOESN'T HAVE ITEM");
+        //Debug.Log("PLAYER DOESN'T HAVE ITEM");
         return false;
     }
 
