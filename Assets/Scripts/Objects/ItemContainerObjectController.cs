@@ -53,16 +53,6 @@ public class ItemContainerObjectController : ModifiableController, Interactable
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             return;
         }
-        //if (Time.timeScale == 0f)
-        //{
-        //    ui.EndDisplay();
-        //    Time.timeScale = 1f;
-        //    return;
-        //}
-        //else
-        //{
-        //    Time.timeScale = 0f;    //if player in interaction, then stop time to prevent movement
-        //}
         if (TryGet("locked", out bool locked))
         {
             if (!locked && hasItem)
@@ -73,8 +63,17 @@ public class ItemContainerObjectController : ModifiableController, Interactable
             }
             else if (!hasItem)
             {
-                Debug.Log("INTERACTION : NO ITEM");
-                ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
+                if (!CheckItemPresence()) //if the player doesn't have the item BUT it was already taken, we give it one more time
+                {
+                    Debug.Log("INTERACTION : RECUPERATING AGAIN ITEM");
+                    RecuperateItem();
+                    ui.DisplayDialogue(dialogueItemRecuperate, "player");
+                }
+                else
+                {
+                    Debug.Log("INTERACTION : NO ITEM");
+                    ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
+                }
             }
             else
             {
@@ -116,5 +115,19 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         GameObject new_item = Instantiate(item);
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
+    }
+
+    private bool CheckItemPresence()
+    {
+        GameObject new_item = Instantiate(item);
+        if (new_item.GetComponent<ItemController>().CheckPresenceItem()) //if player has item
+        {
+            Destroy(new_item);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

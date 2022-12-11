@@ -37,6 +37,22 @@ public class ItemController : ModifiableController
         return 0;
     }
 
+    /**
+     *  Function that will check if the player already possesses the associated item
+     */
+    public bool CheckPresenceItem()
+    {
+        FileParser fileParser = GetComponent<FileParser>();
+        FileInfo fileInfo = new FileInfo(fileParser.filePath);
+        if (fileInfo.Exists)
+        {
+            Debug.Log("PLAYER ALREADY HAS ITEM");
+            return true;
+        }
+        Debug.Log("PLAYER DOESN'T HAVE ITEM");
+        return false;
+    }
+
     public override void SetDefaultProperties()
     {
         
