@@ -231,7 +231,7 @@ public class NPCController : ModifiableController, Interactable
                 }
                 else
                 {
-                    OnStateChange("StateIdle");
+                    OnStateChange(dialogSM.GetInitialState().name);
                 }
             }
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER
