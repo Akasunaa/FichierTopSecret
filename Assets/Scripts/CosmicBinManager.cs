@@ -30,10 +30,14 @@ public class CosmicBinManager : MonoBehaviour
 
         objectsSuppressed = new List<GameObject>();
         usedPositions = new List<Vector2>();
-
     }
 
     private void Start()
+    {
+        GenerateCosmicBin();
+    }
+
+    public void GenerateCosmicBin()
     {
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/CosmicBin");
 

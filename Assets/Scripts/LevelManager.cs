@@ -38,8 +38,12 @@ public class LevelManager : MonoBehaviour
 #if UNITY_EDITOR
         if (Application.isEditor)
         {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/");
-            di.Delete(true);
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+
+            if (di.Exists)
+            {
+                di.Delete(true);
+            }
         }
 #endif
     }
