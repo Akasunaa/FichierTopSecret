@@ -157,7 +157,8 @@ public class LevelManager : MonoBehaviour
         {
             if (!FilesWatcher.Instance.ContainsFile(fi))
             {
-                NewObject(fi);
+                Debug.Log("FULLNAME IS " + fi.FullName);
+                NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
         }
 
@@ -170,7 +171,7 @@ public class LevelManager : MonoBehaviour
     /*
      * Create a new game object from a file if it match a regex
      */
-    public void NewObject(FileInfo fi)
+    public void NewObject(FileInfo fi, bool isInComsicBin = false)
     {
         GameObject newObj;
         FileParser fp;
@@ -187,19 +188,29 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.Log("New file to watch: " + fi.FullName);
                     newObj = Instantiate(pair.go);
+
+                    // setup file parser
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
+
+                    // Clean the prefab if it is instantiated in the Cosmic bin
+                    if (isInComsicBin) CosmicBinManager.Instance.ClearUselessComponents(newObj);
                     return;
                 }
             }   
             //nothing object : no object with the name of file 
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
+
+            // setup file parser
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
             FilesWatcher.Instance.Set(fp);
+
+            // Clean the prefab if it is instantiated in the Cosmic bin
+            if (isInComsicBin) CosmicBinManager.Instance.ClearUselessComponents(newObj);
         }
     }
 }

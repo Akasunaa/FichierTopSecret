@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Linq;
 
 public class CosmicBinManager : MonoBehaviour
 {
@@ -65,6 +66,41 @@ public class CosmicBinManager : MonoBehaviour
                 targetPos = (Vector2)objectsSuppressed[rd].transform.position + neighborPos[rdDirection] * new Vector2(horizontalGap, verticalGap);
             } while (usedPositions.Contains(targetPos));
         }   
+    }
+
+    public void ClearUselessComponents(GameObject gameObject)
+    {
+        var components = FindObjectsOfType<MonoBehaviour>().OfType<Interactable>();
+        foreach (MonoBehaviour component in components)
+        {
+            Destroy(component);
+        }
+       /* if (gameObject.TryGetComponent<InteractableObjectController>(out InteractableObjectController iOC))
+        {
+            print("Destroy iOC");
+            Destroy(iOC);
+        }
+
+        if (gameObject.TryGetComponent<ObjectInteractionController>(out ObjectInteractionController oIC))
+        {
+            print("Destroy oIC");
+
+            Destroy(oIC);
+        }
+
+        if (gameObject.TryGetComponent<ItemContainerObjectController>(out ItemContainerObjectController iCOC))
+        {
+            print("Destroy iCOC");
+
+            Destroy(iCOC);
+        }*/
+
+        gameObject.AddComponent<InteractableTrashController>();
+    }
+
+    public void RestoreSuppressedObject(GameObject gameObject)
+    {
+        Debug.Log("Restore object " + gameObject.name);
     }
 
     public void AddSuppressedObject(GameObject gameObject)

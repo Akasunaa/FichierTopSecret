@@ -45,7 +45,6 @@ public class FileParser : MonoBehaviour
         {
             if (targetModifiable.canBeDeleted)
             {
-                Debug.Log("Deleting go : " + path + " | " + name);
                 gameObject.SetActive(false);
                 DeleteFile(path);
 
@@ -107,7 +106,6 @@ public class FileParser : MonoBehaviour
     public void MoveFile(string pathToFile, string targetFolder)
     {
         string fileName = pathToFile.Split("/")[^1];
-        Debug.Log("Move from" + pathToFile + " to " + targetFolder + "/" + fileName);
         File.Move(pathToFile, targetFolder + "/" + fileName);
     }
 }
