@@ -243,9 +243,12 @@ public class NPCCreatorWindow : EditorWindow
             //Check if the state is correctly linked :
             foreach (var state in availableStatesList)
             {
-                if (state.state && state.state.name == npcProperties[index].propertyChangeState) //if the name is found in the list
+                for(int i =0; i< npcProperties[index].propertyChangeState.Length; i++)
                 {
-                    nameFound = true;
+                    if (state.state && state.state.name == npcProperties[index].propertyChangeState[i]) //if the name is found in the list
+                    {
+                        nameFound = true;
+                    }
                 }
             }
             if (!nameFound) { errorProperties = "WRONGLY INPUTTED STATE NAME IN PROPERTY " + index; return true; }

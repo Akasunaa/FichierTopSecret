@@ -111,18 +111,24 @@ MonoBehaviour:
   - propertyName: name
     propertyValue: XV6
     propertyType: 1
-    propertyCondition: 0
-    propertyChangeState: StateChangedName
+    propertyIsSuperior: 
+    propertyCondition: 
+    propertyChangeState:
+    - StateChangedName
   - propertyName: origin
     propertyValue: makemake
     propertyType: 1
-    propertyCondition: 0
-    propertyChangeState: StateChangedOrigin
+    propertyIsSuperior: 
+    propertyCondition: 
+    propertyChangeState:
+    - StateChangedOrigin
   - propertyName: health
     propertyValue: 1
     propertyType: 0
-    propertyCondition: 1
-    propertyChangeState: StateDeath
+    propertyIsSuperior: 
+    propertyCondition: 
+    propertyChangeState:
+    - StateDeath
   objectsElements:
   - playerItemName: insignia
     playerItemChangeState: StateInsigniaObtained
