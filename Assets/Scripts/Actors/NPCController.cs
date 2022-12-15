@@ -88,7 +88,7 @@ public class NPCController : ModifiableController, Interactable
         //Creating the dict of the react elements to check out for :
         foreach (var element in reactElements)
         {
-            if (reactElementsDict.ContainsKey(element.tagToReact))
+            if (!reactElementsDict.ContainsKey(element.tagToReact))
             {
                 reactElementsDict.Add(element.tagToReact, element);
             }
@@ -278,6 +278,7 @@ public class NPCController : ModifiableController, Interactable
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
+            Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
             ReactSearchCount(elementTag, elementTagCount);
         }
     }
@@ -313,7 +314,7 @@ public class NPCController : ModifiableController, Interactable
                
             }
         }
-        UpdateModification();
+        //UpdateModification();
         return;
     }
 
