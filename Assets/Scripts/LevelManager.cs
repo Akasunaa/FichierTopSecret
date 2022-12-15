@@ -130,7 +130,7 @@ public class LevelManager : MonoBehaviour
                 fileParser.ReadFromFile(fileInfo.FullName);
                 FilesWatcher.Instance.Set(fileParser);
             }
-            else if (!directoryExists)
+            else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
                 Debug.Log("Creating file: " + fileInfo.FullName);
                 if (!Directory.Exists(fileInfo.DirectoryName))
@@ -144,7 +144,7 @@ public class LevelManager : MonoBehaviour
                 }
                 FilesWatcher.Instance.Set(fileParser);
             }
-            else if (fileParser.targetModifiable.canBeDeleted)
+            else
             {
                 Debug.Log("Removing file: " + fileInfo.FullName);
                 Destroy(fileParser.gameObject);
