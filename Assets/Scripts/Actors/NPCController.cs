@@ -229,10 +229,10 @@ public class NPCController : ModifiableController, Interactable
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
                 }
-                else
-                {
-                    OnStateChange(dialogSM.GetInitialState().name);
-                }
+                //else //maybe this else condition should be removed or changed -> otherwise, we might switch back to initial state when not needed
+                //{
+                //    OnStateChange(dialogSM.GetInitialState().name);
+                //}
             }
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
@@ -267,6 +267,7 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
+        OnStateChange(dialogSM.GetInitialState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
     /**
@@ -278,7 +279,7 @@ public class NPCController : ModifiableController, Interactable
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
-            Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
+            //Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
             ReactSearchCount(elementTag, elementTagCount);
         }
     }
