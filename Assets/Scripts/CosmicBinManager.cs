@@ -6,6 +6,7 @@ using System.Linq;
 
 public class CosmicBinManager : MonoBehaviour
 {
+    public bool cosmicBinIsloaded { get; set; }
     public static CosmicBinManager Instance { get; private set; }
     private List<GameObject> objectsSuppressed;
     private List<Vector2> usedPositions;
@@ -29,6 +30,7 @@ public class CosmicBinManager : MonoBehaviour
             Instance = this;
         }
 
+        cosmicBinIsloaded = false;
         objectsSuppressed = new List<GameObject>();
         usedPositions = new List<Vector2>();
     }
@@ -51,6 +53,8 @@ public class CosmicBinManager : MonoBehaviour
 
     public void OnCosmicBinLoad()
     {
+        Debug.Log("LOADING BIN");
+        cosmicBinIsloaded = true;
         Vector2 targetPos = Vector2.zero;
         foreach(var gameObject in objectsSuppressed)
         {
@@ -70,11 +74,11 @@ public class CosmicBinManager : MonoBehaviour
 
     public void ClearUselessComponents(GameObject gameObject)
     {
-        var components = FindObjectsOfType<MonoBehaviour>().OfType<Interactable>();
+        /*var components = FindObjectsOfType<MonoBehaviour>().OfType<Interactable>();
         foreach (MonoBehaviour component in components)
         {
             Destroy(component);
-        }
+        }*/
        /* if (gameObject.TryGetComponent<InteractableObjectController>(out InteractableObjectController iOC))
         {
             print("Destroy iOC");

@@ -41,10 +41,12 @@ public class PlayerInteractionController : MonoBehaviour
 
         if (hitObject)
         {
-            Component component = hitObject.GetComponent(typeof(Interactable));
+            // either get interactable component or InteractableTrashController if in Cosmic Bin
+            Component component = CosmicBinManager.Instance.cosmicBinIsloaded ? hitObject.GetComponent<InteractableTrashController>() : hitObject.GetComponent(typeof(Interactable));
             if (component)
             {
                 Interactable interactable = component as Interactable;
+                Debug.Log(component.GetType().Name);
                 interactionPrompt.SetActive(true);
                 interactable.canBeInteracted = true;
                 lastInteractable = interactable;

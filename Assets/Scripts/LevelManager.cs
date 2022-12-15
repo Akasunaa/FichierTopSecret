@@ -95,9 +95,13 @@ public class LevelManager : MonoBehaviour
         UpdateFileGameObjects(directoryExists);
         CreateGameObjectFromFiles(di);
 
-        if (levelName == CosmicBinManager.Instance.cosmicBinSceneName)
+        if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinSceneName))
         {
+            Debug.Log("START LOADING");
             CosmicBinManager.Instance.OnCosmicBinLoad();
+        } else
+        {
+            CosmicBinManager.Instance.cosmicBinIsloaded = false;
         }
     }
 
@@ -157,7 +161,6 @@ public class LevelManager : MonoBehaviour
         {
             if (!FilesWatcher.Instance.ContainsFile(fi))
             {
-                Debug.Log("FULLNAME IS " + fi.FullName);
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
         }
