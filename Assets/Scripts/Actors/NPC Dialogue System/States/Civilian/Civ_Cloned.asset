@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: Civ_Cloned
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - Ho my, you cloned me ?
+  - That's quite the abuse of yer power, young jovian...
   currentSpeech: 
