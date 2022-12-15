@@ -144,7 +144,7 @@ public class LevelManager : MonoBehaviour
                 }
                 FilesWatcher.Instance.Set(fileParser);
             }
-            else
+            else if (fileParser.targetModifiable.canBeDeleted)
             {
                 Debug.Log("Removing file: " + fileInfo.FullName);
                 Destroy(fileParser.gameObject);
