@@ -123,6 +123,7 @@ MonoBehaviour:
   availablePortraits:
   - {fileID: 11400000, guid: 22059f1b266d9484095fd47fbc04f1db, type: 2}
   - {fileID: 11400000, guid: 8a87887357c9c6e4881477663e450471, type: 2}
+  - {fileID: 11400000, guid: a0e5042851b2a3e44952e92150f0aaf8, type: 2}
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0
