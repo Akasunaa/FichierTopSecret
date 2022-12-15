@@ -106,6 +106,8 @@ public class FileParser : MonoBehaviour
     public void MoveFile(string pathToFile, string targetFolder)
     {
         string fileName = pathToFile.Split("/")[^1];
-        File.Move(pathToFile, targetFolder + "/" + fileName);
+        string tmp = targetFolder + "/" + fileName;
+        Debug.Log("Moving from" + pathToFile + " to " + tmp);
+        File.Move(pathToFile, tmp);
     }
 }

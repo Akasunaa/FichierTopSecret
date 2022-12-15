@@ -105,6 +105,13 @@ public class CosmicBinManager : MonoBehaviour
     public void RestoreSuppressedObject(GameObject gameObject)
     {
         Debug.Log("Restore object " + gameObject.name);
+        if (gameObject.TryGetComponent(out FileParser fileParser))
+        {
+            string folderDestination;
+            gameObject.GetComponent<ModifiableController>().TryGet("scene target", out folderDestination);
+            fileParser.MoveFile(fileParser.filePath, Application.streamingAssetsPath + "/Test/" + folderDestination);
+            Destroy(gameObject);
+        }
     }
 
     public void AddSuppressedObject(GameObject gameObject)
