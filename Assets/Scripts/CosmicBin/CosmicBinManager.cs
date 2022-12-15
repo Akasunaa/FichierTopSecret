@@ -12,7 +12,7 @@ public class CosmicBinManager : MonoBehaviour
     private List<Vector2> usedPositions;
 
     [Header("Cosmic bin variables")]
-    public string cosmicBinSceneName;
+    public string cosmicBinFolderName;
     [SerializeField] private int verticalGap;
     [SerializeField] private int horizontalGap;
 
@@ -42,11 +42,11 @@ public class CosmicBinManager : MonoBehaviour
 
     public void GenerateCosmicBin()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/CosmicBin");
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
 
         if (!di.Exists)
         {
-            Debug.Log("Create new directory: " + di.FullName + " | " + cosmicBinSceneName);
+            Debug.Log("Create new directory: " + di.FullName + " | " + cosmicBinFolderName);
             di.Create();
         }
     }
@@ -72,45 +72,28 @@ public class CosmicBinManager : MonoBehaviour
         }   
     }
 
-    public void ClearUselessComponents(GameObject gameObject)
+    public void AddRestorationController(GameObject gameObject)
     {
-        /*var components = FindObjectsOfType<MonoBehaviour>().OfType<Interactable>();
-        foreach (MonoBehaviour component in components)
+        // the door out of the cosmic bin does not require a restoration controller
+        if (!gameObject.TryGetComponent(out DoorObjectController _))
         {
-            Destroy(component);
-        }*/
-       /* if (gameObject.TryGetComponent<InteractableObjectController>(out InteractableObjectController iOC))
-        {
-            print("Destroy iOC");
-            Destroy(iOC);
+            gameObject.AddComponent<BinRestorationController>();
         }
-
-        if (gameObject.TryGetComponent<ObjectInteractionController>(out ObjectInteractionController oIC))
-        {
-            print("Destroy oIC");
-
-            Destroy(oIC);
-        }
-
-        if (gameObject.TryGetComponent<ItemContainerObjectController>(out ItemContainerObjectController iCOC))
-        {
-            print("Destroy iCOC");
-
-            Destroy(iCOC);
-        }*/
-
-        gameObject.AddComponent<InteractableTrashController>();
     }
 
     public void RestoreSuppressedObject(GameObject gameObject)
     {
         Debug.Log("Restore object " + gameObject.name);
-        if (gameObject.TryGetComponent(out FileParser fileParser))
+        if (gameObject.TryGetComponent(out FileParser fileParser) && gameObject.TryGetComponent(out ModifiableController modifiableCtrlr))
         {
             string folderDestination;
-            gameObject.GetComponent<ModifiableController>().TryGet("scene target", out folderDestination);
-            fileParser.MoveFile(fileParser.filePath, Application.streamingAssetsPath + "/Test/" + folderDestination);
+            modifiableCtrlr.TryGet("scene target", out folderDestination);
+            FileInfo fi = new FileInfo(fileParser.filePath);
+            fileParser.filePath = Application.streamingAssetsPath + "/Test/" + folderDestination + "/" + fi.Name;
+            modifiableCtrlr.RemoveValue("scene target");
+            fileParser.WriteToFile();
             Destroy(gameObject);
+            FilesWatcher.Instance.GetPathToScript().Remove(folderDestination + "/" + fi.Name);
         }
     }
 

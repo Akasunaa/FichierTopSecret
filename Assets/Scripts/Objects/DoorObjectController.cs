@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 public class DoorObjectController : ModifiableController, Interactable
 {
     [SerializeField] private string direction;
+    [SerializeField] private bool isLockedByDefault;
 
     [Header("Animation")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -121,7 +122,7 @@ public class DoorObjectController : ModifiableController, Interactable
     {
         Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
         properties.Add("position", pos);
-        properties.Add("locked", true);
+        properties.Add("locked", isLockedByDefault);
         // properties.Add("status", "closed");
         properties.Add("direction", direction);
     }

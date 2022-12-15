@@ -44,6 +44,14 @@ public abstract class ModifiableController : MonoBehaviour
         }
     }
 
+    public void RemoveValue(string key)
+    {
+        if (properties.ContainsKey(key))
+        {
+            properties.Remove(key);
+        }
+    }
+
     public abstract void SetDefaultProperties();
 
     /**

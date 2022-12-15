@@ -63,11 +63,14 @@ public class FileParser : MonoBehaviour
         // create CosmicBin if it doesn't exist
         CosmicBinManager.Instance.GenerateCosmicBin();
 
+        // create fileinfo
+        FileInfo fi = new FileInfo(Application.streamingAssetsPath + path);
+
         // add origin scene as property
         targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
+        filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
         WriteToFile();
-        MoveFile(Application.streamingAssetsPath + path, Application.streamingAssetsPath + "/Test/CosmicBin");
-        File.SetAttributes(Application.streamingAssetsPath + "/Test/CosmicBin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+        File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
     }
 
     /**
@@ -101,13 +104,5 @@ public class FileParser : MonoBehaviour
         {  
             sw.Write(targetModifiable.ToFileString());
         }
-    }
-
-    public void MoveFile(string pathToFile, string targetFolder)
-    {
-        string fileName = pathToFile.Split("/")[^1];
-        string tmp = targetFolder + "/" + fileName;
-        Debug.Log("Moving from" + pathToFile + " to " + tmp);
-        File.Move(pathToFile, tmp);
     }
 }

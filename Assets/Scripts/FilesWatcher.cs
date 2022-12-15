@@ -334,6 +334,12 @@ public class FilesWatcher : MonoBehaviour
         isGettingCurrentObject = false;
     }
 
+    public Dictionary<string, FileParser> GetPathToScript()
+    {
+        return pathToScript;
+    }
+
+
 #if UNITY_STANDALONE_WIN
 
     [DllImport("user32.dll")]

@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8032ac693d6efa246830105942e13b97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cosmicBinSceneName: CosmicBin
+  cosmicBinFolderName: Cosmicbin
   verticalGap: 0
   horizontalGap: 0
 --- !u!4 &334041736

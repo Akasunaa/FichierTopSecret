@@ -43,10 +43,10 @@ public class LevelManager : MonoBehaviour
             if (di.Exists)
             {
                 // remove readonly attributes on cosmicbin items to delete them
-                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/CosmicBin");
+                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
                 if (di2.Exists)
                 {
-                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/CosmicBin"))
+                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/Cosmicbin"))
                     {
                         FileInfo fileInfo = new FileInfo(fileName);
                         File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
@@ -95,7 +95,7 @@ public class LevelManager : MonoBehaviour
         UpdateFileGameObjects(directoryExists);
         CreateGameObjectFromFiles(di);
 
-        if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinSceneName))
+        if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinFolderName))
         {
             Debug.Log("START LOADING");
             CosmicBinManager.Instance.OnCosmicBinLoad();
@@ -199,7 +199,7 @@ public class LevelManager : MonoBehaviour
                     FilesWatcher.Instance.Set(fp);
 
                     // Clean the prefab if it is instantiated in the Cosmic bin
-                    if (isInComsicBin) CosmicBinManager.Instance.ClearUselessComponents(newObj);
+                    if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
                     return;
                 }
             }   
@@ -213,7 +213,7 @@ public class LevelManager : MonoBehaviour
             FilesWatcher.Instance.Set(fp);
 
             // Clean the prefab if it is instantiated in the Cosmic bin
-            if (isInComsicBin) CosmicBinManager.Instance.ClearUselessComponents(newObj);
+            if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
         }
     }
 }
