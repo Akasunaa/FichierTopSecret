@@ -89,9 +89,17 @@ public class CosmicBinManager : MonoBehaviour
             string folderDestination;
             modifiableCtrlr.TryGet("scene target", out folderDestination);
             FileInfo fi = new FileInfo(fileParser.filePath);
+
+            // remove read only and delete the file
+            File.SetAttributes(fileParser.filePath, File.GetAttributes(fileParser.filePath) & ~FileAttributes.ReadOnly);
+            File.Delete(fileParser.filePath);
+
+            // change the path to the origin folder and rewrite the file
             fileParser.filePath = Application.streamingAssetsPath + "/Test/" + folderDestination + "/" + fi.Name;
             modifiableCtrlr.RemoveValue("scene target");
             fileParser.WriteToFile();
+            
+            // remove the object from the scene and from the file watcher
             Destroy(gameObject);
             FilesWatcher.Instance.GetPathToScript().Remove(folderDestination + "/" + fi.Name);
         }
