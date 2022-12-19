@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d83540c9c828305449b9f191a862f9b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 4445950531819338335}
   m_Layer: 0
   m_Name: Civilian
-  m_TagString: NPC
+  m_TagString: Civilian
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,7 @@ Transform:
   m_Children:
   - {fileID: 4445950530162988813}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4445950531819338333
 BoxCollider2D:
@@ -182,6 +182,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 82c14cbb05358b64eb2dabc3515e75b4, type: 2}
   - name: Civ_Too_Much
     state: {fileID: 11400000, guid: 51dbfe833398a1d41a08bc3fa5dce72b, type: 2}
+  - name: Civ_Too_Much
+    state: {fileID: 11400000, guid: 1666e67917a77f8499bb50ec6a94c290, type: 2}
 --- !u!114 &4445950531819338331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: npc
+  portraitRef: civ
   fileProperties:
   - propertyName: money
     propertyValue: 0
@@ -209,7 +211,12 @@ MonoBehaviour:
     - Civ_Info
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: Civilian
+    stateChangeName:
+    - Civ_Cloned
+    isSuperior: 01
+    condition: 01000000
   grid: {fileID: 0}
   canMoving: 0
 --- !u!114 &4445950531819338335

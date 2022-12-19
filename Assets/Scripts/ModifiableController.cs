@@ -119,7 +119,8 @@ public abstract class ModifiableController : MonoBehaviour
                     }
                     break;
                 case bool b:
-                    res += keyName + " : " + value.ToString().ToLower() + "\n";
+                    string boolName = b ? "yes" : "no";
+                    res += keyName + " : " + boolName + "\n";
                     break;
                 default:
                     res += keyName + " : " + value + "\n";

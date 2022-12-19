@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6763806151426580000}
   m_Layer: 0
   m_Name: XV6
-  m_TagString: NPC
+  m_TagString: XV6
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,21 +111,21 @@ MonoBehaviour:
   - propertyName: name
     propertyValue: XV6
     propertyType: 1
-    propertyIsSuperior: 
+    conditionIsSuperior: 
     propertyCondition: 
     propertyChangeState:
     - StateChangedName
   - propertyName: origin
     propertyValue: makemake
     propertyType: 1
-    propertyIsSuperior: 
+    conditionIsSuperior: 
     propertyCondition: 
     propertyChangeState:
     - StateChangedOrigin
   - propertyName: health
     propertyValue: 1
     propertyType: 0
-    propertyIsSuperior: 
+    conditionIsSuperior: 
     propertyCondition: 
     propertyChangeState:
     - StateDeath
@@ -136,7 +136,7 @@ MonoBehaviour:
   - item: {fileID: 1381264106732799180, guid: ba5e5b30d1e42f548bda7c0ab15988d6, type: 3}
     questChangeState: StateInsigniaObtained
   reactElements:
-  - tagToReact: NPC
+  - tagToReact: XV6
     stateChangeName:
     - StateCloned
     - StateCloneArmy
