@@ -78,7 +78,7 @@ public static class ApplyPlayerChange
         {
             foreach (GameObject hitGo in hitGos)
             {
-                // if one of the cllider is not the bject itself nor null
+                // if one of the collider is not the object itself nor null
                 if (hitGo != go && hitGo != null)
                 {
                     shouldMove = false;

@@ -175,14 +175,12 @@ public class LevelManager : MonoBehaviour
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
             {
                 return;
-
             }
             foreach (RegToGoPair pair in instantiable)
             {
                 //check all synonym
                 string[] synonyms = SynonymController.SearchSynonym(nameObject);
-                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
-                
+                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
                 if (synonym!=null)
                 {
                     Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
@@ -191,21 +189,18 @@ public class LevelManager : MonoBehaviour
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
+                    Vector2? size = null;
+                    if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
                     if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(),size);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
                     fp.WriteToFile();
-                    // using (StreamWriter sw = new StreamWriter(fp.filePath))
-                    // {
-                    //     sw.Write(fp.targetModifiable.ToFileString());
-                    // }
-
                     return;
                 }
             }
@@ -216,7 +211,7 @@ public class LevelManager : MonoBehaviour
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
             FilesWatcher.Instance.Set(fp);
-            if (fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+            if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
             {
                 if (player != null)
                 {
@@ -226,10 +221,7 @@ public class LevelManager : MonoBehaviour
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
             }
             fp.WriteToFile();
-            // using (StreamWriter sw = new StreamWriter(fp.filePath))
-            // {
-            //     sw.Write(fp.targetModifiable.ToFileString());
-            // }
+
         }
     }
 }
