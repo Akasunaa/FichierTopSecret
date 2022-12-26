@@ -88,7 +88,7 @@ public class NPCController : ModifiableController, Interactable
         //Creating the dict of the react elements to check out for :
         foreach (var element in reactElements)
         {
-            if (reactElementsDict.ContainsKey(element.tagToReact))
+            if (!reactElementsDict.ContainsKey(element.tagToReact))
             {
                 reactElementsDict.Add(element.tagToReact, element);
             }
@@ -226,34 +226,48 @@ public class NPCController : ModifiableController, Interactable
             {
                 if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
-                    OnStateChange(propertyDict[propertyString].propertyChangeState); //we change the state accordingly
+                    OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
                 }
-                else
-                {
-                    OnStateChange("StateIdle");
-                }
+                //else //maybe this else condition should be removed or changed -> otherwise, we might switch back to initial state when not needed
+                //{
+                //    OnStateChange(dialogSM.GetInitialState().name);
+                //}
             }
-            else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER
+            else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
                 int integerValue;
                 int.TryParse(properties[propertyString].ToString(), out integerValue);
-                if(integerValue < propertyDict[propertyString].propertyCondition) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                for(int conditionListIndex = 0;conditionListIndex< propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
-                    if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
+                    if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
                     {
-                        gameObject.SetActive(false);
-                        return;
+                        if (integerValue < propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        {
+                            if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
+                            {
+                                gameObject.SetActive(false);
+                                return;
+                            }
+                            else
+                            {
+                                OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                                return;
+                            }
+                        }
                     }
                     else
                     {
-                        OnStateChange(propertyDict[propertyString].propertyChangeState);
-                        return;
+                        if (integerValue > propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        {
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                            return;
+                        }
                     }
-                    
                 }
             }
         }
+        OnStateChange(dialogSM.GetInitialState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
     /**
@@ -265,6 +279,7 @@ public class NPCController : ModifiableController, Interactable
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
+            //Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
             ReactSearchCount(elementTag, elementTagCount);
         }
     }
@@ -300,7 +315,7 @@ public class NPCController : ModifiableController, Interactable
                
             }
         }
-        UpdateModification();
+        //UpdateModification();
         return;
     }
 
@@ -359,8 +374,9 @@ public struct FILE_PROPERTIES                             //struct used for the 
     public string propertyName;                         //name of the property
     public string propertyValue;                        //value of the property
     public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
-    public int propertyCondition;                       //condition of the property
-    public string propertyChangeState;                  //associated state of the property if changed
+    public bool[] conditionIsSuperior;                   //list of the booleans that indicate wether the associated properties are superior or inferior ones
+    public int[] propertyCondition;                     //list of conditions of the property
+    public string[] propertyChangeState;                //associated state of the property if changed
 }
 
 [System.Serializable]

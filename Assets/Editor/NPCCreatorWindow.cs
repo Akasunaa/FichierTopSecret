@@ -240,12 +240,27 @@ public class NPCCreatorWindow : EditorWindow
                 errorProperties = "MISSING VALUE IN PROPERTY " + index;
                 return true;
             }
+            //check if there is at least one linked state :
+            if (npcProperties[index].propertyChangeState.Length == 0)
+            {
+                errorProperties = "THERE IS NO ACCESSIBLE CHANGE STATE IN PROPERTY "+index;
+                return true;
+            }
+            //Check if the conditions list and booleans isSuperior list :
+            if(npcProperties[index].conditionIsSuperior.Length == npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length >= npcProperties[index].propertyCondition.Length)
+            {
+                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY "+index;
+                return true;
+            }
             //Check if the state is correctly linked :
             foreach (var state in availableStatesList)
             {
-                if (state.state && state.state.name == npcProperties[index].propertyChangeState) //if the name is found in the list
+                for(int i =0; i< npcProperties[index].propertyChangeState.Length; i++)
                 {
-                    nameFound = true;
+                    if (state.state && state.state.name == npcProperties[index].propertyChangeState[i]) //if the name is found in the list
+                    {
+                        nameFound = true;
+                    }
                 }
             }
             if (!nameFound) { errorProperties = "WRONGLY INPUTTED STATE NAME IN PROPERTY " + index; return true; }

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: Civ_Too_Much
+  m_EditorClassIdentifier: 
+  speech:
+  - My, my, you're a private and you don't know how to bribe ? What a sad state of
+    affairs...
+  - For the record, young jovian, that's way too much. Your money will be wasted
+    in no time if you don't figure out the way to bribe...
+  - 'In any case, here''s the information I know :'
+  - A rogue Protectorate's lapdog has been seen in the Factory last eclipse. That
+    rumour must have made its way to Aikara, because they shut down the factory soon
+    after...
+  currentSpeech: 
