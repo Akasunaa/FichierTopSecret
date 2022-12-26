@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Assertions;
 using Mono.Cecil.Rocks;
@@ -44,9 +45,9 @@ public class FileParser : MonoBehaviour
         {
             if (targetModifiable.canBeDeleted)
             {
-                Debug.Log("Deleting go : " + path + " | " + name);
-                Destroy(targetModifiable.gameObject);
-                //todo : moyen de le recreer si unique
+                gameObject.SetActive(false);
+                DeleteFile(path);
+
                 return true;
             }
             // If the file cannot be deleted, re-write the file
@@ -55,6 +56,21 @@ public class FileParser : MonoBehaviour
         }
         return false;
 
+    }
+
+    public void DeleteFile(string path)
+    {
+        // create CosmicBin if it doesn't exist
+        CosmicBinManager.Instance.GenerateCosmicBin();
+
+        // create fileinfo
+        FileInfo fi = new FileInfo(Application.streamingAssetsPath + path);
+
+        // add origin scene as property
+        targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
+        filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
+        WriteToFile();
+        File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
     }
 
     /**
