@@ -1,7 +1,0 @@
-.pio
-CMakeListsPrivate.txt
-cmake-build-*/ 
-/test/README
-/lib/README
-/include/README
-/.idea/discord.xml
