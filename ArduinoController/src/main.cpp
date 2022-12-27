@@ -4,9 +4,12 @@
 #include <LiquidCrystal.h>
 #include <MFRC522.h>
 
+#include <avr/wdt.h>
+
 #include "Enums.h"
 #include "PrintingUtils.h"
 #include "RfidUIDUtils.h"
+#include "GeneralUtils.h"
 
 // defines for LCD pins
 #define LCD_RS_PIN 6
@@ -44,6 +47,9 @@ PrintingUtils printingUtils(&lcd);
 // Rfid uid utils custom functions init
 RfidUIDUtils rfidUidUtils(&rfid);
 
+// Rfid uid utils custom functions init
+GeneralUtils generalUtils(&lcd, &rfidUidUtils, &newCardDetected);
+
 
 
 CARD_NAME getCardName(byte* buffer){
@@ -55,17 +61,12 @@ CARD_NAME getCardName(byte* buffer){
     return cardName <= TSP ? (CARD_NAME) cardName : OTHER;
 }
 
+void(* softwareReboot) (void) = 0;
+
 int handleTimer() {
 
     // Should stop after 5s or if a card is detected
-    int countDown = 50;
-    while(!newCardDetected && countDown > 0) {
-        lcd.setCursor(15, 1);
-        lcd.print(countDown/10);
-        rfidUidUtils.readRFID(newUID, &newCardDetected);
-        delay(100);
-        countDown -= 1;
-    }
+    generalUtils.tryRfidFor(5, newUID);
 
     // No card has been detected, go back to main menu
     if(!newCardDetected)
@@ -91,6 +92,34 @@ int handleTimer() {
     return 0;
 }
 
+int handleSettings() {
+    // Try to find a new card for 5s
+    generalUtils.tryRfidFor(5, newUID);
+
+    // No card has been detected, go back to main menu
+    if(!newCardDetected)
+        return (int) NO_CARD_DETECTED;
+
+    // Now that we have a card, let's know what to do
+    CARD_NAME cardName = getCardName(newUID);
+    switch (cardName) {
+        case OTHER:
+            return (int) CARD_NOT_RECOGNISED;
+        case CHZ1:
+            return (int) SETTINGS_SYNC;
+        case CHZ2:
+            return (int) SETTINGS_REBOOT;
+        case CHZ3:
+            return (int) SETTINGS_CONTRAST;
+        case CHZ4:
+            return 0;
+        case TAG:
+        case TSP:
+            return (int) CARD_NOT_EXPECTED;
+    }
+    return 0;
+}
+
 void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
     if(whatToDo < 0) {
         printingUtils.printErr((ERR_TYPE) whatToDo);
@@ -107,7 +136,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
     switch (menuType) {
 
         case TIMER_MENU:
-            switch (whatToDo) {
+            switch ((TIMER_ACTIONS) whatToDo) {
                 case TIMER_PAUSE:
                     Serial.println("timer p");
                     printingUtils.oneLineClearPrint("Pause Chosen");
@@ -125,6 +154,31 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                 default :
                     break;
             }
+            break;
+        case SETTINGS_MENU:
+            switch ((SETTINGS_ACTIONS) whatToDo) {
+                case SETTINGS_SYNC:
+                    Serial.println("sync");
+                    printingUtils.oneLineClearPrint("Doing some sync");
+                    delay(1000);
+                    break;
+                case SETTINGS_REBOOT:
+                    printingUtils.oneLineClearPrint("Rebooting in Xs"); // X will be replaced by i+1 in the next statement
+                    for (int i = 1; i <= 3; i++) { // wait for 3s
+                        printingUtils.printAt(String(4-i), 13, 0);
+                        delay(1000);
+                    }
+                    Serial.println("reboot");
+                    printingUtils.oneLineClearPrint("Rebooting...");
+                    delay(100);
+                    softwareReboot(); // noreturn function, so no need to break the switch statement
+                case SETTINGS_CONTRAST:
+                    printingUtils.twoLinePrinting("Hardware change", "only, open me :)");
+                    delay(3000);
+                    break;
+            }
+            break;
+        case MAIN_MENU: // whatToDo should never come here so we are good!
             break;
     }
 }
@@ -151,8 +205,13 @@ void handleNewCard() {
         case CHZ2:
 
         case CHZ3:
+            break;
 
         case CHZ4:
+            printingUtils.printMenu(SETTINGS_MENU);
+            whatToDo = handleSettings();
+            handleWhatToDo(whatToDo, SETTINGS_MENU);
+            break;
 
         case TAG:
 

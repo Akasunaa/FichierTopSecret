@@ -3,17 +3,12 @@
 
 enum CARD_NAME {
     OTHER = 999,
-    CHZ1,
+    CHZ1 = 1,
     CHZ2,
     CHZ3,
     CHZ4,
     TAG,
     TSP
-};
-
-enum MENU_TYPE {
-    MAIN_MENU = 1,
-    TIMER_MENU
 };
 
 enum ERR_TYPE {
@@ -22,10 +17,22 @@ enum ERR_TYPE {
     CARD_NOT_EXPECTED = -300,
 };
 
+enum MENU_TYPE {
+    MAIN_MENU = 1,
+    TIMER_MENU,
+    SETTINGS_MENU
+};
+
 enum TIMER_ACTIONS {
     TIMER_PAUSE = 1,
     TIMER_RESET,
     TIMER_SHOW
+};
+
+enum SETTINGS_ACTIONS {
+    SETTINGS_SYNC = 1,
+    SETTINGS_REBOOT,
+    SETTINGS_CONTRAST
 };
 
 #endif //ARDUINOCONTROLLER_ENUMS_H

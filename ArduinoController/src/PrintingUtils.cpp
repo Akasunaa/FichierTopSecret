@@ -40,6 +40,8 @@ void PrintingUtils::printMenu(MENU_TYPE menuType) {
     String lineOne = "";
     String lineTwo = "";
 
+
+
     switch (menuType) {
 
         case TIMER_MENU:
@@ -48,8 +50,17 @@ void PrintingUtils::printMenu(MENU_TYPE menuType) {
             break;
         case MAIN_MENU:
             lineOne = "1:Timer 2:NotImp";
-            lineTwo = "3:NotImp4:NotImp";
+            lineTwo = "3:NotImp4:Settgs";
+            break;
+        case SETTINGS_MENU:
+            lineOne = "1:Sync  2:Reboot";
+            lineTwo = "3:Contr 4:Back";
             break;
     }
     twoLinePrinting(lineOne, lineTwo);
+}
+
+void PrintingUtils::printAt(const String &line, const uint8_t &column, const uint8_t &row) {
+    lcd->setCursor(column, row);
+    lcd->print(line);
 }

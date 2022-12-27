@@ -18,7 +18,7 @@ void RfidUIDUtils::readRFID(byte *newUID, bool *newCardDetected) {
 
     *newCardDetected = true;
 
-    // Stop rfid connection
+    // Stop rfidUidUtils connection
     rfid->PICC_HaltA();
     rfid->PCD_StopCrypto1();
 }
