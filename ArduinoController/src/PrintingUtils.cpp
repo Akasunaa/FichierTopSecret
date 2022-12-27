@@ -29,6 +29,9 @@ void PrintingUtils::printErr(ERR_TYPE errType) {
         case CARD_NOT_RECOGNISED:
             lineOne = "Unknown card";
             break;
+        case CARD_NOT_EXPECTED:
+            lineOne = "Unexpected card";
+            break;
     }
     twoLinePrinting(lineOne, lineTwo);
 }

@@ -1,0 +1,30 @@
+#ifndef ARDUINOCONTROLLER_ENUMS_H
+#define ARDUINOCONTROLLER_ENUMS_H
+
+enum CARD_NAME {
+    OTHER = 999,
+    CHZ1,
+    CHZ2,
+    CHZ3,
+    CHZ4,
+    TAG,
+    TSP
+};
+
+enum MENU_TYPE {
+    TIMER_MENU = 1
+};
+
+enum ERR_TYPE {
+    NO_CARD_DETECTED = -100,
+    CARD_NOT_RECOGNISED = -200,
+    CARD_NOT_EXPECTED = -300,
+};
+
+enum TIMER_ACTIONS {
+    TIMER_PAUSE = 1,
+    TIMER_RESET,
+    TIMER_SHOW
+};
+
+#endif //ARDUINOCONTROLLER_ENUMS_H
