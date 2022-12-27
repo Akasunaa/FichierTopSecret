@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b89548a72d60b8d4b8d6184de2534116
+guid: 3c6b66d6e2b9e1c43b40b090d2cef0b4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,21 +34,21 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -71,7 +71,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -105,70 +105,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: NotCosmicBin_tile_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 291f21f410deb35408d822dd656672a0
-      internalID: -980533131
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NotCosmicBin_tile_1
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d60deaa8a32f985479d5cb5d65f496f8
-      internalID: -1646599466
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: NotCosmicBin_tile_2
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2b6a82105a51e954bae2d90c1906d99d
-      internalID: 267868857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -179,10 +116,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      NotCosmicBin_tile_2: 267868857
-      NotCosmicBin_tile_0: -980533131
-      NotCosmicBin_tile_1: -1646599466
+    nameFileIdTable: {}
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 
