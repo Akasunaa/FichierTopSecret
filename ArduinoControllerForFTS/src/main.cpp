@@ -1,5 +1,3 @@
-// hello github
-
 #include <Arduino.h>
 #include <SPI.h>
 
