@@ -183,7 +183,7 @@ void setup() {
 
 
 void loop() {
-    printingUtils.twoLinePrinting("1:Timer 2:NotImp", "3:NotImp4:NotImp");
+    printingUtils.printMenu(MAIN_MENU);
     rfidUidUtils.readRFID(newUID, &newCardDetected);
 
     if(newCardDetected) {

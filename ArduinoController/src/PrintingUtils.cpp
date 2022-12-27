@@ -46,6 +46,10 @@ void PrintingUtils::printMenu(MENU_TYPE menuType) {
             lineOne = "1:Pause 2:Reset";
             lineTwo = "3:Show  4:Back";
             break;
+        case MAIN_MENU:
+            lineOne = "1:Timer 2:NotImp";
+            lineTwo = "3:NotImp4:NotImp";
+            break;
     }
     twoLinePrinting(lineOne, lineTwo);
 }
