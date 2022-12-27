@@ -4,8 +4,6 @@
 #include <LiquidCrystal.h>
 #include <MFRC522.h>
 
-#include <avr/wdt.h>
-
 #include "Enums.h"
 #include "PrintingUtils.h"
 #include "RfidUIDUtils.h"
@@ -63,7 +61,7 @@ CARD_NAME getCardName(byte* buffer){
 
 void(* softwareReboot) (void) = 0;
 
-int handleTimer() {
+int chooseWhatToDo(int other, int chz1, int chz2, int chz3, int chz4, int tag, int tsp, int defaultReturn){
 
     // Should stop after 5s or if a card is detected
     generalUtils.tryRfidFor(5, newUID);
@@ -76,48 +74,21 @@ int handleTimer() {
     CARD_NAME cardName = getCardName(newUID);
     switch (cardName) {
         case OTHER:
-            return (int) CARD_NOT_RECOGNISED;
+            return other;
         case CHZ1:
-            return (int) TIMER_PAUSE;
+            return chz1;
         case CHZ2:
-            return (int) TIMER_RESET;
+            return chz2;
         case CHZ3:
-            return (int) TIMER_SHOW;
+            return chz3;
         case CHZ4:
-            return 0;
+            return chz4;
         case TAG:
+            return tag;
         case TSP:
-            return (int) CARD_NOT_EXPECTED;
+            return tsp;
     }
-    return 0;
-}
-
-int handleSettings() {
-    // Try to find a new card for 5s
-    generalUtils.tryRfidFor(5, newUID);
-
-    // No card has been detected, go back to main menu
-    if(!newCardDetected)
-        return (int) NO_CARD_DETECTED;
-
-    // Now that we have a card, let's know what to do
-    CARD_NAME cardName = getCardName(newUID);
-    switch (cardName) {
-        case OTHER:
-            return (int) CARD_NOT_RECOGNISED;
-        case CHZ1:
-            return (int) SETTINGS_SYNC;
-        case CHZ2:
-            return (int) SETTINGS_REBOOT;
-        case CHZ3:
-            return (int) SETTINGS_CONTRAST;
-        case CHZ4:
-            return 0;
-        case TAG:
-        case TSP:
-            return (int) CARD_NOT_EXPECTED;
-    }
-    return 0;
+    return defaultReturn;
 }
 
 void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
@@ -137,18 +108,18 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
 
         case TIMER_MENU:
             switch ((TIMER_ACTIONS) whatToDo) {
-                case TIMER_PAUSE:
-                    Serial.println("timer p");
+                case TIMER_A_PAUSE:
+                    GeneralUtils::serialPrint(TIMER_PP);
                     printingUtils.oneLineClearPrint("Pause Chosen");
                     delay(1000);
                     break;
-                case TIMER_RESET:
-                    Serial.println("timer r");
+                case TIMER_A_RESET:
+                    GeneralUtils::serialPrint(TIMER_RST);
                     printingUtils.oneLineClearPrint("Reset Chosen");
                     delay(1000);
                     break;
-                case TIMER_SHOW:
-                    Serial.println("timer s");
+                case TIMER_A_SHOW:
+                    GeneralUtils::serialPrint(TIMER_SWITCH);
                     printingUtils.oneLineClearPrint("Show Chosen");
                     delay(1000);
                 default :
@@ -158,7 +129,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
         case SETTINGS_MENU:
             switch ((SETTINGS_ACTIONS) whatToDo) {
                 case SETTINGS_SYNC:
-                    Serial.println("sync");
+                    GeneralUtils::serialPrint(SYNC);
                     printingUtils.oneLineClearPrint("Doing some sync");
                     delay(1000);
                     break;
@@ -168,9 +139,9 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         printingUtils.printAt(String(4-i), 13, 0);
                         delay(1000);
                     }
-                    Serial.println("reboot");
+                    GeneralUtils::serialPrint(REBOOT);
                     printingUtils.oneLineClearPrint("Rebooting...");
-                    delay(100);
+                    delay(1000);
                     softwareReboot(); // noreturn function, so no need to break the switch statement
                 case SETTINGS_CONTRAST:
                     printingUtils.twoLinePrinting("Hardware change", "only, open me :)");
@@ -198,7 +169,8 @@ void handleNewCard() {
 
         case CHZ1:
             printingUtils.printMenu(TIMER_MENU);
-            whatToDo = handleTimer();
+            whatToDo = chooseWhatToDo(CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SHOW, 0,
+                                      CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
             handleWhatToDo(whatToDo, TIMER_MENU);
             break;
 
@@ -209,7 +181,8 @@ void handleNewCard() {
 
         case CHZ4:
             printingUtils.printMenu(SETTINGS_MENU);
-            whatToDo = handleSettings();
+            whatToDo = chooseWhatToDo(CARD_NOT_RECOGNISED, SETTINGS_SYNC, SETTINGS_REBOOT, SETTINGS_CONTRAST, 0,
+                                      CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
             handleWhatToDo(whatToDo, SETTINGS_MENU);
             break;
 
@@ -235,7 +208,7 @@ void setup() {
     // Unity program initialization
 
     // Acknowledge that the card is ok to go
-    Serial.println("ready");
+    GeneralUtils::serialPrint(READY);
     printingUtils.oneLineClearPrint("Ready");
     delay(1000);
 }

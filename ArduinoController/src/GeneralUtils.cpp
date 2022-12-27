@@ -14,3 +14,22 @@ void GeneralUtils::tryRfidFor(int seconds, byte* newUID) {
         seconds -= 1;
     }
 }
+
+size_t GeneralUtils::serialPrint(SERIAL_MESSAGE_CODE serialMessageCode) {
+    switch (serialMessageCode) {
+
+        case READY:
+            return Serial.print("stg rd");
+        case SYNC:
+            return Serial.print("stg s");
+        case REBOOT:
+            return Serial.print("stg rb");
+        case TIMER_PP:
+            return Serial.print("timer p");
+        case TIMER_RST:
+            return Serial.print("timer r");
+        case TIMER_SWITCH:
+            return Serial.print("timer s");
+    }
+    return 0;
+}

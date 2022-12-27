@@ -7,6 +7,9 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
+
+#include "Enums.h"
+
 #include "RfidUIDUtils.h"
 
 class GeneralUtils {
@@ -19,6 +22,7 @@ public:
     explicit GeneralUtils(LiquidCrystal* lcd, RfidUIDUtils* rfid, bool* newCardDetected) : lcd(lcd), rfidUidUtils(rfid), newCardDetected(newCardDetected) {};
 
     void tryRfidFor(int seconds, byte* newUID);
+    static size_t serialPrint(SERIAL_MESSAGE_CODE serialMessageCode);
 };
 
 
