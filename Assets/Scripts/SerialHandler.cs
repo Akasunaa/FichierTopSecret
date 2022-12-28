@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO.Ports;
 
 public class SerialHandler : MonoBehaviour
@@ -30,14 +29,18 @@ public class SerialHandler : MonoBehaviour
 
         switch (message)
         {
-            case "timer p":
+            case "tmr pp":
                 Timer.instance.PauseSwitchTimer();
                 break;
-            case "timer r":
+            case "tmr rt":
                 Timer.instance.ResetTimer();
                 break;
-            case "timer s":
+            case "tmr sc":
                 Timer.instance.SwitchTimerShowState();
+                _serial.WriteLine("time " + Timer.instance.currentTime);
+                break;
+            default:
+                Debug.Log("Unknown serial message.");
                 break;
         }
     }
