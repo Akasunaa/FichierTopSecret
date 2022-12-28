@@ -17,12 +17,18 @@ private:
     LiquidCrystal* lcd;
     RfidUIDUtils* rfidUidUtils;
     bool* newCardDetected;
+    byte* newUID;
 
 public:
-    explicit GeneralUtils(LiquidCrystal* lcd, RfidUIDUtils* rfid, bool* newCardDetected) : lcd(lcd), rfidUidUtils(rfid), newCardDetected(newCardDetected) {};
+    explicit GeneralUtils(LiquidCrystal* lcd, RfidUIDUtils* rfid, bool* newCardDetected, byte* newUID) : lcd(lcd), rfidUidUtils(rfid), newCardDetected(newCardDetected), newUID(newUID) {};
 
-    void tryRfidFor(int seconds, byte* newUID);
+    void tryRfidFor(int seconds, bool printTiming);
+    void newCardDetectionDo(void (*function)());
     static size_t serialPrint(SERIAL_MESSAGE_CODE serialMessageCode);
+    static void split(const String &string, const char &separator, String *stockIn);
+    static float floatOfStringCustom(const String& string);
+
+
 };
 
 

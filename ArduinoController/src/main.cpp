@@ -39,6 +39,15 @@ byte* UIDs[] = {UID_CHZ1, UID_CHZ2, UID_CHZ3, UID_CHZ4, UID_TAG, UID_TSP};
 byte newUID[10];
 bool newCardDetected = false;
 
+unsigned long lastLocalTimerPrintTime = 0;
+unsigned long timer = 0;
+unsigned long timerTmp = 0;
+bool localTimerOn = true;
+int loopCountForTimerRefreshing = 0;
+
+
+CARD_MODE cardMode = NORMAL;
+
 // Printing utils custom functions init
 PrintingUtils printingUtils(&lcd);
 
@@ -46,7 +55,7 @@ PrintingUtils printingUtils(&lcd);
 RfidUIDUtils rfidUidUtils(&rfid);
 
 // Rfid uid utils custom functions init
-GeneralUtils generalUtils(&lcd, &rfidUidUtils, &newCardDetected);
+GeneralUtils generalUtils(&lcd, &rfidUidUtils, &newCardDetected, newUID);
 
 
 
@@ -61,36 +70,6 @@ CARD_NAME getCardName(byte* buffer){
 
 void(* softwareReboot) (void) = 0;
 
-int chooseWhatToDo(int other, int chz1, int chz2, int chz3, int chz4, int tag, int tsp, int defaultReturn){
-
-    // Should stop after 5s or if a card is detected
-    generalUtils.tryRfidFor(5, newUID);
-
-    // No card has been detected, go back to main menu
-    if(!newCardDetected)
-        return (int) NO_CARD_DETECTED;
-
-    // Now that we have a card, let's know what to do
-    CARD_NAME cardName = getCardName(newUID);
-    switch (cardName) {
-        case OTHER:
-            return other;
-        case CHZ1:
-            return chz1;
-        case CHZ2:
-            return chz2;
-        case CHZ3:
-            return chz3;
-        case CHZ4:
-            return chz4;
-        case TAG:
-            return tag;
-        case TSP:
-            return tsp;
-    }
-    return defaultReturn;
-}
-
 void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
     if(whatToDo < 0) {
         printingUtils.printErr((ERR_TYPE) whatToDo);
@@ -103,24 +82,44 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
         delay(1500);
         return;
     }
+    unsigned long timeSinceSending = 0;
 
     switch (menuType) {
 
         case TIMER_MENU:
             switch ((TIMER_ACTIONS) whatToDo) {
                 case TIMER_A_PAUSE:
-                    GeneralUtils::serialPrint(TIMER_PP);
-                    printingUtils.oneLineClearPrint("Pause Chosen");
-                    delay(1000);
+                    if(cardMode == NORMAL) {
+                        GeneralUtils::serialPrint(TIMER_PP);
+                        printingUtils.oneLineClearPrint("Pause Chosen");
+                        delay(1000);
+                    } else {
+                        localTimerOn = !localTimerOn;
+                        timerTmp = millis();
+                    }
                     break;
                 case TIMER_A_RESET:
-                    GeneralUtils::serialPrint(TIMER_RST);
-                    printingUtils.oneLineClearPrint("Reset Chosen");
-                    delay(1000);
+                    if(cardMode == NORMAL) {
+                        GeneralUtils::serialPrint(TIMER_RST);
+                        printingUtils.oneLineClearPrint("Reset Chosen");
+                        delay(1000);
+                    } else {
+                        timer = 0;
+                    }
                     break;
-                case TIMER_A_SHOW:
+                case TIMER_A_SWITCH:
+                    timeSinceSending = millis();
                     GeneralUtils::serialPrint(TIMER_SWITCH);
-                    printingUtils.oneLineClearPrint("Show Chosen");
+                    printingUtils.oneLineClearPrint("Timer switch...");
+                    /*while(!dataReceived) {
+                        delay(50);
+                    } // wait for the data to come here*/
+                    timerTmp = millis(); // register when received
+                    timer += (timerTmp - timeSinceSending) / 2; // we have to add the time passed between computer and arduino (only half because we only need the "pong")
+                    timerTmp = millis();
+                    lastLocalTimerPrintTime = timer;
+                    printingUtils.printAt("OK", 14, 0);
+                    cardMode = TIMER;
                     delay(1000);
                 default :
                     break;
@@ -153,6 +152,35 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
             break;
     }
 }
+int chooseWhatToDo(bool printTiming, int other, int chz1, int chz2, int chz3, int chz4, int tsp, int defaultReturn){
+
+    // Should stop after 5s or if a card is detected
+    generalUtils.tryRfidFor(5, printTiming);
+
+    // No card has been detected, go back to main menu
+    if(!newCardDetected)
+        return (int) NO_CARD_DETECTED;
+
+    // Now that we have a card, let's know what to do
+    CARD_NAME cardName = getCardName(newUID);
+    switch (cardName) {
+        case OTHER:
+            return other;
+        case CHZ1:
+            return chz1;
+        case CHZ2:
+            return chz2;
+        case CHZ3:
+            return chz3;
+        case CHZ4:
+            return chz4;
+        case TAG: // Anytime you present the Tag, the program has to reboot
+            handleWhatToDo(SETTINGS_REBOOT, SETTINGS_MENU);
+        case TSP:
+            return tsp;
+    }
+    return defaultReturn;
+}
 
 void handleNewCard() {
     newCardDetected = false;
@@ -169,8 +197,8 @@ void handleNewCard() {
 
         case CHZ1:
             printingUtils.printMenu(TIMER_MENU);
-            whatToDo = chooseWhatToDo(CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SHOW, 0,
-                                      CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
+            whatToDo = chooseWhatToDo(true, CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SWITCH, 0,
+                                      CARD_NOT_EXPECTED, 0);
             handleWhatToDo(whatToDo, TIMER_MENU);
             break;
 
@@ -181,17 +209,34 @@ void handleNewCard() {
 
         case CHZ4:
             printingUtils.printMenu(SETTINGS_MENU);
-            whatToDo = chooseWhatToDo(CARD_NOT_RECOGNISED, SETTINGS_SYNC, SETTINGS_REBOOT, SETTINGS_CONTRAST, 0,
-                                      CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
+            whatToDo = chooseWhatToDo(true, CARD_NOT_RECOGNISED, SETTINGS_SYNC, SETTINGS_REBOOT, SETTINGS_CONTRAST, 0,
+                                      CARD_NOT_EXPECTED, 0);
             handleWhatToDo(whatToDo, SETTINGS_MENU);
             break;
 
         case TAG:
-
+            handleWhatToDo(SETTINGS_REBOOT, SETTINGS_MENU);
         case TSP:
             break;
     }
 }
+
+void handleLocalTimer(){
+    unsigned long temp = millis();
+    timer += temp - timerTmp;
+    timerTmp = temp;
+}
+
+void localTimerCardReading() {
+    newCardDetected = false;
+
+    CARD_NAME cardName = getCardName(newUID);
+
+    int whatToDo = chooseWhatToDo(false, CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SWITCH, CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
+    handleWhatToDo(whatToDo, TIMER_MENU);
+
+}
+
 
 void setup() {
     // lcd initialization
@@ -213,17 +258,28 @@ void setup() {
     delay(1000);
 }
 
-
 void loop() {
-    printingUtils.printMenu(MAIN_MENU);
-    rfidUidUtils.readRFID(newUID, &newCardDetected);
+    switch (cardMode) {
 
-    if(newCardDetected) {
-        handleNewCard();
-        newCardDetected = false;
+        case NORMAL:
+            printingUtils.printMenu(MAIN_MENU);
+            generalUtils.newCardDetectionDo(handleNewCard);
+
+            delay(200);
+            break;
+
+        case TIMER:
+            loopCountForTimerRefreshing++;
+            if(loopCountForTimerRefreshing > 200) {
+                printingUtils.printTimer(timer);
+                lastLocalTimerPrintTime = timer;
+                generalUtils.newCardDetectionDo(localTimerCardReading);
+                loopCountForTimerRefreshing = 0;
+            }
+            if(localTimerOn)
+                handleLocalTimer();
+            break;
     }
-
-    delay(200);
 }
 
 
@@ -234,12 +290,13 @@ void loop() {
 void serialEvent()
 {
     String message = Serial.readStringUntil('\n');
-    if (message == "LED ON") {
-        lcd.setCursor(0, 1);
-        lcd.print("HIGH");
-    } else if (message == "LED OFF") {
-        lcd.setCursor(0, 1);
-        lcd.print("LOW ");
+    String attr[2];
+
+    GeneralUtils::split(message, ' ', attr);
+
+    if(attr[0] == "time") {
+        // we receive time in seconds and here we work in millis
+        timer = (unsigned long) (1000 * GeneralUtils::floatOfStringCustom(attr[1]));
     }
 }
 
