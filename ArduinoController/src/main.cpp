@@ -39,7 +39,6 @@ byte* UIDs[] = {UID_CHZ1, UID_CHZ2, UID_CHZ3, UID_CHZ4, UID_TAG, UID_TSP};
 byte newUID[10];
 bool newCardDetected = false;
 
-unsigned long lastLocalTimerPrintTime = 0;
 unsigned long timer = 0;
 unsigned long timerTmp = 0;
 bool localTimerOn = true;
@@ -105,6 +104,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         delay(1000);
                     } else {
                         timer = 0;
+                        timerTmp = millis();
                     }
                     break;
                 case TIMER_A_SWITCH:
@@ -117,7 +117,6 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                     timerTmp = millis(); // register when received
                     timer += (timerTmp - timeSinceSending) / 2; // we have to add the time passed between computer and arduino (only half because we only need the "pong")
                     timerTmp = millis();
-                    lastLocalTimerPrintTime = timer;
                     printingUtils.printAt("OK", 14, 0);
                     cardMode = TIMER;
                     delay(1000);
@@ -152,14 +151,15 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
             break;
     }
 }
-int chooseWhatToDo(bool printTiming, int other, int chz1, int chz2, int chz3, int chz4, int tsp, int defaultReturn){
+int chooseWhatToDo(bool checkRfid, int other, int chz1, int chz2, int chz3, int chz4, int tsp, int defaultReturn){
+    if(checkRfid) {
+        // Should stop after 5s or if a card is detected
+        generalUtils.tryRfidFor(5, true);
 
-    // Should stop after 5s or if a card is detected
-    generalUtils.tryRfidFor(5, printTiming);
-
-    // No card has been detected, go back to main menu
-    if(!newCardDetected)
-        return (int) NO_CARD_DETECTED;
+        // No card has been detected, go back to main menu
+        if (!newCardDetected)
+            return (int) NO_CARD_DETECTED;
+    }
 
     // Now that we have a card, let's know what to do
     CARD_NAME cardName = getCardName(newUID);
@@ -228,13 +228,9 @@ void handleLocalTimer(){
 }
 
 void localTimerCardReading() {
-    newCardDetected = false;
-
-    CARD_NAME cardName = getCardName(newUID);
 
     int whatToDo = chooseWhatToDo(false, CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SWITCH, CARD_NOT_EXPECTED, CARD_NOT_EXPECTED, 0);
     handleWhatToDo(whatToDo, TIMER_MENU);
-
 }
 
 
@@ -272,7 +268,6 @@ void loop() {
             loopCountForTimerRefreshing++;
             if(loopCountForTimerRefreshing > 200) {
                 printingUtils.printTimer(timer);
-                lastLocalTimerPrintTime = timer;
                 generalUtils.newCardDetectionDo(localTimerCardReading);
                 loopCountForTimerRefreshing = 0;
             }
