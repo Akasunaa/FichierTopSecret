@@ -41,8 +41,10 @@ public class NPCController : ModifiableController, Interactable
 
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
-    [SerializeField] bool canMoving;
-    bool isWaiting;
+    [SerializeField] private bool shouldMove; //if we want this NPC moving
+    private Animator animator;
+    private bool isWaiting=false;
+    private bool canMove = true; //if the NPC can moving (not in dialogState)
 
     private void Start()
     {
@@ -71,10 +73,6 @@ public class NPCController : ModifiableController, Interactable
             }
         }
 
-        //For the movement
-        isWaiting = false;
-        //-----------------------------------
-
         //Creating the dict of the quest items to give out :
         foreach (var element in questItems)
         {
@@ -95,54 +93,99 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
-        //UpdateModification();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
-        if (canMoving && !isWaiting) { Movement(); }
+        if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
 
     }
 
-    private void Movement()
+    /**
+    * Launch a new random movement of the NPC 
+    */
+    private void NewRandomMovement()
     {
-        int randomTimer = Random.Range(5, 10); //to serialize
+        int randomTimer = Random.Range(5, 10); 
         int randomDistance = Random.Range(1, 4);
         int randomDirection = Random.Range(0, 4);
-        StartCoroutine(WaitForMovement(randomTimer,randomDistance,randomDirection));
+        StartCoroutine(Deplacement(randomTimer,randomDistance,randomDirection));
     }
     
-    IEnumerator WaitForMovement(int timer, int distance, int direction)
-    {
+    /**
+    * Check if NPC can do the deplacement and launch it, then wait for the next movement 
+    */
+    IEnumerator Deplacement(int timer, int distance, int direction)
+    { 
         isWaiting = true;
         Vector3Int actualGridPosition = grid.WorldToCell(transform.position);
-        Vector3Int targetGridPosition = new Vector3Int(0, 0, 0);
+        Vector3Int vectorDirection = new Vector3Int(0, 0, 0);
         switch (direction)
         {
             case 0:
-                targetGridPosition[0] = 1;
+                vectorDirection[0] = 1;
                 break;
             case 1:
-                targetGridPosition[0] = -1;
+                vectorDirection[0] = -1;
                 break;
             case 2:
-                targetGridPosition[1] = 1;
+                vectorDirection[1] = 1;
                 break;
             case 3:
-                targetGridPosition[1] = -1;
+                vectorDirection[1] = -1;
                 break;
         }
-       for (Vector3Int moved = targetGridPosition; moved.magnitude <= distance; moved += targetGridPosition)
+        int count=0;
+        for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { 
-                transform.position += targetGridPosition; 
-            }
-            
+            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { count++;}     
         }
+        if(count == distance)
+        {
+            //mouvement lors du dialogue 
+            StartCoroutine(SmoothMovement(actualGridPosition + vectorDirection * distance));
+        }
+
         yield return new WaitForSeconds(timer);
         isWaiting = false;
-    }       
+    }
+
+    /**
+     *  launch animation of the moving NPC
+     *  Ask Hugo for timing 
+     */
+    private IEnumerator SmoothMovement(Vector3Int targetPosition)
+    {
+        // keep initial position
+        Vector3 initialPosition = transform.position;
+        //turn the sprite before animation
+        UpdateSpriteOrientation(initialPosition.x - targetPosition.x,targetPosition.y - initialPosition.y);
+        // get animation clip information 
+        animator.SetTrigger("WalkTrigger");
+
+        animator.Update(0.001f);
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
+
+        float timer = 0;
+        while (timer < movementCooldown)
+        {
+            timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown);
+            Utils.UpdateOrderInLayer(gameObject);
+            yield return null;
+        }
+    }
+
+    /**
+    * Update the sprite when move or interact
+    */
+    private void UpdateSpriteOrientation(float dirX, float dirY)
+    {
+        animator.SetFloat("dirX", dirX);
+        animator.SetFloat("dirY", dirY);
+    }
 
 
     /**
@@ -151,6 +194,11 @@ public class NPCController : ModifiableController, Interactable
      */
     public void Interact()
     {
+        //block and facing the player
+        canMove = false;
+        UpdateSpriteOrientation(-GameObject.FindGameObjectWithTag("Player").transform.position.x+transform.position.x,
+            GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y);
+
         foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for when the interaction starts
         {
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
@@ -183,6 +231,7 @@ public class NPCController : ModifiableController, Interactable
      */
     private void EndDialogue()
     {
+        canMove = true;
         ui.EndDisplay();
         shouldEnd = false;      //allows the player to interact again
     }
