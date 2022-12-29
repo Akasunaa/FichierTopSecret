@@ -1,4 +1,5 @@
-﻿using UI;
+﻿using System;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,35 +9,37 @@ public class Timer : MonoBehaviour
 
     public float currentTime = 0f;
     
-    public TimerUIController timerUIController;
+    private TimerUIController _timerUIController;
     private bool _uiExists = false;
-    private bool _isRunning = true;
     private bool _isShown = true;
+    public bool isShown => _isShown;
+    
+    public bool isRunning = true;
 
     private void OnSceneUnload(Scene arg0)
     { 
-        timerUIController = null;
+        _timerUIController = null;
         _uiExists = false;
     }
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        timerUIController = GameObject.FindGameObjectWithTag("UI").GetComponent<TimerUIController>();
-        if (timerUIController == null) return;
+        _timerUIController = GameObject.FindGameObjectWithTag("UI").GetComponent<TimerUIController>();
+        if (_timerUIController == null) return;
         
         _uiExists = true;
-        timerUIController.timerCanvas.gameObject.SetActive(_isShown);
+        _timerUIController.timerCanvas.gameObject.SetActive(_isShown);
     }
 
     
     public void PauseSwitchTimer()
     {
-        _isRunning = !_isRunning;
+        isRunning = !isRunning;
     }
     public void SwitchTimerShowState()
     {
         _isShown = !_isShown;
         if(_uiExists) 
-            timerUIController.timerCanvas.gameObject.SetActive(_isShown);
+            _timerUIController.timerCanvas.gameObject.SetActive(_isShown);
     }
     public void ResetTimer()
     {
@@ -59,9 +62,9 @@ public class Timer : MonoBehaviour
     {
         if (_uiExists && _isShown)
         {
-            timerUIController.DisplayTime(currentTime);
+            _timerUIController.DisplayTime(currentTime);
         }
-        if(_isRunning) 
+        if(isRunning) 
             currentTime += Time.deltaTime;
     }
 }
