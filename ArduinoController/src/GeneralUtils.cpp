@@ -31,9 +31,15 @@ size_t GeneralUtils::serialPrint(SERIAL_MESSAGE_CODE serialMessageCode) {
         case TIMER_RST:
             return Serial.println("tmr rt");
         case TIMER_SWITCH:
-            return Serial.println("tmr sc");
+            return Serial.println("tmr sw");
+        case TIMER_SHOW:
+            return Serial.println("tmr sh");
     }
     return 0;
+}
+
+size_t GeneralUtils::serialPrintSync(const String &syncElements) {
+    return Serial.println("sync " + syncElements);
 }
 
 void GeneralUtils::split(const String &string, const char &separator, String *stockIn) {
@@ -63,3 +69,27 @@ void GeneralUtils::newCardDetectionDo(void (*function)()) {
         *newCardDetected = false;
     }
 }
+
+String GeneralUtils::syncParamToString(const bool *syncParams, size_t syncParamsSize) {
+    String rtr("");
+    for (size_t i = 0; i < syncParamsSize; ++i) {
+        rtr += syncParams[i] ? "1" : "0";
+    }
+
+    return rtr.c_str();
+}
+
+size_t GeneralUtils::serialPrintTime(const unsigned long time) {
+    String timeString("");
+    timeString += time/1000;
+    timeString += ".";
+    timeString += time%1000;
+    return Serial.println("time " + timeString);
+}
+
+
+
+
+
+
+

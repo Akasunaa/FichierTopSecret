@@ -41,9 +41,13 @@ bool newCardDetected = false;
 
 unsigned long timer = 0;
 unsigned long timerTmp = 0;
+unsigned long timeSinceSending = 0;
 bool localTimerOn = true;
+bool isTimerHandledHere = false;
 int loopCountForTimerRefreshing = 0;
 
+bool syncParams[] = {isTimerHandledHere, localTimerOn};
+size_t syncParamsSize = 2;
 
 CARD_MODE cardMode = NORMAL;
 
@@ -56,7 +60,12 @@ RfidUIDUtils rfidUidUtils(&rfid);
 // Rfid uid utils custom functions init
 GeneralUtils generalUtils(&lcd, &rfidUidUtils, &newCardDetected, newUID);
 
+void(* softwareReboot) (void) = 0;
 
+void refreshSyncParams() {
+    syncParams[0] = isTimerHandledHere;
+    syncParams[1] = localTimerOn;
+}
 
 CARD_NAME getCardName(byte* buffer){
     unsigned short int cardName = 1;
@@ -67,7 +76,11 @@ CARD_NAME getCardName(byte* buffer){
     return cardName <= TSP ? (CARD_NAME) cardName : OTHER;
 }
 
-void(* softwareReboot) (void) = 0;
+void handleLocalTimer(){
+    unsigned long temp = millis();
+    timer += temp - timerTmp;
+    timerTmp = temp;
+}
 
 void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
     if(whatToDo < 0) {
@@ -81,7 +94,6 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
         delay(1500);
         return;
     }
-    unsigned long timeSinceSending = 0;
 
     switch (menuType) {
 
@@ -92,7 +104,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         GeneralUtils::serialPrint(TIMER_PP);
                         printingUtils.oneLineClearPrint("Pause Chosen");
                         delay(1000);
-                    } else {
+                    } else if(cardMode == TIMER) {
                         localTimerOn = !localTimerOn;
                         timerTmp = millis();
                     }
@@ -102,24 +114,45 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         GeneralUtils::serialPrint(TIMER_RST);
                         printingUtils.oneLineClearPrint("Reset Chosen");
                         delay(1000);
-                    } else {
+                    } else if(cardMode == TIMER) {
                         timer = 0;
                         timerTmp = millis();
                     }
                     break;
                 case TIMER_A_SWITCH:
-                    timeSinceSending = millis();
-                    GeneralUtils::serialPrint(TIMER_SWITCH);
-                    printingUtils.oneLineClearPrint("Timer switch...");
-                    /*while(!dataReceived) {
+                    if(cardMode == NORMAL) {
+                        timeSinceSending = millis();
+                        GeneralUtils::serialPrint(TIMER_SWITCH);
+                        printingUtils.oneLineClearPrint("Timer switch...");
+                        cardMode = TIMER;
+                        delay(1000);
+                    } else if(cardMode == TIMER) {
+                        refreshSyncParams();
                         delay(50);
-                    } // wait for the data to come here*/
-                    timerTmp = millis(); // register when received
-                    timer += (timerTmp - timeSinceSending) / 2; // we have to add the time passed between computer and arduino (only half because we only need the "pong")
-                    timerTmp = millis();
-                    printingUtils.printAt("OK", 14, 0);
-                    cardMode = TIMER;
-                    delay(1000);
+                        GeneralUtils::serialPrintSync(
+                                GeneralUtils::syncParamToString(syncParams, syncParamsSize)
+                                );
+                        delay(500);
+                        handleLocalTimer();
+                        GeneralUtils::serialPrintTime(timer);
+                        delay(500);
+                        GeneralUtils::serialPrint(TIMER_SWITCH);
+                        printingUtils.oneLineClearPrint("Timer switch...");
+                        isTimerHandledHere = false;
+                        cardMode = NORMAL;
+                        delay(1000);
+                    }
+                    break;
+                case TIMER_A_SHOW:
+                    if(cardMode == NORMAL) {
+                        GeneralUtils::serialPrint(TIMER_SHOW);
+                        printingUtils.twoLinePrinting("Showing timer", "in game");
+                        delay(1000);
+                    } /*else if(cardMode == TIMER) {
+                        Irrelevant case, if the timer is handled here we won't print in in-game
+                        Maybe the timer could be switched on/off on the card but meh, the code structure is not made for this rn
+                    } */
+                    break;
                 default :
                     break;
             }
@@ -197,7 +230,7 @@ void handleNewCard() {
 
         case CHZ1:
             printingUtils.printMenu(TIMER_MENU);
-            whatToDo = chooseWhatToDo(true, CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SWITCH, 0,
+            whatToDo = chooseWhatToDo(true, CARD_NOT_RECOGNISED, TIMER_A_PAUSE, TIMER_A_RESET, TIMER_A_SWITCH, TIMER_A_SHOW,
                                       CARD_NOT_EXPECTED, 0);
             handleWhatToDo(whatToDo, TIMER_MENU);
             break;
@@ -219,12 +252,6 @@ void handleNewCard() {
         case TSP:
             break;
     }
-}
-
-void handleLocalTimer(){
-    unsigned long temp = millis();
-    timer += temp - timerTmp;
-    timerTmp = temp;
 }
 
 void localTimerCardReading() {
@@ -289,10 +316,34 @@ void serialEvent()
 
     GeneralUtils::split(message, ' ', attr);
 
+    if(attr[0] == nullptr || attr[1] == nullptr) return;
+
     if(attr[0] == "time") {
         // we receive time in seconds and here we work in millis
         timer = (unsigned long) (1000 * GeneralUtils::floatOfStringCustom(attr[1]));
+
+        timer += (millis() - timeSinceSending) / 2; // add half the delay of the exchange
+        timerTmp = millis();
+
+        printingUtils.oneLineClearPrint("Timer Switch..OK");
+        isTimerHandledHere = true;
+        delay(1000);
+
+    } else if(attr[0] == "sync") {
+        int i=0;
+        for (char c : attr[1]) {
+            syncParams[i] = c == '1';
+            i++;
+        }
+
+        syncParams[0] = !(syncParams[0]);
+
+        isTimerHandledHere = syncParams[0];
+        localTimerOn = syncParams[1];
+        printingUtils.oneLineClearPrint("Sync done.");
+        delay(300);
     }
+
 }
 
 
