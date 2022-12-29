@@ -11,9 +11,8 @@ public class Timer : MonoBehaviour
     
     private TimerUIController _timerUIController;
     private bool _uiExists = false;
-    private bool _isShown = true;
-    public bool isShown => _isShown;
-    
+    public bool isShown { get; private set; } = true;
+
     public bool isRunning = true;
 
     private void OnSceneUnload(Scene arg0)
@@ -27,7 +26,7 @@ public class Timer : MonoBehaviour
         if (_timerUIController == null) return;
         
         _uiExists = true;
-        _timerUIController.timerCanvas.gameObject.SetActive(_isShown);
+        _timerUIController.timerCanvas.gameObject.SetActive(isShown);
     }
 
     
@@ -37,9 +36,9 @@ public class Timer : MonoBehaviour
     }
     public void SwitchTimerShowState()
     {
-        _isShown = !_isShown;
+        isShown = !isShown;
         if(_uiExists) 
-            _timerUIController.timerCanvas.gameObject.SetActive(_isShown);
+            _timerUIController.timerCanvas.gameObject.SetActive(isShown);
     }
     public void ResetTimer()
     {
@@ -60,7 +59,7 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
-        if (_uiExists && _isShown)
+        if (_uiExists && isShown)
         {
             _timerUIController.DisplayTime(currentTime);
         }
