@@ -227,15 +227,14 @@ public class LevelManager : MonoBehaviour
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
-                    fp.WriteToFile();
-                    // using (StreamWriter sw = new StreamWriter(fp.filePath))
-                    // {
-                    //     sw.Write(fp.targetModifiable.ToFileString());
-                    // }
-
 
                     // Clean the prefab if it is instantiated in the Cosmic bin
-                    if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
+                    if (isInComsicBin) { 
+                        CosmicBinManager.Instance.AddRestorationController(newObj);
+                    } else
+                    {
+                        fp.WriteToFile();
+                    }
                     return;
                 }
             }

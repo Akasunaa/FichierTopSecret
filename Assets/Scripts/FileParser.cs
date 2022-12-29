@@ -67,10 +67,13 @@ public class FileParser : MonoBehaviour
         FileInfo fi = new FileInfo(Application.streamingAssetsPath + path);
 
         // add origin scene as property
-        targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
-        filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
-        WriteToFile();
-        File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+        if (!fi.FullName.Contains("Cosmicbin"))
+        {
+            targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
+            filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
+            WriteToFile();
+            File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+        }
     }
 
     /**
