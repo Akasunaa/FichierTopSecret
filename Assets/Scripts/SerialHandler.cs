@@ -61,6 +61,7 @@ public class SerialHandler : MonoBehaviour
                         }
                         else
                             _isTimerHandledHere = true;
+                        
                         if(!Timer.instance.isShown) Timer.instance.SwitchTimerShowState();
                         break;
                     default:
@@ -74,7 +75,6 @@ public class SerialHandler : MonoBehaviour
                     case "sy":
                         _serial.WriteLine("sync " + SyncParamsToString());
                         break;
-                    
                     case "rb":
                         Debug.Log("Arduino rebooting...");
                         break;
@@ -107,42 +107,6 @@ public class SerialHandler : MonoBehaviour
                 Debug.Log("Unknown serial instruction.");
                 break;
         }
-        /*
-        switch (message)
-        {
-            // Only do something
-            case "tmr pp":
-                Timer.instance.PauseSwitchTimer();
-                break;
-            case "tmr rt":
-                Timer.instance.ResetTimer();
-                break;
-            case "tmr sh":
-                if(_isTimerHandledHere) 
-                    Timer.instance.SwitchTimerShowState();
-                break;
-            
-            // Ping pong cases
-            case "tmr sw":
-                Timer.instance.SwitchTimerShowState();
-                _serial.WriteLine("time " + Timer.instance.currentTime);
-                break;
-            case "stg sy":
-                _serial.WriteLine("sync " + Timer.instance.isRunning);
-                break;
-            
-            // Only logging cases
-            case "stg rb":
-                Debug.Log("Arduino rebooting...");
-                break;
-            case "stg rd":
-                Debug.Log("Arduino ready.");
-                break;
-            default:
-                Debug.Log("Unknown serial message caught.");
-                break;
-        }
-        */
     }
 
     private IEnumerator SwitchToArduino()
@@ -160,5 +124,4 @@ public class SerialHandler : MonoBehaviour
         _syncParams = new[] { _isTimerHandledHere, Timer.instance.isRunning };
         return _syncParams.Aggregate("", (current, b) => current + (b ? "1" : "0"));
     }
-    
 }

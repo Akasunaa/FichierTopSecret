@@ -1,5 +1,4 @@
-﻿using System;
-using UI;
+﻿using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,9 +59,8 @@ public class Timer : MonoBehaviour
     private void Update()
     {
         if (_uiExists && isShown)
-        {
             _timerUIController.DisplayTime(currentTime);
-        }
+        
         if(isRunning) 
             currentTime += Time.deltaTime;
     }

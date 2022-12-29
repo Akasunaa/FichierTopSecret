@@ -11,20 +11,16 @@ namespace UI
         [SerializeField] private Image timerBackground;
         public Canvas timerCanvas;
 
-        public float myTime;
-        
         private void Awake()
         {
             Assert.IsNotNull(timerText);
             Assert.IsNotNull(timerBackground);
             Assert.IsNotNull(timerCanvas);
             timerCanvas.gameObject.SetActive(false);
-            // timerCanvas.gameObject.SetActive(false);
         }
 
         public void DisplayTime(float time)
         {
-            myTime = time;
             var minutes = Mathf.Floor(time / 60f);
             var seconds = Mathf.Floor(time % 60f);
 

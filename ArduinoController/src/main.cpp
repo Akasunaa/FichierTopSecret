@@ -25,7 +25,7 @@ LiquidCrystal lcd(LCD_RS_PIN, LCD_E_PIN, LCD_D0_PIN, LCD_D1_PIN, LCD_D2_PIN, LCD
 #define RFID_RST_PIN 9
 
 // RFID module init
-MFRC522 rfid (RFID_SS_PIN, RFID_RST_PIN);
+MFRC522 rfid(RFID_SS_PIN, RFID_RST_PIN);
 
 // Actual cards UIDs (cant be changed)
 byte UID_CHZ1[] = {0xC7, 0x03, 0xDF, 0x79};
@@ -113,7 +113,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                     if(cardMode == NORMAL) {
                         GeneralUtils::serialPrint(TIMER_RST);
                         printingUtils.oneLineClearPrint("Reset Chosen");
-                        delay(1000);
+                        delay(300);
                     } else if(cardMode == TIMER) {
                         timer = 0;
                         timerTmp = millis();
@@ -125,7 +125,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         GeneralUtils::serialPrint(TIMER_SWITCH);
                         printingUtils.oneLineClearPrint("Timer switch...");
                         cardMode = TIMER;
-                        delay(1000);
+                        delay(300);
                     } else if(cardMode == TIMER) {
                         refreshSyncParams();
                         delay(50);
@@ -140,14 +140,14 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                         printingUtils.oneLineClearPrint("Timer switch...");
                         isTimerHandledHere = false;
                         cardMode = NORMAL;
-                        delay(1000);
+                        delay(300);
                     }
                     break;
                 case TIMER_A_SHOW:
                     if(cardMode == NORMAL) {
                         GeneralUtils::serialPrint(TIMER_SHOW);
                         printingUtils.twoLinePrinting("Showing timer", "in game");
-                        delay(1000);
+                        delay(300);
                     } /*else if(cardMode == TIMER) {
                         Irrelevant case, if the timer is handled here we won't print in in-game
                         Maybe the timer could be switched on/off on the card but meh, the code structure is not made for this rn
@@ -162,7 +162,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                 case SETTINGS_SYNC:
                     GeneralUtils::serialPrint(SYNC);
                     printingUtils.oneLineClearPrint("Doing some sync");
-                    delay(1000);
+                    delay(300);
                     break;
                 case SETTINGS_REBOOT:
                     printingUtils.oneLineClearPrint("Rebooting in Xs"); // X will be replaced by i+1 in the next statement
@@ -172,11 +172,11 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                     }
                     GeneralUtils::serialPrint(REBOOT);
                     printingUtils.oneLineClearPrint("Rebooting...");
-                    delay(1000);
+                    delay(300);
                     softwareReboot(); // noreturn function, so no need to break the switch statement
                 case SETTINGS_CONTRAST:
                     printingUtils.twoLinePrinting("Hardware change", "only, open me :)");
-                    delay(3000);
+                    delay(2000);
                     break;
             }
             break;
@@ -273,12 +273,10 @@ void setup() {
     SPIClass::begin();
     rfid.PCD_Init();
 
-    // Unity program initialization
-
     // Acknowledge that the card is ok to go
     GeneralUtils::serialPrint(READY);
     printingUtils.oneLineClearPrint("Ready");
-    delay(1000);
+    delay(300);
 }
 
 void loop() {
@@ -327,7 +325,7 @@ void serialEvent()
 
         printingUtils.oneLineClearPrint("Timer Switch..OK");
         isTimerHandledHere = true;
-        delay(1000);
+        delay(300);
 
     } else if(attr[0] == "sync") {
         int i=0;
