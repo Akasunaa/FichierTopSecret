@@ -15,7 +15,7 @@ public class HologramConsoleController : ModifiableController, Interactable
     }
     public void Interact()
     {
-        if (TryGet("locked", out bool locked))
+        if (TryGet("locked", out bool locked) && hologram)
         {
             if (!locked)
             {
