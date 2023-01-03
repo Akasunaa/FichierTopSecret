@@ -320,7 +320,7 @@ void serialEvent()
         // we receive time in seconds and here we work in millis
         timer = (unsigned long) (1000 * GeneralUtils::floatOfStringCustom(attr[1]));
 
-        timer += (millis() - timeSinceSending) / 2; // add half the delay of the exchange
+        if(localTimerOn) timer += (millis() - timeSinceSending) / 2; // add half the delay of the exchange
         timerTmp = millis();
 
         printingUtils.oneLineClearPrint("Timer Switch..OK");
