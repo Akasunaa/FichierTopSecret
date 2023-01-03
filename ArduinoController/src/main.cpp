@@ -133,7 +133,7 @@ void handleWhatToDo(int whatToDo, MENU_TYPE menuType) {
                                 GeneralUtils::syncParamToString(syncParams, syncParamsSize)
                                 );
                         delay(500);
-                        handleLocalTimer();
+                        if(localTimerOn) handleLocalTimer(); // if not paused, calculate the time we took to get here before sending it
                         GeneralUtils::serialPrintTime(timer);
                         delay(500);
                         GeneralUtils::serialPrint(TIMER_SWITCH);
