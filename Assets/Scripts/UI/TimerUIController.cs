@@ -8,6 +8,7 @@ namespace UI
     public class TimerUIController : MonoBehaviour
     {
         [SerializeField] private TMP_Text timerText;
+        [SerializeField] private TMP_Text timerMSText;
         [SerializeField] private Image timerBackground;
         public Canvas timerCanvas;
 
@@ -23,11 +24,14 @@ namespace UI
         {
             var minutes = Mathf.Floor(time / 60f);
             var seconds = Mathf.Floor(time % 60f);
+            var ms = Mathf.Floor((time - Mathf.Floor(time)) * 100);
 
             var minutesText = (minutes < 10f ? "0" : "") + minutes;
             var secondsText = (seconds < 10f ? "0" : "") + seconds;
+            var msText = (ms < 10f ? "0" : "") + ms;
             
             timerText.SetText(minutesText + ":" + secondsText);
+            timerMSText.SetText("." + msText);
         }
     }
 }
