@@ -5,7 +5,7 @@
 #include "PrintingUtils.h"
 
 void PrintingUtils::oneLineClearPrint(const String &line) {
-    baseTimerPrinted = !baseTimerPrinted;
+    baseTimerPrinted = false;
     lcd->clear();
     lcd->setCursor(0, 0);
     lcd->print(line);
