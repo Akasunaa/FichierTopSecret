@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -108,21 +109,23 @@ public class NPCController : ModifiableController, Interactable
     */
     private void NewRandomMovement()
     {
-        int randomTimer = Random.Range(5, 10); 
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
         int randomDistance = Random.Range(1, 4);
-        int randomDirection = Random.Range(0, 4);
-        StartCoroutine(Deplacement(randomTimer,randomDistance,randomDirection));
+        int randomTimer = Random.Range((int)movementCooldown*randomDistance, (int)movementCooldown * randomDistance*2); 
+        
+        StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
     /**
     * Check if NPC can do the deplacement and launch it, then wait for the next movement 
     */
-    IEnumerator Deplacement(int timer, int distance, int direction)
+    IEnumerator Deplacement(int timer, int distance)
     { 
         isWaiting = true;
         Vector3Int actualGridPosition = grid.WorldToCell(transform.position);
         Vector3Int vectorDirection = new Vector3Int(0, 0, 0);
-        switch (direction)
+        List<Vector3Int> targetPositions = new List<Vector3Int>();
+        switch (Random.Range(0, 4))
         {
             case 0:
                 vectorDirection[0] = 1;
@@ -137,17 +140,21 @@ public class NPCController : ModifiableController, Interactable
                 vectorDirection[1] = -1;
                 break;
         }
-        int count=0;
         for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { count++;}     
+            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) {
+                targetPositions.Add(actualGridPosition + moved);
+            }
+            else
+            {
+                targetPositions.Clear();
+                break;
+            }
         }
-        if(count == distance)
+        if (targetPositions.Any())
         {
-            //mouvement lors du dialogue 
-            StartCoroutine(SmoothMovement(actualGridPosition + vectorDirection * distance));
+            StartCoroutine(SmoothMovement(targetPositions));
         }
-
         yield return new WaitForSeconds(timer);
         isWaiting = false;
     }
@@ -156,26 +163,30 @@ public class NPCController : ModifiableController, Interactable
      *  launch animation of the moving NPC
      *  Ask Hugo for timing 
      */
-    private IEnumerator SmoothMovement(Vector3Int targetPosition)
+    private IEnumerator SmoothMovement(List<Vector3Int> targetPositions)
     {
         // keep initial position
         Vector3 initialPosition = transform.position;
         //turn the sprite before animation
-        UpdateSpriteOrientation(initialPosition.x - targetPosition.x,targetPosition.y - initialPosition.y);
+        UpdateSpriteOrientation(initialPosition.x - targetPositions[0].x, targetPositions[0].y - initialPosition.y);
         // get animation clip information 
         animator.SetTrigger("WalkTrigger");
-
         animator.Update(0.001f);
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
-
         float timer = 0;
         while (timer < movementCooldown)
         {
             timer += Time.deltaTime;
-            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPosition), timer / movementCooldown);
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPositions[0]), timer / movementCooldown);
             Utils.UpdateOrderInLayer(gameObject);
             yield return null;
         }
+        targetPositions.RemoveAt(0);
+        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]))
+        {
+            StartCoroutine(SmoothMovement(targetPositions));
+        }
+
     }
 
     /**
