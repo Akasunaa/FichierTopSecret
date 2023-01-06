@@ -39,17 +39,32 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
         }
+
+#if UNITY_EDITOR
+        if (Application.isEditor)
+        {
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+
+            if (di.Exists)
+            {
+                // remove readonly attributes on cosmicbin items to delete them
+                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
+                if (di2.Exists)
+                {
+                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/Cosmicbin"))
+                    {
+                        FileInfo fileInfo = new FileInfo(fileName);
+                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
+                    }
+                }
+                di.Delete(true);
+            }
+        }
+#endif
     }
 
     void Start()
     {
-        #if UNITY_EDITOR
-        if (Application.isEditor)
-        {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/");
-            di.Delete(true);
-        }
-        #endif
         LoadScene(levelToLoad);
     }
     public void LoadScene(string levelName)
@@ -61,15 +76,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public static string Capitalize(string input)
-    {
-        switch (input)
-        {
-            case null: return input;
-            case "": return input;
-            default: return input[0].ToString().ToUpper() + input.ToLower().Substring(1);
-        }
-    }
     
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
@@ -97,12 +103,31 @@ public class LevelManager : MonoBehaviour
         activeLevel = SceneManager.GetSceneByName(levelName);
         UpdateFileGameObjects(directoryExists);
         CreateGameObjectFromFiles(di);
+
+        if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinFolderName))
+        {
+            Debug.Log("START LOADING");
+            CosmicBinManager.Instance.OnCosmicBinLoad();
+        } else
+        {
+            CosmicBinManager.Instance.cosmicBinIsloaded = false;
+        }
         try
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
         catch (Exception error) { Debug.LogError("no player found"); }
         isLoading = false;
+    }
+
+    public static string Capitalize(string input)
+    {
+        switch (input)
+        {
+            case null: return input;
+            case "": return input;
+            default: return input[0].ToString().ToUpper() + input.ToLower().Substring(1);
+        }
     }
 
     /*
@@ -120,7 +145,7 @@ public class LevelManager : MonoBehaviour
                 fileParser.ReadFromFile(fileInfo.FullName);
                 FilesWatcher.Instance.Set(fileParser);
             }
-            else if (!directoryExists)
+            else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
                 Debug.Log("Creating file: " + fileInfo.FullName);
                 if (!Directory.Exists(fileInfo.DirectoryName))
@@ -151,7 +176,7 @@ public class LevelManager : MonoBehaviour
         {
             if (!FilesWatcher.Instance.ContainsFile(fi))
             {
-                NewObject(fi);
+                NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
         }
 
@@ -164,7 +189,7 @@ public class LevelManager : MonoBehaviour
     /*
      * Create a new game object from a file if it match a regex
      */
-    public void NewObject(FileInfo fi)
+    public void NewObject(FileInfo fi, bool isInComsicBin = false)
     {
         GameObject newObj;
         FileParser fp;
@@ -185,6 +210,8 @@ public class LevelManager : MonoBehaviour
                 {
                     Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
                     newObj = Instantiate(pair.go);
+
+                    // setup file parser
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
@@ -200,13 +227,22 @@ public class LevelManager : MonoBehaviour
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
-                    fp.WriteToFile();
+
+                    // Clean the prefab if it is instantiated in the Cosmic bin
+                    if (isInComsicBin) { 
+                        CosmicBinManager.Instance.AddRestorationController(newObj);
+                    } else
+                    {
+                        fp.WriteToFile();
+                    }
                     return;
                 }
             }
             //nothing object : no object with the name of file 
             Debug.Log("[LevelManager] Instantiate a nothing : " + fi.FullName);
             newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
+
+            // setup file parser
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
@@ -221,7 +257,13 @@ public class LevelManager : MonoBehaviour
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
             }
             fp.WriteToFile();
+            // using (StreamWriter sw = new StreamWriter(fp.filePath))
+            // {
+            //     sw.Write(fp.targetModifiable.ToFileString());
+            // }
 
+            // Clean the prefab if it is instantiated in the Cosmic bin
+            if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
         }
     }
 }

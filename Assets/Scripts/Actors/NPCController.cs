@@ -113,8 +113,7 @@ public class NPCController : ModifiableController, Interactable
     {
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
-        int randomTimer = Random.Range((int)movementCooldown*randomDistance*2+1, (int)movementCooldown * randomDistance*3*1); 
-        
+        int randomTimer = Random.Range((int)movementCooldown*randomDistance*2+1, (int)movementCooldown * randomDistance*3+1);        
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
@@ -157,7 +156,6 @@ public class NPCController : ModifiableController, Interactable
         {
             StartCoroutine(SmoothMovement(targetPositions));
         }
-        print(timer);
         yield return new WaitForSeconds(timer);
         isWaiting = false;
     }
