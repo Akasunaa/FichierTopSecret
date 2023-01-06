@@ -150,6 +150,7 @@ MonoBehaviour:
     condition: 1e00000001000000
   grid: {fileID: 0}
   shouldMove: 1
+  speed: 1
 --- !u!1 &8005445728654904466
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,9 +43,10 @@ public class NPCController : ModifiableController, Interactable
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
     [SerializeField] private bool shouldMove; //if we want this NPC moving
+    [SerializeField] private float speed=3f;
     private Animator animator;
     private bool isWaiting=false;
-    private bool canMove = true; //if the NPC can moving (not in dialogState)
+    static private bool canMove = true; //if the NPC can moving (not in dialogState)
 
     private void Start()
     {
@@ -95,6 +96,7 @@ public class NPCController : ModifiableController, Interactable
         //-----------------------------------
 
         animator = GetComponentInChildren<Animator>();
+        animator.speed = speed;
     }
 
     private void Update()
@@ -109,9 +111,9 @@ public class NPCController : ModifiableController, Interactable
     */
     private void NewRandomMovement()
     {
-        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
-        int randomTimer = Random.Range((int)movementCooldown*randomDistance, (int)movementCooldown * randomDistance*2); 
+        int randomTimer = Random.Range((int)movementCooldown*randomDistance*2+1, (int)movementCooldown * randomDistance*3*1); 
         
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
@@ -155,13 +157,13 @@ public class NPCController : ModifiableController, Interactable
         {
             StartCoroutine(SmoothMovement(targetPositions));
         }
+        print(timer);
         yield return new WaitForSeconds(timer);
         isWaiting = false;
     }
 
     /**
      *  launch animation of the moving NPC
-     *  Ask Hugo for timing 
      */
     private IEnumerator SmoothMovement(List<Vector3Int> targetPositions)
     {
@@ -182,12 +184,13 @@ public class NPCController : ModifiableController, Interactable
             yield return null;
         }
         targetPositions.RemoveAt(0);
-        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]))
+        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
         {
             StartCoroutine(SmoothMovement(targetPositions));
         }
 
     }
+
 
     /**
     * Update the sprite when move or interact

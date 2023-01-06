@@ -96,7 +96,8 @@ MonoBehaviour:
   questItems: []
   reactElements: []
   grid: {fileID: 0}
-  canMoving: 0
+  shouldMove: 0
+  speed: 1
 --- !u!1 &2674717063482308140
 GameObject:
   m_ObjectHideFlags: 0
