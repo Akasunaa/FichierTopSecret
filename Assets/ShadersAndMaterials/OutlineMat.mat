@@ -46,7 +46,7 @@ Material:
     - _OutlineSize: 3
     - _Thickness: 6
     m_Colors:
-    - _Color: {r: 0.032075405, g: 0.17547178, b: 1, a: 1}
+    - _Color: {r: 0.8980392, g: 0.8509804, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SecondColor: {r: 1, g: 1, b: 1, a: 1}
