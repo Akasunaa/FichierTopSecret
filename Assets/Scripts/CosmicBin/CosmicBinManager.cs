@@ -99,7 +99,7 @@ public class CosmicBinManager : MonoBehaviour
             
             // remove the object from the scene and from the file watcher
             Destroy(localGameObject);
-            FilesWatcher.Instance.GetPathToScript().Remove(folderDestination + "/" + fi.Name);
+            FilesWatcher.instance.GetPathToScript().Remove(folderDestination + "/" + fi.Name);
         }
     }
 
