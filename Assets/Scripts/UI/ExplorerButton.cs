@@ -6,6 +6,6 @@ public class ExplorerButton : MonoBehaviour
 {
     public static void OpenExplorer()
     {
-        Application.OpenURL("file:///" + Application.streamingAssetsPath + "/Test");
+        Application.OpenURL("file:///" + Application.streamingAssetsPath + "/" + Utils.RootFolderName);
     }
 }

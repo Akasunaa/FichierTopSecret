@@ -43,15 +43,15 @@ public class LevelManager : MonoBehaviour
 #if UNITY_EDITOR
         if (Application.isEditor)
         {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
             if (di.Exists)
             {
                 // remove readonly attributes on cosmicbin items to delete them
-                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
+                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
                 if (di2.Exists)
                 {
-                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/Cosmicbin"))
+                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
                     {
                         FileInfo fileInfo = new FileInfo(fileName);
                         File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
@@ -81,7 +81,7 @@ public class LevelManager : MonoBehaviour
     {
         isLoading = true;
         FilesWatcher.Instance.Clear();
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
 
         bool directoryExists = di.Exists;
         if (!directoryExists)

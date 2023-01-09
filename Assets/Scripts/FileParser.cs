@@ -22,7 +22,7 @@ public class FileParser : MonoBehaviour
 
     void Awake()
     {
-        filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
+        filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
     }
@@ -70,9 +70,9 @@ public class FileParser : MonoBehaviour
         if (!fi.FullName.Contains("Cosmicbin"))
         {
             targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
-            filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
+            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
         }
     }
 
