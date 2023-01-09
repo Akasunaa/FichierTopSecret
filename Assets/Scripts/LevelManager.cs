@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
         isLoading = true;
-        FilesWatcher.Instance.Clear();
+        FilesWatcher.instance.Clear();
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
 
         bool directoryExists = di.Exists;
@@ -143,7 +143,7 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
                 fileParser.ReadFromFile(fileInfo.FullName);
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
@@ -157,7 +157,7 @@ public class LevelManager : MonoBehaviour
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
                 }
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else
             {
@@ -174,7 +174,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            if (!FilesWatcher.Instance.ContainsFile(fi))
+            if (!FilesWatcher.instance.ContainsFile(fi))
             {
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
@@ -215,7 +215,7 @@ public class LevelManager : MonoBehaviour
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
-                    FilesWatcher.Instance.Set(fp);
+                    FilesWatcher.instance.Set(fp);
                     Vector2? size = null;
                     if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
                     if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
@@ -249,7 +249,7 @@ public class LevelManager : MonoBehaviour
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
-            FilesWatcher.Instance.Set(fp);
+            FilesWatcher.instance.Set(fp);
             if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
             {
                 if (player != null)

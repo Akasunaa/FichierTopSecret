@@ -298,7 +298,8 @@ public class NPCController : ModifiableController, Interactable
     {
         foreach(var element in propertyDict.Values)
         {
-            properties.Add(element.propertyName, element.propertyValue);
+            // as they are default properties, they are considered as important
+            properties.Add(element.propertyName, new DicoValueProperty {IsImportant = true, Value = element.propertyValue});
         }
     }
 
@@ -336,7 +337,7 @@ public class NPCController : ModifiableController, Interactable
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
                 int integerValue;
-                int.TryParse(properties[propertyString].ToString(), out integerValue);
+                int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
                     int conditionValue;
@@ -461,15 +462,8 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
-        if (fileInfo.Exists)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
+        return fileInfo.Exists;
     }
 
     /**
@@ -482,7 +476,6 @@ public class NPCController : ModifiableController, Interactable
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
     }
-
 }
 
 [System.Serializable]

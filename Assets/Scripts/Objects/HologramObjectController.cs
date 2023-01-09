@@ -20,7 +20,7 @@ public class HologramObjectController : ModifiableController
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("power", true);
+        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
     public override void UpdateModification()
@@ -29,14 +29,7 @@ public class HologramObjectController : ModifiableController
         //For the lamp object, we test if its power is on or off
         if (TryGet("power", out bool power))
         {
-            if (power)
-            {
-                hologram.SetActive(true);
-            }
-            else
-            {
-                hologram.SetActive(false);
-            }
+            hologram.SetActive(power);
         }
     }
 

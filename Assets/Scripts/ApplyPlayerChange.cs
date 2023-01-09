@@ -214,12 +214,12 @@ public static class ApplyPlayerChange
     {
         if (propertyNameInput.Length == 0) return string.Empty;
 
-        string closestPropertyName = PropertyNames[0];
-        int levenshteinDistance = 10;
+        var closestPropertyName = PropertyNames[0];
+        var levenshteinDistance = 10;
 
-        foreach (string propertyName in PropertyNames)
+        foreach (var propertyName in PropertyNames)
         {
-            int currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
+            var currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
             if (currentLevenshteinDistance < levenshteinDistance)
             {
                 closestPropertyName = propertyName;

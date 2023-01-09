@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -18,49 +16,37 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public void Interact()
     {
-        if (TryGet("power", out bool power))
-        {
-            SetValue("power", !power);
-            UpdateModification();
-            UpdateFile();
-        }
+        if (!TryGet("power", out bool power)) return;
+        
+        SetValue("power", !power);
+        UpdateModification();
+        UpdateFile();
     }
 
-    private Light2D[] lights;
+    private Light2D[] _lights;
 
     private void Awake()
     {
-        lights = GetComponentsInChildren<Light2D>();
-        Assert.AreNotEqual(0, lights.Length);
+        _lights = GetComponentsInChildren<Light2D>();
+        Assert.AreNotEqual(0, _lights.Length);
     }
 
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("power", true);
-        properties.Add("color", Color.white);
+        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
+        properties.Add("color", new DicoValueProperty {IsImportant = true, Value = Color.white});
     }
 
     public override void UpdateModification()
     {
         base.UpdateModification();
         //For the lamp object, we test if its power is on or off
-        if (TryGet("power", out bool power)) 
+        if (!TryGet("power", out bool power)) return;
+        
+        foreach(var light2D in _lights)
         {
-            if (power)
-            {
-                foreach(Light2D light in lights)
-                {
-                    light.enabled = true;
-                }
-            }
-            else
-            {
-                foreach(var light in lights)
-                {
-                    light.enabled = false;
-                }
-            }
+            light2D.enabled = power;
         }
     }
 }

@@ -44,13 +44,9 @@ public class ItemController : ModifiableController
     {
         FileParser fileParser = GetComponent<FileParser>();
         FileInfo fileInfo = new FileInfo(fileParser.filePath);
-        if (fileInfo.Exists)
-        {
-            //Debug.Log("PLAYER ALREADY HAS ITEM");
-            return true;
-        }
+        return fileInfo.Exists;
+        //Debug.Log("PLAYER ALREADY HAS ITEM");
         //Debug.Log("PLAYER DOESN'T HAVE ITEM");
-        return false;
     }
 
     public override void SetDefaultProperties()
