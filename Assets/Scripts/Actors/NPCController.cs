@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -40,6 +41,10 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
+    [Header("Player.txt elements to react to")]
+    [SerializeField] public PLAYER_PROPERTIES[] playerProperties;
+    [HideInInspector] public Dictionary<string, PLAYER_PROPERTIES> playerPropertiesDict = new Dictionary<string, PLAYER_PROPERTIES>();
+
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
     [SerializeField] private bool shouldMove; //if we want this NPC moving
@@ -47,6 +52,10 @@ public class NPCController : ModifiableController, Interactable
     private Animator animator;
     private bool isWaiting=false;
     static private bool canMove = true; //if the NPC can moving (not in dialogState)
+
+    //player's informations
+    private GameObject player;
+    private PlayerObjectController playerObjectController;
 
     private void Start()
     {
@@ -95,8 +104,23 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
+        //Creating the dict of the player.txt elements to check out for :
+        foreach (var element in playerProperties)
+        {
+            if (!playerPropertiesDict.ContainsKey(element.playerPropertyName))
+            {
+                playerPropertiesDict.Add(element.playerPropertyName, element);
+            }
+        }
+        //-----------------------------------
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerObjectController = player.GetComponent<PlayerObjectController>();
         animator = GetComponentInChildren<Animator>();
-        animator.speed = speed;
+        if (animator)
+        {
+            animator.speed = speed;
+        }
     }
 
     private void Update()
@@ -195,8 +219,11 @@ public class NPCController : ModifiableController, Interactable
     */
     private void UpdateSpriteOrientation(float dirX, float dirY)
     {
-        animator.SetFloat("dirX", dirX);
-        animator.SetFloat("dirY", dirY);
+        if (animator)
+        {
+            animator.SetFloat("dirX", dirX);
+            animator.SetFloat("dirY", dirY);
+        }
     }
 
 
@@ -271,7 +298,8 @@ public class NPCController : ModifiableController, Interactable
     {
         foreach(var element in propertyDict.Values)
         {
-            properties.Add(element.propertyName, element.propertyValue);
+            // as they are default properties, they are considered as important
+            properties.Add(element.propertyName, new DicoValueProperty {IsImportant = true, Value = element.propertyValue});
         }
     }
 
@@ -285,7 +313,18 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
+                {
+                    for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
+                    {
+                        if (properties[propertyDict[propertyString].propertyName].ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        {
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
+                            return;
+                        }
+                    }
+                }
+                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
                 {
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
@@ -298,12 +337,14 @@ public class NPCController : ModifiableController, Interactable
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
                 int integerValue;
-                int.TryParse(properties[propertyString].ToString(), out integerValue);
-                for(int conditionListIndex = 0;conditionListIndex< propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
+                int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
+                for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
+                    int conditionValue;
+                    int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
                     if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
                     {
-                        if (integerValue < propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
                             {
@@ -319,7 +360,7 @@ public class NPCController : ModifiableController, Interactable
                     }
                     else
                     {
-                        if (integerValue > propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                             return;
@@ -334,9 +375,31 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function called everytime the game gains or loses focus
      *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
+     *  We will also use these times to check if the player.txt properties have changed
      */
     private void OnApplicationFocus()
     {
+        //Check for Player.txt values :
+        foreach(var playerElement in playerPropertiesDict.Keys) //for all the possible properties that the NPC will check in Player.txt, it will go through all the possibilities and change state accordingly
+        {
+            string value;
+            if(playerObjectController.TryGet(playerElement,out value)) //we recuperate the value currently in Player.txt that we will test the possible conditions against
+            {
+                for(int playerPropertyConditionIndex=0; playerPropertyConditionIndex < playerPropertiesDict[playerElement].playerPropertyCondition.Length; playerPropertyConditionIndex++)
+                {
+                    print("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
+                    if(value.ToString() == playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString())
+                    {
+                        print("NPC PLAYER TXT : CHANGING STATE TO : " + playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        OnStateChange(playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        print("NPC PLAYER TXT : STATE CHANGED");
+                        return;
+                    }
+                }
+            }
+            
+        }
+        //Check with Duplication Manager :
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
@@ -399,15 +462,8 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
-        if (fileInfo.Exists)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
+        return fileInfo.Exists;
     }
 
     /**
@@ -436,7 +492,7 @@ public struct FILE_PROPERTIES                             //struct used for the 
     public string propertyValue;                        //value of the property
     public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
     public bool[] conditionIsSuperior;                   //list of the booleans that indicate wether the associated properties are superior or inferior ones
-    public int[] propertyCondition;                     //list of conditions of the property
+    public string[] propertyCondition;                     //list of conditions of the property
     public string[] propertyChangeState;                //associated state of the property if changed
 }
 
@@ -461,4 +517,12 @@ public struct REACT_ELEMENTS                            //struct used for elemen
     public string[] stateChangeName;                    //associated name of the state
     public bool[] isSuperior;                           //if the associated condition is a superior condition or not
     public int[] condition;                             //the value for the condition
+}
+
+[System.Serializable]
+public struct PLAYER_PROPERTIES                         //struct used for values in the player.txt that the NPC will react to
+{
+    public string playerPropertyName;
+    public string[] playerPropertyCondition;                   //list of possibilities that property can take and the NPC will react to
+    public string[] playerPropertyChangeState;                //associated state of the property if changed
 }

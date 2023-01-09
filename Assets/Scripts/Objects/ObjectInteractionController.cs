@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,22 +10,16 @@ public class ObjectInteractionController : MonoBehaviour
     [SerializeField] private string dialogueStandard;         //standard dialogue
     [TextArea(3, 10)]
     [SerializeField] private string dialogueOnConditionChange; //dialogue when change condition applied
-    private string curDialogue;
-    private DialogueUIController ui;                        //reference to the UI used for dialogs
+    private string _curDialogue;
+    private DialogueUIController _ui;                        //reference to the UI used for dialogs
 
     private void Start()
     {
-        ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
-        Assert.IsNotNull(ui);
-        if (dialogueStandard == null)
-        {
-            dialogueStandard = "ERROR : NO DIALOGUE WAS INPUTTED FOR THIS INTERACTION";
-        }
-        if (dialogueOnConditionChange == null)
-        {
-            dialogueOnConditionChange = "WARNING : NO INPUTTED DIALOGUE FOR CHANGED CONDITION OF PREFAB. CHECK EDITOR.";
-        }
-        curDialogue = dialogueStandard;
+        _ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
+        Assert.IsNotNull(_ui);
+        dialogueStandard ??= "ERROR : NO DIALOGUE WAS INPUTTED FOR THIS INTERACTION";
+        dialogueOnConditionChange ??= "WARNING : NO INPUTTED DIALOGUE FOR CHANGED CONDITION OF PREFAB. CHECK EDITOR.";
+        _curDialogue = dialogueStandard;
     }
 
     /**
@@ -35,7 +27,7 @@ public class ObjectInteractionController : MonoBehaviour
      */
     public void DisplayInteractionDialogue()
     {
-        ui.DisplayDialogue(curDialogue, "player");
+        _ui.DisplayDialogue(_curDialogue, "player");
     }
 
     /**
@@ -43,7 +35,7 @@ public class ObjectInteractionController : MonoBehaviour
      */
     public void EndDisplay()
     {
-        ui.EndDisplay();
+        _ui.EndDisplay();
     }
 
     /**
@@ -51,13 +43,6 @@ public class ObjectInteractionController : MonoBehaviour
      */
     public void OnChangeDialogue()
     {
-        if (curDialogue == dialogueOnConditionChange)
-        {
-            curDialogue = dialogueStandard;
-        }
-        else
-        {
-            curDialogue = dialogueOnConditionChange;
-        }
+        _curDialogue = _curDialogue == dialogueOnConditionChange ? dialogueStandard : dialogueOnConditionChange;
     }
 }

@@ -1,28 +1,25 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Assertions;
-using Mono.Cecil.Rocks;
-[RequireComponent(typeof(ModifiableController))]
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
  *  For now, will try to read a single value and change the appropriate prefab using that
  */
+[RequireComponent(typeof(ModifiableController))]
 public class FileParser : MonoBehaviour
 {
-    private string[] dataArray; //data read from the file
+    private string[] _dataArray; //data read from the file
     public string filePath { get; set; } //informations to access file
     [Header("Object File infos")]
     [SerializeField] private string targetObjectFileName;           //file (name) where the modification is
     public ModifiableController targetModifiable { get; private set; }                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
 
-    void Awake()
+    private void Awake()
     {
-        filePath = Application.streamingAssetsPath + "/Test" + "/" + targetObjectFileName;
+        filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
     }
@@ -64,15 +61,15 @@ public class FileParser : MonoBehaviour
         CosmicBinManager.Instance.GenerateCosmicBin();
 
         // create fileinfo
-        FileInfo fi = new FileInfo(Application.streamingAssetsPath + path);
+        var fi = new FileInfo(Application.streamingAssetsPath + path);
 
         // add origin scene as property
         if (!fi.FullName.Contains("Cosmicbin"))
         {
             targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
-            filePath = Application.streamingAssetsPath + "/Test/Cosmicbin/" + fi.Name;
+            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/Test/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
         }
     }
 
@@ -83,19 +80,28 @@ public class FileParser : MonoBehaviour
     public void ReadFromFile(string path)
     {
         const string separator = ":";
-        dataArray = File.ReadAllLines(path);
-        if(dataArray != null)
+        _dataArray = File.ReadAllLines(path);
+        if(_dataArray != null)
         {
-            foreach (string line in dataArray)
+            var keyNames = new List<string>();
+            var test = false;
+            foreach (var line in _dataArray)
             {
                 if (line.Contains(separator))
                 {
                     var lineSplit = line.Split(separator);
-                    string keyName = lineSplit[0];
-                    string value = string.Join("", lineSplit[1..]);
-                    targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()); // modifying appropriate variable
+                    var keyName = lineSplit[0];
+                    var value = string.Join("", lineSplit[1..]);
+                    test = targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()) || test; // modifying appropriate variable
+                    keyNames.Add(keyName);
                 }
             }
+            test = targetModifiable.UpdatePropertiesDico(keyNames) || test;
+            if(test) WriteToFile();
+        }
+        else
+        {
+            Debug.LogWarning("File.ReadAllLines("+path+") is null");
         }
 
         targetModifiable.UpdateModification();
@@ -103,7 +109,9 @@ public class FileParser : MonoBehaviour
 
     public void WriteToFile()
     {
-        using (StreamWriter sw = new StreamWriter(filePath))  
+        Debug.Log(name + " write to file " + filePath);
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        using (var sw = new StreamWriter(filePath))  
         {  
             sw.Write(targetModifiable.ToFileString());
         }

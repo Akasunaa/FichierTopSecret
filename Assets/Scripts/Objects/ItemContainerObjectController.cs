@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.Rendering.Universal;
 
 /**
  *  Component used by Item-containers
@@ -12,9 +9,9 @@ using UnityEngine.Rendering.Universal;
 public class ItemContainerObjectController : ModifiableController, Interactable
 {
     [SerializeField] private GameObject item; //Item that the desk contains
-    private DialogueUIController ui;                        //reference to the UI used for dialogs
-    private bool hasItem = true; //boolean that will remove the container giving infinite items
-    protected bool isInInteraction;
+    private DialogueUIController _ui;                        //reference to the UI used for dialogs
+    private bool _hasItem = true; //boolean that will remove the container giving infinite items
+    protected bool IsInInteraction;
 
     //The various dialogues that can be displayed :
     [TextArea(3, 10)]
@@ -28,57 +25,57 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     private void Start()
     {
-        isInInteraction = false;
-        ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
-        Assert.IsNotNull(ui);
+        IsInInteraction = false;
+        _ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
+        Assert.IsNotNull(_ui);
     }
 
     public override void SetDefaultProperties()
     {
-        properties.Add("locked", true);
+        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
     public void Interact()
     {
-        Debug.Log("INTERACTION TRIGGERED IN ITEM CONTAINER WITH STATUS : "+isInInteraction);
-        if (!isInInteraction)
+        Debug.Log("INTERACTION TRIGGERED IN ITEM CONTAINER WITH STATUS : "+IsInInteraction);
+        if (!IsInInteraction)
         {
-            isInInteraction = true;
+            IsInInteraction = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         }
         else
         {
-            ui.EndDisplay();
-            isInInteraction = false;
+            _ui.EndDisplay();
+            IsInInteraction = false;
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
             return;
         }
         if (TryGet("locked", out bool locked))
         {
-            if (!locked && hasItem)
+            if (!locked && _hasItem)
             {
                 //Debug.Log("INTERACTION : RECUPERATING ITEM");
                 RecuperateItem();
-                ui.DisplayDialogue(dialogueItemRecuperate, "player");
+                _ui.DisplayDialogue(dialogueItemRecuperate, "player");
             }
-            else if (!hasItem)
+            else if (!_hasItem)
             {
                 if (!CheckItemPresence()) //if the player doesn't have the item BUT it was already taken, we give it one more time
                 {
                     //Debug.Log("INTERACTION : RECUPERATING AGAIN ITEM");
                     RecuperateItem();
-                    ui.DisplayDialogue(dialogueItemRecuperate, "player");
+                    _ui.DisplayDialogue(dialogueItemRecuperate, "player");
                 }
                 else
                 {
                     //Debug.Log("INTERACTION : NO ITEM");
-                    ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
+                    _ui.DisplayDialogue(dialogueAlreadyTakenItem, "player");
                 }
             }
             else
             {
                 //Debug.Log("INTERACTION : LOCKED");
-                ui.DisplayDialogue(dialogueLocked, "player");
+                _ui.DisplayDialogue(dialogueLocked, "player");
             }
 
             UpdateModification();
@@ -111,7 +108,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
      */
     private void RecuperateItem()
     {
-        hasItem = false;
+        _hasItem = false;
         GameObject new_item = Instantiate(item);
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();

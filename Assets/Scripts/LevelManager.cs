@@ -43,15 +43,15 @@ public class LevelManager : MonoBehaviour
 #if UNITY_EDITOR
         if (Application.isEditor)
         {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
             if (di.Exists)
             {
                 // remove readonly attributes on cosmicbin items to delete them
-                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
+                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
                 if (di2.Exists)
                 {
-                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/Test/Cosmicbin"))
+                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
                     {
                         FileInfo fileInfo = new FileInfo(fileName);
                         File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
@@ -80,8 +80,8 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
         isLoading = true;
-        FilesWatcher.Instance.Clear();
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test" + "/" + levelName);
+        FilesWatcher.instance.Clear();
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
 
         bool directoryExists = di.Exists;
         if (!directoryExists)
@@ -143,7 +143,7 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
                 fileParser.ReadFromFile(fileInfo.FullName);
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
@@ -157,7 +157,7 @@ public class LevelManager : MonoBehaviour
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
                 }
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else
             {
@@ -174,7 +174,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            if (!FilesWatcher.Instance.ContainsFile(fi))
+            if (!FilesWatcher.instance.ContainsFile(fi))
             {
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
@@ -215,18 +215,21 @@ public class LevelManager : MonoBehaviour
                     fp = newObj.AddComponent<FileParser>();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
-                    FilesWatcher.Instance.Set(fp);
+                    FilesWatcher.instance.Set(fp);
                     Vector2? size = null;
                     if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
                     if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(),size);
+                            print("miaou");
+                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
+                    fp.targetModifiable.SetDefaultProperties();
+
 
                     // Clean the prefab if it is instantiated in the Cosmic bin
                     if (isInComsicBin) { 
@@ -246,11 +249,13 @@ public class LevelManager : MonoBehaviour
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
-            FilesWatcher.Instance.Set(fp);
+            FilesWatcher.instance.Set(fp);
             if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
             {
                 if (player != null)
                 {
+                    print("miaou");
+
                     pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HologramConsoleController : ModifiableController, Interactable
@@ -9,9 +7,8 @@ public class HologramConsoleController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        Vector2Int pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", pos);
-        properties.Add("locked", false);
+        base.SetDefaultProperties();
+        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = false});
     }
     public void Interact()
     {

@@ -112,21 +112,22 @@ MonoBehaviour:
     propertyValue: XV6
     propertyType: 1
     conditionIsSuperior: 
-    propertyCondition: 
+    propertyCondition: []
     propertyChangeState:
     - StateChangedName
   - propertyName: origin
     propertyValue: makemake
     propertyType: 1
     conditionIsSuperior: 
-    propertyCondition: 
+    propertyCondition: []
     propertyChangeState:
     - StateChangedOrigin
   - propertyName: health
     propertyValue: 1
     propertyType: 0
-    conditionIsSuperior: 
-    propertyCondition: 
+    conditionIsSuperior: 00
+    propertyCondition:
+    - 
     propertyChangeState:
     - StateDeath
   objectsElements:
