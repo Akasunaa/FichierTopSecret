@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using ColorUtility = UnityEngine.ColorUtility;
 
 /**
  *   Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
@@ -8,7 +11,7 @@ public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
 
-    public struct DicoValueProperty
+    protected struct DicoValueProperty
     {
         public bool IsImportant;
         public object Value;
@@ -152,5 +155,27 @@ public abstract class ModifiableController : MonoBehaviour
         {
             fp.WriteToFile();
         }        
+    }
+
+    public void UpdatePropertiesDico(List<string> propertiesKeysList)
+    {
+        var keysToRemoveList = new List<string>();
+        foreach (var (keyName, dicoValueProperty) in properties)
+        {
+            // search if the property key was updated
+            var found = propertiesKeysList.Aggregate(false, (current, key) => ApplyPlayerChange.PropertyNameValidation(key.Trim().ToLower()) == keyName || current);
+
+            // if it was not modified (is not in the file rn) && is not important, then remove it from the properties
+            if (!found && !dicoValueProperty.IsImportant)
+            {
+                // properties.Remove(keyName); // does not work because it breaks the Iterator linked to properties in this foreach loop
+                keysToRemoveList.Add(keyName);
+            }
+        }
+
+        foreach (var key in keysToRemoveList)
+        {
+            properties.Remove(key);
+        }
     }
 }
