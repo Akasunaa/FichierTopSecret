@@ -246,10 +246,16 @@ public class NPCCreatorWindow : EditorWindow
                 errorProperties = "THERE IS NO ACCESSIBLE CHANGE STATE IN PROPERTY "+index;
                 return true;
             }
-            //Check if the conditions list and booleans isSuperior list :
-            if(npcProperties[index].conditionIsSuperior.Length == npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length >= npcProperties[index].propertyCondition.Length)
+            //Check if the conditions list and booleans isSuperior list have correct lengths compared to one another:
+            if (npcProperties[index].propertyType != TYPE.STRING && npcProperties[index].conditionIsSuperior.Length != npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
             {
-                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY "+index;
+                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE INTEGER "+index;
+                return true;
+            }
+            //Check if the conditions list and changeState list have correct lengths compared to one another:
+            if (npcProperties[index].propertyType == TYPE.STRING && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
+            {
+                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE STRING " + index;
                 return true;
             }
             //Check if the state is correctly linked :
