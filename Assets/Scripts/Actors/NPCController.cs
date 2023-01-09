@@ -225,7 +225,7 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                if (properties[propertyDict[propertyString].propertyName].Value.ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
                 {
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
@@ -238,7 +238,7 @@ public class NPCController : ModifiableController, Interactable
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
                 int integerValue;
-                int.TryParse(properties[propertyString].ToString(), out integerValue);
+                int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex< propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
                     if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
@@ -279,7 +279,7 @@ public class NPCController : ModifiableController, Interactable
     {
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
-            int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
+            var elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
             //Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
             ReactSearchCount(elementTag, elementTagCount);
         }
@@ -323,13 +323,9 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function that will recuperates a certain value from the properties, if such value exists
      */
-    public string GetPropertyValue(String propertyName)
+    public string GetPropertyValue(string propertyName)
     {
-        if (properties.ContainsKey(propertyName))
-        {
-            return properties[propertyName].ToString();
-        }
-        return "DATA NOT FOUND";
+        return properties.ContainsKey(propertyName) ? properties[propertyName].Value.ToString() : "DATA NOT FOUND";
     }
 
     /**
@@ -339,15 +335,8 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
-        if (fileInfo.Exists)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+        return fileInfo.Exists;
     }
 
     /**
@@ -356,9 +345,8 @@ public class NPCController : ModifiableController, Interactable
     */
     private void GiveItem(GameObject item)
     { 
-        GameObject new_item = Instantiate(item);
-        new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        new_item.GetComponent<ItemController>().RecuperatingItem();
+        var newItem = Instantiate(item, GameObject.FindGameObjectWithTag("Player").transform, true);
+        newItem.GetComponent<ItemController>().RecuperatingItem();
     }
 }
 
