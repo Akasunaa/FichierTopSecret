@@ -338,7 +338,7 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
         if (fileInfo.Exists)
         {
             return true;

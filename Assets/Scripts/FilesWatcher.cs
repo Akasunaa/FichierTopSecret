@@ -66,7 +66,7 @@ public class FilesWatcher : MonoBehaviour
 
     void Start()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
         if (!di.Exists)
         {
@@ -240,8 +240,8 @@ public class FilesWatcher : MonoBehaviour
                     string levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     bool alreadyExists = pathToScript.ContainsKey(relativePath);
                     bool rightDirectory =
-                        LevelManager.Capitalize(relativePath.Substring("/Test/".Length, levelName.Length)) == levelName;
-                    if (!alreadyExists && relativePath.Length >= "/Test/".Length + levelName.Length && rightDirectory)
+                        LevelManager.Capitalize(relativePath.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
+                    if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
                         LevelManager.Instance.NewObject(fc.fi);
@@ -337,7 +337,7 @@ public class FilesWatcher : MonoBehaviour
             string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             objectFileName = objectFileName.Replace("*", "");
             Scene scene = SceneManager.GetActiveScene();
-            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
+            string completObjectPath = "/" + Utils.RootFolderName + "/" + scene.name + "/" + objectFileName; //to be changed
             if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
             {
                 currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
