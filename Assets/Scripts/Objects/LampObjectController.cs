@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Assertions;
+using Unity.VisualScripting;
 
 /**
  *  Component handling the lamp's modifications and state according to its file
@@ -35,8 +36,7 @@ public class LampObjectController :  ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", pos);
+        base.SetDefaultProperties();
         properties.Add("power", true);
         properties.Add("color", Color.white);
     }

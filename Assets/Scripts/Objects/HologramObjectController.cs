@@ -19,8 +19,7 @@ public class HologramObjectController : ModifiableController
 
     public override void SetDefaultProperties()
     {
-        Vector2Int pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", pos);
+        base.SetDefaultProperties();
         properties.Add("power", true);
     }
 

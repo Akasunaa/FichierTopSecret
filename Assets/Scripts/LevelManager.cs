@@ -213,7 +213,6 @@ public class LevelManager : MonoBehaviour
 
                     // setup file parser
                     fp = newObj.AddComponent<FileParser>();
-                    fp.targetModifiable.SetDefaultProperties();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
@@ -223,11 +222,14 @@ public class LevelManager : MonoBehaviour
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(),size);
+                            print("miaou");
+                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
                     }
+                    fp.targetModifiable.SetDefaultProperties();
+
 
                     // Clean the prefab if it is instantiated in the Cosmic bin
                     if (isInComsicBin) { 
@@ -252,6 +254,8 @@ public class LevelManager : MonoBehaviour
             {
                 if (player != null)
                 {
+                    print("miaou");
+
                     pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
