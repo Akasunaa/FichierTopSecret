@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Object = System.Object;
 
 /**
  *   Inherited class that will handle the modification of the files coming from the FileParser upon modification and/or other actions
@@ -10,9 +7,16 @@ using Object = System.Object;
 public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
-    protected Dictionary<string, object> properties { private set; get; } = new Dictionary<string, object>();
+
+    public struct DicoValueProperty
+    {
+        public bool IsImportant;
+        public object Value;
+    }
     
-    public static bool TryParse<T>(Object o, out T res)
+    protected Dictionary<string, DicoValueProperty> properties { private set; get; } = new();
+    
+    public static bool TryParse<T>(object o, out T res)
     {
         if (o is T r)
         {
@@ -26,7 +30,7 @@ public abstract class ModifiableController : MonoBehaviour
 
     public bool TryGet<T>(string key, out T res)
     {
-        if (properties.TryGetValue(key, out object o) && TryParse(o, out T r))
+        if (properties.TryGetValue(key, out DicoValueProperty o) && TryParse(o.Value, out T r))
         {
             res = r;
             return true;
@@ -46,9 +50,10 @@ public abstract class ModifiableController : MonoBehaviour
 
     public void SetValue(string key, object value)
     {
-        if (!properties.TryAdd(key, value))
+        var test = properties.TryGetValue(key, out var valued) && valued.IsImportant;
+        if (!properties.TryAdd(key, new DicoValueProperty {IsImportant = test, Value = value}))
         {
-            properties[key] = value;
+            properties[key] = new DicoValueProperty {IsImportant = test, Value = value};
         }
     }
 
@@ -67,7 +72,7 @@ public abstract class ModifiableController : MonoBehaviour
      */
     public virtual void OnModification(string keyName, string value)
     {
-        if (properties.TryGetValue(keyName, out object obj) && obj.ToString() == value)
+        if (properties.TryGetValue(keyName, out var dicoValueProperty) && dicoValueProperty.Value.ToString() == value)
         {
             return;
         }
@@ -75,32 +80,34 @@ public abstract class ModifiableController : MonoBehaviour
         print("Modifying " + keyName + " with value " + value + " from file");
 
         // fix typos and find a correct property
-        string propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
+        var propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
         // return either "true" or "false" depending of the input string 
         // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
-        object objectValue = ApplyPlayerChange.ObjectFromValue(keyName, value);
+        var objectValue = ApplyPlayerChange.ObjectFromValue(keyName, value);
 
         if (properties.ContainsKey(propertyName))
         {
-            properties[propertyName] = objectValue;
+            var wasImportant = properties[propertyName].IsImportant;
+            properties[propertyName] = new DicoValueProperty {IsImportant = wasImportant, Value = objectValue};
         }
         else
         {
-            properties.Add(propertyName, objectValue);
+            // if there is a new property added we assume that it is not "important"
+            properties.Add(propertyName, new DicoValueProperty {IsImportant = false, Value = objectValue});
         }
     }
 
     public virtual void UpdateModification()
     {
-        foreach ((string keyName, object value) in properties)
+        foreach (var (keyName, dicoValueProperty) in properties)
         {
-            ApplyPlayerChange.VisualChange(keyName, value, gameObject);
+            ApplyPlayerChange.VisualChange(keyName, dicoValueProperty.Value, gameObject);
         }
     }
 
     public string ToFileString()
     {
-        Dictionary<Color, string> col2name = new Dictionary<Color, string>()
+        var col2Name = new Dictionary<Color, string>
         {
             { Color.white, "white" },
             { Color.black, "black" },
@@ -111,13 +118,13 @@ public abstract class ModifiableController : MonoBehaviour
             { Color.grey, "grey" },
             { Color.cyan, "cyan" }
         };
-        string res = "";
-        foreach ((string keyName, object value) in properties)
+        var res = "";
+        foreach (var (keyName, dicoValueProperty) in properties)
         {
-            switch (value)
+            switch (dicoValueProperty.Value)
             {
                 case Color c:
-                    if (col2name.TryGetValue(c, out string colorName))
+                    if (col2Name.TryGetValue(c, out var colorName))
                     {
                         res += keyName + " : " + colorName + "\n";
                     }
@@ -127,11 +134,11 @@ public abstract class ModifiableController : MonoBehaviour
                     }
                     break;
                 case bool b:
-                    string boolName = b ? "yes" : "no";
+                    var boolName = b ? "yes" : "no";
                     res += keyName + " : " + boolName + "\n";
                     break;
                 default:
-                    res += keyName + " : " + value + "\n";
+                    res += keyName + " : " + dicoValueProperty + "\n";
                     break;
             }
         }
