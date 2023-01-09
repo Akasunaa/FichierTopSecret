@@ -66,7 +66,7 @@ public class FilesWatcher : MonoBehaviour
 
     void Start()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test");
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
         if (!di.Exists)
         {
@@ -181,10 +181,15 @@ public class FilesWatcher : MonoBehaviour
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-       Debug.Log("[FileWatcher] File Changed: " + e.FullPath);
         if (fi.Exists)
         {
+            Debug.Log("[FileWatcher] File Changed: " + e.FullPath);
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
+        }
+        else // Looks weird, but the OnDelete is never triggered when the root folder is deleted so...
+        {
+            Debug.Log("[FileWatcher] OnChanged File Deleted: " + e.FullPath);
+            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
     }
 
@@ -194,11 +199,15 @@ public class FilesWatcher : MonoBehaviour
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("[FileWatcher] File Created: " + e.FullPath);
         if (fi.Exists)
         {
+            Debug.Log("[FileWatcher] File Created: " + e.FullPath);
             // Create a object from the file if possible
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.New));
+        }
+        else
+        {
+            Debug.LogError("[FileWatcher] Create a file that does not exists");
         }
     }
 
@@ -208,19 +217,21 @@ public class FilesWatcher : MonoBehaviour
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
         FileInfo fi = new FileInfo(e.FullPath);
-        Debug.Log("[FileWatcher] File Deleted: " + e.FullPath);
         if (!fi.Exists)
         {
+            Debug.Log("[FileWatcher] File Deleted: " + e.FullPath);
             dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
+        else
+        {
+            Debug.LogError("[FileWatcher] Delete a file that still exists");
+        }
     }
-
 
     void Update()
     {
         while (dataQueue.TryDequeue(out FileChange fc))
         {
-
             string relativePath = RelativePath(fc.fi.FullName);
 
             switch (fc.type)
@@ -229,15 +240,18 @@ public class FilesWatcher : MonoBehaviour
                     string levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     bool alreadyExists = pathToScript.ContainsKey(relativePath);
                     bool rightDirectory =
-                        LevelManager.Capitalize(relativePath.Substring("/Test/".Length, levelName.Length)) == levelName;
-                    if (!alreadyExists && relativePath.Length >= "/Test/".Length + levelName.Length && rightDirectory)
+                        LevelManager.Capitalize(relativePath.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
+                    if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
                         LevelManager.Instance.NewObject(fc.fi);
                     }
-                    else
+                    else if (alreadyExists)
                     {
-                        Debug.Log("[FileWatcher] File " + relativePath + " is in the wrong directory (it is normal if it was already in the scene)");
+                        Debug.Log("[FileWatcher] Object " + relativePath + " already exists (it is normal if it was already in the scene)");
+                    }
+                    else {
+                        Debug.LogWarning("[FileWatcher] File " + relativePath + " is in the wrong directory");
                     }
                     break;
                 case FileChangeType.Change:
@@ -323,7 +337,7 @@ public class FilesWatcher : MonoBehaviour
             string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             objectFileName = objectFileName.Replace("*", "");
             Scene scene = SceneManager.GetActiveScene();
-            string completObjectPath = "/Test/" + scene.name + "/" + objectFileName; //to be changed
+            string completObjectPath = "/" + Utils.RootFolderName + "/" + scene.name + "/" + objectFileName; //to be changed
             if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
             {
                 currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;

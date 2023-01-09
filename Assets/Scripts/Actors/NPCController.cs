@@ -285,7 +285,18 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
+                {
+                    for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
+                    {
+                        if (properties[propertyDict[propertyString].propertyName].ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        {
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
+                            return;
+                        }
+                    }
+                }
+                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
                 {
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
@@ -299,11 +310,13 @@ public class NPCController : ModifiableController, Interactable
             {
                 int integerValue;
                 int.TryParse(properties[propertyString].ToString(), out integerValue);
-                for(int conditionListIndex = 0;conditionListIndex< propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
+                for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
+                    int conditionValue;
+                    int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
                     if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
                     {
-                        if (integerValue < propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
                             {
@@ -319,7 +332,7 @@ public class NPCController : ModifiableController, Interactable
                     }
                     else
                     {
-                        if (integerValue > propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                             return;
@@ -399,7 +412,7 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/Test/Player/" + objectName + ".txt");
+        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
         if (fileInfo.Exists)
         {
             return true;
@@ -436,7 +449,7 @@ public struct FILE_PROPERTIES                             //struct used for the 
     public string propertyValue;                        //value of the property
     public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
     public bool[] conditionIsSuperior;                   //list of the booleans that indicate wether the associated properties are superior or inferior ones
-    public int[] propertyCondition;                     //list of conditions of the property
+    public string[] propertyCondition;                     //list of conditions of the property
     public string[] propertyChangeState;                //associated state of the property if changed
 }
 
