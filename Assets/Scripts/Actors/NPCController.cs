@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -39,10 +40,18 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
+    [Header("Player.txt elements to react to")]
+    [SerializeField] public PLAYER_PROPERTIES[] playerProperties;
+    [HideInInspector] public Dictionary<string, PLAYER_PROPERTIES> playerPropertiesDict = new Dictionary<string, PLAYER_PROPERTIES>();
+
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
     [SerializeField] bool canMoving;
     bool isWaiting;
+
+    //player's informations
+    private GameObject player;
+    private PlayerObjectController playerObjectController;
 
     private void Start()
     {
@@ -95,7 +104,18 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
-        //UpdateModification();
+        //Creating the dict of the player.txt elements to check out for :
+        foreach (var element in playerProperties)
+        {
+            if (!playerPropertiesDict.ContainsKey(element.playerPropertyName))
+            {
+                playerPropertiesDict.Add(element.playerPropertyName, element);
+            }
+        }
+        //-----------------------------------
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerObjectController = player.GetComponent<PlayerObjectController>();
     }
 
     private void Update()
@@ -286,9 +306,29 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function called everytime the game gains or loses focus
      *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
+     *  We will also use these times to check if the player.txt properties have changed
      */
     private void OnApplicationFocus()
     {
+        //Check for Player.txt values :
+        foreach(var playerElement in playerPropertiesDict.Keys) //for all the possible properties that the NPC will check in Player.txt, it will go through all the possibilities and change state accordingly
+        {
+            string value;
+            if(playerObjectController.TryGet(playerElement,out value))
+            {
+                for(int playerPropertyConditionIndex=0; playerPropertyConditionIndex < playerPropertiesDict[playerElement].playerPropertyCondition.Length; playerPropertyConditionIndex++)
+                {
+                    print("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
+                    if(value.ToString() == playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString())
+                    {
+                        OnStateChange(playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        return;
+                    }
+                }
+            }
+            
+        }
+        //Check with Duplication Manager :
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
@@ -372,6 +412,7 @@ public class NPCController : ModifiableController, Interactable
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
     }
+
 }
 
 [System.Serializable]
@@ -413,4 +454,12 @@ public struct REACT_ELEMENTS                            //struct used for elemen
     public string[] stateChangeName;                    //associated name of the state
     public bool[] isSuperior;                           //if the associated condition is a superior condition or not
     public int[] condition;                             //the value for the condition
+}
+
+[System.Serializable]
+public struct PLAYER_PROPERTIES                         //struct used for values in the player.txt that the NPC will react to
+{
+    public string playerPropertyName;
+    public string[] playerPropertyCondition;                   //list of possibilities that property can take and the NPC will react to
+    public string[] playerPropertyChangeState;                //associated state of the property if changed
 }

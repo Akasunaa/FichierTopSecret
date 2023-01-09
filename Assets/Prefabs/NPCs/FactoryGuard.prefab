@@ -206,13 +206,10 @@ MonoBehaviour:
   - propertyName: employer
     propertyValue: HIDDEN
     propertyType: 1
-    conditionIsSuperior: 00
-    propertyCondition:
-    - Pouet
-    - Death
+    conditionIsSuperior: 
+    propertyCondition: []
     propertyChangeState:
     - FactoryGuard_Change_Employer
-    - FactoryGuard_Death
   - propertyName: health
     propertyValue: 10
     propertyType: 0
@@ -223,5 +220,13 @@ MonoBehaviour:
   objectsElements: []
   questItems: []
   reactElements: []
+  playerProperties:
+  - playerPropertyName: name
+    playerPropertyCondition:
+    - Hugo
+    - Prevost Mivitch
+    playerPropertyChangeState:
+    - FactoryGuard_Incorrect_Name
+    - FactoryGuard_Correct_Name
   grid: {fileID: 0}
   canMoving: 0
