@@ -3,8 +3,9 @@ Shader "Unlit/Outline"
 	Properties{
 		_MainTex("Texture",2D) = "white" {}
 		_Color("First Color",Color) = (1,1,1,1)
-		_OutlineSize("Outline Size",Int) = 1
 		_SecondColor("Second Color",Color) = (1,1,1,1)
+		_OutlineSize("Outline Size",Int) = 1
+
 	}
 	SubShader{
 		Tags
@@ -24,7 +25,6 @@ Shader "Unlit/Outline"
 		CGPROGRAM
 		#pragma vertex vertexFunc
 		#pragma fragment fragmentFunc
-		#pragma target 4.0
 		#include "UnityCG.cginc"
 
 		sampler2D _MainTex;
@@ -32,6 +32,11 @@ Shader "Unlit/Outline"
 			float4 pos : SV_POSITION;
 			half2 uv : TEXCOORD0; //half est un equivalent de float
 		};
+
+		fixed4 _Color;
+		fixed4 _SecondColor;
+		int _OutlineSize;
+		float4 _MainTex_TexelSize;
 
 		//About sommet
 		v2f vertexFunc(appdata_base v) {
@@ -41,16 +46,13 @@ Shader "Unlit/Outline"
 			return o;
 		}
 
-		fixed4 _Color;
-		fixed4 _SecondColor;
-		int _OutlineSize;
-		float4 _MainTex_TexelSize;
-
 		//About pixel
 		fixed4 fragmentFunc(v2f i) : COLOR {
 			half4 c = tex2D(_MainTex, i.uv); // couleur des pixels
 			half4 outlineC = _Color;
+			half4 outlineCSecond = _SecondColor;
 			bool check = false;
+			bool last = false;
 			for(int x = -_OutlineSize; x < _OutlineSize + 1; x++)
 			{
 				for (int y = -_OutlineSize; y < _OutlineSize + 1; y++)
@@ -65,6 +67,9 @@ Shader "Unlit/Outline"
 						if (tex2D(_MainTex, pos).a != 0)
 						{
 							check = true;
+							if (abs(y) < _OutlineSize && abs(x) < _OutlineSize) {
+								last = true;
+							}
 						}
 					}
 				}
@@ -72,6 +77,9 @@ Shader "Unlit/Outline"
 
 			if ((c.a == 0 || i.uv.x > 1 || i.uv.x < 0 || i.uv.y > 1 || i.uv.y < 0) && check == true)
 			{
+				if (last == false) {
+					return outlineCSecond;
+				}	
 				return outlineC;
 			}
 			
