@@ -221,7 +221,8 @@ MonoBehaviour:
     isSuperior: 01
     condition: 01000000
   grid: {fileID: 0}
-  canMoving: 0
+  shouldMove: 0
+  speed: 1
 --- !u!114 &4445950531819338335
 MonoBehaviour:
   m_ObjectHideFlags: 0
