@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using System.Linq;
 
 public class CosmicBinManager : MonoBehaviour
 {
@@ -56,9 +54,9 @@ public class CosmicBinManager : MonoBehaviour
         Debug.Log("LOADING BIN");
         cosmicBinIsloaded = true;
         Vector2 targetPos = Vector2.zero;
-        foreach(var gameObject in objectsSuppressed)
+        foreach(var localGameObject in objectsSuppressed)
         {
-            gameObject.transform.position = targetPos;
+            localGameObject.transform.position = targetPos;
             usedPositions.Add(targetPos);
 
             do
@@ -72,19 +70,19 @@ public class CosmicBinManager : MonoBehaviour
         }   
     }
 
-    public void AddRestorationController(GameObject gameObject)
+    public void AddRestorationController(GameObject localGameObject)
     {
         // the door out of the cosmic bin does not require a restoration controller
-        if (!gameObject.TryGetComponent(out DoorObjectController _))
+        if (!localGameObject.TryGetComponent(out DoorObjectController _))
         {
-            gameObject.AddComponent<BinRestorationController>();
+            localGameObject.AddComponent<BinRestorationController>();
         }
     }
 
-    public void RestoreSuppressedObject(GameObject gameObject)
+    public void RestoreSuppressedObject(GameObject localGameObject)
     {
-        Debug.Log("Restore object " + gameObject.name);
-        if (gameObject.TryGetComponent(out FileParser fileParser) && gameObject.TryGetComponent(out ModifiableController modifiableCtrlr))
+        Debug.Log("Restore object " + localGameObject.name);
+        if (localGameObject.TryGetComponent(out FileParser fileParser) && localGameObject.TryGetComponent(out ModifiableController modifiableCtrlr))
         {
             string folderDestination;
             modifiableCtrlr.TryGet("scene target", out folderDestination);
@@ -100,13 +98,13 @@ public class CosmicBinManager : MonoBehaviour
             fileParser.WriteToFile();
             
             // remove the object from the scene and from the file watcher
-            Destroy(gameObject);
+            Destroy(localGameObject);
             FilesWatcher.Instance.GetPathToScript().Remove(folderDestination + "/" + fi.Name);
         }
     }
 
-    public void AddSuppressedObject(GameObject gameObject)
+    public void AddSuppressedObject(GameObject localGameObject)
     {
-        objectsSuppressed.Add(gameObject);
+        objectsSuppressed.Add(localGameObject);
     }
 }
