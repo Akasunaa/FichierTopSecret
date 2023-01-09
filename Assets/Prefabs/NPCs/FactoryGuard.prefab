@@ -132,7 +132,7 @@ Transform:
   m_Children:
   - {fileID: 4121410921527346119}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &4121410922239261870
 BoxCollider2D:
@@ -209,7 +209,7 @@ MonoBehaviour:
     conditionIsSuperior: 00
     propertyCondition: 00000000
     propertyChangeState:
-    - FactoryGuard_Incorrect_Name
+    - FactoryGuard_Change_Employer
   - propertyName: health
     propertyValue: 10
     propertyType: 0
