@@ -13,8 +13,5 @@ public class PlayerObjectController : ModifiableController
         properties.Add("health", "10");
     }
 
-    private void Start()
-    {
-        FilesWatcher.Instance.Set(GetComponent<FileParser>());
-    }
+
 }

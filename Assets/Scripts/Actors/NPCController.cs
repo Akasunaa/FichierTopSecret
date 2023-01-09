@@ -314,7 +314,7 @@ public class NPCController : ModifiableController, Interactable
         foreach(var playerElement in playerPropertiesDict.Keys) //for all the possible properties that the NPC will check in Player.txt, it will go through all the possibilities and change state accordingly
         {
             string value;
-            if(playerObjectController.TryGet(playerElement,out value))
+            if(playerObjectController.TryGet(playerElement,out value)) //we recuperate the value currently in Player.txt that we will test the possible conditions against
             {
                 for(int playerPropertyConditionIndex=0; playerPropertyConditionIndex < playerPropertiesDict[playerElement].playerPropertyCondition.Length; playerPropertyConditionIndex++)
                 {
