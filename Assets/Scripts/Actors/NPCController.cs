@@ -117,7 +117,10 @@ public class NPCController : ModifiableController, Interactable
         player = GameObject.FindGameObjectWithTag("Player");
         playerObjectController = player.GetComponent<PlayerObjectController>();
         animator = GetComponentInChildren<Animator>();
-        animator.speed = speed;
+        if (animator)
+        {
+            animator.speed = speed;
+        }
     }
 
     private void Update()
