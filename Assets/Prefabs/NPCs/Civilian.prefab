@@ -204,7 +204,10 @@ MonoBehaviour:
     propertyValue: 0
     propertyType: 0
     conditionIsSuperior: 010001
-    propertyCondition: 64000000d0070000d0070000
+    propertyCondition:
+    - 100
+    - 2000
+    - 2000
     propertyChangeState:
     - Civ_Not_Enough
     - Civ_Too_Much

@@ -207,14 +207,17 @@ MonoBehaviour:
     propertyValue: HIDDEN
     propertyType: 1
     conditionIsSuperior: 00
-    propertyCondition: 00000000
+    propertyCondition:
+    - Pouet
+    - Death
     propertyChangeState:
     - FactoryGuard_Change_Employer
+    - FactoryGuard_Death
   - propertyName: health
     propertyValue: 10
     propertyType: 0
     conditionIsSuperior: 00
-    propertyCondition: 01000000
+    propertyCondition: []
     propertyChangeState:
     - FactoryGuard_Death
   objectsElements: []
