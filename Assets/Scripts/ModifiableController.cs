@@ -73,20 +73,22 @@ public abstract class ModifiableController : MonoBehaviour
     /**
      *      Function called by the FileParser associated to the gameObject containing ModifiableController
      */
-    public virtual void OnModification(string keyName, string value)
+    public virtual bool OnModification(string keyName, string value)
     {
-        if (properties.TryGetValue(keyName, out var dicoValueProperty) && dicoValueProperty.Value.ToString() == value)
-        {
-            return;
-        }
-
-        print("Modifying " + keyName + " with value " + value + " from file");
-
+        
+        
         // fix typos and find a correct property
         var propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
         // return either "true" or "false" depending of the input string 
         // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
         var objectValue = ApplyPlayerChange.ObjectFromValue(keyName, value);
+        
+        if (properties.TryGetValue(propertyName, out var dicoValueProperty) && dicoValueProperty.Value.ToString() == objectValue.ToString())
+        {
+            return false;
+        }
+
+        print("Modifying '" + keyName + "' with value '" + value + "' from file");
 
         if (properties.ContainsKey(propertyName))
         {
@@ -98,6 +100,8 @@ public abstract class ModifiableController : MonoBehaviour
             // if there is a new property added we assume that it is not "important"
             properties.Add(propertyName, new DicoValueProperty {IsImportant = false, Value = objectValue});
         }
+
+        return true;
     }
 
     public virtual void UpdateModification()
@@ -157,8 +161,9 @@ public abstract class ModifiableController : MonoBehaviour
         }        
     }
 
-    public void UpdatePropertiesDico(List<string> propertiesKeysList)
+    public bool UpdatePropertiesDico(List<string> propertiesKeysList)
     {
+        var test = false;
         var keysToRemoveList = new List<string>();
         foreach (var (keyName, dicoValueProperty) in properties)
         {
@@ -176,6 +181,9 @@ public abstract class ModifiableController : MonoBehaviour
         foreach (var key in keysToRemoveList)
         {
             properties.Remove(key);
+            test = true;
         }
+
+        return test;
     }
 }
