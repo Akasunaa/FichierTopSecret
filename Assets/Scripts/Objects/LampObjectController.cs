@@ -43,19 +43,9 @@ public class LampObjectController :  ModifiableController, Interactable
         //For the lamp object, we test if its power is on or off
         if (!TryGet("power", out bool power)) return;
         
-        if (power)
+        foreach(var light2D in _lights)
         {
-            foreach(var light2D in _lights)
-            {
-                light2D.enabled = true;
-            }
-        }
-        else
-        {
-            foreach(var light2D in _lights)
-            {
-                light2D.enabled = false;
-            }
+            light2D.enabled = power;
         }
     }
 }
