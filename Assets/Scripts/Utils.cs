@@ -7,6 +7,7 @@ using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
 {
+    public const string RootFolderName = "Test";
     const float EPSILON = 0.1f;
     /**
      * Method checking a tile for a collider and returning it. If there are no collider on the tile, returns null.
@@ -73,27 +74,24 @@ public static class Utils
         }
     }
 
-    public static Vector3Int NearestTileEmpty(Vector2Int position, int depth=1)
+    public static Vector3Int NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1)
     {
         if (depth > 1000) { return Vector3Int.zero; }
-        else
-
+        for (int i = -depth; i <= depth; i++)
         {
-            for (int i = -depth; i <= depth; i++)
+            for (int j = -depth; j <= depth; j++)
             {
-                for (int j = -depth; j <= depth; j++)
+                if(i==depth || i==-depth || j==-depth || j == depth)
                 {
-                    if(i==depth || i==-depth || j==-depth || j == depth)
+                    if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
                     {
-                        if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0)) == null)
-                        {
-                            return new Vector3Int(position.x + i, position.y + j, 0);
-                        }
+                        return new Vector3Int(position.x + i, position.y + j, 0);
                     }
-                    
                 }
+                    
             }
-            return NearestTileEmpty(position, depth + 1);
         }
+        return NearestTileEmpty(position, size, depth + 1);
     }
+
 }

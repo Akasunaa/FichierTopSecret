@@ -12,4 +12,6 @@ public class PlayerObjectController : ModifiableController
         properties.Add("name", new DicoValueProperty {IsImportant = true, Value = "Bob"});
         properties.Add("health", new DicoValueProperty {IsImportant = true, Value = "10"});
     }
+
+
 }

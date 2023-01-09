@@ -68,7 +68,14 @@ public abstract class ModifiableController : MonoBehaviour
         }
     }
 
-    public abstract void SetDefaultProperties();
+    public virtual void SetDefaultProperties()
+    {
+        if (!properties.ContainsKey("position"))
+        {
+            Vector2Int pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
+            properties.TryAdd("position", pos);
+        }
+    }
 
     /**
      *      Function called by the FileParser associated to the gameObject containing ModifiableController

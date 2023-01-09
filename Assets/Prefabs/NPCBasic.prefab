@@ -96,7 +96,8 @@ MonoBehaviour:
   questItems: []
   reactElements: []
   grid: {fileID: 0}
-  canMoving: 0
+  shouldMove: 0
+  speed: 1
 --- !u!1 &2674717063482308140
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +109,7 @@ GameObject:
   - component: {fileID: 4016635000166050202}
   - component: {fileID: 6302621173359886219}
   - component: {fileID: 5267959174583581055}
+  - component: {fileID: 3412999258263407572}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -196,3 +198,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 6302621173359886219}
   offset: 0
+--- !u!95 &3412999258263407572
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2674717063482308140}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f3844d0f5fc8aa546b4718c8f02767ab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -19,9 +19,8 @@ public class HologramObjectController : ModifiableController
 
     public override void SetDefaultProperties()
     {
-        var pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", new DicoValueProperty {IsImportant = true, Value = pos});
-        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
+        base.SetDefaultProperties();
+        properties.Add("power", true);
     }
 
     public override void UpdateModification()

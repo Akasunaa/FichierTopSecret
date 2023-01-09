@@ -40,7 +40,7 @@ public class CosmicBinManager : MonoBehaviour
 
     public void GenerateCosmicBin()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/Test/Cosmicbin");
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
 
         if (!di.Exists)
         {
@@ -93,7 +93,7 @@ public class CosmicBinManager : MonoBehaviour
             File.Delete(fileParser.filePath);
 
             // change the path to the origin folder and rewrite the file
-            fileParser.filePath = Application.streamingAssetsPath + "/Test/" + folderDestination + "/" + fi.Name;
+            fileParser.filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + folderDestination + "/" + fi.Name;
             modifiableCtrlr.RemoveValue("scene target");
             fileParser.WriteToFile();
             

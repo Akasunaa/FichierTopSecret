@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -124,8 +122,7 @@ public class DoorObjectController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", new DicoValueProperty {IsImportant = true, Value = pos});
+        base.SetDefaultProperties();
         properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = isLockedByDefault});
         // properties.Add("status", "closed");
         properties.Add("direction", new DicoValueProperty {IsImportant = true, Value = direction});

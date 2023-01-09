@@ -9,9 +9,8 @@ public class HologramConsoleController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        var pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", new DicoValueProperty {IsImportant = true, Value = pos});
-        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = false});
+        base.SetDefaultProperties();
+        properties.Add("locked", false);
     }
     public void Interact()
     {
