@@ -215,6 +215,7 @@ public class LevelManager : MonoBehaviour
 
                     // setup file parser
                     fp = newObj.AddComponent<FileParser>();
+                    fp.targetModifiable.SetDefaultProperties();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
                     FilesWatcher.Instance.Set(fp);
