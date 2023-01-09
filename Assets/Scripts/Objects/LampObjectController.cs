@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.Assertions;
-using Unity.VisualScripting;
 
 /**
  *  Component handling the lamp's modifications and state according to its file

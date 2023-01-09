@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private List<RegToGoPair> instantiable;
 
-    void Awake()
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         if (Instance != null && Instance != this)
@@ -63,17 +63,15 @@ public class LevelManager : MonoBehaviour
 #endif
     }
 
-    void Start()
+    private void Start()
     {
         LoadScene(levelToLoad);
     }
     public void LoadScene(string levelName)
     {
-        if (!isLoading)
-        {
-            isLoading = true;
-            StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
-        }
+        if (isLoading) return;
+        isLoading = true;
+        StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
     }
 
     
@@ -81,9 +79,9 @@ public class LevelManager : MonoBehaviour
     {
         isLoading = true;
         FilesWatcher.instance.Clear();
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
+        var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
 
-        bool directoryExists = di.Exists;
+        var directoryExists = di.Exists;
         if (!directoryExists)
         {
             Debug.Log("Create new directory: " + di.FullName + " | " + levelName);
@@ -95,7 +93,7 @@ public class LevelManager : MonoBehaviour
         //     SceneManager.UnloadSceneAsync(activeLevel);
         // }
         
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
+        var asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
         while (!asyncLoadLevel.isDone) {
             yield return null;
         }
@@ -116,18 +114,18 @@ public class LevelManager : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
-        catch (Exception error) { Debug.LogError("no player found"); }
+        catch (Exception error) { Debug.LogError("no player found " + error); }
         isLoading = false;
     }
 
     public static string Capitalize(string input)
     {
-        switch (input)
+        return input switch
         {
-            case null: return input;
-            case "": return input;
-            default: return input[0].ToString().ToUpper() + input.ToLower().Substring(1);
-        }
+            null => null,
+            "" => input,
+            _ => input[0].ToString().ToUpper() + input.ToLower().Substring(1)
+        };
     }
 
     /*
@@ -135,10 +133,10 @@ public class LevelManager : MonoBehaviour
      */
     private void UpdateFileGameObjects(bool directoryExists)
     {
-        FileParser[] fileGameObjects = FindObjectsOfType<FileParser>();
-        foreach (FileParser fileParser in fileGameObjects)
+        var fileGameObjects = FindObjectsOfType<FileParser>();
+        foreach (var fileParser in fileGameObjects)
         {
-            FileInfo fileInfo = new FileInfo(fileParser.filePath);
+            var fileInfo = new FileInfo(fileParser.filePath);
             if (fileInfo.Exists)
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
@@ -153,7 +151,7 @@ public class LevelManager : MonoBehaviour
                     Directory.CreateDirectory(fileInfo.DirectoryName);
                 }
                 fileParser.targetModifiable.SetDefaultProperties();
-                using (StreamWriter sw = new StreamWriter(fileInfo.FullName))  
+                using (var sw = new StreamWriter(fileInfo.FullName))  
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
                 }
@@ -172,7 +170,7 @@ public class LevelManager : MonoBehaviour
      */
     private void CreateGameObjectFromFiles(DirectoryInfo di)
     {
-        foreach (FileInfo fi in di.EnumerateFiles())
+        foreach (var fi in di.EnumerateFiles())
         {
             if (!FilesWatcher.instance.ContainsFile(fi))
             {
@@ -180,7 +178,7 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        foreach (DirectoryInfo diTmp in di.EnumerateDirectories())
+        foreach (var diTmp in di.EnumerateDirectories())
         {
             CreateGameObjectFromFiles(diTmp);
         }
@@ -193,18 +191,18 @@ public class LevelManager : MonoBehaviour
     {
         GameObject newObj;
         FileParser fp;
-        Vector3Int pos = Vector3Int.zero;
+        var pos = Vector3Int.zero;
         if (Regex.IsMatch(fi.Name, ".*.txt$"))
         {
-            string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
+            var nameObject = Path.GetFileNameWithoutExtension(fi.Name);
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
             {
                 return;
             }
-            foreach (RegToGoPair pair in instantiable)
+            foreach (var pair in instantiable)
             {
                 //check all synonym
-                string[] synonyms = SynonymController.SearchSynonym(nameObject);
+                var synonyms = SynonymController.SearchSynonym(nameObject);
                 var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
                 if (synonym!=null)
                 {

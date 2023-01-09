@@ -16,7 +16,7 @@ public class DialogSM : StateMachine
     [SerializeField] public NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
 
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
         // We begin the Enter function by creating the dictionary of the next possible states :
@@ -50,7 +50,7 @@ public class DialogSM : StateMachine
      *  Calls the currentState's exit method to solve any remaining state's actions if needed
      *  Then attributes and calls the new state's Enter method
      */
-    public new void ChangeState(string nextStateName)
+    public void ChangeState(string nextStateName)
     {
         if(nextStateName == currentState.name) //same state
         {
