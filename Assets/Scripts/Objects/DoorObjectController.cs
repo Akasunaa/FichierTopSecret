@@ -21,10 +21,10 @@ public class DoorObjectController : ModifiableController, Interactable
     [SerializeField] private Sprite closedSprite;
     [SerializeField] private Sprite openedSprite;
 
-    private ObjectInteractionController interactionController;
-    private bool displayingDialogue;
+    private ObjectInteractionController _interactionController;
+    private bool _displayingDialogue;
 
-    private bool isOpened;
+    private bool _isOpened;
     public bool canBeInteracted { get; set; }
 
     private void Awake()
@@ -35,30 +35,30 @@ public class DoorObjectController : ModifiableController, Interactable
         //Assert.IsNotNull(transitionAnimation);
         Assert.IsNotNull(closedSprite);
         Assert.IsNotNull(openedSprite);
-        interactionController = GetComponent<ObjectInteractionController>();
-        isOpened = false;
-        displayingDialogue = false;
+        _interactionController = GetComponent<ObjectInteractionController>();
+        _isOpened = false;
+        _displayingDialogue = false;
     }
 
     public void Interact()
     {
-        if (TryGet("locked", out bool locked) && locked && interactionController!=null && !displayingDialogue) //UGLY, NEEDS TO BE REWRITTEN
+        if (TryGet("locked", out bool locked) && locked && _interactionController!=null && !_displayingDialogue) //UGLY, NEEDS TO BE REWRITTEN
         {
-            displayingDialogue = true;
+            _displayingDialogue = true;
             //Time.timeScale = 0f;
-            interactionController.DisplayInteractionDialogue();
+            _interactionController.DisplayInteractionDialogue();
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
 
         }
-        else if(/*TryGet("locked", out locked) && locked && */interactionController != null && displayingDialogue)
+        else if(/*TryGet("locked", out locked) && locked && */_interactionController != null && _displayingDialogue)
         {
-            displayingDialogue = false;
+            _displayingDialogue = false;
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartMovement();
-            interactionController.EndDisplay();
+            _interactionController.EndDisplay();
             return;
             //Time.timeScale = 1f;
         }
-        if (!displayingDialogue && TryGet("locked", out locked) && !locked)
+        if (!_displayingDialogue && TryGet("locked", out locked) && !locked)
         {
             if (TryGet("direction", out string dir))
             {
@@ -81,11 +81,11 @@ public class DoorObjectController : ModifiableController, Interactable
         //For the door object, we test if its status is opened or closed
         if (properties.ContainsKey("status"))
         {
-            print("status is " + properties["status"] + " state is " + isOpened);
-            if (properties["status"] == "open" && !isOpened)
+            print("status is " + properties["status"].Value + " state is " + _isOpened);
+            if ((string)properties["status"].Value == "open" && !_isOpened)
             {
                 spriteRenderer.sprite = openedSprite;
-                isOpened = true;
+                _isOpened = true;
 
                 // door is closed but should be opened, open it
                 //transitionAnimation["spaceport-door-front"].speed = 1;
@@ -94,10 +94,10 @@ public class DoorObjectController : ModifiableController, Interactable
                 //float animDuration = transitionAnimation.GetClip("spaceport-door-front").length;
                 //StartCoroutine(ToggleStateAfterAnim(animDuration));
             }
-            else if (properties["status"] == "closed" && isOpened)
+            else if ((string)properties["status"].Value == "closed" && _isOpened)
             {
                 spriteRenderer.sprite = closedSprite;
-                isOpened = false;
+                _isOpened = false;
                 // door is opened but should be closed, close it
                 //transitionAnimation["spaceport-door-front"].speed = -1;
                 //transitionAnimation.Play();
@@ -125,9 +125,9 @@ public class DoorObjectController : ModifiableController, Interactable
     public override void SetDefaultProperties()
     {
         Vector2Int pos = (Vector2Int) SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", pos);
-        properties.Add("locked", isLockedByDefault);
+        properties.Add("position", new DicoValueProperty {IsImportant = true, Value = pos});
+        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = isLockedByDefault});
         // properties.Add("status", "closed");
-        properties.Add("direction", direction);
+        properties.Add("direction", new DicoValueProperty {IsImportant = true, Value = direction});
     }
 }

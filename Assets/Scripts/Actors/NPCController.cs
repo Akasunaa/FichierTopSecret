@@ -210,7 +210,8 @@ public class NPCController : ModifiableController, Interactable
     {
         foreach(var element in propertyDict.Values)
         {
-            properties.Add(element.propertyName, element.propertyValue);
+            // as they are default properties, they are considered as important
+            properties.Add(element.propertyName, new DicoValueProperty {IsImportant = true, Value = element.propertyValue});
         }
     }
 
