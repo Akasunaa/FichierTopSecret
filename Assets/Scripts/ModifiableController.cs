@@ -138,7 +138,7 @@ public abstract class ModifiableController : MonoBehaviour
                     res += keyName + " : " + boolName + "\n";
                     break;
                 default:
-                    res += keyName + " : " + dicoValueProperty + "\n";
+                    res += keyName + " : " + dicoValueProperty.Value + "\n";
                     break;
             }
         }
