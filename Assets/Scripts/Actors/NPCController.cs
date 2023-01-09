@@ -219,8 +219,11 @@ public class NPCController : ModifiableController, Interactable
     */
     private void UpdateSpriteOrientation(float dirX, float dirY)
     {
-        animator.SetFloat("dirX", dirX);
-        animator.SetFloat("dirY", dirY);
+        if (animator)
+        {
+            animator.SetFloat("dirX", dirX);
+            animator.SetFloat("dirY", dirY);
+        }
     }
 
 
@@ -387,7 +390,9 @@ public class NPCController : ModifiableController, Interactable
                     print("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
                     if(value.ToString() == playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString())
                     {
+                        print("NPC PLAYER TXT : CHANGING STATE TO : " + playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
                         OnStateChange(playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        print("NPC PLAYER TXT : STATE CHANGED");
                         return;
                     }
                 }
