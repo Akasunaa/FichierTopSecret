@@ -247,7 +247,7 @@ public class NPCCreatorWindow : EditorWindow
                 return true;
             }
             //Check if the conditions list and booleans isSuperior list :
-            if(npcProperties[index].conditionIsSuperior.Length == npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length >= npcProperties[index].propertyCondition.Length)
+            if(npcProperties[index].propertyType !=TYPE.STRING && npcProperties[index].conditionIsSuperior.Length != npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
             {
                 errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY "+index;
                 return true;
