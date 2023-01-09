@@ -20,7 +20,7 @@ public class HologramObjectController : ModifiableController
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("power", true);
+        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
     public override void UpdateModification()

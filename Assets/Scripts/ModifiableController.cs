@@ -70,11 +70,9 @@ public abstract class ModifiableController : MonoBehaviour
 
     public virtual void SetDefaultProperties()
     {
-        if (!properties.ContainsKey("position"))
-        {
-            Vector2Int pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-            properties.TryAdd("position", pos);
-        }
+        if (properties.ContainsKey("position")) return;
+        var pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
+        properties.TryAdd("position", new DicoValueProperty {IsImportant = true, Value = pos});
     }
 
     /**
