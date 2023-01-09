@@ -3,6 +3,7 @@ Shader "Unlit/Outline"
 	Properties{
 		_MainTex("Texture",2D) = "white" {}
 		_Color("First Color",Color) = (1,1,1,1)
+		_OutlineSize("Outline Size",Int) = 1
 		_SecondColor("Second Color",Color) = (1,1,1,1)
 	}
 	SubShader{
@@ -35,38 +36,46 @@ Shader "Unlit/Outline"
 		//About sommet
 		v2f vertexFunc(appdata_base v) {
 			v2f o;
-			o.pos = UnityObjectToClipPos(v.vertex);
-			o.uv = v.texcoord;
+			o.pos = UnityObjectToClipPos(v.vertex * 1.5f);
+			o.uv = (v.texcoord * 1.5f - 0.25f);
 			return o;
 		}
 
 		fixed4 _Color;
 		fixed4 _SecondColor;
+		int _OutlineSize;
 		float4 _MainTex_TexelSize;
 
 		//About pixel
-		fixed4 fragmentFunc(v2f i) : COLOR{
-			half4 c = tex2D(_MainTex, i.uv); //couleur des pixel 
-			c.rgb *= c.a; //rendre transparente toute partie de la texture qui n'est pas opaque 
+		fixed4 fragmentFunc(v2f i) : COLOR {
+			half4 c = tex2D(_MainTex, i.uv); // couleur des pixels
 			half4 outlineC = _Color;
-			half4 secondOutlineC = _SecondColor; 
+			bool check = false;
+			for(int x = -_OutlineSize; x < _OutlineSize + 1; x++)
+			{
+				for (int y = -_OutlineSize; y < _OutlineSize + 1; y++)
+				{
+					if (x == 0 && y == 0)
+					{
+						continue;
+					}
+					float2 pos = float2(i.uv.x + _MainTex_TexelSize.x * x, i.uv.y + _MainTex_TexelSize.y * y);
+					if (pos.x <= 1 && pos.x >= 0 && pos.y <= 1 && pos.y >= 0)
+					{
+						if (tex2D(_MainTex, pos).a != 0)
+						{
+							check = true;
+						}
+					}
+				}
+			}
 
-
-			//rendre transparente toute partie de l'ombrage qui n'est pas opaque
-			outlineC.a *= ceil(c.a);
-			outlineC.rgb *= outlineC.a;
-
-
-			//valeurs alpha des pixels de la texture situés au-dessus, en dessous, à droite et à gauche du pixel en cours de traitement
-			fixed upAlpha = tex2D(_MainTex, i.uv + fixed2(0, _MainTex_TexelSize.y)).a;
-			fixed downAlpha = tex2D(_MainTex, i.uv - fixed2(0, _MainTex_TexelSize.y)).a;
-			fixed rightAlpha = tex2D(_MainTex, i.uv + fixed2(_MainTex_TexelSize.x, 0)).a;
-			fixed leftAlpha = tex2D(_MainTex, i.uv - fixed2(_MainTex_TexelSize.x, 0)).a;
-			fixed edgeX = (1 - floor(i.uv.r + _MainTex_TexelSize.x)) * ceil(i.uv.r - _MainTex_TexelSize.x);
-			fixed edgeY = (1 - floor(i.uv.g + _MainTex_TexelSize.y)) * ceil(i.uv.g - _MainTex_TexelSize.y);
-
-			return lerp(outlineC, c, ceil(upAlpha * downAlpha * rightAlpha * leftAlpha * edgeX * edgeY ));
-
+			if ((c.a == 0 || i.uv.x > 1 || i.uv.x < 0 || i.uv.y > 1 || i.uv.y < 0) && check == true)
+			{
+				return outlineC;
+			}
+			
+			return c * c.a * (i.uv.x >= 0 && i.uv.x <= 1) * (i.uv.y >= 0 && i.uv.y <= 1);
 		}
 			
 		ENDCG
