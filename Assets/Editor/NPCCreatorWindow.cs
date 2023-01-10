@@ -179,6 +179,7 @@ public class NPCCreatorWindow : EditorWindow
             dialogSM.nextStates[stateIndex] = nextState;
             stateIndex++;
         }
+        dialogSM.SetStartingState(startingState);
         // ------------------------------------------------------------------------------------------------
 
         //Adding the list of properties to NPCController --------------------------------------------------
