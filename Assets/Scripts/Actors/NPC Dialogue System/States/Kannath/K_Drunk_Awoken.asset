@@ -12,5 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: K_Drunk_Awoken
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - Nice one J ! Usually it takes me around two or three cycles before I can wake
+    up the bastard...
+  - Can't handle his damn poison...
+  - Goddamn Aikara suits... A bunch of weirdos I tell ya.... Acting all mighty and
+    proud at day, and smashing their liver at night...
+  - So, I heard from perfectly legimitate and authorized sources that an ex-soldier
+    was onboard last week's planet-ferry.
+  - And that same perfectly legit source states that the "ex-soldier" managed to
+    escape border control over the Demioth Quadrant before rushin' to hide in the
+    Aikara's factory...
+  - And J, do ya know many who can take out a dozen XV12 droids on their own ?
+  - So yeah, I think that might be your guy... I guess you'll find him at the factory
+    across the plaza... And J, be careful ya hear ? Ya still owe me a bunch of credits
+    !
   currentSpeech: 

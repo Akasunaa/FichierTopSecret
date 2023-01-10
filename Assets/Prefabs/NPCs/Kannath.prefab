@@ -78,8 +78,6 @@ MonoBehaviour:
   nextStates:
   - name: K_Issovitch_Captured
     state: {fileID: 11400000, guid: 7b6df74e9b69b694d9be2f1d571c92a0, type: 2}
-  - name: K_Factory_Intel
-    state: {fileID: 11400000, guid: eadce6035108974499c74a83fdaa22e3, type: 2}
   - name: K_Drunk_Intel
     state: {fileID: 11400000, guid: 1e427d7a43584154a9081b4abc9053c2, type: 2}
   - name: K_Drunk_Awoken

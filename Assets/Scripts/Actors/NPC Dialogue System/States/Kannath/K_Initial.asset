@@ -12,5 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: K_Initial
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - 'Hey there J ! '
+  - How's that lil' detective bizz of yours holdin' ?
+  - ... the Protectorate ?
+  - ...
+  - You serious ?
+  - J, that's like... That's awesome ! If you manage this right, you'll be off this
+    rock in no time !
+  - Well... IF you manage to not screw that up as well...
+  - Haha, I get it, I get it... I'll pay ya a drink, how's that ?
+  - Well regardless, ya didn't come here only to tell me that, hey ? So what's the
+    deal ?
+  - Intel on an ex-T.N.M.A. ? That's not common... I only one once on Pluto, during
+    the camps... Anywho, I might have that...
+  - 'Tell you what : if ya manage to convince that drunk over there to pay his tab,
+    I''ll spill ya the beans. How''s that ?'
   currentSpeech: 
