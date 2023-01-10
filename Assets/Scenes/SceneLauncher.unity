@@ -409,3 +409,5 @@ MonoBehaviour:
     go: {fileID: 4445950531819338328, guid: 7007bec4d2dd72546be7789d7a15fe12, type: 3}
   - reg: factoryGuard
     go: {fileID: 4121410922239261867, guid: 7891386de522d4147b85eeb32fbd3521, type: 3}
+  - reg: drunk
+    go: {fileID: 3787556161786667926, guid: 975d0b2b5aed0674f9067b51b8e29e25, type: 3}

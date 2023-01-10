@@ -25,8 +25,10 @@ public class SpecialDialogState : DialogState
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);
+        Debug.Log("NPC SPECIAL DIALOG STATE : MODIFYING PLAYER PREFS");
         PlayerPrefs.SetString(playerPrefsName, playerPrefsValue); //we write the wanted value
         PlayerPrefs.Save();                                       //we save it
+        Debug.Log("NPC SPECIAL DIALOG STATE : PLAYER PREF "+playerPrefsName+" WITH VALUE "+playerPrefsValue);
     }
 
 

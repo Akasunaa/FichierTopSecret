@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 4520044211131186654}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5057747506341863308
 BoxCollider2D:
@@ -81,7 +81,7 @@ MonoBehaviour:
   - name: D_Refuse
     state: {fileID: 11400000, guid: 74e170b9eb6283b4abaf5320b8059bf1, type: 2}
   - name: D_Woken
-    state: {fileID: 11400000, guid: f5e71298d945a754d82a62489f135557, type: 2}
+    state: {fileID: 11400000, guid: 6ee8689af8a3a8145b1e20c85a2f2476, type: 2}
 --- !u!114 &3169811318340794325
 MonoBehaviour:
   m_ObjectHideFlags: 0
