@@ -56,6 +56,7 @@ public class NPCController : ModifiableController, Interactable
     private Animator animator;
     private bool isWaiting=false;
     static private bool canMove = true; //if the NPC can moving (not in dialogState)
+    private IEnumerator lastSmoothMov;
 
     //player's informations
     private GameObject player;
@@ -150,6 +151,7 @@ public class NPCController : ModifiableController, Interactable
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
         if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
+        print(isWaiting);
 
     }
 
@@ -202,7 +204,8 @@ public class NPCController : ModifiableController, Interactable
         }
         if (targetPositions.Any())
         {
-            StartCoroutine(SmoothMovement(targetPositions));
+            lastSmoothMov = SmoothMovement(targetPositions);
+            StartCoroutine(lastSmoothMov);
         }
         yield return new WaitForSeconds(timer);
         isWaiting = false;
@@ -229,12 +232,13 @@ public class NPCController : ModifiableController, Interactable
             Utils.UpdateOrderInLayer(gameObject);
             yield return null;
         }
+        player.GetComponent<PlayerMovement>().RefreshOrientationSprite(); //Permet de reset l'interaction avec le joueur 
         targetPositions.RemoveAt(0);
         if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
         {
-            StartCoroutine(SmoothMovement(targetPositions));
+            lastSmoothMov = SmoothMovement(targetPositions);
+            StartCoroutine(lastSmoothMov);
         }
-
     }
 
 
@@ -259,6 +263,9 @@ public class NPCController : ModifiableController, Interactable
     {
         //block and facing the player
         canMove = false;
+        if(lastSmoothMov!=null)
+            StopCoroutine(lastSmoothMov);
+        transform.position = grid.GetCellCenterWorld(grid.WorldToCell(transform.position));
         UpdateSpriteOrientation(-GameObject.FindGameObjectWithTag("Player").transform.position.x+transform.position.x,
             GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y);
 

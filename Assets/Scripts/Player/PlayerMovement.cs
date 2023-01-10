@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3Int targetTilemapPosition = grid.WorldToCell(transform.position) + (Vector3Int)facingDirection;
 
             // refresh the info containing which side the character is facing
-            RefreshOrientationSprite(facingDirection);
+            RefreshOrientationSprite();
 
             // check if the cell is occupied
             if (Utils.CheckPresenceOnTile(grid, targetTilemapPosition))
@@ -116,10 +116,10 @@ public class PlayerMovement : MonoBehaviour
         interactionController.CheckForInteraction(transform.position,facingDirection);
     }
 
-    private void RefreshOrientationSprite(Vector2Int direction)
+    public void RefreshOrientationSprite()
     {
-        animator.SetFloat("dirX", direction.x);
-        animator.SetFloat("dirY", direction.y);
+        animator.SetFloat("dirX", facingDirection.x);
+        animator.SetFloat("dirY", facingDirection.y);
         //Check interaction
         interactionController.CheckForInteraction(transform.position, facingDirection);
     }
