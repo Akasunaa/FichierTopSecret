@@ -69,9 +69,9 @@ MonoBehaviour:
   m_Texture: {fileID: 2800000, guid: d866c685c409a374db75e36b79a303c0, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: -0.125
+    x: -0.228
     y: 0
-    width: 0.25
+    width: 0.48
     height: 1
 --- !u!1 &2637594482985681454
 GameObject:
@@ -796,7 +796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rulerTopImage: {fileID: 3008114446194118834}
   cameraGridOffsetX: -0.5
-  rawImageTopUVRectOffset: -0.1174
+  rawImageTopUVRectOffset: -0.228
   moveImageTopUVRectFactor: 0.02741
   rulerSideImage: {fileID: 6998983109040727564}
   cameraGridOffsetY: -0.5
