@@ -70,9 +70,11 @@ public abstract class ModifiableController : MonoBehaviour
 
     public virtual void SetDefaultProperties()
     {
-        if (properties.ContainsKey("position")) return;
-        var pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.TryAdd("position", new DicoValueProperty {IsImportant = true, Value = pos});
+        if (!properties.ContainsKey("position"))
+        {
+            var pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
+            properties.TryAdd("position", new DicoValueProperty { IsImportant = true, Value = pos });
+        }
     }
 
     /**
@@ -117,7 +119,7 @@ public abstract class ModifiableController : MonoBehaviour
         }
     }
 
-    public string ToFileString()
+    public virtual string ToFileString()
     {
         var col2Name = new Dictionary<Color, string>
         {
