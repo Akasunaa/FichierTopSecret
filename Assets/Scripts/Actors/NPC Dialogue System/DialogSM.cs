@@ -18,7 +18,7 @@ public class DialogSM : StateMachine
 
     protected void Start()
     {
-        base.Start();
+        //base.Start();
         // We begin the Enter function by creating the dictionary of the next possible states :
         nextPossibleStates = new Dictionary<string, DialogState>();
         nextPossibleStates.Add(startingState.name, startingState);
@@ -60,7 +60,7 @@ public class DialogSM : StateMachine
      */
     public new void ChangeState(string nextStateName)
     {
-        if(nextStateName == currentState.name) //same state
+        if (nextStateName == currentState.name) //same state
         {
             return;
         }
