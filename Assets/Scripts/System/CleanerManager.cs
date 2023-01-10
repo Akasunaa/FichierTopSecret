@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ *  Function that will clean the Player Prefs at the start of every session
+ *  It is only to be inside the SceneLauncher scene
+ */
 public class CleanerManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    //Deleting all the playerPrefs
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        PlayerPrefs.DeleteAll();
     }
 }
