@@ -9,7 +9,7 @@ public class StateMachine : MonoBehaviour
 {
     public BaseState currentState;
 
-    protected void Start()
+    protected void Awake()
     {
         currentState = GetStartingState();
         if(currentState != null)

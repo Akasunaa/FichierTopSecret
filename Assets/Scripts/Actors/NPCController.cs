@@ -61,12 +61,16 @@ public class NPCController : ModifiableController, Interactable
     private GameObject player;
     private PlayerObjectController playerObjectController;
 
+    private void Awake()
+    {
+        dialogSM = GetComponent<DialogSM>();
+        Assert.IsNotNull(dialogSM);
+    }
+
     private void Start()
     {
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
-        dialogSM = GetComponent<DialogSM>();
-        Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
@@ -396,6 +400,7 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
+        Debug.Log("NPC CONTROLLER : STARTING STATE CHOSEN : " + dialogSM.GetStartingState());
         OnStateChange(dialogSM.GetStartingState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
