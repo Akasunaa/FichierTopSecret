@@ -38,6 +38,14 @@ public class DialogSM : StateMachine
     }
 
     /**
+     *  Function only called by the Editor NPC script to setup the starting state
+     */
+    public void SetStartingState(BaseState state)
+    {
+        startingState = state.ConvertTo<DialogState>();
+    }
+
+    /**
      *  Function called by external scripts that will tell the SM that the current speech has been read
      */
     public int OnDialogInteraction()
