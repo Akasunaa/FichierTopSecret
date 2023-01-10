@@ -506,7 +506,7 @@ public class NPCController : ModifiableController, Interactable
     {
         if (properties.ContainsKey(propertyName))
         {
-            return properties[propertyName].ToString();
+            return properties[propertyName].Value.ToString();
         }
         return "DATA NOT FOUND";
     }

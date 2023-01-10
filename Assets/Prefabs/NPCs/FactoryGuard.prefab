@@ -178,11 +178,11 @@ MonoBehaviour:
   - name: FactoryGuard_Bar
     state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}
   - name: FactoryGuard_Change_Employer
-    state: {fileID: 11400000, guid: 21e66f60d3d90b84587ba6ac534d471a, type: 2}
+    state: {fileID: 11400000, guid: 206c5b0b11ffd254092775829e0f9b1f, type: 2}
   - name: FactoryGuard_Change_Name
     state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
   - name: FactoryGuard_Correct_Name
-    state: {fileID: 11400000, guid: 6e1117a806d36624d8d6cff612cd2bc9, type: 2}
+    state: {fileID: 11400000, guid: 9ecfe2c58a360534cbc0c33bdd768d3a, type: 2}
   - name: FactoryGuard_Incorrect_Name
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
@@ -209,25 +209,24 @@ MonoBehaviour:
     conditionIsSuperior: 
     propertyCondition: []
     propertyChangeState:
-    - FactoryGuard_Change_Employer
+    - FG_Change_Employer
   - propertyName: health
     propertyValue: 10
     propertyType: 0
     conditionIsSuperior: 00
     propertyCondition: []
     propertyChangeState:
-    - FactoryGuard_Death
+    - FG_Death
   objectsElements: []
   questItems: []
   reactElements: []
   playerProperties:
   - playerPropertyName: name
     playerPropertyCondition:
-    - Hugo
     - Prevost Mivitch
     playerPropertyChangeState:
-    - FactoryGuard_Incorrect_Name
-    - FactoryGuard_Correct_Name
+    - FG_Correct_Name
+  playerPrefsElements: []
   grid: {fileID: 0}
   shouldMove: 0
   speed: 3
