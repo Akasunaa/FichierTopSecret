@@ -61,12 +61,16 @@ public class NPCController : ModifiableController, Interactable
     private GameObject player;
     private PlayerObjectController playerObjectController;
 
+    private void Awake()
+    {
+        dialogSM = GetComponent<DialogSM>();
+        Assert.IsNotNull(dialogSM);
+    }
+
     private void Start()
     {
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
-        dialogSM = GetComponent<DialogSM>();
-        Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
@@ -128,6 +132,7 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
+        //we set up the different variables of the NPC controller that do not require external help :
         player = GameObject.FindGameObjectWithTag("Player");
         playerObjectController = player.GetComponent<PlayerObjectController>();
         animator = GetComponentInChildren<Animator>();
@@ -135,6 +140,7 @@ public class NPCController : ModifiableController, Interactable
         {
             animator.speed = speed;
         }
+        grid = SceneData.Instance.grid;
 
         //when NPC is initializing, we try to check if the player Prefs have been altered
         SearchPlayerPrefs();
