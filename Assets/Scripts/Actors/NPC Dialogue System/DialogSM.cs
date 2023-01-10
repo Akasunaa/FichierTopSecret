@@ -32,7 +32,7 @@ public class DialogSM : StateMachine
         //-------------------------------------------------------------------------------------
     }
 
-    public override BaseState GetInitialState()
+    public override BaseState GetStartingState()
     {
         return startingState;
     }
