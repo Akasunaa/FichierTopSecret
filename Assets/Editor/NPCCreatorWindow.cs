@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
@@ -39,6 +40,7 @@ public class NPCCreatorWindow : EditorWindow
     private string errorQuestItems = "ERROR IN THE QUEST ITEM FIELDS";
     private string errorReactElements = "ERROR IN THE REACT ELEMENTS FIELDS";
     private string errorPlayerProperties = "ERROR IN THE PLAYER PROPERTIES FIELDS";
+    private string errorPlayerPrefsElements = "ERROR IN THE PLAYER PREFS FIELDS";
 
     //Elements for npc :
     private string npcName;                         //name of the NPC
@@ -54,6 +56,7 @@ public class NPCCreatorWindow : EditorWindow
     [SerializeField] List<QUEST_ITEMS> questItems = new List<QUEST_ITEMS>();
     [SerializeField] List<REACT_ELEMENTS> reactElements = new List<REACT_ELEMENTS>();
     [SerializeField] List<PLAYER_PROPERTIES> playerProperties = new List<PLAYER_PROPERTIES>();
+    [SerializeField] List<PLAYER_PREFS_ELEMENTS> playerPrefsElements = new List<PLAYER_PREFS_ELEMENTS> { };
 
     Editor editor;
     private Vector2 scrollPos;
@@ -133,6 +136,13 @@ public class NPCCreatorWindow : EditorWindow
         if (CheckPlayerPropertiesCorrectness())
         {
             GUILayout.Label(errorPlayerProperties, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
+        //test if the player prefs elements are correct :
+        if (CheckPlayerPrefsElementsCorrectness())
+        {
+            GUILayout.Label(errorPlayerPrefsElements, EditorStyles.boldLabel); //label of the window
             GUILayout.EndScrollView();
             return;
         }
@@ -220,7 +230,7 @@ public class NPCCreatorWindow : EditorWindow
         //-------------------------------------------------------------------------------------------------
 
         //Adding the list of Player Properties to NPCController --------------------------------------------------
-        npcController.reactElements = new REACT_ELEMENTS[reactElements.Count];
+        npcController.playerProperties = new PLAYER_PROPERTIES[playerProperties.Count];
         int playerPropertiesIndex = 0;
         foreach (var playerProperty in playerProperties)
         {
@@ -230,6 +240,19 @@ public class NPCCreatorWindow : EditorWindow
             playerPropertiesIndex++;
         }
         //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of Player Prefs Elements to NPCController --------------------------------------------------
+        npcController.playerPrefsElements = new PLAYER_PREFS_ELEMENTS[playerPrefsElements.Count];
+        int playerPrefsElementsIndex= 0;
+        foreach (var playerPrefsElement in playerPrefsElements)
+        {
+            PLAYER_PREFS_ELEMENTS pPrefsElement = new PLAYER_PREFS_ELEMENTS();
+            pPrefsElement = playerPrefsElement;
+            npcController.playerPrefsElements[playerPrefsElementsIndex] = pPrefsElement;
+            playerPrefsElementsIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
+
         npcController = instantiatedNPC.GetComponent<NPCController>();
     }
 
@@ -421,6 +444,39 @@ public class NPCCreatorWindow : EditorWindow
         }
         return false;
     }
+
+    /**
+     *  Function that will check that the player properties are correct
+     */
+    private bool CheckPlayerPrefsElementsCorrectness()
+    {
+        for (int index = 0; index < playerPrefsElements.Count; index++)
+        {
+            //Check that the playerPref name is incorrect
+            if (playerPrefsElements[index].playerPrefsName==null)
+            {
+                errorPlayerPrefsElements = "NAME OF THE PLAYER PREF NOT FILLED UP IN PLAYER PREFS ELEMENT " + index;
+                return true;
+            }
+            //Check that the condition is filled up :
+            if (playerPrefsElements[index].playerPrefsCondition == null)
+            {
+                errorPlayerPrefsElements = "CONDITION OF THE PLAYER PREF NOT FILLED UP IN PLAYER PREFS ELEMENT " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            bool nameFound = false;
+            foreach (var state in availableStatesList)
+            {
+                if (state.state && state.state.name == playerPrefsElements[index].playerPrefsChangeState) //if the name is found in the list
+                {
+                    nameFound = true;
+                }
+            }
+            if (!nameFound) { errorPlayerProperties = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN PLAYER PREFS ELEMENTS " + index ; return true; }
+        }
+        return false;
+    }
 }
 
 [System.Serializable]
@@ -461,6 +517,11 @@ public class NPCCreatorWindowDrawer : Editor
         EditorGUILayout.BeginHorizontal();
         var playerPropertyList = serializedObject.FindProperty("PlayerProperties");
         EditorGUILayout.PropertyField(playerPropertyList, new GUIContent("Player Properties to react to"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var playerPrefsElementsList = serializedObject.FindProperty("PlayerPrefsElements");
+        EditorGUILayout.PropertyField(playerPrefsElementsList, new GUIContent("Player Prefs Elements to react to"), true);
         EditorGUILayout.EndHorizontal();
 
     }
