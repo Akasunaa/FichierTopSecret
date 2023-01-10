@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: K_Issovitch_Captured
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - Ya captured the guy ?
+  - Good job J !
+  - Next drinks are on the house !
   currentSpeech: 
