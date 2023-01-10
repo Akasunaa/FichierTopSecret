@@ -400,7 +400,6 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        Debug.Log("NPC CONTROLLER : STARTING STATE CHOSEN : " + dialogSM.GetStartingState());
         OnStateChange(dialogSM.GetStartingState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 

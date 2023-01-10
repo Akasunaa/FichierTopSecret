@@ -60,8 +60,6 @@ public class DialogSM : StateMachine
      */
     public new void ChangeState(string nextStateName)
     {
-        Debug.Log("DIALOG SM : NEXT STATE NAME : "+nextStateName);
-        Debug.Log("DIALOG SM : CURRENT STATE NAME : " + currentState.name);
         if (nextStateName == currentState.name) //same state
         {
             return;
