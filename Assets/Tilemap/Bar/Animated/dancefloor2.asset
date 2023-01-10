@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: dancefloor2
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -1426318783, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: 1602090110, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: -2127899879, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: -376744992, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: 399880399, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: 1815360067, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: 181873638, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: -64858607, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: -237758995, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  - {fileID: 1067672911, guid: 4323259db7f5c454a8a58bc33664bc9b, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
