@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private List<RegToGoPair> instantiable;
 
+    [SerializeField] private ParticleSystem popParticle;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -222,11 +224,15 @@ public class LevelManager : MonoBehaviour
                     {
                         if (player != null)
                         {
-                            print("miaou");
                             pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                        ParticleSystem particles = Instantiate(popParticle);
+                        particles.gameObject.transform.position = pos;
+                        particles.Play();
+                        Destroy(particles,1);
+
                     }
                     fp.targetModifiable.SetDefaultProperties();
 
@@ -254,12 +260,14 @@ public class LevelManager : MonoBehaviour
             {
                 if (player != null)
                 {
-                    print("miaou");
-
                     pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                ParticleSystem particles = Instantiate(popParticle);
+                particles.gameObject.transform.position = pos;
+                particles.Play();
+                Destroy(particles, 1);
             }
             fp.WriteToFile();
             // using (StreamWriter sw = new StreamWriter(fp.filePath))
