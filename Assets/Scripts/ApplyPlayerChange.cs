@@ -78,7 +78,7 @@ public static class ApplyPlayerChange
         {
             foreach (GameObject hitGo in hitGos)
             {
-                // if one of the cllider is not the bject itself nor null
+                // if one of the collider is not the object itself nor null
                 if (hitGo != go && hitGo != null)
                 {
                     shouldMove = false;
@@ -214,12 +214,12 @@ public static class ApplyPlayerChange
     {
         if (propertyNameInput.Length == 0) return string.Empty;
 
-        string closestPropertyName = PropertyNames[0];
-        int levenshteinDistance = 10;
+        var closestPropertyName = PropertyNames[0];
+        var levenshteinDistance = 10;
 
-        foreach (string propertyName in PropertyNames)
+        foreach (var propertyName in PropertyNames)
         {
-            int currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
+            var currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
             if (currentLevenshteinDistance < levenshteinDistance)
             {
                 closestPropertyName = propertyName;

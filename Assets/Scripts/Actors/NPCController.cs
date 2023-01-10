@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
@@ -39,17 +41,36 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public REACT_ELEMENTS[] reactElements;
     [HideInInspector] public Dictionary<string, REACT_ELEMENTS> reactElementsDict = new Dictionary<string, REACT_ELEMENTS>();
 
+    [Header("Player.txt elements to react to")]
+    [SerializeField] public PLAYER_PROPERTIES[] playerProperties;
+    [HideInInspector] public Dictionary<string, PLAYER_PROPERTIES> playerPropertiesDict = new Dictionary<string, PLAYER_PROPERTIES>();
+
+    [Header("Player Prefs elements to react to")]
+    [SerializeField] public PLAYER_PREFS_ELEMENTS[] playerPrefsElements;
+    [HideInInspector] public Dictionary<string,PLAYER_PREFS_ELEMENTS> playerPrefsElementsDict = new Dictionary<string,PLAYER_PREFS_ELEMENTS>();
+
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
-    [SerializeField] bool canMoving;
-    bool isWaiting;
+    [SerializeField] private bool shouldMove; //if we want this NPC moving
+    [SerializeField] private float speed=3f;
+    private Animator animator;
+    private bool isWaiting=false;
+    static private bool canMove = true; //if the NPC can moving (not in dialogState)
+
+    //player's informations
+    private GameObject player;
+    private PlayerObjectController playerObjectController;
+
+    private void Awake()
+    {
+        dialogSM = GetComponent<DialogSM>();
+        Assert.IsNotNull(dialogSM);
+    }
 
     private void Start()
     {
         shouldEnd = false;
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
-        dialogSM = GetComponent<DialogSM>();
-        Assert.IsNotNull(dialogSM);
         Assert.IsNotNull(ui);
 
         //Creating the dict of the values :
@@ -71,10 +92,6 @@ public class NPCController : ModifiableController, Interactable
             }
         }
 
-        //For the movement
-        isWaiting = false;
-        //-----------------------------------
-
         //Creating the dict of the quest items to give out :
         foreach (var element in questItems)
         {
@@ -95,55 +112,144 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
-        //UpdateModification();
+        //Creating the dict of the player.txt elements to check out for :
+        foreach (var element in playerProperties)
+        {
+            if (!playerPropertiesDict.ContainsKey(element.playerPropertyName))
+            {
+                playerPropertiesDict.Add(element.playerPropertyName, element);
+            }
+        }
+        //-----------------------------------
+
+        //Creating the dict of the Player Prefs Elements to check out for :
+        foreach (var element in playerPrefsElements)
+        {
+            if (!playerPrefsElementsDict.ContainsKey(element.playerPrefsName))
+            {
+                playerPrefsElementsDict.Add(element.playerPrefsName, element);
+            }
+        }
+        //-----------------------------------
+
+        //we set up the different variables of the NPC controller that do not require external help :
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerObjectController = player.GetComponent<PlayerObjectController>();
+        animator = GetComponentInChildren<Animator>();
+        if (animator)
+        {
+            animator.speed = speed;
+        }
+        grid = SceneData.Instance.grid;
+
+        //when NPC is initializing, we try to check if the player Prefs have been altered
+        SearchPlayerPrefs();
     }
 
     private void Update()
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
-        if (canMoving && !isWaiting) { Movement(); }
+        if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
 
     }
 
-    private void Movement()
+    #region MOVEMENT_FUNCTIONS
+    /**
+    * Launch a new random movement of the NPC 
+    */
+    private void NewRandomMovement()
     {
-        int randomTimer = Random.Range(5, 10); //to serialize
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
-        int randomDirection = Random.Range(0, 4);
-        StartCoroutine(WaitForMovement(randomTimer,randomDistance,randomDirection));
+        int randomTimer = Random.Range((int)movementCooldown*randomDistance*2+1, (int)movementCooldown * randomDistance*3+1);        
+        StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
-    IEnumerator WaitForMovement(int timer, int distance, int direction)
-    {
+    /**
+    * Check if NPC can do the deplacement and launch it, then wait for the next movement 
+    */
+    IEnumerator Deplacement(int timer, int distance)
+    { 
         isWaiting = true;
         Vector3Int actualGridPosition = grid.WorldToCell(transform.position);
-        Vector3Int targetGridPosition = new Vector3Int(0, 0, 0);
-        switch (direction)
+        Vector3Int vectorDirection = new Vector3Int(0, 0, 0);
+        List<Vector3Int> targetPositions = new List<Vector3Int>();
+        switch (Random.Range(0, 4))
         {
             case 0:
-                targetGridPosition[0] = 1;
+                vectorDirection[0] = 1;
                 break;
             case 1:
-                targetGridPosition[0] = -1;
+                vectorDirection[0] = -1;
                 break;
             case 2:
-                targetGridPosition[1] = 1;
+                vectorDirection[1] = 1;
                 break;
             case 3:
-                targetGridPosition[1] = -1;
+                vectorDirection[1] = -1;
                 break;
         }
-       for (Vector3Int moved = targetGridPosition; moved.magnitude <= distance; moved += targetGridPosition)
+        for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) { 
-                transform.position += targetGridPosition; 
+            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) {
+                targetPositions.Add(actualGridPosition + moved);
             }
-            
+            else
+            {
+                targetPositions.Clear();
+                break;
+            }
+        }
+        if (targetPositions.Any())
+        {
+            StartCoroutine(SmoothMovement(targetPositions));
         }
         yield return new WaitForSeconds(timer);
         isWaiting = false;
-    }       
+    }
 
+    /**
+     *  launch animation of the moving NPC
+     */
+    private IEnumerator SmoothMovement(List<Vector3Int> targetPositions)
+    {
+        // keep initial position
+        Vector3 initialPosition = transform.position;
+        //turn the sprite before animation
+        UpdateSpriteOrientation(initialPosition.x - targetPositions[0].x, targetPositions[0].y - initialPosition.y);
+        // get animation clip information 
+        animator.SetTrigger("WalkTrigger");
+        animator.Update(0.001f);
+        float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length / animator.speed;
+        float timer = 0;
+        while (timer < movementCooldown)
+        {
+            timer += Time.deltaTime;
+            transform.position = Vector3.Lerp(initialPosition, grid.GetCellCenterWorld(targetPositions[0]), timer / movementCooldown);
+            Utils.UpdateOrderInLayer(gameObject);
+            yield return null;
+        }
+        targetPositions.RemoveAt(0);
+        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
+        {
+            StartCoroutine(SmoothMovement(targetPositions));
+        }
+
+    }
+
+
+    /**
+    * Update the sprite when move or interact
+    */
+    private void UpdateSpriteOrientation(float dirX, float dirY)
+    {
+        if (animator)
+        {
+            animator.SetFloat("dirX", dirX);
+            animator.SetFloat("dirY", dirY);
+        }
+    }
+    #endregion
 
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
@@ -151,10 +257,22 @@ public class NPCController : ModifiableController, Interactable
      */
     public void Interact()
     {
+        //block and facing the player
+        canMove = false;
+        UpdateSpriteOrientation(-GameObject.FindGameObjectWithTag("Player").transform.position.x+transform.position.x,
+            GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y);
+
+
+        bool prefHasChanged=false;
+        if (SearchPlayerPrefs()) //if a state has changed due to player Prefs, it takes priority and sets a boolean that will avoid the NPC changing state
+        {
+            prefHasChanged = true;
+        }
+
         foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for when the interaction starts
         {
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
-            if (playerHasObject)
+            if (playerHasObject && !prefHasChanged)
             {
                 OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
 
@@ -183,12 +301,13 @@ public class NPCController : ModifiableController, Interactable
      */
     private void EndDialogue()
     {
+        canMove = true;
         ui.EndDisplay();
         shouldEnd = false;      //allows the player to interact again
     }
 
     /**
-     *  Function triggered by external scripts yet to be defined that will change the NPC's state
+     *  Function that will change the NPC's state
      *  Param :
      *      newStateName : string : name that references the next state that should be chosen
      */
@@ -210,12 +329,13 @@ public class NPCController : ModifiableController, Interactable
     {
         foreach(var element in propertyDict.Values)
         {
-            properties.Add(element.propertyName, element.propertyValue);
+            // as they are default properties, they are considered as important
+            properties.Add(element.propertyName, new DicoValueProperty {IsImportant = true, Value = element.propertyValue});
         }
     }
 
     /**
-     *  Function that, FOR NOW, handle the modifications of the NPC files
+     *  Main Function of the NPC that will handle the modifications of its file
      */
     public override void UpdateModification()
     {
@@ -224,7 +344,18 @@ public class NPCController : ModifiableController, Interactable
         {
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //we check if they changed
+                if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
+                {
+                    for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
+                    {
+                        if (properties[propertyDict[propertyString].propertyName].ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        {
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
+                            return;
+                        }
+                    }
+                }
+                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
                 {
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
@@ -237,12 +368,14 @@ public class NPCController : ModifiableController, Interactable
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
                 int integerValue;
-                int.TryParse(properties[propertyString].ToString(), out integerValue);
-                for(int conditionListIndex = 0;conditionListIndex< propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
+                int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
+                for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
+                    int conditionValue;
+                    int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
                     if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
                     {
-                        if (integerValue < propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
                             {
@@ -258,7 +391,7 @@ public class NPCController : ModifiableController, Interactable
                     }
                     else
                     {
-                        if (integerValue > propertyDict[propertyString].propertyCondition[conditionListIndex]) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                        if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                             return;
@@ -267,15 +400,37 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        OnStateChange(dialogSM.GetInitialState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
+        OnStateChange(dialogSM.GetStartingState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
     /**
      *  Function called everytime the game gains or loses focus
      *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
+     *  We will also use these times to check if the player.txt properties have changed
      */
     private void OnApplicationFocus()
     {
+        //Check for Player.txt values :
+        foreach(var playerElement in playerPropertiesDict.Keys) //for all the possible properties that the NPC will check in Player.txt, it will go through all the possibilities and change state accordingly
+        {
+            string value;
+            if(playerObjectController.TryGet(playerElement,out value)) //we recuperate the value currently in Player.txt that we will test the possible conditions against
+            {
+                for(int playerPropertyConditionIndex=0; playerPropertyConditionIndex < playerPropertiesDict[playerElement].playerPropertyCondition.Length; playerPropertyConditionIndex++)
+                {
+                    //Debug.Log("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
+                    if(value.ToString() == playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString())
+                    {
+                        //Debug.Log("NPC PLAYER TXT : CHANGING STATE TO : " + playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        OnStateChange(playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        //Debug.Log("NPC PLAYER TXT : STATE CHANGED");
+                        return;
+                    }
+                }
+            }
+            
+        }
+        //Check with Duplication Manager :
         foreach(var elementTag in reactElementsDict.Keys) //for each tag that the NPC must look out for, they will scan for it and then react
         {
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
@@ -315,8 +470,26 @@ public class NPCController : ModifiableController, Interactable
                
             }
         }
-        //UpdateModification();
         return;
+    }
+
+    /**
+     *  Function that will search the playerPrefs to see if modifications were added
+     *  Returns true if a state change was operated by reading the playerPrefs
+     */
+    private bool SearchPlayerPrefs()
+    {
+        foreach(var playerPref in playerPrefsElementsDict.Keys)
+        {
+            if(PlayerPrefs.HasKey(playerPrefsElementsDict[playerPref].playerPrefsName) && PlayerPrefs.GetString(playerPrefsElementsDict[playerPref].playerPrefsName) == playerPrefsElementsDict[playerPref].playerPrefsCondition) //if the player pref value exists AND has been set to teh prerequisite condition does it change the NPC's state
+            {
+                OnStateChange(playerPrefsElementsDict[playerPref].playerPrefsChangeState);
+                PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"READ");
+                PlayerPrefs.Save();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -338,15 +511,8 @@ public class NPCController : ModifiableController, Interactable
      */
     private bool ScanPlayerInventory(String objectName)
     {
-        FileInfo fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
-        if (fileInfo.Exists)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
+        return fileInfo.Exists;
     }
 
     /**
@@ -375,7 +541,7 @@ public struct FILE_PROPERTIES                             //struct used for the 
     public string propertyValue;                        //value of the property
     public TYPE propertyType;                           //MAYBE custom inspector as to avoid conditions not used depending on type ?
     public bool[] conditionIsSuperior;                   //list of the booleans that indicate wether the associated properties are superior or inferior ones
-    public int[] propertyCondition;                     //list of conditions of the property
+    public string[] propertyCondition;                     //list of conditions of the property
     public string[] propertyChangeState;                //associated state of the property if changed
 }
 
@@ -400,4 +566,20 @@ public struct REACT_ELEMENTS                            //struct used for elemen
     public string[] stateChangeName;                    //associated name of the state
     public bool[] isSuperior;                           //if the associated condition is a superior condition or not
     public int[] condition;                             //the value for the condition
+}
+
+[System.Serializable]
+public struct PLAYER_PROPERTIES                         //struct used for values in the player.txt that the NPC will react to
+{
+    public string playerPropertyName;
+    public string[] playerPropertyCondition;                   //list of possibilities that property can take and the NPC will react to
+    public string[] playerPropertyChangeState;                //associated state of the property if changed
+}
+
+[System.Serializable]
+public struct PLAYER_PREFS_ELEMENTS                     //struct used for values in the PlayerPrefs that the NPC will react to
+{
+    public string playerPrefsName;
+    public string playerPrefsCondition;                   //list of possibilities that property can take and the NPC will react to
+    public string playerPrefsChangeState;                //associated state of the property if changed
 }

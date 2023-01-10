@@ -19,9 +19,8 @@ public class HologramObjectController : ModifiableController
 
     public override void SetDefaultProperties()
     {
-        Vector2Int pos = (Vector2Int)SceneData.Instance.grid.WorldToCell(transform.position);
-        properties.Add("position", pos);
-        properties.Add("power", true);
+        base.SetDefaultProperties();
+        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
     public override void UpdateModification()
@@ -30,14 +29,7 @@ public class HologramObjectController : ModifiableController
         //For the lamp object, we test if its power is on or off
         if (TryGet("power", out bool power))
         {
-            if (power)
-            {
-                hologram.SetActive(true);
-            }
-            else
-            {
-                hologram.SetActive(false);
-            }
+            hologram.SetActive(power);
         }
     }
 

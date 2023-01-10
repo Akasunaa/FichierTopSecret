@@ -28,6 +28,8 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private List<RegToGoPair> instantiable;
 
+    [SerializeField] private ParticleSystem popParticle;
+
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
@@ -80,7 +82,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
         isLoading = true;
-        FilesWatcher.Instance.Clear();
+        FilesWatcher.instance.Clear();
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + levelName);
 
         bool directoryExists = di.Exists;
@@ -143,7 +145,7 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
                 fileParser.ReadFromFile(fileInfo.FullName);
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
@@ -157,7 +159,7 @@ public class LevelManager : MonoBehaviour
                 {  
                     sw.Write(fileParser.targetModifiable.ToFileString());
                 }
-                FilesWatcher.Instance.Set(fileParser);
+                FilesWatcher.instance.Set(fileParser);
             }
             else
             {
@@ -174,7 +176,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            if (!FilesWatcher.Instance.ContainsFile(fi))
+            if (!FilesWatcher.instance.ContainsFile(fi))
             {
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
@@ -200,14 +202,12 @@ public class LevelManager : MonoBehaviour
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
             {
                 return;
-
             }
             foreach (RegToGoPair pair in instantiable)
             {
                 //check all synonym
                 string[] synonyms = SynonymController.SearchSynonym(nameObject);
-                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));
-                
+                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
                 if (synonym!=null)
                 {
                     Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
@@ -215,19 +215,27 @@ public class LevelManager : MonoBehaviour
 
                     // setup file parser
                     fp = newObj.AddComponent<FileParser>();
-                    fp.targetModifiable.SetDefaultProperties();
                     fp.filePath = fi.FullName;
                     fp.ReadFromFile(fi.FullName);
-                    FilesWatcher.Instance.Set(fp);
+                    FilesWatcher.instance.Set(fp);
+                    Vector2? size = null;
+                    if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
                     if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                        ParticleSystem particles = Instantiate(popParticle);
+                        particles.gameObject.transform.position = pos;
+                        particles.Play();
+                        Destroy(particles,1);
+
                     }
+                    fp.targetModifiable.SetDefaultProperties();
+
 
                     // Clean the prefab if it is instantiated in the Cosmic bin
                     if (isInComsicBin) { 
@@ -247,8 +255,8 @@ public class LevelManager : MonoBehaviour
             fp = newObj.AddComponent<FileParser>();
             fp.filePath = fi.FullName;
             fp.ReadFromFile(fi.FullName);
-            FilesWatcher.Instance.Set(fp);
-            if (fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+            FilesWatcher.instance.Set(fp);
+            if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
             {
                 if (player != null)
                 {
@@ -256,6 +264,10 @@ public class LevelManager : MonoBehaviour
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                ParticleSystem particles = Instantiate(popParticle);
+                particles.gameObject.transform.position = pos;
+                particles.Play();
+                Destroy(particles, 1);
             }
             fp.WriteToFile();
             // using (StreamWriter sw = new StreamWriter(fp.filePath))

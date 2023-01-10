@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEditor;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
@@ -38,6 +39,8 @@ public class NPCCreatorWindow : EditorWindow
     private string errorPlayerItems = "ERROR IN THE PLAYER ITEM FIELDS";
     private string errorQuestItems = "ERROR IN THE QUEST ITEM FIELDS";
     private string errorReactElements = "ERROR IN THE REACT ELEMENTS FIELDS";
+    private string errorPlayerProperties = "ERROR IN THE PLAYER PROPERTIES FIELDS";
+    private string errorPlayerPrefsElements = "ERROR IN THE PLAYER PREFS FIELDS";
 
     //Elements for npc :
     private string npcName;                         //name of the NPC
@@ -52,6 +55,8 @@ public class NPCCreatorWindow : EditorWindow
     [SerializeField] List<PLAYER_ITEMS> playerItems = new List<PLAYER_ITEMS>();
     [SerializeField] List<QUEST_ITEMS> questItems = new List<QUEST_ITEMS>();
     [SerializeField] List<REACT_ELEMENTS> reactElements = new List<REACT_ELEMENTS>();
+    [SerializeField] List<PLAYER_PROPERTIES> playerProperties = new List<PLAYER_PROPERTIES>();
+    [SerializeField] List<PLAYER_PREFS_ELEMENTS> playerPrefsElements = new List<PLAYER_PREFS_ELEMENTS> { };
 
     Editor editor;
     private Vector2 scrollPos;
@@ -62,7 +67,7 @@ public class NPCCreatorWindow : EditorWindow
         GUILayout.Label("NPC creator window", EditorStyles.boldLabel); //label of the window
 
         //we'll obtain the UI present in the scene, to test if the portrait is possible or not --------------------
-        if (GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>() != null) { dialogueUIController = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>(); }
+        if (GameObject.FindGameObjectWithTag("UI") && GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>() != null) { dialogueUIController = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>(); }
         else { dialogueUIController = null; }
         // -------------------------------------------------------------------------------------------------------
 
@@ -127,6 +132,20 @@ public class NPCCreatorWindow : EditorWindow
             GUILayout.EndScrollView();
             return;
         }
+        //test if the player properties are correct :
+        if (CheckPlayerPropertiesCorrectness())
+        {
+            GUILayout.Label(errorPlayerProperties, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
+        //test if the player prefs elements are correct :
+        if (CheckPlayerPrefsElementsCorrectness())
+        {
+            GUILayout.Label(errorPlayerPrefsElements, EditorStyles.boldLabel); //label of the window
+            GUILayout.EndScrollView();
+            return;
+        }
         #endregion
         // ------------------------------------------------------------------------------------------------------
 
@@ -160,6 +179,7 @@ public class NPCCreatorWindow : EditorWindow
             dialogSM.nextStates[stateIndex] = nextState;
             stateIndex++;
         }
+        dialogSM.SetStartingState(startingState);
         // ------------------------------------------------------------------------------------------------
 
         //Adding the list of properties to NPCController --------------------------------------------------
@@ -209,6 +229,31 @@ public class NPCCreatorWindow : EditorWindow
             reactElementsIndex++;
         }
         //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of Player Properties to NPCController --------------------------------------------------
+        npcController.playerProperties = new PLAYER_PROPERTIES[playerProperties.Count];
+        int playerPropertiesIndex = 0;
+        foreach (var playerProperty in playerProperties)
+        {
+            PLAYER_PROPERTIES pProperties = new PLAYER_PROPERTIES();
+            pProperties = playerProperty;
+            npcController.playerProperties[playerPropertiesIndex] = pProperties;
+            playerPropertiesIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
+
+        //Adding the list of Player Prefs Elements to NPCController --------------------------------------------------
+        npcController.playerPrefsElements = new PLAYER_PREFS_ELEMENTS[playerPrefsElements.Count];
+        int playerPrefsElementsIndex= 0;
+        foreach (var playerPrefsElement in playerPrefsElements)
+        {
+            PLAYER_PREFS_ELEMENTS pPrefsElement = new PLAYER_PREFS_ELEMENTS();
+            pPrefsElement = playerPrefsElement;
+            npcController.playerPrefsElements[playerPrefsElementsIndex] = pPrefsElement;
+            playerPrefsElementsIndex++;
+        }
+        //-------------------------------------------------------------------------------------------------
+
         npcController = instantiatedNPC.GetComponent<NPCController>();
     }
 
@@ -246,10 +291,16 @@ public class NPCCreatorWindow : EditorWindow
                 errorProperties = "THERE IS NO ACCESSIBLE CHANGE STATE IN PROPERTY "+index;
                 return true;
             }
-            //Check if the conditions list and booleans isSuperior list :
-            if(npcProperties[index].conditionIsSuperior.Length == npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length >= npcProperties[index].propertyCondition.Length)
+            //Check if the conditions list and booleans isSuperior list have correct lengths compared to one another:
+            if (npcProperties[index].propertyType != TYPE.STRING && npcProperties[index].conditionIsSuperior.Length != npcProperties[index].propertyCondition.Length && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
             {
-                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY "+index;
+                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE INTEGER "+index;
+                return true;
+            }
+            //Check if the conditions list and changeState list have correct lengths compared to one another:
+            if (npcProperties[index].propertyType == TYPE.STRING && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
+            {
+                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE STRING " + index;
                 return true;
             }
             //Check if the state is correctly linked :
@@ -323,7 +374,7 @@ public class NPCCreatorWindow : EditorWindow
     }
 
     /**
-     *  Function that will check that the quest items are correct
+     *  Function that will check that the react elements are correct
      */
     private bool CheckReactElementsCorrectness()
     {
@@ -355,6 +406,75 @@ public class NPCCreatorWindow : EditorWindow
                 }
                 if (!nameFound) { errorReactElements = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN ITEM " + index + " FOR ELEMENT " + subIndex; return true; }
             }
+        }
+        return false;
+    }
+
+    /**
+     *  Function that will check that the player properties are correct
+     */
+    private bool CheckPlayerPropertiesCorrectness()
+    {
+        for (int index = 0; index < playerProperties.Count; index++)
+        {
+            //Check that there's at least one state accessible and one condition :
+            if (playerProperties[index].playerPropertyCondition.Length==0 || playerProperties[index].playerPropertyChangeState.Length==0)
+            {
+                errorPlayerProperties = "SUBLISTS OF STATES OR CONDITION ARE EMPTY IN PLAYER PROPERTIES " + index;
+                return true;
+            }
+            //Check if the lists have the same amount of elements in each of them :
+            if (playerProperties[index].playerPropertyCondition.Length != playerProperties[index].playerPropertyChangeState.Length)
+            {
+                errorPlayerProperties = "SUBLISTS ARE NOT EQUAL IN PLAYER PROPERTIES " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            for (int subIndex = 0; subIndex < playerProperties[index].playerPropertyChangeState.Length; subIndex++)
+            {
+                bool nameFound = false;
+                foreach (var state in availableStatesList)
+                {
+                    if (state.state && state.state.name == playerProperties[index].playerPropertyChangeState[subIndex]) //if the name is found in the list
+                    {
+                        nameFound = true;
+                    }
+                }
+                if (!nameFound) { errorPlayerProperties = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN PLAYER PROPERTY " + index + " FOR ELEMENT " + subIndex; return true; }
+            }
+        }
+        return false;
+    }
+
+    /**
+     *  Function that will check that the player properties are correct
+     */
+    private bool CheckPlayerPrefsElementsCorrectness()
+    {
+        for (int index = 0; index < playerPrefsElements.Count; index++)
+        {
+            //Check that the playerPref name is incorrect
+            if (playerPrefsElements[index].playerPrefsName==null)
+            {
+                errorPlayerPrefsElements = "NAME OF THE PLAYER PREF NOT FILLED UP IN PLAYER PREFS ELEMENT " + index;
+                return true;
+            }
+            //Check that the condition is filled up :
+            if (playerPrefsElements[index].playerPrefsCondition == null)
+            {
+                errorPlayerPrefsElements = "CONDITION OF THE PLAYER PREF NOT FILLED UP IN PLAYER PREFS ELEMENT " + index;
+                return true;
+            }
+            //Check if the state is correctly linked :
+            bool nameFound = false;
+            foreach (var state in availableStatesList)
+            {
+                if (state.state && state.state.name == playerPrefsElements[index].playerPrefsChangeState) //if the name is found in the list
+                {
+                    nameFound = true;
+                }
+            }
+            if (!nameFound) { errorPlayerProperties = "WRONGLY INPUTTED OR NON-EXISTANT STATE NAME IN PLAYER PREFS ELEMENTS " + index ; return true; }
         }
         return false;
     }
@@ -393,6 +513,16 @@ public class NPCCreatorWindowDrawer : Editor
         EditorGUILayout.BeginHorizontal();
         var reactElementsList = serializedObject.FindProperty("ReactElements");
         EditorGUILayout.PropertyField(reactElementsList, new GUIContent("Tagged Elements to react to"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var playerPropertyList = serializedObject.FindProperty("PlayerProperties");
+        EditorGUILayout.PropertyField(playerPropertyList, new GUIContent("Player Properties to react to"), true);
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        var playerPrefsElementsList = serializedObject.FindProperty("PlayerPrefsElements");
+        EditorGUILayout.PropertyField(playerPrefsElementsList, new GUIContent("Player Prefs Elements to react to"), true);
         EditorGUILayout.EndHorizontal();
 
     }

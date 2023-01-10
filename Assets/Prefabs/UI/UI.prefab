@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 2637594482985681448}
   - component: {fileID: 2637594482985681455}
   - component: {fileID: 2637594482985681451}
+  - component: {fileID: 570671002103959712}
   m_Layer: 5
   m_Name: UI
   m_TagString: UI
@@ -198,6 +199,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22059f1b266d9484095fd47fbc04f1db, type: 2}
   - {fileID: 11400000, guid: 8a87887357c9c6e4881477663e450471, type: 2}
   - {fileID: 11400000, guid: a0e5042851b2a3e44952e92150f0aaf8, type: 2}
+--- !u!114 &570671002103959712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637594482985681454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef942b1b97be24845a2543cf7f0e7eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explorerCanvas: {fileID: 6020160699899505535}
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,9 +839,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.87000006, y: 0.7512745}
   m_AnchorMax: {x: 0.97400004, y: 0.9511814}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1.0000001, y: 0.99999994}
 --- !u!222 &2956020028549070632
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -952,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &769581461082362396
 RectTransform:
   m_ObjectHideFlags: 0
@@ -981,7 +995,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6862395628585596899}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -1018,7 +1032,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6998601380053255319
 MonoBehaviour:
   m_ObjectHideFlags: 0

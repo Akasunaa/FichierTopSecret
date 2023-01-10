@@ -1,72 +1,72 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
 using UnityEngine;
 using System;
-using UnityEngine.Rendering;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 public class FilesWatcher : MonoBehaviour
 {
 
-    [SerializeField] Material highlightMaterial;
-    [SerializeField] Material selectedMaterial;
-    [SerializeField] Material unhighlightMaterial;
+    [SerializeField] private Material highlightMaterial;
+    [SerializeField] private Material selectedMaterial;
+    [SerializeField] private Material unhighlightMaterial;
 
     public enum FileChangeType
     {
         New,
         Change,
-        Delete,
+        Delete
     }
 
     public struct FileChange
     {
-        public FileChangeType type;
-        public FileInfo fi;
+        public FileChangeType Type;
+        public FileInfo Fi;
 
         public FileChange(FileInfo fi, FileChangeType type)
         {
-            this.fi = fi;
-            this.type = type;
+            Fi = fi;
+            Type = type;
         }
     }
 
     // Associate each file path (which already exists in the game) to a FileParser
-    private static Dictionary<string, FileParser> pathToScript = new Dictionary<string, FileParser>(10);
-    public static FilesWatcher Instance { get; private set; }
+    private static Dictionary<string, FileParser> _pathToScript = new Dictionary<string, FileParser>(10);
+    public static FilesWatcher instance { get; private set; }
 
-    private static ConcurrentQueue<FileChange> dataQueue = new ConcurrentQueue<FileChange>();
-    private static ConcurrentQueue<(string, bool)> selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
+    private static ConcurrentQueue<FileChange> _dataQueue = new ConcurrentQueue<FileChange>();
+    private static ConcurrentQueue<(string, bool)> _selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
+    
+    // Tells whether there is an explorer in the streaming asset directory already open
+    private static ConcurrentQueue<bool> _explorerPathsQueue = new ConcurrentQueue<bool>();
 
-    private bool isGettingCurrentObject;
-    FileParser currentHighlightObject;
+    private bool _isGettingCurrentObject;
+    private FileParser _currentHighlightObject;
 
-    void Awake()
+    private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        if (Instance != null && Instance != this) 
+        if (instance != null && instance != this) 
         { 
             Destroy(this); 
         } 
         else 
         { 
-            Instance = this;
+            instance = this;
         }
     }
 
-    void Start()
+    private void Start()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
+        var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
         if (!di.Exists)
         {
@@ -75,10 +75,10 @@ public class FilesWatcher : MonoBehaviour
 
         Debug.Log("[FileWatcher] BasePath: " + di.FullName);
 
-        FileSystemWatcher watcher = new FileSystemWatcher(di.FullName);
+        var watcher = new FileSystemWatcher(di.FullName);
 
         // Open the file explorer of the client
-        Application.OpenURL("file:///" + di.FullName);
+        // Application.OpenURL("file:///" + di.FullName);
 
         // Watch for everything
         // TODO: maybe remove some filters ??
@@ -103,41 +103,53 @@ public class FilesWatcher : MonoBehaviour
         watcher.EnableRaisingEvents = true;
 
         #if UNITY_STANDALONE_WIN
-        Thread thread = new Thread(() => HighlightSelectedFiles(selectedFilesQueue));
+        var thread = new Thread(() => HighlightSelectedFiles(_selectedFilesQueue, _explorerPathsQueue));
         thread.Start();
         #endif
     }
     
     #if UNITY_STANDALONE_WIN
-    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue)
+    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<bool> explorerPathQueue)
     {
-        HashSet<string> selectedFiles = new HashSet<string>();
-        HashSet<string> viewFiles = new HashSet<string>();
+        var selectedFiles = new HashSet<string>();
+        var viewFiles = new HashSet<string>();
+        
+        bool inExplorer = false;
 
-        string command =
+        var command =
             "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { foreach($item in $window.Document.SelectedItems()) { $item.Path } }";
 
-        Process compiler = new Process();
+        var compiler = new Process();
         compiler.StartInfo.FileName = "powershell.exe";
         compiler.StartInfo.Arguments = command;
         compiler.StartInfo.UseShellExecute = false;
         compiler.StartInfo.RedirectStandardOutput = true;
         compiler.StartInfo.CreateNoWindow = true;
+        
+        var command2 =
+            "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { $window.LocationURL }";
+
+        var compiler2 = new Process();
+        compiler2.StartInfo.FileName = "powershell.exe";
+        compiler2.StartInfo.Arguments = command2;
+        compiler2.StartInfo.UseShellExecute = false;
+        compiler2.StartInfo.RedirectStandardOutput = true;
+        compiler2.StartInfo.CreateNoWindow = true;
         while (true)
         {
             compiler.Start();
 
-            string[] paths = compiler.StandardOutput.ReadToEnd().Split('\n');
+            var paths = compiler.StandardOutput.ReadToEnd().Split('\n');
             foreach (string pathOutput in paths)
             {
-                string path = pathOutput.Trim().Replace('\\', '/');
+                var path = pathOutput.Trim().Replace('\\', '/');
                 if (
                     pathOutput.Length >= Application.streamingAssetsPath.Length
                     && path.Substring(0, Application.streamingAssetsPath.Length) ==
                     Application.streamingAssetsPath)
                 {
-                    string relativePath = RelativePath(path);
-                    if (pathToScript.TryGetValue(relativePath, out FileParser fp))
+                    var relativePath = RelativePath(path);
+                    if (_pathToScript.TryGetValue(relativePath, out var fp))
                     {
                         if (!selectedFiles.Contains(relativePath))
                         {
@@ -151,11 +163,11 @@ public class FilesWatcher : MonoBehaviour
 
             }
 
-            foreach (string relativePath in selectedFiles.ToArray())
+            foreach (var relativePath in selectedFiles.ToArray())
             {
                 if (!viewFiles.Contains(relativePath))
                 {
-                    if (pathToScript.TryGetValue(relativePath, out FileParser fp))
+                    if (_pathToScript.TryGetValue(relativePath, out var fp))
                     {
                         selectedQueue.Enqueue((relativePath, false));
                     }
@@ -163,9 +175,36 @@ public class FilesWatcher : MonoBehaviour
                 }
             }
             viewFiles.Clear();
-
+            
             compiler.WaitForExit();
             compiler.Refresh();
+
+            compiler2.Start();
+            bool checkExplorer = false;
+            var explorerPaths = compiler2.StandardOutput.ReadToEnd().Split('\n');
+            foreach (string pathOutput in explorerPaths)
+            {
+                pathOutput.Trim().Replace('\\', '/');
+                if (pathOutput != "")
+                {
+                    int minIndex = Mathf.Min(8, pathOutput.Length);
+                    string dirPath = pathOutput.Substring(minIndex, pathOutput.Length - minIndex);
+                    if (dirPath.Substring(0, Mathf.Min(dirPath.Length, Application.streamingAssetsPath.Length))
+                        == Application.streamingAssetsPath)
+                    {
+                        checkExplorer = true;
+                    }
+                }
+            }
+
+            if (checkExplorer != inExplorer)
+            {
+                explorerPathQueue.Enqueue(inExplorer);
+                inExplorer = checkExplorer;
+            }
+
+            compiler2.WaitForExit();
+            compiler2.Refresh();
         }
     }
     #endif
@@ -180,16 +219,16 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
-        FileInfo fi = new FileInfo(e.FullPath);
+        var fi = new FileInfo(e.FullPath);
         if (fi.Exists)
         {
             Debug.Log("[FileWatcher] File Changed: " + e.FullPath);
-            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
+            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.Change));
         }
         else // Looks weird, but the OnDelete is never triggered when the root folder is deleted so...
         {
             Debug.Log("[FileWatcher] OnChanged File Deleted: " + e.FullPath);
-            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
+            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
     }
 
@@ -198,12 +237,12 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
-        FileInfo fi = new FileInfo(e.FullPath);
+        var fi = new FileInfo(e.FullPath);
         if (fi.Exists)
         {
             Debug.Log("[FileWatcher] File Created: " + e.FullPath);
             // Create a object from the file if possible
-            dataQueue.Enqueue(new FileChange(fi, FileChangeType.New));
+            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.New));
         }
         else
         {
@@ -216,11 +255,11 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
-        FileInfo fi = new FileInfo(e.FullPath);
+        var fi = new FileInfo(e.FullPath);
         if (!fi.Exists)
         {
             Debug.Log("[FileWatcher] File Deleted: " + e.FullPath);
-            dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
+            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
         }
         else
         {
@@ -228,23 +267,23 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Update()
     {
-        while (dataQueue.TryDequeue(out FileChange fc))
+        while (_dataQueue.TryDequeue(out FileChange fc))
         {
-            string relativePath = RelativePath(fc.fi.FullName);
+            var relativePath = RelativePath(fc.Fi.FullName);
 
-            switch (fc.type)
+            switch (fc.Type)
             {
                 case FileChangeType.New:
-                    string levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
-                    bool alreadyExists = pathToScript.ContainsKey(relativePath);
-                    bool rightDirectory =
+                    var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
+                    var alreadyExists = _pathToScript.ContainsKey(relativePath);
+                    var rightDirectory =
                         LevelManager.Capitalize(relativePath.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
-                        LevelManager.Instance.NewObject(fc.fi);
+                        LevelManager.Instance.NewObject(fc.Fi);
                     }
                     else if (alreadyExists)
                     {
@@ -255,7 +294,7 @@ public class FilesWatcher : MonoBehaviour
                     }
                     break;
                 case FileChangeType.Change:
-                    if (pathToScript.TryGetValue(relativePath, out FileParser fileParser1))
+                    if (_pathToScript.TryGetValue(relativePath, out var fileParser1))
                     {
                         Debug.Log("[FileWatcher] Applying change to " + relativePath);
                         if (!fileParser1.OnChange(relativePath))
@@ -267,7 +306,7 @@ public class FilesWatcher : MonoBehaviour
                     break;
 
                 case FileChangeType.Delete:
-                    if (pathToScript.TryGetValue(relativePath, out FileParser fileParser))
+                    if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {
                         if (!fileParser.OnDelete(relativePath))
                         {
@@ -275,30 +314,32 @@ public class FilesWatcher : MonoBehaviour
                         }
                         else
                         {
-                            pathToScript.Remove(relativePath);
+                            _pathToScript.Remove(relativePath);
                         }
                     }
                     break;
             }
         }
 
-        while (selectedFilesQueue.TryDequeue(out (string, bool) a))
+        #if UNITY_STANDALONE_WIN
+        while (_selectedFilesQueue.TryDequeue(out (string, bool) a))
         {
-            if (pathToScript.TryGetValue(a.Item1, out FileParser fp))
+            if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                if (a.Item2)
-                {
-                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = selectedMaterial;
-                }
-                else
-                {
-                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
-                }
+                fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = a.Item2 ? selectedMaterial : unhighlightMaterial;
             }
         }
 
-        #if UNITY_STANDALONE_WIN
-        if (!isGettingCurrentObject)
+        while (_explorerPathsQueue.TryDequeue(out bool inExplorer))
+        {
+            GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
+            if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
+            {
+                explorerUiController.explorerCanvas.enabled = inExplorer;
+            }
+        }
+        
+        if (!_isGettingCurrentObject)
         {
             StartCoroutine(FindForegroundWindow());
         }
@@ -307,60 +348,60 @@ public class FilesWatcher : MonoBehaviour
 
     public void Clear()
     {
-        pathToScript.Clear();
+        _pathToScript.Clear();
     }
 
     public void Set(FileParser fileParser)
     {
-        string relativePath = RelativePath(fileParser.filePath);
-        if (pathToScript.ContainsKey(relativePath))
+        var relativePath = RelativePath(fileParser.filePath);
+        if (_pathToScript.ContainsKey(relativePath))
         {
             Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
         }
-        pathToScript.Add(relativePath, fileParser);
+        _pathToScript.Add(relativePath, fileParser);
     }
 
     public bool ContainsFile(FileInfo fi)
     {
-        return pathToScript.ContainsKey(RelativePath(fi.FullName));
+        return _pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
 
     //Use to search for file open in first plan and highlight the object associated with this file
     IEnumerator FindForegroundWindow()
     {
-        isGettingCurrentObject = true;
-        IntPtr hWnd = GetForegroundWindow();
-        StringBuilder windowName = new StringBuilder(100);
+        _isGettingCurrentObject = true;
+        var hWnd = GetForegroundWindow();
+        var windowName = new StringBuilder(100);
         GetWindowText(hWnd, windowName, 100);
         try
         {
-            string objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
+            var objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             objectFileName = objectFileName.Replace("*", "");
-            Scene scene = SceneManager.GetActiveScene();
-            string completObjectPath = "/" + Utils.RootFolderName + "/" + scene.name + "/" + objectFileName; //to be changed
-            if (pathToScript[completObjectPath] != currentHighlightObject && currentHighlightObject)
+            var scene = SceneManager.GetActiveScene();
+            var completeObjectPath = "/" + Utils.RootFolderName + "/" + scene.name + "/" + objectFileName; //to be changed
+            if (_pathToScript[completeObjectPath] != _currentHighlightObject && _currentHighlightObject)
             {
-                currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
-                pathToScript[completObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
-                currentHighlightObject = pathToScript[completObjectPath];
+                _currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+                _pathToScript[completeObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
+                _currentHighlightObject = _pathToScript[completeObjectPath];
             }
-            pathToScript[completObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
-            currentHighlightObject = pathToScript[completObjectPath];
+            _pathToScript[completeObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
+            _currentHighlightObject = _pathToScript[completeObjectPath];
         }
         catch
         {
-            if(currentHighlightObject!=null)
-                currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
-            currentHighlightObject = null;
+            if(_currentHighlightObject!=null)
+                _currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+            _currentHighlightObject = null;
         }
 
         yield return new WaitForSeconds(0.5f);
-        isGettingCurrentObject = false;
+        _isGettingCurrentObject = false;
     }
 
     public Dictionary<string, FileParser> GetPathToScript()
     {
-        return pathToScript;
+        return _pathToScript;
     }
 
 

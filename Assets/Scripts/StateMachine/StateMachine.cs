@@ -9,9 +9,9 @@ public class StateMachine : MonoBehaviour
 {
     public BaseState currentState;
 
-    protected void Start()
+    protected void Awake()
     {
-        currentState = GetInitialState();
+        currentState = GetStartingState();
         if(currentState != null)
         {
             currentState.Enter(this);
@@ -48,7 +48,7 @@ public class StateMachine : MonoBehaviour
     /**
      *  Function that will return the initial state of a certain state machine (must be updated in following scripts)
      */
-    public virtual BaseState GetInitialState()
+    public virtual BaseState GetStartingState()
     {
         return null;
     }
