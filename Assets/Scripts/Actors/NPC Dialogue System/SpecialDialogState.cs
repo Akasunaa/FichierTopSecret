@@ -26,9 +26,12 @@ public class SpecialDialogState : DialogState
     {
         base.Enter(sm);
         Debug.Log("NPC SPECIAL DIALOG STATE : MODIFYING PLAYER PREFS");
-        PlayerPrefs.SetString(playerPrefsName, playerPrefsValue); //we write the wanted value
-        PlayerPrefs.Save();                                       //we save it
-        Debug.Log("NPC SPECIAL DIALOG STATE : PLAYER PREF "+playerPrefsName+" WITH VALUE "+playerPrefsValue);
+        if (PlayerPrefs.GetString(playerPrefsName) != "READ") //if the value has already been read by the recepient, we do not change it anymore
+        {
+            PlayerPrefs.SetString(playerPrefsName, playerPrefsValue); //we write the wanted value
+            PlayerPrefs.Save();                                       //we save it
+            Debug.Log("NPC SPECIAL DIALOG STATE : PLAYER PREF " + playerPrefsName + " WITH VALUE " + playerPrefsValue);
+        }
     }
 
 
