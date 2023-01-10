@@ -255,6 +255,7 @@ public class NPCCreatorWindow : EditorWindow
         //-------------------------------------------------------------------------------------------------
 
         npcController = instantiatedNPC.GetComponent<NPCController>();
+        npcController.portraitRef = portraitRef;
     }
 
     /**

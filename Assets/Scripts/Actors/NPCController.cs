@@ -21,7 +21,7 @@ public class NPCController : ModifiableController, Interactable
 
     private bool shouldEnd;
     [Header("Dialogue elements")]
-    [SerializeField] private string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
+    public string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
