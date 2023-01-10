@@ -44,6 +44,9 @@ public class FilesWatcher : MonoBehaviour
 
     private static ConcurrentQueue<FileChange> _dataQueue = new ConcurrentQueue<FileChange>();
     private static ConcurrentQueue<(string, bool)> _selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
+    
+    // Tells whether there is an explorer in the streaming asset directory already open
+    private static ConcurrentQueue<bool> _explorerPathsQueue = new ConcurrentQueue<bool>();
 
     private bool _isGettingCurrentObject;
     private FileParser _currentHighlightObject;
@@ -75,7 +78,7 @@ public class FilesWatcher : MonoBehaviour
         var watcher = new FileSystemWatcher(di.FullName);
 
         // Open the file explorer of the client
-        Application.OpenURL("file:///" + di.FullName);
+        // Application.OpenURL("file:///" + di.FullName);
 
         // Watch for everything
         // TODO: maybe remove some filters ??
@@ -100,16 +103,18 @@ public class FilesWatcher : MonoBehaviour
         watcher.EnableRaisingEvents = true;
 
         #if UNITY_STANDALONE_WIN
-        var thread = new Thread(() => HighlightSelectedFiles(_selectedFilesQueue));
+        var thread = new Thread(() => HighlightSelectedFiles(_selectedFilesQueue, _explorerPathsQueue));
         thread.Start();
         #endif
     }
     
     #if UNITY_STANDALONE_WIN
-    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue)
+    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<bool> explorerPathQueue)
     {
         var selectedFiles = new HashSet<string>();
         var viewFiles = new HashSet<string>();
+        
+        bool inExplorer = false;
 
         var command =
             "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { foreach($item in $window.Document.SelectedItems()) { $item.Path } }";
@@ -120,12 +125,22 @@ public class FilesWatcher : MonoBehaviour
         compiler.StartInfo.UseShellExecute = false;
         compiler.StartInfo.RedirectStandardOutput = true;
         compiler.StartInfo.CreateNoWindow = true;
+        
+        var command2 =
+            "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { $window.LocationURL }";
+
+        var compiler2 = new Process();
+        compiler2.StartInfo.FileName = "powershell.exe";
+        compiler2.StartInfo.Arguments = command2;
+        compiler2.StartInfo.UseShellExecute = false;
+        compiler2.StartInfo.RedirectStandardOutput = true;
+        compiler2.StartInfo.CreateNoWindow = true;
         while (true)
         {
             compiler.Start();
 
             var paths = compiler.StandardOutput.ReadToEnd().Split('\n');
-            foreach (var pathOutput in paths)
+            foreach (string pathOutput in paths)
             {
                 var path = pathOutput.Trim().Replace('\\', '/');
                 if (
@@ -160,9 +175,36 @@ public class FilesWatcher : MonoBehaviour
                 }
             }
             viewFiles.Clear();
-
+            
             compiler.WaitForExit();
             compiler.Refresh();
+
+            compiler2.Start();
+            bool checkExplorer = false;
+            var explorerPaths = compiler2.StandardOutput.ReadToEnd().Split('\n');
+            foreach (string pathOutput in explorerPaths)
+            {
+                pathOutput.Trim().Replace('\\', '/');
+                if (pathOutput != "")
+                {
+                    int minIndex = Mathf.Min(8, pathOutput.Length);
+                    string dirPath = pathOutput.Substring(minIndex, pathOutput.Length - minIndex);
+                    if (dirPath.Substring(0, Mathf.Min(dirPath.Length, Application.streamingAssetsPath.Length))
+                        == Application.streamingAssetsPath)
+                    {
+                        checkExplorer = true;
+                    }
+                }
+            }
+
+            if (checkExplorer != inExplorer)
+            {
+                explorerPathQueue.Enqueue(inExplorer);
+                inExplorer = checkExplorer;
+            }
+
+            compiler2.WaitForExit();
+            compiler2.Refresh();
         }
     }
     #endif
@@ -279,6 +321,7 @@ public class FilesWatcher : MonoBehaviour
             }
         }
 
+        #if UNITY_STANDALONE_WIN
         while (_selectedFilesQueue.TryDequeue(out (string, bool) a))
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
@@ -287,7 +330,15 @@ public class FilesWatcher : MonoBehaviour
             }
         }
 
-        #if UNITY_STANDALONE_WIN
+        while (_explorerPathsQueue.TryDequeue(out bool inExplorer))
+        {
+            GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
+            if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
+            {
+                explorerUiController.explorerCanvas.enabled = inExplorer;
+            }
+        }
+        
         if (!_isGettingCurrentObject)
         {
             StartCoroutine(FindForegroundWindow());

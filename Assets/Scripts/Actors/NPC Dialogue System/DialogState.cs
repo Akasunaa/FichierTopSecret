@@ -11,17 +11,17 @@ using UnityEngine;
  *      Each state represents a state the NPC is in, with various possible speeches
  *      The change between states should be handled by the DialogSM
  */
-[CreateAssetMenu(fileName ="Dialog State",menuName ="States")]
+[CreateAssetMenu(fileName ="Dialog State",menuName ="Dialog State")]
 public class DialogState : BaseState
 {
     [TextArea(3,10)]
-    [SerializeField] private string[] speech;               //the different speech bubbles accsessible in a state (in descending order)
-    private int interactionIndex;                           //indicator of the current speech bubble
+    [SerializeField] protected string[] speech;               //the different speech bubbles accsessible in a state (in descending order)
+    protected int interactionIndex;                           //indicator of the current speech bubble
     [HideInInspector] public string currentSpeech;          //current selected speech bubble
 
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 
-    private StateMachine SM;
+    protected StateMachine SM;
     /**
      *  Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
      */
@@ -61,7 +61,7 @@ public class DialogState : BaseState
      *  Function that will recover the NPC's data for the current spoken speech, if need be
      *  Relevant data is seen with $dataname$ tag
      */
-    private void GetSpeechVariables(StateMachine SM)
+    protected void GetSpeechVariables(StateMachine SM)
     {
         if (currentSpeech.Contains("$"))
         {
