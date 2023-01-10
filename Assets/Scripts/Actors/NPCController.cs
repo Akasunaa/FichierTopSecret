@@ -45,6 +45,10 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public PLAYER_PROPERTIES[] playerProperties;
     [HideInInspector] public Dictionary<string, PLAYER_PROPERTIES> playerPropertiesDict = new Dictionary<string, PLAYER_PROPERTIES>();
 
+    [Header("Player Prefs elements to react to")]
+    [SerializeField] public PLAYER_PREFS_ELEMENTS[] playerPrefsElements;
+    [HideInInspector] public Dictionary<string,PLAYER_PREFS_ELEMENTS> playerPrefsElementsDict = new Dictionary<string,PLAYER_PREFS_ELEMENTS>();
+
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
     [SerializeField] private bool shouldMove; //if we want this NPC moving
@@ -114,6 +118,16 @@ public class NPCController : ModifiableController, Interactable
         }
         //-----------------------------------
 
+        //Creating the dict of the Player Prefs Elements to check out for :
+        foreach (var element in playerPrefsElements)
+        {
+            if (!playerPrefsElementsDict.ContainsKey(element.playerPrefsName))
+            {
+                playerPrefsElementsDict.Add(element.playerPrefsName, element);
+            }
+        }
+        //-----------------------------------
+
         player = GameObject.FindGameObjectWithTag("Player");
         playerObjectController = player.GetComponent<PlayerObjectController>();
         animator = GetComponentInChildren<Animator>();
@@ -121,6 +135,9 @@ public class NPCController : ModifiableController, Interactable
         {
             animator.speed = speed;
         }
+
+        //when NPC is initializing, we try to check if the player Prefs have been altered
+        SearchPlayerPrefs();
     }
 
     private void Update()
@@ -130,6 +147,7 @@ public class NPCController : ModifiableController, Interactable
 
     }
 
+    #region MOVEMENT_FUNCTIONS
     /**
     * Launch a new random movement of the NPC 
     */
@@ -225,7 +243,7 @@ public class NPCController : ModifiableController, Interactable
             animator.SetFloat("dirY", dirY);
         }
     }
-
+    #endregion
 
     /**
      *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
@@ -238,10 +256,17 @@ public class NPCController : ModifiableController, Interactable
         UpdateSpriteOrientation(-GameObject.FindGameObjectWithTag("Player").transform.position.x+transform.position.x,
             GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y);
 
+
+        bool prefHasChanged=false;
+        if (SearchPlayerPrefs()) //if a state has changed due to player Prefs, it takes priority and sets a boolean that will avoid the NPC changing state
+        {
+            prefHasChanged = true;
+        }
+
         foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for when the interaction starts
         {
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
-            if (playerHasObject)
+            if (playerHasObject && !prefHasChanged)
             {
                 OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
 
@@ -276,7 +301,7 @@ public class NPCController : ModifiableController, Interactable
     }
 
     /**
-     *  Function triggered by external scripts yet to be defined that will change the NPC's state
+     *  Function that will change the NPC's state
      *  Param :
      *      newStateName : string : name that references the next state that should be chosen
      */
@@ -304,7 +329,7 @@ public class NPCController : ModifiableController, Interactable
     }
 
     /**
-     *  Function that, FOR NOW, handle the modifications of the NPC files
+     *  Main Function of the NPC that will handle the modifications of its file
      */
     public override void UpdateModification()
     {
@@ -369,7 +394,7 @@ public class NPCController : ModifiableController, Interactable
                 }
             }
         }
-        OnStateChange(dialogSM.GetInitialState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
+        OnStateChange(dialogSM.GetStartingState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
     /**
@@ -387,12 +412,12 @@ public class NPCController : ModifiableController, Interactable
             {
                 for(int playerPropertyConditionIndex=0; playerPropertyConditionIndex < playerPropertiesDict[playerElement].playerPropertyCondition.Length; playerPropertyConditionIndex++)
                 {
-                    print("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
+                    //Debug.Log("NPC PLAYER TXT : Player.txt value found for key " + playerElement + " : " + value.ToString() + " | Value tested against  : " + playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString());
                     if(value.ToString() == playerPropertiesDict[playerElement].playerPropertyCondition[playerPropertyConditionIndex].ToString())
                     {
-                        print("NPC PLAYER TXT : CHANGING STATE TO : " + playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
+                        //Debug.Log("NPC PLAYER TXT : CHANGING STATE TO : " + playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
                         OnStateChange(playerPropertiesDict[playerElement].playerPropertyChangeState[playerPropertyConditionIndex]);
-                        print("NPC PLAYER TXT : STATE CHANGED");
+                        //Debug.Log("NPC PLAYER TXT : STATE CHANGED");
                         return;
                     }
                 }
@@ -439,8 +464,26 @@ public class NPCController : ModifiableController, Interactable
                
             }
         }
-        //UpdateModification();
         return;
+    }
+
+    /**
+     *  Function that will search the playerPrefs to see if modifications were added
+     *  Returns true if a state change was operated by reading the playerPrefs
+     */
+    private bool SearchPlayerPrefs()
+    {
+        foreach(var playerPref in playerPrefsElementsDict.Keys)
+        {
+            if(PlayerPrefs.HasKey(playerPrefsElementsDict[playerPref].playerPrefsName) && PlayerPrefs.GetString(playerPrefsElementsDict[playerPref].playerPrefsName) == playerPrefsElementsDict[playerPref].playerPrefsCondition) //if the player pref value exists AND has been set to teh prerequisite condition does it change the NPC's state
+            {
+                OnStateChange(playerPrefsElementsDict[playerPref].playerPrefsChangeState);
+                PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"READ");
+                PlayerPrefs.Save();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -525,4 +568,12 @@ public struct PLAYER_PROPERTIES                         //struct used for values
     public string playerPropertyName;
     public string[] playerPropertyCondition;                   //list of possibilities that property can take and the NPC will react to
     public string[] playerPropertyChangeState;                //associated state of the property if changed
+}
+
+[System.Serializable]
+public struct PLAYER_PREFS_ELEMENTS                     //struct used for values in the PlayerPrefs that the NPC will react to
+{
+    public string playerPrefsName;
+    public string playerPrefsCondition;                   //list of possibilities that property can take and the NPC will react to
+    public string playerPrefsChangeState;                //associated state of the property if changed
 }
