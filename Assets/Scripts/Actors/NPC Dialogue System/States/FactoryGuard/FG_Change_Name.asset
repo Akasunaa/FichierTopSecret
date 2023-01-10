@@ -10,14 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: FactoryGuard_Change_Employer
+  m_Name: FG_Change_Name
   m_EditorClassIdentifier: 
   speech:
-  - I told you already, I...
-  - Huh...
-  - I don't recall being employed here...
-  - I could try to figure out why that is, as it's very strange...
-  - ......
-  - I ain't paid enough for that !
-  - Help yourself jov'
+  - Changing my name ? How original
   currentSpeech: 

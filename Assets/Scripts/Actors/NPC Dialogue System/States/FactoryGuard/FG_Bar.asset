@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: FactoryGuard_Incorrect_Name
+  m_Name: FG_Bar
   m_EditorClassIdentifier: 
   speech:
-  - I still have no idea who you are.
+  - Ah, what a nice bar...
+  - Thank the star-gods I don't have to work at the factory anymore...
   currentSpeech: 
