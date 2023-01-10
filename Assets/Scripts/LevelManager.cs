@@ -232,7 +232,7 @@ public class LevelManager : MonoBehaviour
                         ParticleSystem particles = Instantiate(popParticle);
                         particles.gameObject.transform.position = pos;
                         particles.Play();
-                        Destroy(particles,1);
+                        Destroy(particles.gameObject,1);
 
                     }
                     fp.targetModifiable.SetDefaultProperties();
@@ -268,7 +268,7 @@ public class LevelManager : MonoBehaviour
                 ParticleSystem particles = Instantiate(popParticle);
                 particles.gameObject.transform.position = pos;
                 particles.Play();
-                Destroy(particles, 1);
+                Destroy(particles.gameObject, 1);
             }
             fp.WriteToFile();
             // using (StreamWriter sw = new StreamWriter(fp.filePath))
