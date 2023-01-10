@@ -119,6 +119,7 @@ public class LevelManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
         catch (Exception error) { Debug.LogError("no player found"); }
+        FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
 
@@ -196,7 +197,7 @@ public class LevelManager : MonoBehaviour
         GameObject newObj;
         FileParser fp;
         Vector3Int pos = Vector3Int.zero;
-        if (Regex.IsMatch(fi.Name, ".*.txt$"))
+        if (Regex.IsMatch(fi.Name, "(.*.txt|.*.bat)$"))
         {
             string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))

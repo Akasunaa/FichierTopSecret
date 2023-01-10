@@ -19,6 +19,8 @@ public class FilesWatcher : MonoBehaviour
     [SerializeField] private Material selectedMaterial;
     [SerializeField] private Material unhighlightMaterial;
 
+    private bool pathInExplorer = false;
+
     public enum FileChangeType
     {
         New,
@@ -97,7 +99,7 @@ public class FilesWatcher : MonoBehaviour
         watcher.Deleted += OnDeleted;
 
         // Watch only .txt files
-        watcher.Filter = "*.txt";
+        watcher.Filter = "*.??t"; // For .txt and .bat files
         watcher.IncludeSubdirectories = true;
         // Start the watcher
         watcher.EnableRaisingEvents = true;
@@ -337,6 +339,12 @@ public class FilesWatcher : MonoBehaviour
             {
                 explorerUiController.explorerCanvas.enabled = inExplorer;
             }
+            else
+            {
+                Debug.LogWarning("Cannot find UI object");
+            }
+
+            pathInExplorer = inExplorer;
         }
         
         if (!_isGettingCurrentObject)
@@ -344,6 +352,19 @@ public class FilesWatcher : MonoBehaviour
             StartCoroutine(FindForegroundWindow());
         }
         #endif
+    }
+
+    public void EndLoadScene()
+    {
+        GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
+        if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
+        {
+            explorerUiController.explorerCanvas.enabled = pathInExplorer;
+        }
+        else
+        {
+            Debug.LogWarning("Cannot find UI object");
+        }
     }
 
     public void Clear()
