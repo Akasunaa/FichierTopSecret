@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class FilesWatcher : MonoBehaviour
     [SerializeField] private Material unhighlightMaterial;
 
     private bool pathInExplorer = false;
+    private IntPtr explorerHwnd = IntPtr.Zero;
 
     public enum FileChangeType
     {
@@ -48,7 +50,7 @@ public class FilesWatcher : MonoBehaviour
     private static ConcurrentQueue<(string, bool)> _selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
     
     // Tells whether there is an explorer in the streaming asset directory already open
-    private static ConcurrentQueue<bool> _explorerPathsQueue = new ConcurrentQueue<bool>();
+    private static ConcurrentQueue<(bool, IntPtr)> _explorerPathsQueue = new ConcurrentQueue<(bool, IntPtr)>();
 
     private bool _isGettingCurrentObject;
     private FileParser _currentHighlightObject;
@@ -111,7 +113,7 @@ public class FilesWatcher : MonoBehaviour
     }
     
     #if UNITY_STANDALONE_WIN
-    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<bool> explorerPathQueue)
+    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<(bool, IntPtr)> explorerPathQueue)
     {
         var selectedFiles = new HashSet<string>();
         var viewFiles = new HashSet<string>();
@@ -129,7 +131,7 @@ public class FilesWatcher : MonoBehaviour
         compiler.StartInfo.CreateNoWindow = true;
         
         var command2 =
-            "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { $window.LocationURL }";
+            "$shell = New-Object -ComObject shell.application;foreach($window in $shell.windows()) { $window.LocationURL+ '|' + $window.HWND }";
 
         var compiler2 = new Process();
         compiler2.StartInfo.FileName = "powershell.exe";
@@ -183,25 +185,28 @@ public class FilesWatcher : MonoBehaviour
 
             compiler2.Start();
             bool checkExplorer = false;
+            IntPtr hwnd = IntPtr.Zero;
             var explorerPaths = compiler2.StandardOutput.ReadToEnd().Split('\n');
             foreach (string pathOutput in explorerPaths)
             {
-                pathOutput.Trim().Replace('\\', '/');
+                var data = pathOutput.Trim().Replace('\\', '/').Split('|');
+                var path = data[0];
                 if (pathOutput != "")
                 {
-                    int minIndex = Mathf.Min(8, pathOutput.Length);
-                    string dirPath = pathOutput.Substring(minIndex, pathOutput.Length - minIndex);
+                    int minIndex = Mathf.Min(8, path.Length);
+                    string dirPath = path.Substring(minIndex, path.Length - minIndex);
                     if (dirPath.Substring(0, Mathf.Min(dirPath.Length, Application.streamingAssetsPath.Length))
                         == Application.streamingAssetsPath)
                     {
                         checkExplorer = true;
+                        hwnd = new IntPtr(Convert.ToInt32(data[1]));
                     }
                 }
             }
 
             if (checkExplorer != inExplorer)
             {
-                explorerPathQueue.Enqueue(inExplorer);
+                explorerPathQueue.Enqueue((inExplorer, hwnd));
                 inExplorer = checkExplorer;
             }
 
@@ -310,6 +315,7 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.Delete:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {
+                        StartCoroutine(VibrateExplorer());
                         if (!fileParser.OnDelete(relativePath))
                         {
                             // Debug.Log("[FileWatcher]" + relativePath + " should not be deleted !");
@@ -332,8 +338,10 @@ public class FilesWatcher : MonoBehaviour
             }
         }
 
-        while (_explorerPathsQueue.TryDequeue(out bool inExplorer))
+        while (_explorerPathsQueue.TryDequeue(out (bool, IntPtr) data))
         {
+            bool inExplorer = data.Item1;
+            IntPtr hwnd = data.Item2;
             GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
             if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
             {
@@ -343,6 +351,15 @@ public class FilesWatcher : MonoBehaviour
             {
                 Debug.LogWarning("Cannot find UI object");
             }
+
+            // if (inExplorer)
+            // {
+                explorerHwnd = hwnd;
+            // }
+            // else
+            // {
+            //     explorerHwnd = IntPtr.Zero;
+            // }
 
             pathInExplorer = inExplorer;
         }
@@ -425,14 +442,65 @@ public class FilesWatcher : MonoBehaviour
         return _pathToScript;
     }
 
+    public IEnumerator VibrateExplorer()
+    {
+        Debug.Log("Vibrate explorer");
+        if (explorerHwnd != IntPtr.Zero)
+        {
+            // RECT r;
+            if (GetWindowRect(explorerHwnd, out RECT r))
+            {
+                int width = r.Right - r.Left;
+                int height = r.Bottom - r.Top;
+                int xPos = r.Top;
+                int yPos = r.Left;
+                for (int i = 0; i < 10; i++)
+                {
+                    int dx = Random.Range(-8, 8);
+                    int dy = Random.Range(-8, 8);
+                    if (!MoveWindow(explorerHwnd, xPos + dx, yPos + dy, width, height, false))
+                    {
+                        Debug.LogWarning("Error to move explorer window");
+                    }
+
+                    yield return new WaitForSeconds(0.05f);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Error to get explorer window rect");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No eplorere HWND");
+        }
+        yield break;
+    }
+
 
 #if UNITY_STANDALONE_WIN
 
+    [StructLayout(LayoutKind.Sequential)]
+    public struct RECT
+    {
+        public int Left; // x position of upper-left corner
+        public int Top;         // y position of upper-left corner
+        public int Right;       // x position of lower-right corner
+        public int Bottom; // y position of lower-right corner
+    }
+    
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+    
+    [DllImport("user32.dll", SetLastError = true)]
+    static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+    [DllImport("user32.dll", SetLastError=true)]
+    static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
 #endif
 
