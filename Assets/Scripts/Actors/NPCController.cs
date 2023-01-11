@@ -151,8 +151,6 @@ public class NPCController : ModifiableController, Interactable
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
         if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
-        print(isWaiting);
-
     }
 
     #region MOVEMENT_FUNCTIONS

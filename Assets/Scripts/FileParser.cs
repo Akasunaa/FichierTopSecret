@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Assertions;
+using static UnityEditor.PlayerSettings;
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
@@ -71,6 +72,11 @@ public class FileParser : MonoBehaviour
             WriteToFile();
             File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
         }
+        //put particle 
+        ParticleSystem particles = Instantiate(FindObjectOfType<LevelManager>().depopParticle);
+        particles.gameObject.transform.position = transform.position;
+        particles.Play();
+        Destroy(particles.gameObject, 1);
     }
 
     /**
