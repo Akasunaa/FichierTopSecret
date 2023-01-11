@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 550, y: 20}
+  m_SizeDelta: {x: 550, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4168510030703538193
 CanvasRenderer:
@@ -66,12 +66,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d866c685c409a374db75e36b79a303c0, type: 3}
+  m_Texture: {fileID: 2800000, guid: ec4775be02b319246a54593d04688edf, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: -0.228
+    x: 0.5
     y: 0
-    width: 0.48
+    width: 0.05
     height: 1
 --- !u!1 &2637594482985681454
 GameObject:
@@ -671,12 +671,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: d866c685c409a374db75e36b79a303c0, type: 3}
+  m_Texture: {fileID: 2800000, guid: ec4775be02b319246a54593d04688edf, type: 3}
   m_UVRect:
     serializedVersion: 2
-    x: -0.1
+    x: 0.5
     y: 0
-    width: 0.2
+    width: 0.05
     height: 1
 --- !u!1 &4651513529886957534
 GameObject:
