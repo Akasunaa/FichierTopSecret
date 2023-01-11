@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Tilemaps;
+using UnityEngine.Events;
 
 
 public class PlayerMovement : MonoBehaviour
@@ -21,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] public Vector2Int tilemapPosition { get; private set; } // position of the player on the tilemap
     [SerializeField] private List<Vector2Int> inputStack;                   // stack of inputs from least to most recent
+
+    public UnityEvent onMovementFinish;
     public Vector2Int facingDirection { get; private set; }                 // vector indicating in which direction the player is facing  
     private bool isMoving;
 
@@ -43,8 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         // set position exactly on a tile
         tilemapPosition = (Vector2Int)grid.WorldToCell(transform.position);
-        transform.position = grid.GetCellCenterWorld((Vector3Int)tilemapPosition);
-   
+        transform.position = grid.GetCellCenterWorld((Vector3Int)tilemapPosition); 
     }
 
     private void FixedUpdate()
@@ -114,6 +116,9 @@ public class PlayerMovement : MonoBehaviour
 
         // Check interaction
         interactionController.CheckForInteraction(transform.position,facingDirection);
+
+        // invoke an event at the end of the movement
+        onMovementFinish.Invoke();
     }
 
     public void RefreshOrientationSprite()
