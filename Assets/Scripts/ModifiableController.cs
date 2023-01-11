@@ -165,7 +165,11 @@ public abstract class ModifiableController : MonoBehaviour
         if (TryGetComponent(out FileParser fp))
         {
             fp.WriteToFile();
-        }        
+        }
+        else
+        {
+            Debug.LogWarning("No FileParser on this ModifiableController: " + name);
+        }
     }
 
     public bool UpdatePropertiesDico(List<string> propertiesKeysList)
