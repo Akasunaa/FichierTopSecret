@@ -10,9 +10,22 @@ public class CinematicManager : MonoBehaviour
 {
     [Header("Cinematic Informations")]
     [SerializeField] private float cinematicLength;
+    [SerializeField] private CinematicData cinematicData;
+    private InputController playerController;
 
     private void Start()
     {
-        
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
+        StartCoroutine(StartCinematic());
+    }
+
+    /**
+     *  Function that will start the cinematic saved in cinematicData 
+     */
+    private IEnumerator StartCinematic()
+    {
+        playerController.StopMovement(); //we prevent the player from doing anything before the cinematic is finished
+        yield return new WaitForSeconds(cinematicLength);
+        playerController.RestartMovement();
     }
 }
