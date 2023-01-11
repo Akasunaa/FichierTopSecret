@@ -24,8 +24,9 @@ MonoBehaviour:
   - Haha, I get it, I get it... I'll pay ya a drink, how's that ?
   - Well regardless, ya didn't come here only to tell me that, hey ? So what's the
     deal ?
-  - Intel on an ex-T.N.M.A. ? That's not common... I only one once on Pluto, during
-    the camps... Anywho, I might have that...
+  - Intel on an ex-T.N.M.A. ? That's not common... I only saw one once on Pluto,
+    during the camps... Anywho, I might have that...
   - 'Tell you what : if ya manage to convince that drunk over there to pay his tab,
     I''ll spill ya the beans. How''s that ?'
-  currentSpeech: 
+  currentSpeech: 'Tell you what : if ya manage to convince that drunk over there
+    to pay his tab, I''ll spill ya the beans. How''s that ?'
