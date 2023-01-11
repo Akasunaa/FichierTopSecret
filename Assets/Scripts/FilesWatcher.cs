@@ -23,6 +23,7 @@ public class FilesWatcher : MonoBehaviour
 
     private bool pathInExplorer = false;
     private IntPtr explorerHwnd = IntPtr.Zero;
+    private bool isVibrating = false;
 
     private static string supportedExtensions = "txt|bat";
 
@@ -457,20 +458,20 @@ public class FilesWatcher : MonoBehaviour
     public IEnumerator VibrateExplorer()
     {
         Debug.Log("Vibrate explorer");
-        if (explorerHwnd != IntPtr.Zero)
+        if (explorerHwnd != IntPtr.Zero && !isVibrating)
         {
+            isVibrating = true;
+            SetForegroundWindow(explorerHwnd);
             // RECT r;
             if (GetWindowRect(explorerHwnd, out RECT r))
             {
                 int width = r.Right - r.Left;
                 int height = r.Bottom - r.Top;
-                int xPos = r.Top;
-                int yPos = r.Left;
                 for (int i = 0; i < 10; i++)
                 {
                     int dx = Random.Range(-8, 8);
                     int dy = Random.Range(-8, 8);
-                    if (!MoveWindow(explorerHwnd, xPos + dx, yPos + dy, width, height, false))
+                    if (!MoveWindow(explorerHwnd, r.Left + dx, r.Top + dy, width, height, false))
                     {
                         Debug.LogWarning("Error to move explorer window");
                     }
@@ -487,7 +488,7 @@ public class FilesWatcher : MonoBehaviour
         {
             Debug.LogWarning("No eplorere HWND");
         }
-        yield break;
+        isVibrating = false;
     }
 
 
@@ -504,6 +505,9 @@ public class FilesWatcher : MonoBehaviour
     
     [DllImport("user32.dll")]
     private static extern IntPtr GetForegroundWindow();
+    
+    [DllImport("user32.dll")]
+    static extern bool SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);

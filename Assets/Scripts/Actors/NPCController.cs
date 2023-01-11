@@ -280,7 +280,6 @@ public class NPCController : ModifiableController, Interactable
             if (playerHasObject && !prefHasChanged)
             {
                 OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
-
                 if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
                     GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);

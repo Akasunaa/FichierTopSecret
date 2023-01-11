@@ -7,7 +7,7 @@ using UnityEngine;
  *  Script used by special dialog states that will, when ariving in their Enter() function, add a new property to the .txt of associated NPCs
  *  
  */
-[CreateAssetMenu(fileName = "New Property Dialog State", menuName = "New property Dialog State")]
+[CreateAssetMenu(fileName = "New Property Dialog State", menuName = "States/New Property Dialog State")]
 public class NewPropertyDialogState : DialogState
 {
     [Header("Properties to be added")]

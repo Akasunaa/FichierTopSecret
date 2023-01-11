@@ -11,7 +11,7 @@ using UnityEngine;
  *      Each state represents a state the NPC is in, with various possible speeches
  *      The change between states should be handled by the DialogSM
  */
-[CreateAssetMenu(fileName ="Dialog State",menuName ="Dialog State")]
+[CreateAssetMenu(fileName ="Dialog State",menuName = "States/Dialog State")]
 public class DialogState : BaseState
 {
     [TextArea(3,10)]
