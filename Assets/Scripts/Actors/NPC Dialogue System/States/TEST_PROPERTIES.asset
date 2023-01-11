@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a6f5aadd1b573a48a926aa908c91207, type: 3}
-  m_Name: D_Refuse
+  m_Name: TEST_PROPERTIES
   m_EditorClassIdentifier: 
   speech:
-  - What ? My name ?
-  - 'Why would I give you that ? '
-  - Go annoy someone else !
+  - 'Test property dialog : money should be added to .txt file'
   currentSpeech: 
   fileProperties:
   - propertyName: money
@@ -23,6 +21,6 @@ MonoBehaviour:
     propertyType: 0
     conditionIsSuperior: 01
     propertyCondition:
-    - 500
+    - 10
     propertyChangeState:
-    - D_Accept
+    - TEST_CLOSE

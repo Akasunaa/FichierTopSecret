@@ -71,6 +71,11 @@ public class FileParser : MonoBehaviour
             WriteToFile();
             File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
         }
+        //put particle 
+        ParticleSystem particles = Instantiate(FindObjectOfType<LevelManager>().depopParticle);
+        particles.gameObject.transform.position = transform.position;
+        particles.Play();
+        Destroy(particles.gameObject, 1);
     }
 
     /**

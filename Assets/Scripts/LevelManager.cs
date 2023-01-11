@@ -29,6 +29,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<RegToGoPair> instantiable;
 
     [SerializeField] private ParticleSystem popParticle;
+    [SerializeField] public ParticleSystem depopParticle;
 
     void Awake()
     {
