@@ -107,13 +107,13 @@ public class FilesWatcher : MonoBehaviour
         watcher.EnableRaisingEvents = true;
 
         #if UNITY_STANDALONE_WIN
-        var thread = new Thread(() => HighlightSelectedFiles(_selectedFilesQueue, _explorerPathsQueue));
+        var thread = new Thread(() => HighlightSelectedFilesAndGetExplorer(_selectedFilesQueue, _explorerPathsQueue));
         thread.Start();
         #endif
     }
     
     #if UNITY_STANDALONE_WIN
-    private static void HighlightSelectedFiles(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<(bool, IntPtr)> explorerPathQueue)
+    private static void HighlightSelectedFilesAndGetExplorer(ConcurrentQueue<(string, bool)> selectedQueue, ConcurrentQueue<(bool, IntPtr)> explorerPathQueue)
     {
         var selectedFiles = new HashSet<string>();
         var viewFiles = new HashSet<string>();
@@ -206,7 +206,7 @@ public class FilesWatcher : MonoBehaviour
 
             if (checkExplorer != inExplorer)
             {
-                explorerPathQueue.Enqueue((inExplorer, hwnd));
+                explorerPathQueue.Enqueue((checkExplorer, hwnd));
                 inExplorer = checkExplorer;
             }
 
@@ -345,21 +345,21 @@ public class FilesWatcher : MonoBehaviour
             GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
             if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
             {
-                explorerUiController.explorerCanvas.enabled = inExplorer;
+                explorerUiController.explorerCanvas.enabled = !inExplorer;
             }
             else
             {
                 Debug.LogWarning("Cannot find UI object");
             }
 
-            // if (inExplorer)
-            // {
+            if (inExplorer)
+            {
                 explorerHwnd = hwnd;
-            // }
-            // else
-            // {
-            //     explorerHwnd = IntPtr.Zero;
-            // }
+            }
+            else
+            {
+                explorerHwnd = IntPtr.Zero;
+            }
 
             pathInExplorer = inExplorer;
         }
