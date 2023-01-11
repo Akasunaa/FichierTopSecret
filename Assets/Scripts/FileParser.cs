@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.Assertions;
-using static UnityEditor.PlayerSettings;
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
