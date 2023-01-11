@@ -12,6 +12,7 @@ using System.Threading;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
+using System.Text.RegularExpressions;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class FilesWatcher : MonoBehaviour
 
     private bool pathInExplorer = false;
     private IntPtr explorerHwnd = IntPtr.Zero;
+
+    private static string supportedExtensions = "txt|bat";
 
     public enum FileChangeType
     {
@@ -100,8 +103,8 @@ public class FilesWatcher : MonoBehaviour
         watcher.Created += OnCreated;
         watcher.Deleted += OnDeleted;
 
-        // Watch only .txt files
-        watcher.Filter = "*.??t"; // For .txt and .bat files
+        // Watch all 
+        watcher.Filter = "*.*"; 
         watcher.IncludeSubdirectories = true;
         // Start the watcher
         watcher.EnableRaisingEvents = true;
@@ -226,6 +229,9 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnChanged(object sender, FileSystemEventArgs e)
     {
+        string extension = Path.GetExtension(e.FullPath);
+        if (!Regex.IsMatch(extension, supportedExtensions, RegexOptions.IgnoreCase))
+            return;       
         var fi = new FileInfo(e.FullPath);
         if (fi.Exists)
         {
@@ -244,8 +250,11 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnCreated(object sender, FileSystemEventArgs e)
     {
+        string extension = Path.GetExtension(e.FullPath);
+        if (!Regex.IsMatch(extension, supportedExtensions, RegexOptions.IgnoreCase))
+            return;
         var fi = new FileInfo(e.FullPath);
-        if (fi.Exists)
+        if (fi.Exists )
         {
             Debug.Log("[FileWatcher] File Created: " + e.FullPath);
             // Create a object from the file if possible
@@ -262,6 +271,9 @@ public class FilesWatcher : MonoBehaviour
      */
     private static void OnDeleted(object sender, FileSystemEventArgs e)
     {
+        string extension = Path.GetExtension(e.FullPath);
+        if (!Regex.IsMatch(extension, supportedExtensions, RegexOptions.IgnoreCase))
+            return;
         var fi = new FileInfo(e.FullPath);
         if (!fi.Exists)
         {

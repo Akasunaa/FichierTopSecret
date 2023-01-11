@@ -198,7 +198,7 @@ public class LevelManager : MonoBehaviour
         GameObject newObj;
         FileParser fp;
         Vector3Int pos = Vector3Int.zero;
-        if (Regex.IsMatch(fi.Name, "(.*.txt|.*.bat)$"))
+        if (true) //todo
         {
             string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
