@@ -29,7 +29,7 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public FILE_PROPERTIES[] fileProperties;
     [HideInInspector] public Dictionary<string, FILE_PROPERTIES> propertyDict = new Dictionary<string, FILE_PROPERTIES>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
-    [Header("Element to check")]
+    [Header("Player Items to check")]
     [SerializeField] public PLAYER_ITEMS[] objectsElements;
     [HideInInspector] public Dictionary<string, PLAYER_ITEMS> objectDict = new Dictionary<string, PLAYER_ITEMS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
@@ -151,7 +151,7 @@ public class NPCController : ModifiableController, Interactable
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
         if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
-        print(isWaiting);
+        //print(isWaiting);
 
     }
 
@@ -321,6 +321,7 @@ public class NPCController : ModifiableController, Interactable
     public void OnStateChange(string newStateName)
     {
         dialogSM = GetComponent<DialogSM>();
+        dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
         if (ui!=null) 
         {
@@ -531,6 +532,28 @@ public class NPCController : ModifiableController, Interactable
         GameObject new_item = Instantiate(item);
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
+    }
+
+    /**
+     *  Function called from special states, that will add specific and previously non-accessible properties to NPC's .txt files
+     */
+    public void AddProperty(FILE_PROPERTIES[] newFileProperties)
+    {
+        //we firstly add the values to the .txt file as to not suppress precedently written values :
+        //then we add the new properties to the dict
+        foreach (var element in newFileProperties)
+        {
+            if (!properties.ContainsKey(element.propertyName))
+            {
+                properties.Add(element.propertyName, new DicoValueProperty { IsImportant = true, Value = element.propertyValue });
+            }
+            Debug.Log("NPC : ADDING " + element.propertyName + " TO THE DICT");
+            if (!propertyDict.ContainsKey(element.propertyName))
+            {
+                propertyDict.Add(element.propertyName, element);
+            }
+        }
+        UpdateFile();
     }
 }
 

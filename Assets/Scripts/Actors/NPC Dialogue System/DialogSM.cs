@@ -15,6 +15,7 @@ public class DialogSM : StateMachine
     [Header("Next possible states")]
     [SerializeField] public NEXT_STATE[] nextStates;           //all the currently possible next states on the serialize part
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
+    [SerializeField, HideInInspector] public NPCController associatedNPCController;              //npcController that uses this DialogSM
 
     protected void Start()
     {
@@ -66,7 +67,7 @@ public class DialogSM : StateMachine
         }
         if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
-            currentState.Exit();
+            currentState.Exit(this);
             currentState = dialog;
             currentState.Enter(this);
             return;
