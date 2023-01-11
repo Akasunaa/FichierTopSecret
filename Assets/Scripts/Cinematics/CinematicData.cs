@@ -5,15 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Property Dialog State", menuName = "Cinematics/Cinematic Data")]
 public class CinematicData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("Cinematic elements")]
+    [SerializeField] private float cinematicLength;
+    [SerializeField] private string cinematicAnimationStateName;
+    public float GetCinematicLength() { return cinematicLength; }
+    public string GetCinematicAnimationStateName() { return cinematicAnimationStateName; }
 }
