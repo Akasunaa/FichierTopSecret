@@ -6,14 +6,14 @@ using UnityEngine;
  *      This script will be used to create specialized dialog states that will, when entered, modify other .txt
  *      To accomplish this, the script will modify values in the PlayerPrefs when its Enter() function inherited from StateMachine is called
  */
-[CreateAssetMenu(fileName = "Special Dialog State", menuName = "Special Dialog State")]
-public class SpecialDialogState : DialogState
+[CreateAssetMenu(fileName = "Player Prefs Dialog State", menuName = "Player Prefs Dialog State")]
+public class PlayerPrefsDialogState : DialogState
 {
     [Header("Special Dialog Elements")]
     [SerializeField] private string playerPrefsName;  //name of the player pref that we're going to modify upon call in the Enter() function
     [SerializeField] private string playerPrefsValue; //value inputted in said playerpref
 
-    public SpecialDialogState(string name, DialogSM SM) : base(name, SM)
+    public PlayerPrefsDialogState(string name, DialogSM SM) : base(name, SM)
     {
     }
 

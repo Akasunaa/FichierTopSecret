@@ -547,7 +547,6 @@ public class NPCController : ModifiableController, Interactable
             {
                 properties.Add(element.propertyName, new DicoValueProperty { IsImportant = true, Value = element.propertyValue });
             }
-            Debug.Log("NPC : ADDING " + element.propertyName + " TO THE DICT");
             if (!propertyDict.ContainsKey(element.propertyName))
             {
                 propertyDict.Add(element.propertyName, element);

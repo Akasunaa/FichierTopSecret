@@ -7,13 +7,13 @@ using UnityEngine;
  *  Script used by special dialog states that will, when ariving in their Enter() function, add a new property to the .txt of associated NPCs
  *  
  */
-[CreateAssetMenu(fileName = "Non Accessible Dialog State", menuName = "Non Accessible Dialog State")]
-public class NonAccessibleDialogState : DialogState
+[CreateAssetMenu(fileName = "New Property Dialog State", menuName = "New property Dialog State")]
+public class NewPropertyDialogState : DialogState
 {
     [Header("Properties to be added")]
     [SerializeField] private FILE_PROPERTIES[] fileProperties;
 
-    public NonAccessibleDialogState(string name, DialogSM SM) : base(name, SM)
+    public NewPropertyDialogState(string name, DialogSM SM) : base(name, SM)
     {
     }
 
@@ -25,7 +25,7 @@ public class NonAccessibleDialogState : DialogState
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);
-        Debug.Log("NON ACCESSIBLE DIALOG STATE : ENTER()");
+        //Debug.Log("NON ACCESSIBLE DIALOG STATE : ENTER()");
         sm.ConvertTo<DialogSM>().associatedNPCController.AddProperty(fileProperties);
     }
 }
