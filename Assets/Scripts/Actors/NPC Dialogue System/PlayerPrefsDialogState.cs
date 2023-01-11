@@ -6,7 +6,7 @@ using UnityEngine;
  *      This script will be used to create specialized dialog states that will, when entered, modify other .txt
  *      To accomplish this, the script will modify values in the PlayerPrefs when its Enter() function inherited from StateMachine is called
  */
-[CreateAssetMenu(fileName = "Player Prefs Dialog State", menuName = "Player Prefs Dialog State")]
+[CreateAssetMenu(fileName = "Player Prefs Dialog State", menuName = "States/Player Prefs Dialog State")]
 public class PlayerPrefsDialogState : DialogState
 {
     [Header("Special Dialog Elements")]

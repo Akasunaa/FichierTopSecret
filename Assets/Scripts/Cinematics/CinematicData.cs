@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CinematicManager : MonoBehaviour
+[CreateAssetMenu(fileName = "New Property Dialog State", menuName = "Cinematics/Cinematic Data")]
+public class CinematicData : ScriptableObject
 {
     // Start is called before the first frame update
     void Start()
