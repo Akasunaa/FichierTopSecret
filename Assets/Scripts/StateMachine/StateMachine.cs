@@ -35,7 +35,7 @@ public class StateMachine : MonoBehaviour
     {
         if(newState != null)
         {
-            currentState.Exit();
+            currentState.Exit(this);
             currentState = newState;
             currentState.Enter(this);
         }

@@ -25,7 +25,7 @@ public class BaseState : ScriptableObject
     /**
      *  Function called when exiting state
      */
-    public virtual void Exit() { }
+    public virtual void Exit(StateMachine SM) { }
 
     /**
      *  Function called when updating the state's inner logic
