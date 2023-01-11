@@ -120,6 +120,9 @@ MonoBehaviour:
   - playerPrefsName: IsDrunkWoken
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Drunk_Awoken
+  - playerPrefsName: IsIssovitchCaptured
+    playerPrefsCondition: TRUE
+    playerPrefsChangeState: K_Issovitch_Captured
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1
