@@ -9,14 +9,20 @@ using UnityEngine;
 public class CinematicManager : MonoBehaviour
 {
     [Header("Cinematic Informations")]
-    [SerializeField] private float cinematicLength;
     [SerializeField] private CinematicData cinematicData;
+    private float cinematicLength;
+
     private InputController playerController;
+    private GameObject cam;
 
     private void Start()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
-        StartCoroutine(StartCinematic());
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
+        if(cinematicData != null)
+        {
+            StartCoroutine(StartCinematic());
+        }
     }
 
     /**
@@ -24,7 +30,9 @@ public class CinematicManager : MonoBehaviour
      */
     private IEnumerator StartCinematic()
     {
+        cinematicLength = cinematicData.GetCinematicLength();
         playerController.StopMovement(); //we prevent the player from doing anything before the cinematic is finished
+        cam.GetComponent<Animator>().Play(cinematicData.GetCinematicAnimationStateName());
         yield return new WaitForSeconds(cinematicLength);
         playerController.RestartMovement();
     }

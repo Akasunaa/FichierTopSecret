@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160973af83e12704abbecf0e58b2d3c0, type: 3}
   m_Name: Office_Intro_Cinematic
   m_EditorClassIdentifier: 
+  cinematicLength: 4
+  cinematicAnimationStateName: Office_Intro
