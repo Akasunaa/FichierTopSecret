@@ -4,6 +4,8 @@ using Debug = System.Diagnostics.Debug;
 
 public class Ruler : MonoBehaviour
 {
+    public GameObject rulerCanvas;
+    
     [Header("General Rulers infos")]
     [SerializeField] private float numbersDistance = 30f;
     [SerializeField] private float spriteWidth = 6000f;

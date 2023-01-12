@@ -1,9 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
 
 /**
  *  This script will handle the opening cinematic
@@ -14,18 +12,21 @@ public class CinematicManager : MonoBehaviour
     [Header("Cinematic Elements")]
     [SerializeField] private PlayableAsset cinematicData;
     [SerializeField] private string cinematicPlayerPrefs; //this playerPref ensures that the cinematic has not already been played
-    private PlayableDirector cinematicDirector;
-    private GameObject player;
+    [SerializeField] private bool playCinematic;
+    private PlayableDirector _cinematicDirector;
+    private GameObject _player;
+    private GameObject _ui;
 
     private void Awake()
     {
-        cinematicDirector = GetComponent<PlayableDirector>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE")
+        _cinematicDirector = GetComponent<PlayableDirector>();
+        _player = GameObject.FindGameObjectWithTag("Player");
+        _ui = GameObject.FindGameObjectWithTag("UI");
+        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" || (Application.isEditor && !playCinematic))
         {
-            GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
+            _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         }
-        else if(cinematicData!=null && cinematicDirector != null)
+        else if(cinematicData!=null && _cinematicDirector != null)
         {
             StartCoroutine(StartCinematic());
         }
@@ -37,15 +38,17 @@ public class CinematicManager : MonoBehaviour
      */
     private IEnumerator StartCinematic()
     {
-        if (!Application.isEditor)
-        {
-            player.GetComponent<PlayerInput>().enabled = false;
-            cinematicDirector.playableAsset = cinematicData;
-            cinematicDirector.Play();
-            yield return new WaitForSeconds((float)cinematicData.duration);
-            player.GetComponent<PlayerInput>().enabled = true;
-            PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
-            PlayerPrefs.Save();
-        }
+        if (Application.isEditor && !playCinematic) yield break;
+        
+        var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
+        rulerCanvas.SetActive(false);
+        _player.GetComponent<PlayerInput>().enabled = false;
+        _cinematicDirector.playableAsset = cinematicData;
+        _cinematicDirector.Play();
+        yield return new WaitForSeconds((float)cinematicData.duration);
+        _player.GetComponent<PlayerInput>().enabled = true;
+        PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
+        PlayerPrefs.Save();
+        rulerCanvas.SetActive(true);
     }
 }
