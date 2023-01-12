@@ -84,6 +84,11 @@ public class PlayerInteractionController : MonoBehaviour
             {
                 CheckForInteraction(lastTarget, lastDirection);
             }
+            playerMovement.GetAnimator().SetTrigger("PowerExitTrigger");
+        }
+        else
+        {
+            playerMovement.GetAnimator().SetTrigger("PowerTrigger");
         }
     }
 
