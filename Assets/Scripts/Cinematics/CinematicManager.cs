@@ -37,12 +37,15 @@ public class CinematicManager : MonoBehaviour
      */
     private IEnumerator StartCinematic()
     {
-        player.GetComponent<PlayerInput>().enabled = false;
-        cinematicDirector.playableAsset = cinematicData;
-        cinematicDirector.Play();
-        yield return new WaitForSeconds((float)cinematicData.duration);
-        player.GetComponent<PlayerInput>().enabled = true;
-        PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
-        PlayerPrefs.Save();
+        if (!Application.isEditor)
+        {
+            player.GetComponent<PlayerInput>().enabled = false;
+            cinematicDirector.playableAsset = cinematicData;
+            cinematicDirector.Play();
+            yield return new WaitForSeconds((float)cinematicData.duration);
+            player.GetComponent<PlayerInput>().enabled = true;
+            PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
+            PlayerPrefs.Save();
+        }
     }
 }
