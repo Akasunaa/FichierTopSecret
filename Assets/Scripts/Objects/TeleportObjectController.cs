@@ -22,9 +22,9 @@ public class TeleportObjectController : ModifiableController, Interactable
     public void Interact()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3Int? target = Utils.NearestTileEmpty((Vector2Int)SceneData.Instance.grid.WorldToCell(pairTeleport.gameObject.transform.position), limit : 2);
+        Vector3Int? target = Utils.NearestTileEmpty((Vector2Int)SceneData.Instance.grid.WorldToCell(pairTeleport.gameObject.transform.position), limit : 1);
         if (target != null)
-            player.transform.position = (Vector3)target;
+            player.transform.position = (Vector3)target; //add feedback ?
     }
 
     private void Start()
@@ -32,6 +32,9 @@ public class TeleportObjectController : ModifiableController, Interactable
         searchPair();
     }
 
+    /**
+    * Search a pair : another if possible, himself if alone
+    */
     private void searchPair()
     {
         TeleportObjectController[] teleports = FindObjectsOfType<TeleportObjectController>();
@@ -45,6 +48,9 @@ public class TeleportObjectController : ModifiableController, Interactable
         else { pairTeleport = this; }
     }
 
+    /**
+     * if destroy, all teleport search a new pair 
+     */
     private void OnDestroy()
     {
         deletedTeleport -= searchPair;

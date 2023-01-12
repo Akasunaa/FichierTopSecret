@@ -74,9 +74,15 @@ public static class Utils
         }
     }
 
-    public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 1000)
+    /**
+    Renvoie la position libre la plus proche de la position d'entree s'il y en a une, renvoie null sinon
+    position : position de départ
+    size : taille de la position libre voulue
+    depth : variable de récursion
+    limit : nombre d'iteration, si on veut une case adjacente mettre "limite: 1" 
+    */
+    public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 100)
     {
-        var a = 0;
         if (depth > limit) { return null; }
         for (int i = -depth; i <= depth; i++)
         {
@@ -88,8 +94,7 @@ public static class Utils
                     {
                         return new Vector3Int(position.x + i, position.y + j, 0);
                     }
-                }
-                    
+                }                 
             }
         }
         return NearestTileEmpty(position, size, depth + 1,limit);

@@ -13,7 +13,8 @@ public static class SynonymController
         new string[] { "chair", "stool" },
         new string[] { "desk", "desktop"},
         new string[] { "lamp", "light", "streetlight"},
-        new string[] { "door", "exit","gate"}
+        new string[] { "door", "exit","gate"},
+        new string[] { "teleport", "teleporter","portal"}
     };
 
     public static string[] SearchSynonym(string word)
