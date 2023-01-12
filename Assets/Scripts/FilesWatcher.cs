@@ -303,7 +303,7 @@ public class FilesWatcher : MonoBehaviour
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
-                        LevelManager.Instance.NewObject(fc.Fi);
+                        LevelManager.instance.NewObject(fc.Fi);
                     }
                     else if (alreadyExists)
                     {

@@ -1,36 +1,26 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-
-using System.Text.RegularExpressions;
 using System.Linq;
-using System;
 
 public static class SynonymController
 {
-    static string[][] synonymGroups = new string[][]
-    {
-        new string[] { "chair", "stool" },
-        new string[] { "desk", "desktop"},
-        new string[] { "lamp", "light", "streetlight"},
-        new string[] { "door", "exit","gate"}
+    private static readonly string[][] SynonymGroups = {
+        new[] { "chair", "stool" },
+        new[] { "desk", "desktop"},
+        new[] { "lamp", "light", "streetlight"},
+        new[] { "door", "exit", "gate"}
     };
 
-    public static string[] SearchSynonym(string word)
+    public static IEnumerable<string> SearchSynonym(string word)
     {
         word = word.Trim().ToLower();
-        word = new string(word.Where(Char.IsLetter).ToArray());
-        foreach(var group in synonymGroups)
+        word = new string(word.Where(char.IsLetter).ToArray());
+        foreach(var group in SynonymGroups)
         {
-            foreach(var synword in group)
-            {
-                if(synword == word)
-                {
-                    return group;
-                }
-            }
+            if (group.Any(synWord => synWord == word))
+                return group;
+            
         }
-        string[] syno = new string[] { word };
-        return syno ;
+        var synonym = new[] { word };
+        return synonym ;
     }
 }
