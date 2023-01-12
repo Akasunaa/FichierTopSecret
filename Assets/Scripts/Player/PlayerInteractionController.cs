@@ -12,6 +12,8 @@ public class PlayerInteractionController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameObject interactionPrompt;
+    // var used to remember the state of the prompt between alt-tabs
+    bool interactionPromptState = false;
     Grid grid;
 
     //Variables used to save the last target and direction to use in defensive procedures to check if object still remains everytime the game comes back in focus
@@ -84,10 +86,18 @@ public class PlayerInteractionController : MonoBehaviour
             {
                 CheckForInteraction(lastTarget, lastDirection);
             }
+            print("set value at " + interactionPromptState);
+            interactionPrompt.SetActive(interactionPromptState);
             playerMovement.GetAnimator().SetTrigger("PowerExitTrigger");
         }
         else
         {
+            // when losing focus we store the state of the interaction prompt
+            interactionPromptState = interactionPrompt.activeInHierarchy;
+            print("store state with value " + interactionPromptState);
+
+            // deactivate the interaction prompt and start power animation
+            interactionPrompt.SetActive(false);
             playerMovement.GetAnimator().SetTrigger("PowerTrigger");
         }
     }

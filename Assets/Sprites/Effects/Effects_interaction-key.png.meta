@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 76091000e0a53184db26228effb91310
+guid: fd127350c7f0fd542bf97aea7d373e44
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -107,7 +107,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Effects_interaction_0
+      name: Effects_interaction-key_0
       rect:
         serializedVersion: 2
         x: 0
@@ -121,14 +121,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24d977f5ec2e5b749af4f75c1d18325a
-      internalID: -1513438440
+      spriteID: 714e07af34327f54ba5746af1ac893f5
+      internalID: -2095312090
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_1
+      name: Effects_interaction-key_1
       rect:
         serializedVersion: 2
         x: 64
@@ -142,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28f80ead8c70186488dc56c1f42f40a2
-      internalID: 1589743733
+      spriteID: 6ae4802e3b24ff1419272436be15049a
+      internalID: -579862813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_2
+      name: Effects_interaction-key_2
       rect:
         serializedVersion: 2
         x: 128
@@ -163,14 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed7376a40f54a2043a223848e8b01936
-      internalID: 1756880631
+      spriteID: 5dab13d3026c4fc4f9162ace97e8b3c3
+      internalID: 1885074755
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_3
+      name: Effects_interaction-key_3
       rect:
         serializedVersion: 2
         x: 192
@@ -184,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59d0958d8c3378e41a318e55c36d8306
-      internalID: -1149485592
+      spriteID: cafa721546749da43bde45cde0ecdb7a
+      internalID: 1769349953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_4
+      name: Effects_interaction-key_4
       rect:
         serializedVersion: 2
         x: 256
@@ -205,14 +205,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4a0f3da58df21654c9f26ff981c4da69
-      internalID: 650622872
+      spriteID: b8385687497c3aa44873b167338cc477
+      internalID: 1226029612
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_5
+      name: Effects_interaction-key_5
       rect:
         serializedVersion: 2
         x: 320
@@ -226,14 +226,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df99b2bd7900360438715b3656c4735a
-      internalID: -393977196
+      spriteID: 7f49002f742d3384d950daa04725dc9d
+      internalID: 1325850041
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_6
+      name: Effects_interaction-key_6
       rect:
         serializedVersion: 2
         x: 384
@@ -247,14 +247,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c2c1b470ae3f2e4a83418c56645bb5d
-      internalID: -1686358121
+      spriteID: c8ed3d445d5ce47448faf78f76d76c4e
+      internalID: -1563130726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Effects_interaction_7
+      name: Effects_interaction-key_7
       rect:
         serializedVersion: 2
         x: 448
@@ -268,8 +268,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fa3cf420d190aad42b5bd7eedabd2628
-      internalID: 535245929
+      spriteID: b652343169de6c942a9dcab70cafdf1d
+      internalID: -1135535333
       vertices: []
       indices: 
       edges: []
@@ -285,14 +285,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Effects_interaction_6: -1686358121
-      Effects_interaction_7: 535245929
-      Effects_interaction_5: -393977196
-      Effects_interaction_4: 650622872
-      Effects_interaction_1: 1589743733
-      Effects_interaction_3: -1149485592
-      Effects_interaction_0: -1513438440
-      Effects_interaction_2: 1756880631
+      Effects_interaction-key_6: -1563130726
+      Effects_interaction-key_7: -1135535333
+      Effects_interaction-key_5: 1325850041
+      Effects_interaction-key_0: -2095312090
+      Effects_interaction-key_3: 1769349953
+      Effects_interaction-key_1: -579862813
+      Effects_interaction-key_2: 1885074755
+      Effects_interaction-key_4: 1226029612
   spritePackingTag: 
   pSDRemoveMatte: 0
   userData: 
