@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 2637594482985681455}
   - component: {fileID: 2637594482985681451}
   - component: {fileID: 570671002103959712}
+  - component: {fileID: 3547294842825216699}
   m_Layer: 5
   m_Name: UI
   m_TagString: UI
@@ -218,6 +219,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explorerCanvas: {fileID: 6020160699899505535}
+--- !u!114 &3547294842825216699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637594482985681454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1298583f463bee49be72ea5b5ab11d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rulerCanvas: {fileID: 4651513529886957534}
+  numbersDistance: 30
+  spriteWidth: 6000
+  spriteOffset: 3000
+  rulerTopImage: {fileID: 3008114446194118834}
+  cameraGridOffsetX: 0
+  rulerSideImage: {fileID: 6998983109040727564}
+  cameraGridOffsetY: 0
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +717,6 @@ GameObject:
   - component: {fileID: 3351562603098158415}
   - component: {fileID: 8268966677572872594}
   - component: {fileID: 6003862491309787720}
-  - component: {fileID: 1325338386390050423}
   m_Layer: 5
   m_Name: RulerCanvas
   m_TagString: Untagged
@@ -788,25 +808,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1325338386390050423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4651513529886957534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1298583f463bee49be72ea5b5ab11d1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numbersDistance: 30
-  spriteWidth: 6000
-  spriteOffset: 3000
-  rulerTopImage: {fileID: 3008114446194118834}
-  cameraGridOffsetX: 0
-  rulerSideImage: {fileID: 6998983109040727564}
-  cameraGridOffsetY: 0
 --- !u!1 &5711212221504921418
 GameObject:
   m_ObjectHideFlags: 0
