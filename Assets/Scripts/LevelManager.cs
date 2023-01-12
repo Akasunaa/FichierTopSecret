@@ -9,6 +9,7 @@ using UnityEditor;
 using System.Linq;
 using JetBrains.Annotations;
 using Mono.Cecil.Rocks;
+using System.Drawing;
 
 public class LevelManager : MonoBehaviour
 {
@@ -226,7 +227,11 @@ public class LevelManager : MonoBehaviour
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            if (target != null)
+                                pos = (Vector3Int)target;
+                            else
+                                Destroy(newObj);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
@@ -262,7 +267,11 @@ public class LevelManager : MonoBehaviour
             {
                 if (player != null)
                 {
-                    pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    if (target != null)
+                        pos = (Vector3Int)target;
+                    else
+                        Destroy(newObj);
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));

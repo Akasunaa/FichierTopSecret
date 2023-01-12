@@ -74,9 +74,10 @@ public static class Utils
         }
     }
 
-    public static Vector3Int NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1)
+    public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 1000)
     {
-        if (depth > 1000) { return Vector3Int.zero; }
+        var a = 0;
+        if (depth > limit) { return null; }
         for (int i = -depth; i <= depth; i++)
         {
             for (int j = -depth; j <= depth; j++)
@@ -91,7 +92,7 @@ public static class Utils
                     
             }
         }
-        return NearestTileEmpty(position, size, depth + 1);
+        return NearestTileEmpty(position, size, depth + 1,limit);
     }
 
 }
