@@ -156,4 +156,9 @@ public class PlayerMovement : MonoBehaviour
     {
         return facingDirection;
     }
+
+    public Animator GetAnimator()
+    {
+        return animator;
+    }
 }
