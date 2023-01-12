@@ -13,6 +13,7 @@ public class CinematicManager : MonoBehaviour
 {
     [Header("Cinematic Elements")]
     [SerializeField] private PlayableAsset cinematicData;
+    [SerializeField] private string cinematicPlayerPrefs; //this playerPref ensures that the cinematic has not already been played
     private PlayableDirector cinematicDirector;
     private GameObject player;
 
@@ -20,7 +21,11 @@ public class CinematicManager : MonoBehaviour
     {
         cinematicDirector = GetComponent<PlayableDirector>();
         player = GameObject.FindGameObjectWithTag("Player");
-        if(cinematicData!=null && cinematicDirector != null)
+        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE")
+        {
+            GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
+        }
+        else if(cinematicData!=null && cinematicDirector != null)
         {
             StartCoroutine(StartCinematic());
         }
@@ -37,5 +42,7 @@ public class CinematicManager : MonoBehaviour
         cinematicDirector.Play();
         yield return new WaitForSeconds((float)cinematicData.duration);
         player.GetComponent<PlayerInput>().enabled = true;
+        PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
+        PlayerPrefs.Save();
     }
 }
