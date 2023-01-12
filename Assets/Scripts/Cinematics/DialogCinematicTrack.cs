@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.Timeline;
 
 /**
@@ -11,5 +12,8 @@ using UnityEngine.Timeline;
 [TrackClipType(typeof(DialogCinematicClip))]
 public class DialogCinematicTrack : TrackAsset
 {
-
+    public override Playable CreateTrackMixer(PlayableGraph graph, GameObject go, int inputCount)
+    {
+        return ScriptPlayable<DialogCinematicTrackMixer>.Create(graph, inputCount);
+    }
 }

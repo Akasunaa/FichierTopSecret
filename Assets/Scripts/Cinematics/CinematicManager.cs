@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 /**
  *  This script will handle the opening cinematic
@@ -8,32 +11,31 @@ using UnityEngine;
  */
 public class CinematicManager : MonoBehaviour
 {
-    [Header("Cinematic Informations")]
-    [SerializeField] private CinematicData cinematicData;
-    private float cinematicLength;
+    [Header("Cinematic Elements")]
+    [SerializeField] private PlayableAsset cinematicData;
+    private PlayableDirector cinematicDirector;
+    private GameObject player;
 
-    private InputController playerController;
-    private GameObject cam;
-
-    private void Start()
+    private void Awake()
     {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera");
-        if(cinematicData != null)
+        cinematicDirector = GetComponent<PlayableDirector>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        if(cinematicData!=null && cinematicDirector != null)
         {
             StartCoroutine(StartCinematic());
         }
     }
+
 
     /**
      *  Function that will start the cinematic saved in cinematicData 
      */
     private IEnumerator StartCinematic()
     {
-        cinematicLength = cinematicData.GetCinematicLength();
-        playerController.StopMovement(); //we prevent the player from doing anything before the cinematic is finished
-        cam.GetComponent<Animator>().Play(cinematicData.GetCinematicAnimationStateName());
-        yield return new WaitForSeconds(cinematicLength);
-        playerController.RestartMovement();
+        player.GetComponent<PlayerInput>().enabled = false;
+        cinematicDirector.playableAsset = cinematicData;
+        cinematicDirector.Play();
+        yield return new WaitForSeconds((float)cinematicData.duration);
+        player.GetComponent<PlayerInput>().enabled = true;
     }
 }
