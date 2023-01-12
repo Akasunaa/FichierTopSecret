@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 331091793668736169}
   - component: {fileID: 7110415735903008081}
   - component: {fileID: 195094448936914118}
+  - component: {fileID: 7305945466499266393}
   m_Layer: 0
   m_Name: InteractionPrompt
   m_TagString: Untagged
@@ -105,6 +106,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7305945466499266393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3666061010633701826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 0}
+  offset: 500
 --- !u!1 &6320083818459328201
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +270,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 57410
+  m_InstanceId: 67512
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0

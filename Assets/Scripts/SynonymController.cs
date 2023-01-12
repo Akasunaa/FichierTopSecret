@@ -7,7 +7,8 @@ public static class SynonymController
         new[] { "chair", "stool" },
         new[] { "desk", "desktop"},
         new[] { "lamp", "light", "streetlight"},
-        new[] { "door", "exit", "gate"}
+        new[] { "door", "exit", "gate"},
+        new[] {"teleport", "teleporter","portal"}
     };
 
     public static IEnumerable<string> SearchSynonym(string word)

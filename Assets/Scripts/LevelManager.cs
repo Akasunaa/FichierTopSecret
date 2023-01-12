@@ -206,25 +206,29 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
                 newObj = Instantiate(pair.go);
 
-                // setup file parser
-                fp = newObj.AddComponent<FileParser>();
-                fp.filePath = fi.FullName;
-                fp.ReadFromFile(fi.FullName);
-                FilesWatcher.instance.Set(fp);
-                Vector2? size = null;
-                if (newObj.TryGetComponent(out BoxCollider2D localCollider)){ size = localCollider.size * fp.transform.lossyScale;}
-                if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
-                {
-                    if (_player != null)
+                    // setup file parser
+                    fp = newObj.AddComponent<FileParser>();
+                    fp.filePath = fi.FullName;
+                    fp.ReadFromFile(fi.FullName);
+                    FilesWatcher.instance.Set(fp);
+                    Vector2? size = null;
+                    if (newObj.TryGetComponent(out BoxCollider2D localCollider)){ size = localCollider.size * fp.transform.lossyScale;}
+                    if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
                     {
-                        pos = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
-                    }
-                    newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
-                    fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
-                    var particles = Instantiate(popParticle);
-                    particles.gameObject.transform.position = pos;
-                    particles.Play();
-                    Destroy(particles.gameObject,1);
+                        if (_player != null)
+                        {
+                            Vector3Int? target = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            if (target != null)
+                                pos = (Vector3Int)target;
+                            else
+                                Destroy(newObj);
+                        }
+                        newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
+                        fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                        ParticleSystem particles = Instantiate(popParticle);
+                        particles.gameObject.transform.position = pos;
+                        particles.Play();
+                        Destroy(particles.gameObject,1);
 
                 }
                 fp.targetModifiable.SetDefaultProperties();
@@ -252,7 +256,11 @@ public class LevelManager : MonoBehaviour
             {
                 if (_player != null)
                 {
-                    pos = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    Vector3Int? target = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    if (target != null)
+                        pos = (Vector3Int)target;
+                    else
+                        Destroy(newObj);
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));

@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
+  dialogueStandard: This is a bar stool. It is quite simple.
   dialogueOnConditionChange: 
 --- !u!1 &2302938657009832474
 GameObject:
@@ -213,4 +213,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1, z: 0}
   m_ShapePathHash: 1301673237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 52416
+  m_InstanceId: 83314

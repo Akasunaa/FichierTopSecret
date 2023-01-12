@@ -87,7 +87,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
+  dialogueStandard: This is Kannath's bar name. I never expected to find such a nice
+    place in such a desperate part of the city... It is a true respite from the chaos
+    of it all.
   dialogueOnConditionChange: 
 --- !u!1 &2302938657009832474
 GameObject:
