@@ -195,6 +195,7 @@ MonoBehaviour:
   backgroundDialogueImage: {fileID: 2637594484154308962}
   portraitImage: {fileID: 2637594484115763881}
   dialogueText: {fileID: 2637594483630912987}
+  cinematicCanvas: {fileID: 0}
   availablePortraits:
   - {fileID: 11400000, guid: 22059f1b266d9484095fd47fbc04f1db, type: 2}
   - {fileID: 11400000, guid: 8a87887357c9c6e4881477663e450471, type: 2}
@@ -203,6 +204,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f850c7193073354e8beb5ef44ae093b, type: 2}
   - {fileID: 11400000, guid: 2f1a8bd40e2565a4eb0dabeccf01f296, type: 2}
   - {fileID: 11400000, guid: 7ccce5aff44921a41a30b4554ee55d99, type: 2}
+  - {fileID: 11400000, guid: b1f285ecf95a2d04c9eae64f9ba24c6d, type: 2}
 --- !u!114 &570671002103959712
 MonoBehaviour:
   m_ObjectHideFlags: 0
