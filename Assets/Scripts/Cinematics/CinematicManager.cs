@@ -37,7 +37,7 @@ public class CinematicManager : MonoBehaviour
      */
     private IEnumerator StartCinematic()
     {
-        //if (!Application.isEditor)
+        if (!Application.isEditor)
         {
             player.GetComponent<PlayerInput>().enabled = false;
             cinematicDirector.playableAsset = cinematicData;
