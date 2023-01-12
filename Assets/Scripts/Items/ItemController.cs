@@ -49,8 +49,5 @@ public class ItemController : ModifiableController
         //Debug.Log("PLAYER DOESN'T HAVE ITEM");
     }
 
-    public override void SetDefaultProperties()
-    {
-        
-    }
+    
 }
