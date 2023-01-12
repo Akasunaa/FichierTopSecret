@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
+  dialogueStandard: This is a bench. It is quite comfy, despite its angular looks...
   dialogueOnConditionChange: 
 --- !u!61 &6057733437771186535
 BoxCollider2D:
@@ -267,4 +267,4 @@ MonoBehaviour:
   - {x: 1, y: -3, z: 0}
   m_ShapePathHash: 421732237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 89392
+  m_InstanceId: 85034
