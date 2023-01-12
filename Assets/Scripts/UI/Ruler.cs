@@ -7,15 +7,15 @@ public class Ruler : MonoBehaviour
     [Header("General Rulers infos")]
     [SerializeField] private float numbersDistance = 30f;
     [SerializeField] private float spriteWidth = 6000f;
-    [SerializeField] private float spriteOffset = 3017f;
+    [SerializeField] private float spriteOffset = 3000f;
 
     [Header("Top Ruler infos")]
     [SerializeField] private RawImage rulerTopImage;
-    [SerializeField] private float cameraGridOffsetX = -0.5f;
+    [SerializeField] private float cameraGridOffsetX = 0f;
     
     [Header("Side Ruler Infos")]
     [SerializeField] private RawImage rulerSideImage;
-    [SerializeField] private float cameraGridOffsetY = -0.5f;
+    [SerializeField] private float cameraGridOffsetY = 0f;
     
     private Vector3 _cameraPos = Vector3.zero;
     private Camera _mainCameraReference;

@@ -800,11 +800,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numbersDistance: 30
   spriteWidth: 6000
-  spriteOffset: 3017
+  spriteOffset: 3000
   rulerTopImage: {fileID: 3008114446194118834}
-  cameraGridOffsetX: -0.5
+  cameraGridOffsetX: 0
   rulerSideImage: {fileID: 6998983109040727564}
-  cameraGridOffsetY: -0.5
+  cameraGridOffsetY: 0
 --- !u!1 &5711212221504921418
 GameObject:
   m_ObjectHideFlags: 0
