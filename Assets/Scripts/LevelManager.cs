@@ -43,27 +43,24 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
 
-#if UNITY_EDITOR
-        if (Application.isEditor)
-        {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
+        
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
-            if (di.Exists)
+        if (di.Exists)
+        {
+            // remove readonly attributes on cosmicbin items to delete them
+            DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
+            if (di2.Exists)
             {
-                // remove readonly attributes on cosmicbin items to delete them
-                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
-                if (di2.Exists)
+                foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
                 {
-                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
-                    {
-                        FileInfo fileInfo = new FileInfo(fileName);
-                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
-                    }
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
                 }
-                di.Delete(true);
             }
+            di.Delete(true);
         }
-#endif
+        
     }
 
     void Start()
