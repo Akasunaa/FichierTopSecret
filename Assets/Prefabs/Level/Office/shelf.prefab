@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
-  - component: {fileID: 302614416644111736}
-  - component: {fileID: 4354790620846943112}
+  - component: {fileID: 4717077857983279907}
   m_Layer: 0
   m_Name: shelf
   m_TagString: Untagged
@@ -61,7 +60,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &302614416644111736
+--- !u!114 &4717077857983279907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,25 +69,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 21bccf7c187d3a4469305cd85a5aa09b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4354790620846943112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244007217957566919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueStandard: This is my shelf. Bought it from a Plutonian for only 22 credits.
-    What a steal !
-  dialogueOnConditionChange: This is my shelf. Bought it from a Plutonian for only
-    22 credits. What a steal !
+  canBeDeleted: 0
+  item: {fileID: 9162052899093022862, guid: 18e928079152e7e4f82d87b94af0bba8, type: 3}
+  dialogueLocked: This is my desk. I usually keep my insignia inside it... Looks
+    like it's locked... I've lost my keys, I need to unlock it another way...
+  dialogueAlreadyTakenItem: I have already taken that item it seems...
+  dialogueItemRecuperate: Looks like I found... my insignia ! I mean, that was expected,
+    it's my desk after all...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
