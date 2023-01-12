@@ -1,11 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEngine.Assertions;
-using static UnityEngine.UI.Image;
-using UnityEngine.Rendering.Universal;
 
 public class PlayerInteractionController : MonoBehaviour
 {
@@ -13,12 +7,14 @@ public class PlayerInteractionController : MonoBehaviour
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private GameObject interactionPrompt;
     // var used to remember the state of the prompt between alt-tabs
-    bool interactionPromptState = false;
-    Grid grid;
+    private bool _interactionPromptState ; // = false;
+    private Grid _grid;
 
     //Variables used to save the last target and direction to use in defensive procedures to check if object still remains everytime the game comes back in focus
-    private Vector3 lastTarget;
-    private Vector2Int lastDirection;
+    private Vector3 _lastTarget;
+    private Vector2Int _lastDirection;
+    private static readonly int PowerExitTrigger = Animator.StringToHash("PowerExitTrigger");
+    private static readonly int PowerTrigger = Animator.StringToHash("PowerTrigger");
 
     public Interactable lastInteractable { get; private set; }
 
@@ -29,7 +25,7 @@ public class PlayerInteractionController : MonoBehaviour
 
     private void Start()
     {
-        grid = SceneData.Instance.grid;
+        _grid = SceneData.Instance.grid;
     }
 
     /**
@@ -38,9 +34,9 @@ public class PlayerInteractionController : MonoBehaviour
     public void CheckForInteraction(Vector3 target, Vector2Int direction) //look if player can interact with object or NPC
     {
         //We save the direction and target to allow check for when window comes back in focus
-        lastDirection = direction;
-        lastTarget = target;
-        List<GameObject> hitObjects = Utils.CheckPresencesOnTile(grid, target + (Vector3Int)direction);
+        _lastDirection = direction;
+        _lastTarget = target;
+        var hitObjects = Utils.CheckPresencesOnTile(_grid, target + (Vector3Int)direction);
         hitObjects = hitObjects.FindAll(hitObject =>
             hitObject.TryGetComponent(out BinRestorationController _) ||
             hitObject.GetComponent(typeof(Interactable)) != null);
@@ -52,16 +48,19 @@ public class PlayerInteractionController : MonoBehaviour
         if (hitObjects.Count > 0)
         {
             // either get interactable component or InteractableTrashController if in Cosmic Bin
-            GameObject hitObject = hitObjects.First();
-            Component component =  hitObject.TryGetComponent(out BinRestorationController restorationController) ? restorationController : hitObject.GetComponent(typeof(Interactable));
-            if (component)
-            {
-                Interactable interactable = component as Interactable;
-                //Debug.Log(component.GetType().Name);
-                interactionPrompt.SetActive(true);
-                interactable.canBeInteracted = true;
-                lastInteractable = interactable;
-            }
+            var hitObject = hitObjects.First();
+            var component =  hitObject.TryGetComponent(out BinRestorationController restorationController) ? restorationController : hitObject.GetComponent(typeof(Interactable));
+            
+            if (!component) return;
+            
+            var interactable = component as Interactable;
+            //Debug.Log(component.GetType().Name);
+            interactionPrompt.SetActive(true);
+                
+            if (interactable == null) return;
+                
+            interactable.canBeInteracted = true;
+            lastInteractable = interactable;
         }
         else
         {
@@ -82,23 +81,22 @@ public class PlayerInteractionController : MonoBehaviour
         //maybe can be used to check for new object near to player 
         if (focus)
         {
-            if (lastTarget != null && lastDirection != null)
-            {
-                CheckForInteraction(lastTarget, lastDirection);
-            }
-            print("set value at " + interactionPromptState);
-            interactionPrompt.SetActive(interactionPromptState);
-            playerMovement.GetAnimator().SetTrigger("PowerExitTrigger");
+            // if (_lastTarget != null && _lastDirection != null) de comment if you have nulls here (should NEVER occur)
+                CheckForInteraction(_lastTarget, _lastDirection);
+            
+            print("set value at " + _interactionPromptState);
+            interactionPrompt.SetActive(_interactionPromptState);
+            playerMovement.GetAnimator().SetTrigger(PowerExitTrigger);
         }
         else
         {
             // when losing focus we store the state of the interaction prompt
-            interactionPromptState = interactionPrompt.activeInHierarchy;
-            print("store state with value " + interactionPromptState);
+            _interactionPromptState = interactionPrompt.activeInHierarchy;
+            print("store state with value " + _interactionPromptState);
 
             // deactivate the interaction prompt and start power animation
             interactionPrompt.SetActive(false);
-            playerMovement.GetAnimator().SetTrigger("PowerTrigger");
+            playerMovement.GetAnimator().SetTrigger(PowerTrigger);
         }
     }
 

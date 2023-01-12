@@ -217,7 +217,7 @@ public class LevelManager : MonoBehaviour
                     {
                         if (_player != null)
                         {
-                            Vector3Int? target = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            var target = Utils.NearestTileEmpty(_player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
                             if (target != null)
                                 pos = (Vector3Int)target;
                             else
