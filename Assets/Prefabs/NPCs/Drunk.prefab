@@ -79,9 +79,10 @@ MonoBehaviour:
   - name: D_Accept
     state: {fileID: 11400000, guid: 0ea7920ee200130438d8b4b50883b02d, type: 2}
   - name: D_Refuse
-    state: {fileID: 11400000, guid: ac82b1022483e2d4f9ed50d33edea847, type: 2}
+    state: {fileID: 11400000, guid: 6a220155b87db10419b905e7b02c3bfa, type: 2}
   - name: D_Woken
     state: {fileID: 11400000, guid: 6ee8689af8a3a8145b1e20c85a2f2476, type: 2}
+  associatedNPCController: {fileID: 0}
 --- !u!114 &3169811318340794325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +193,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
+  m_Sprite: {fileID: -1737019478, guid: 6f18a0ff53426504097f9c869945e79e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

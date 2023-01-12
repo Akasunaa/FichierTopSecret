@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0b4103769ee01419cc670fcd9127e7, type: 3}
+  m_Name: K_Drunk_Intel
+  m_EditorClassIdentifier: 
+  speech:
+  - '''ello J, how''s that lil'' investigation doin'' ?'
+  - The factory huh ?
+  - I guess the suits must have closed it cause of ol' Terminator ya lookin' for
+  - Ya want intel on the suits ?
+  - Fine, fine, time is wastin' I agree...
+  - 'Tell ya what, this one is on me : drunkey over there is the suit overseeing
+    the factory...'
+  - Find his name, and ya'll get yer ticket to the place, as long as the guard doesn't
+    know ya face and only look at yer card...
+  currentSpeech: 
+  playerPrefsName: IsKannathDrunkIntel
+  playerPrefsValue: TRUE

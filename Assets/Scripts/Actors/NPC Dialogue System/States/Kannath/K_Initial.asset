@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: K_Initial
+  m_EditorClassIdentifier: 
+  speech:
+  - 'Hey there J ! '
+  - How's that lil' detective bizz of yours holdin' ?
+  - ... the Protectorate ?
+  - ...
+  - You serious ?
+  - J, that's like... That's awesome ! If you manage this right, you'll be off this
+    rock in no time !
+  - Well... IF you manage to not screw that up as well...
+  - Haha, I get it, I get it... I'll pay ya a drink, how's that ?
+  - Well regardless, ya didn't come here only to tell me that, hey ? So what's the
+    deal ?
+  - Intel on an ex-T.N.M.A. ? That's not common... I only saw one once on Pluto,
+    during the camps... Anywho, I might have that...
+  - 'Tell you what : if ya manage to convince that drunk over there to pay his tab,
+    I''ll spill ya the beans. How''s that ?'
+  currentSpeech: 'Tell you what : if ya manage to convince that drunk over there
+    to pay his tab, I''ll spill ya the beans. How''s that ?'

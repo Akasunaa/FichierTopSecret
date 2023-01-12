@@ -255,6 +255,7 @@ public class NPCCreatorWindow : EditorWindow
         //-------------------------------------------------------------------------------------------------
 
         npcController = instantiatedNPC.GetComponent<NPCController>();
+        npcController.portraitRef = portraitRef;
     }
 
     /**
@@ -297,12 +298,12 @@ public class NPCCreatorWindow : EditorWindow
                 errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE INTEGER "+index;
                 return true;
             }
-            //Check if the conditions list and changeState list have correct lengths compared to one another:
-            if (npcProperties[index].propertyType == TYPE.STRING && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
-            {
-                errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE STRING " + index;
-                return true;
-            }
+            ////Check if the conditions list and changeState list have correct lengths compared to one another:
+            //if (npcProperties[index].propertyType == TYPE.STRING && npcProperties[index].propertyChangeState.Length != npcProperties[index].propertyCondition.Length)
+            //{
+            //    errorProperties = "NOT ALL LISTS OF CONDITIONS HAVE COHERENT LENGTHS IN PROPERTY OF TYPE STRING " + index;
+            //    return true;
+            //}
             //Check if the state is correctly linked :
             foreach (var state in availableStatesList)
             {

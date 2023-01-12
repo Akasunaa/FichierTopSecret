@@ -21,7 +21,7 @@ public class NPCController : ModifiableController, Interactable
 
     private bool shouldEnd;
     [Header("Dialogue elements")]
-    [SerializeField] private string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
+    public string portraitRef;            //reference to the portraits of the NPC -> should be rather moved to the states (each states contains their own refs to the portraits)
     private DialogueUIController ui;                        //reference to the UI used for dialogs
     private DialogSM dialogSM;                              //reference to the NPC's dialogSM
 
@@ -29,7 +29,7 @@ public class NPCController : ModifiableController, Interactable
     [SerializeField] public FILE_PROPERTIES[] fileProperties;
     [HideInInspector] public Dictionary<string, FILE_PROPERTIES> propertyDict = new Dictionary<string, FILE_PROPERTIES>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
-    [Header("Element to check")]
+    [Header("Player Items to check")]
     [SerializeField] public PLAYER_ITEMS[] objectsElements;
     [HideInInspector] public Dictionary<string, PLAYER_ITEMS> objectDict = new Dictionary<string, PLAYER_ITEMS>(); //Dictionnary that will contain all the properties inputted in the inspector of the NPC
 
@@ -56,6 +56,7 @@ public class NPCController : ModifiableController, Interactable
     private Animator animator;
     private bool isWaiting=false;
     static private bool canMove = true; //if the NPC can moving (not in dialogState)
+    private IEnumerator lastSmoothMov;
 
     //player's informations
     private GameObject player;
@@ -150,7 +151,6 @@ public class NPCController : ModifiableController, Interactable
     {
         //if (changeState) { changeState = false; OnStateChange(stateName);}//DEBUG SHOULD BE REMOVED
         if (shouldMove && !isWaiting && canMove) { NewRandomMovement(); }
-
     }
 
     #region MOVEMENT_FUNCTIONS
@@ -202,7 +202,8 @@ public class NPCController : ModifiableController, Interactable
         }
         if (targetPositions.Any())
         {
-            StartCoroutine(SmoothMovement(targetPositions));
+            lastSmoothMov = SmoothMovement(targetPositions);
+            StartCoroutine(lastSmoothMov);
         }
         yield return new WaitForSeconds(timer);
         isWaiting = false;
@@ -229,12 +230,13 @@ public class NPCController : ModifiableController, Interactable
             Utils.UpdateOrderInLayer(gameObject);
             yield return null;
         }
+        player.GetComponent<PlayerMovement>().RefreshOrientationSprite(); //Permet de reset l'interaction avec le joueur 
         targetPositions.RemoveAt(0);
         if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
         {
-            StartCoroutine(SmoothMovement(targetPositions));
+            lastSmoothMov = SmoothMovement(targetPositions);
+            StartCoroutine(lastSmoothMov);
         }
-
     }
 
 
@@ -259,6 +261,9 @@ public class NPCController : ModifiableController, Interactable
     {
         //block and facing the player
         canMove = false;
+        if(lastSmoothMov!=null)
+            StopCoroutine(lastSmoothMov);
+        transform.position = grid.GetCellCenterWorld(grid.WorldToCell(transform.position));
         UpdateSpriteOrientation(-GameObject.FindGameObjectWithTag("Player").transform.position.x+transform.position.x,
             GameObject.FindGameObjectWithTag("Player").transform.position.y - transform.position.y);
 
@@ -275,7 +280,6 @@ public class NPCController : ModifiableController, Interactable
             if (playerHasObject && !prefHasChanged)
             {
                 OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
-
                 if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
                     GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
@@ -314,6 +318,7 @@ public class NPCController : ModifiableController, Interactable
     public void OnStateChange(string newStateName)
     {
         dialogSM = GetComponent<DialogSM>();
+        dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
         if (ui!=null) 
         {
@@ -524,6 +529,27 @@ public class NPCController : ModifiableController, Interactable
         GameObject new_item = Instantiate(item);
         new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
         new_item.GetComponent<ItemController>().RecuperatingItem();
+    }
+
+    /**
+     *  Function called from special states, that will add specific and previously non-accessible properties to NPC's .txt files
+     */
+    public void AddProperty(FILE_PROPERTIES[] newFileProperties)
+    {
+        //we firstly add the values to the .txt file as to not suppress precedently written values :
+        //then we add the new properties to the dict
+        foreach (var element in newFileProperties)
+        {
+            if (!properties.ContainsKey(element.propertyName))
+            {
+                properties.Add(element.propertyName, new DicoValueProperty { IsImportant = true, Value = element.propertyValue });
+            }
+            if (!propertyDict.ContainsKey(element.propertyName))
+            {
+                propertyDict.Add(element.propertyName, element);
+            }
+        }
+        UpdateFile();
     }
 }
 

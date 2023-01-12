@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Assertions;
@@ -37,16 +38,24 @@ public class PlayerInteractionController : MonoBehaviour
         //We save the direction and target to allow check for when window comes back in focus
         lastDirection = direction;
         lastTarget = target;
-        GameObject hitObject = Utils.CheckPresenceOnTile(grid, target + (Vector3Int)direction);
+        List<GameObject> hitObjects = Utils.CheckPresencesOnTile(grid, target + (Vector3Int)direction);
+        hitObjects = hitObjects.FindAll(hitObject =>
+            hitObject.TryGetComponent(out BinRestorationController _) ||
+            hitObject.GetComponent(typeof(Interactable)) != null);
+        if (hitObjects.Count > 1)
+        {
+            Debug.LogWarning("Multiple possible interaction");
+        }
 
-        if (hitObject)
+        if (hitObjects.Count > 0)
         {
             // either get interactable component or InteractableTrashController if in Cosmic Bin
+            GameObject hitObject = hitObjects.First();
             Component component =  hitObject.TryGetComponent(out BinRestorationController restorationController) ? restorationController : hitObject.GetComponent(typeof(Interactable));
             if (component)
             {
                 Interactable interactable = component as Interactable;
-                Debug.Log(component.GetType().Name);
+                //Debug.Log(component.GetType().Name);
                 interactionPrompt.SetActive(true);
                 interactable.canBeInteracted = true;
                 lastInteractable = interactable;

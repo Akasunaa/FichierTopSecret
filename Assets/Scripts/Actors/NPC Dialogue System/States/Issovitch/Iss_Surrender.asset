@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c0b4103769ee01419cc670fcd9127e7, type: 3}
+  m_Name: Iss_Surrender
+  m_EditorClassIdentifier: 
+  speech:
+  - You again ??!
+  - Ah I see, you Protectorate dog have broken the Material Taboo too...
+  - "So I guess there's no changing your mind...\n  "
+  - Well, it doesn't matter, you are too late.
+  - I used all my powers to create a powerful Reality Bomb, hidden deep in the spaceport.
+  - Once it detonates, it will take this city and Triton together in hell !
+  - And not only will the debris cascade will shatter the rest of the Protectorate's
+    orbital fleets and stations, it will also shatter their prestige !
+  - And soon, that forsaken power will crumble back into the depths of Neptune...
+  - Hahahaha !
+  - Of course, I surrender, O knight of justice...
+  - I wouldn't want to miss out that fiery end for anything....
+  currentSpeech: 
+  playerPrefsName: IsIssovitchCaptured
+  playerPrefsValue: TRUE
