@@ -86,7 +86,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
+  dialogueStandard: This is a bar table. Kannath once told me they came from a shipment
+    "lost" in the Uranus Sphere. I never questionned what "lost" meant, I don't want
+    to know...
   dialogueOnConditionChange: 
 --- !u!1 &2302938657009832474
 GameObject:
@@ -214,7 +216,7 @@ MonoBehaviour:
   - {x: 0.5, y: -1, z: 0}
   m_ShapePathHash: 1301673237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 58094
+  m_InstanceId: 83264
 --- !u!1 &5114320027914520074
 GameObject:
   m_ObjectHideFlags: 0
