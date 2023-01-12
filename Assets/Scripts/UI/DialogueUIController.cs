@@ -16,6 +16,7 @@ public class DialogueUIController : MonoBehaviour
     [SerializeField] private Image backgroundDialogueImage;         //probably not required
     [SerializeField] private Image portraitImage;                   //portrait image that will display the correct portrait sprite
     [SerializeField] private TextMeshProUGUI dialogueText;          //the dialogue text bubble
+    public GameObject cinematicCanvas;
 
     [SerializeField] public PortraitObject[] availablePortraits;         //all the possible portraits in the game
     private Dictionary<string, Sprite> portraits;                   //all the possible portraits of the game

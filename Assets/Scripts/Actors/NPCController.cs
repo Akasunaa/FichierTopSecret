@@ -413,7 +413,7 @@ public class NPCController : ModifiableController, Interactable
      *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
      *  We will also use these times to check if the player.txt properties have changed
      */
-    private void OnApplicationFocus()
+    private void OnApplicationFocus(bool hasFocus)
     {
         //Check for Player.txt values :
         foreach(var playerElement in playerPropertiesDict.Keys) //for all the possible properties that the NPC will check in Player.txt, it will go through all the possibilities and change state accordingly
