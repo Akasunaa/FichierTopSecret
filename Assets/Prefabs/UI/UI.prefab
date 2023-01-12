@@ -33,10 +33,10 @@ RectTransform:
   m_Father: {fileID: 466854746071918619}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: 550, y: 25}
+  m_SizeDelta: {x: -300, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4168510030703538193
 CanvasRenderer:
@@ -71,7 +71,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0.5
     y: 0
-    width: 0.05
+    width: 0.079
     height: 1
 --- !u!1 &2637594482985681454
 GameObject:
@@ -630,18 +630,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4591845654196194818}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7073289, w: 0.7068847}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 466854746071918619}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.036}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 20, y: 0}
-  m_SizeDelta: {x: 330, y: 20}
+  m_AnchoredPosition: {x: 50, y: 0}
+  m_SizeDelta: {x: 310, y: 20}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &9136553200965596799
 CanvasRenderer:
@@ -794,14 +794,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1298583f463bee49be72ea5b5ab11d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numbersDistance: 30
+  spriteWidth: 6000
+  spriteOffset: 3000
   rulerTopImage: {fileID: 3008114446194118834}
   cameraGridOffsetX: -0.5
-  rawImageTopUVRectOffset: -0.228
-  moveImageTopUVRectFactor: 0.02741
   rulerSideImage: {fileID: 6998983109040727564}
   cameraGridOffsetY: -0.5
-  rawImageSideUVRectOffset: -0.125
-  moveImageSideUVRectFactor: 0.04799
 --- !u!1 &5711212221504921418
 GameObject:
   m_ObjectHideFlags: 0
