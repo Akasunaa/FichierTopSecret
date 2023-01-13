@@ -53,7 +53,7 @@ public static class Utils
         else
         {
             var colliderSize = (Vector2)size;
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * Epsilon, 0);
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0);
         }
         return hit?.gameObject;
     }
