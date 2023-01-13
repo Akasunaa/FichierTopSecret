@@ -403,7 +403,7 @@ MonoBehaviour:
     go: {fileID: 244007217957566919, guid: 4e84953741dd38440a1a9e651ec27c6c, type: 3}
   - reg: nothing
     go: {fileID: 244007217957566919, guid: 7ff96bcae5ab45d4293e1a178172dec8, type: 3}
-  - reg: xv
+  - reg: robot
     go: {fileID: 4787518617515403794, guid: 4f5023184c96d894385ff1646ad45c7d, type: 3}
   - reg: civilian
     go: {fileID: 4445950531819338328, guid: 7007bec4d2dd72546be7789d7a15fe12, type: 3}
