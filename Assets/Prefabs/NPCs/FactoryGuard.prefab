@@ -187,6 +187,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
     state: {fileID: 11400000, guid: b9dd6a2d9a50874439a05c119c91b859, type: 2}
+  associatedNPCController: {fileID: 0}
 --- !u!114 &4121410922239261864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,8 +214,9 @@ MonoBehaviour:
   - propertyName: health
     propertyValue: 10
     propertyType: 0
-    conditionIsSuperior: 00
-    propertyCondition: []
+    conditionIsSuperior: 01
+    propertyCondition:
+    - 1
     propertyChangeState:
     - FG_Death
   objectsElements: []
