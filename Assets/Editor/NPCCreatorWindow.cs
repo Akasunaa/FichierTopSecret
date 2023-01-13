@@ -169,11 +169,11 @@ public class NPCCreatorWindow : EditorWindow
         npcController = instantiatedNPC.GetComponent<NPCController>();
 
         //Adding the list of states to the dialogSM component ----------------------------------------------
-        dialogSM.nextStates = new NEXT_STATE[availableStatesList.Count]; //we will simply add the items to the list of the dialogSM's inspector, dialogSM's script will handle the rest
+        dialogSM.nextStates = new NextState[availableStatesList.Count]; //we will simply add the items to the list of the dialogSM's inspector, dialogSM's script will handle the rest
         int stateIndex = 0;  
         foreach (var element in availableStatesList)
         {
-            NEXT_STATE nextState;
+            NextState nextState;
             nextState.state = element.state;
             nextState.name = element.state.name;
             dialogSM.nextStates[stateIndex] = nextState;

@@ -26,6 +26,6 @@ public class NewPropertyDialogState : DialogState
     {
         base.Enter(sm);
         //Debug.Log("NON ACCESSIBLE DIALOG STATE : ENTER()");
-        sm.ConvertTo<DialogSM>().associatedNPCController.AddProperty(fileProperties);
+        sm.ConvertTo<DialogSM>().associatedNpcController.AddProperty(fileProperties);
     }
 }
