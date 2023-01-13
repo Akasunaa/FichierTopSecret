@@ -12,7 +12,7 @@ public class CinematicManager : MonoBehaviour
     [Header("Cinematic Elements")]
     [SerializeField] private PlayableAsset cinematicData;
     [SerializeField] private string cinematicPlayerPrefs; //this playerPref ensures that the cinematic has not already been played
-    [SerializeField] private bool playCinematic;
+    //[SerializeField] private bool playCinematic;
     private PlayableDirector _cinematicDirector;
     private GameObject _player;
     private GameObject _ui;
@@ -22,7 +22,7 @@ public class CinematicManager : MonoBehaviour
         _cinematicDirector = GetComponent<PlayableDirector>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _ui = GameObject.FindGameObjectWithTag("UI");
-        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" || (Application.isEditor && !playCinematic))
+        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" /*|| (Application.isEditor && !playCinematic)*/)
         {
             _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         }
@@ -38,7 +38,11 @@ public class CinematicManager : MonoBehaviour
      */
     private IEnumerator StartCinematic()
     {
-        if (Application.isEditor && !playCinematic) yield break;
+        if (Application.isEditor /*&& !playCinematic*/)
+        {
+            _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
+            yield break;
+        }
         
         var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
