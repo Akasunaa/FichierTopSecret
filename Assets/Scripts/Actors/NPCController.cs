@@ -355,7 +355,7 @@ public class NPCController : ModifiableController, Interactable
                 {
                     for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
                     {
-                        if (properties[propertyDict[propertyString].propertyName].ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        if (properties[propertyDict[propertyString].propertyName].Value.ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
                         {
                             //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[0]);
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
