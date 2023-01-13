@@ -80,7 +80,7 @@ Shader "Unlit/Outline"
 				if (last == false) {
 					return outlineCSecond;
 				}	
-				return outlineC;
+				return outlineC * c.a;
 			}
 			
 			return c * c.a * (i.uv.x >= 0 && i.uv.x <= 1) * (i.uv.y >= 0 && i.uv.y <= 1);

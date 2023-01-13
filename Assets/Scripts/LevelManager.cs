@@ -9,6 +9,7 @@ using UnityEditor;
 using System.Linq;
 using JetBrains.Annotations;
 using Mono.Cecil.Rocks;
+using System.Drawing;
 
 public class LevelManager : MonoBehaviour
 {
@@ -43,27 +44,24 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
 
-#if UNITY_EDITOR
-        if (Application.isEditor)
-        {
-            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
+        
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
-            if (di.Exists)
+        if (di.Exists)
+        {
+            // remove readonly attributes on cosmicbin items to delete them
+            DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
+            if (di2.Exists)
             {
-                // remove readonly attributes on cosmicbin items to delete them
-                DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
-                if (di2.Exists)
+                foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
                 {
-                    foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
-                    {
-                        FileInfo fileInfo = new FileInfo(fileName);
-                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
-                    }
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
                 }
-                di.Delete(true);
             }
+            di.Delete(true);
         }
-#endif
+        
     }
 
     void Start()
@@ -198,7 +196,7 @@ public class LevelManager : MonoBehaviour
         GameObject newObj;
         FileParser fp;
         Vector3Int pos = Vector3Int.zero;
-        if (Regex.IsMatch(fi.Name, "(.*.txt|.*.bat)$"))
+        if (true) //todo
         {
             string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
             if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
@@ -226,7 +224,11 @@ public class LevelManager : MonoBehaviour
                     {
                         if (player != null)
                         {
-                            pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                            if (target != null)
+                                pos = (Vector3Int)target;
+                            else
+                                Destroy(newObj);
                         }
                         newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                         fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
@@ -262,7 +264,11 @@ public class LevelManager : MonoBehaviour
             {
                 if (player != null)
                 {
-                    pos = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                    if (target != null)
+                        pos = (Vector3Int)target;
+                    else
+                        Destroy(newObj);
                 }
                 newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                 fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));

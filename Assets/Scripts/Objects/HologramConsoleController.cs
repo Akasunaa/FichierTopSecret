@@ -10,6 +10,7 @@ public class HologramConsoleController : ModifiableController, Interactable
         base.SetDefaultProperties();
         properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = false});
     }
+
     public void Interact()
     {
         if (TryGet("locked", out bool locked) && hologram)

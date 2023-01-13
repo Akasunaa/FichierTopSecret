@@ -92,6 +92,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: e6919a5d696e20f4799169f8e24e6b4b, type: 2}
   - name: 
     state: {fileID: 11400000, guid: 7411bfd266c386549bb70344d5e842c5, type: 2}
+  associatedNPCController: {fileID: 0}
 --- !u!114 &6763806151426580000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: npc
+  portraitRef: xv6
   fileProperties:
   - propertyName: name
     propertyValue: XV6
@@ -149,8 +150,10 @@ MonoBehaviour:
     - StateNotEnoughLights
     isSuperior: 0100
     condition: 1e00000001000000
+  playerProperties: []
+  playerPrefsElements: []
   grid: {fileID: 0}
-  shouldMove: 1
+  shouldMove: 0
   speed: 1
 --- !u!1 &8005445728654904466
 GameObject:
@@ -227,7 +230,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: c25e6cbb048e9d0429a2b33320b3764b, type: 3}
+  m_Sprite: {fileID: 2042557351, guid: 1e9659eae7102534bb131b90b9857207, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -262,7 +265,7 @@ Animator:
   m_GameObject: {fileID: 8005445728654904466}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f3844d0f5fc8aa546b4718c8f02767ab, type: 2}
+  m_Controller: {fileID: 9100000, guid: 98ff3858e1dc3564cb498780e3bd6bda, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
