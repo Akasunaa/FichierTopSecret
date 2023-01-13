@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - UI
+  - NPC
+  - Lamp
+  - XV6
+  - Civilian
   layers:
   - Default
   - TransparentFX
@@ -41,4 +45,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 432736727
     locked: 0
