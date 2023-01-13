@@ -13,16 +13,24 @@ public class Ruler : MonoBehaviour
 
     [Header("Top Ruler infos")]
     [SerializeField] private RawImage rulerTopImage;
+    [SerializeField] private Image topRulerImageFond;
+    [SerializeField] private int topRulerNumbersShown = 8;
     [SerializeField] private float cameraGridOffsetX = 0f;
     
     [Header("Side Ruler Infos")]
     [SerializeField] private RawImage rulerSideImage;
+    [SerializeField] private Image sideRulerImageFond;
+    [SerializeField] private int sideRulerNumbersShown = 8;
     [SerializeField] private float cameraGridOffsetY = 0f;
     [SerializeField] private float rulerSideWidthOffset = 0f;
-    
+
     private Vector3 _cameraPos = Vector3.zero;
     private Camera _mainCameraReference;
     private bool _haveCamera;
+
+    /*private GameObject _player;
+    private Vector3 _initialTopRulerPosition;
+    private Vector3 _initialTopRulerOnScreenPosition;*/
     
     private float _deltaPTop;
     private float _deltaPSide;
@@ -37,6 +45,9 @@ public class Ruler : MonoBehaviour
         _mainCameraReference = Camera.main;
         _cameraPos = _mainCameraReference.transform.position;
         _haveCamera = true;
+        // _player = GameObject.FindGameObjectWithTag("Player");
+        
+        // _initialTopRulerPosition = rulerTopImage.transform.position;
     }
 
     private void FixedUpdate()
@@ -56,6 +67,14 @@ public class Ruler : MonoBehaviour
         // take the new camera position
         var newCameraPos = _mainCameraReference.transform.position;
         
+        var topRulerWidth = topRulerNumbersShown * _deltaPTop;
+        rulerTopImage.rectTransform.sizeDelta = new Vector2(topRulerWidth, rulerTopImage.rectTransform.rect.height);
+
+        /*var playerPos = _mainCameraReference.WorldToScreenPoint(_player.transform.position);
+        _initialTopRulerOnScreenPosition = _mainCameraReference.WorldToScreenPoint(_initialTopRulerPosition);
+
+        rulerTopImage.transform.position = new Vector3(_initialTopRulerPosition.x + _initialTopRulerOnScreenPosition.x - playerPos.x, rulerTopImage.transform.position.y, 0);*/
+
         // first we do the top ruler stuff (good soup)
         // calculate the width percentage for the top image uvRect, depends on (by order of apparition) :
         // - the top image width
@@ -78,20 +97,35 @@ public class Ruler : MonoBehaviour
         // - the grid offset (the center of a grid tile is not a round number) 
         // - the sprite width
         var x = x0 + numbersDistance * (_cameraPos.x + cameraGridOffsetX) / spriteWidth;
+        // var x = x0 + numbersDistance * (_player.transform.position.x + cameraGridOffsetX) / spriteWidth;
         
         // finally we input the x and the width percentage we just calculated
-        rulerTopImage.uvRect = new Rect(x, rulerTopImage.uvRect.y, wTop, rulerTopImage.uvRect.height);   
+        rulerTopImage.uvRect = new Rect(x, rulerTopImage.uvRect.y, wTop, rulerTopImage.uvRect.height);
+
+        // set the fond to be at the size of the ruler
+        topRulerImageFond.transform.position = rulerTopImage.transform.position;
+        topRulerImageFond.rectTransform.sizeDelta = rulerTopImage.rectTransform.sizeDelta;
+
         
+        // resize the side ruler using the screen height
+        // sizeDelta = new Vector2(Screen.height - rulerSideWidthOffset, sizeDelta.y);
+        // rulerSideImage.rectTransform.sizeDelta = sizeDelta;
         
-        
+
+        var sideRulerWidth = sideRulerNumbersShown * _deltaPSide;
+        var rect = rulerSideImage.rectTransform.rect;
+        rulerSideImage.rectTransform.sizeDelta = new Vector2(sideRulerWidth, rect.height);
+
         // then we do the side ruler stuff (good soup now, these are the same steps as right before)
-        var wSide = rulerSideImage.rectTransform.rect.width * numbersDistance / (spriteWidth * _deltaPSide);
+        var wSide = rect.width * numbersDistance / (spriteWidth * _deltaPSide);
         var y0 = spriteOffset / spriteWidth - wSide/2;
         var y = y0 + numbersDistance * (_cameraPos.y + cameraGridOffsetY) / spriteWidth;
         rulerSideImage.uvRect = new Rect(y, rulerSideImage.uvRect.y, wSide, rulerSideImage.uvRect.height);
 
-        // resize the side ruler using the screen height
-        rulerSideImage.rectTransform.sizeDelta = new Vector2(Screen.height - rulerSideWidthOffset, rulerSideImage.rectTransform.sizeDelta.y);
+        
+        // adjust size ruler fond
+        sideRulerImageFond.transform.position = rulerSideImage.transform.position;
+        sideRulerImageFond.rectTransform.sizeDelta = rulerSideImage.rectTransform.sizeDelta;
         
         _cameraPos = newCameraPos;
     }
