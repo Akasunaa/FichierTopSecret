@@ -1,10 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
 /**
  *  Dialog State Machine used by the NPCs inherited from StateMachine basis
@@ -59,23 +56,21 @@ public class DialogSM : StateMachine
      *  Calls the currentState's exit method to solve any remaining state's actions if needed
      *  Then attributes and calls the new state's Enter method
      */
-    public new void ChangeState(string nextStateName)
+    public void ChangeState(string nextStateName)
     {
         if (nextStateName == currentState.name) //same state
         {
             return;
         }
-        if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
+        if (nextPossibleStates.TryGetValue(nextStateName, out var dialog))
         {
             currentState.Exit(this);
             currentState = dialog;
             currentState.Enter(this);
-            return;
         }
         else
         {
             Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName);
-            return;
         }
     }
 }
@@ -84,7 +79,7 @@ public class DialogSM : StateMachine
  *  Structure of elements used to create the list of new states
  *  We made it a different class to allow other scripts to use it (notably the custom editor window)
  */
-[System.Serializable]
+[Serializable]
 public struct NEXT_STATE                               //struct used for the next states
 {
     [HideInInspector] public string name;

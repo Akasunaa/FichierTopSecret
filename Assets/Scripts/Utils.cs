@@ -1,9 +1,7 @@
-using System.Collections;
+#nullable enable
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
 {
@@ -21,10 +19,10 @@ public static class Utils
             hit = Physics2D.OverlapBox(position, (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
         } else
         {
-            Vector2 colliderSize = (Vector2) size;
+            var colliderSize = (Vector2) size;
             hit = Physics2D.OverlapBox(position, colliderSize - Vector2.one * EPSILON, 0);
         }
-        return hit?.gameObject;
+        return hit.gameObject;
     }
 
     /**
@@ -32,9 +30,10 @@ public static class Utils
      */
     public static List<GameObject> CheckPresencesOnTile(Grid grid, Vector2 position, Vector2? size = null)
     {
-        Collider2D[] hits = Physics2D.OverlapBoxAll(
+        Collider2D[] hits = 
+            Physics2D.OverlapBoxAll(
             position,
-            (Vector2) (size == null ? grid.cellSize : size)- Vector2.one * EPSILON,
+            (size ?? grid.cellSize)- Vector2.one * EPSILON,
             0);
 
         return hits.Select(hit => hit.gameObject).ToList();
