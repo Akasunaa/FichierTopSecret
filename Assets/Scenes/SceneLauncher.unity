@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33361216a65e880449376c185f707165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightMaterial: {fileID: 2100000, guid: 6827c6b86fdbc4c4badb4edad1a9ac0d, type: 2}
-  selectedMaterial: {fileID: 2100000, guid: e2426da68ad454b4394a6ad71a483e22, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 7ff3ecd3f2eadf14da49dbbe392ec16a, type: 2}
+  selectedMaterial: {fileID: 2100000, guid: 570a295f17aeccd4bb259990e0541af0, type: 2}
   unhighlightMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
 --- !u!4 &59574806
 Transform:
