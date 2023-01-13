@@ -24,10 +24,6 @@ public class FileParser : MonoBehaviour
         filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
-        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
-        {
-            sr.material.SetFloat("_numberOfSprite", sr.sprite.texture.width / sr.sprite.rect.width);
-        }
     }
 
     /**
