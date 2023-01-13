@@ -123,7 +123,14 @@ public class DoorObjectController : ModifiableController, Interactable
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = isLockedByDefault});
+        if (Application.isEditor) //by default, if we're in the editor, all the doors are unlocked
+        {
+            properties.Add("locked", new DicoValueProperty { IsImportant = true, Value = false });
+        }
+        else
+        {
+            properties.Add("locked", new DicoValueProperty { IsImportant = true, Value = isLockedByDefault });
+        }
         // properties.Add("status", "closed");
         properties.Add("direction", new DicoValueProperty {IsImportant = true, Value = direction});
     }
