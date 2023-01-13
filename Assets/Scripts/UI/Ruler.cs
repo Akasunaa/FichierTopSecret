@@ -18,6 +18,7 @@ public class Ruler : MonoBehaviour
     [Header("Side Ruler Infos")]
     [SerializeField] private RawImage rulerSideImage;
     [SerializeField] private float cameraGridOffsetY = 0f;
+    [SerializeField] private float rulerSideWidthOffset = 0f;
     
     private Vector3 _cameraPos = Vector3.zero;
     private Camera _mainCameraReference;
@@ -88,6 +89,9 @@ public class Ruler : MonoBehaviour
         var y0 = spriteOffset / spriteWidth - wSide/2;
         var y = y0 + numbersDistance * (_cameraPos.y + cameraGridOffsetY) / spriteWidth;
         rulerSideImage.uvRect = new Rect(y, rulerSideImage.uvRect.y, wSide, rulerSideImage.uvRect.height);
+
+        // resize the side ruler using the screen height
+        rulerSideImage.rectTransform.sizeDelta = new Vector2(Screen.height - rulerSideWidthOffset, rulerSideImage.rectTransform.sizeDelta.y);
         
         _cameraPos = newCameraPos;
     }

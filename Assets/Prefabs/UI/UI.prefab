@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -30}
-  m_SizeDelta: {x: -300, y: 25}
+  m_SizeDelta: {x: -100, y: 25}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4168510030703538193
 CanvasRenderer:
@@ -238,8 +238,10 @@ MonoBehaviour:
   spriteOffset: 3000
   rulerTopImage: {fileID: 3008114446194118834}
   cameraGridOffsetX: 0
+  rulerTopWidthOffset: 0
   rulerSideImage: {fileID: 6998983109040727564}
   cameraGridOffsetY: 0
+  rulerSideWidthOffset: 108
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,8 +670,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 50, y: 0}
-  m_SizeDelta: {x: 310, y: 20}
+  m_AnchoredPosition: {x: 30, y: 0}
+  m_SizeDelta: {x: 302.3, y: 20}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &9136553200965596799
 CanvasRenderer:
