@@ -8,20 +8,20 @@ public static class SynonymController
         new[] { "desk", "desktop"},
         new[] { "lamp", "light", "streetlight"},
         new[] { "door", "exit", "gate"},
-        new[] {"teleport", "teleporter","portal"}
+        new[] { "teleport", "teleporter", "portal"}
     };
 
     public static IEnumerable<string> SearchSynonym(string word)
     {
         word = word.Trim().ToLower();
         word = new string(word.Where(char.IsLetter).ToArray());
+        var synonym = new[] { word };
         foreach(var group in SynonymGroups)
         {
             if (group.Any(synWord => synWord == word))
-                return group;
+                synonym = group;
             
         }
-        var synonym = new[] { word };
         return synonym ;
     }
 }
