@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine.Assertions;
 
 /**
@@ -22,6 +24,10 @@ public class FileParser : MonoBehaviour
         filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + targetObjectFileName;
         targetModifiable = GetComponent<ModifiableController>();
         Assert.IsNotNull(targetModifiable);
+        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.material.SetFloat("_numberOfSprite", sr.sprite.texture.width / sr.sprite.rect.width);
+        }
     }
 
     /**
