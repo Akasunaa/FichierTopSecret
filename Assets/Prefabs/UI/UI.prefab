@@ -238,7 +238,6 @@ MonoBehaviour:
   spriteOffset: 3000
   rulerTopImage: {fileID: 3008114446194118834}
   cameraGridOffsetX: 0
-  rulerTopWidthOffset: 0
   rulerSideImage: {fileID: 6998983109040727564}
   cameraGridOffsetY: 0
   rulerSideWidthOffset: 108
@@ -846,11 +845,11 @@ RectTransform:
   m_Father: {fileID: 769581461082362396}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.87000006, y: 0.7512745}
-  m_AnchorMax: {x: 0.97400004, y: 0.9511814}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchorMin: {x: 0.87000006, y: 0.04}
+  m_AnchorMax: {x: 0.97400004, y: 0.24}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 1.0000001, y: 0.99999994}
+  m_Pivot: {x: 1.0000001, y: 1}
 --- !u!222 &2956020028549070632
 CanvasRenderer:
   m_ObjectHideFlags: 0
