@@ -30,8 +30,7 @@ public static class Utils
      */
     public static List<GameObject> CheckPresencesOnTile(Grid grid, Vector2 position, Vector2? size = null)
     {
-        Collider2D[] hits = 
-            Physics2D.OverlapBoxAll(
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
             position,
             (size ?? grid.cellSize)- Vector2.one * EPSILON,
             0);
@@ -40,7 +39,7 @@ public static class Utils
     }
 
     /**
-    * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
+    * Method checking a tile for a collider and returning it with tilemap position. If there are no collider on the tile, returns null.
     */
     public static GameObject? CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
     {
@@ -53,8 +52,8 @@ public static class Utils
         }
         else
         {
-            Vector2 colliderSize = (Vector2)size;
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0);
+            var colliderSize = (Vector2)size;
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * Epsilon, 0);
         }
         return hit?.gameObject;
     }
@@ -74,7 +73,7 @@ public static class Utils
     }
 
     /**
-    Renvoie la position libre la plus proche de la position d'entree s'il y en a une, renvoie null sinon
+    Renvoie la position libre la plus proche de la position d'entrée s'il y en a une, renvoie null sinon
     position : position de départ
     size : taille de la position libre voulue
     depth : variable de récursion
@@ -83,17 +82,16 @@ public static class Utils
     public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 100)
     {
         if (depth > limit) { return null; }
-        for (int i = -depth; i <= depth; i++)
+        for (var i = -depth; i <= depth; i++)
         {
-            for (int j = -depth; j <= depth; j++)
+            for (var j = -depth; j <= depth; j++)
             {
-                if(i==depth || i==-depth || j==-depth || j == depth)
+                if (i != depth && i != -depth && j != -depth && j != depth) continue;
+                
+                if (CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
                 {
-                    if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
-                    {
-                        return new Vector3Int(position.x + i, position.y + j, 0);
-                    }
-                }                 
+                    return new Vector3Int(position.x + i, position.y + j, 0);
+                }
             }
         }
         return NearestTileEmpty(position, size, depth + 1,limit);

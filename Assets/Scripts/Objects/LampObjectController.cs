@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
+
 /**
  *  Component handling the lamp's modifications and state according to its file
  *  Associated file : Lamp.txt

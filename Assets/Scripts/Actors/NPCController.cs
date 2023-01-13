@@ -318,7 +318,7 @@ public class NPCController : ModifiableController, Interactable
     public void OnStateChange(string newStateName)
     {
         dialogSM = GetComponent<DialogSM>();
-        dialogSM.associatedNPCController = this;
+        dialogSM.associatedNpcController = this;
         dialogSM.ChangeState(newStateName);
         if (ui!=null) 
         {
