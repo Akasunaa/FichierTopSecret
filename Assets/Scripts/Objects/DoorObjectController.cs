@@ -25,6 +25,7 @@ public class DoorObjectController : ModifiableController, Interactable
     private bool _isOpened;
     public bool canBeInteracted { get; set; }
 
+
     private void Awake()
     {
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
@@ -127,4 +128,5 @@ public class DoorObjectController : ModifiableController, Interactable
         // properties.Add("status", "closed");
         properties.Add("direction", new DicoValueProperty {IsImportant = true, Value = direction});
     }
+
 }

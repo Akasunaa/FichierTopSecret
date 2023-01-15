@@ -309,7 +309,14 @@ public class FilesWatcher : MonoBehaviour
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " already exists (it is normal if it was already in the scene)");
                     }
-                    else {
+                    else if (relativePath.Contains("/" + Utils.RootFolderName + "/player/"))
+                    {
+                        Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
+                        LevelManager.Instance.NewObject(fc.Fi, isItem: true);
+
+                    }
+                    else
+                    {
                         Debug.LogWarning("[FileWatcher] File " + relativePath + " is in the wrong directory");
                     }
                     break;
@@ -347,7 +354,9 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = a.Item2 ? selectedMaterial : unhighlightMaterial;
+                SpriteRenderer? sr = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
+                if(sr!=null)
+                    sr.material = a.Item2 ? selectedMaterial : unhighlightMaterial;
             }
         }
 

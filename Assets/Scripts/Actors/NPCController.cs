@@ -512,7 +512,7 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function that will scan the player's inventory for a specific object
      *  Param :
-     *      @objectName : String : name of the object the npc will check for
+     *  @objectName : String : name of the object the npc will check for
      */
     private bool ScanPlayerInventory(String objectName)
     {
