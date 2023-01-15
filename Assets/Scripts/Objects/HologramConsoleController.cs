@@ -8,7 +8,7 @@ public class HologramConsoleController : ModifiableController, Interactable
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = false});
+        properties.TryAdd("locked", new DicoValueProperty {IsImportant = true, Value = false});
     }
 
     public void Interact()
