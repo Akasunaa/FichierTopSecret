@@ -19,7 +19,7 @@ public class ItemController : ModifiableController
 
     public void OnEnable()
     {
-        itemSprite.SetActive(false);
+        //itemSprite.SetActive(false);
     }
 
     /**
@@ -28,6 +28,7 @@ public class ItemController : ModifiableController
      */
     public int RecuperatingItem()
     {
+        var a=0;
         FileParser fileParser = GetComponent<FileParser>();
         FileInfo fileInfo = new FileInfo(fileParser.filePath);
         using (StreamWriter sw = new StreamWriter(fileInfo.FullName))

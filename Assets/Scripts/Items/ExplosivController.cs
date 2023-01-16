@@ -12,16 +12,16 @@ public class ExplosivController : ItemController
 
     public override void UpdateModification()
     {
-        string path = gameObject.GetComponent<FileParser>().filePath;
-        //PlayerPrefs.SetString("HasDetonated", path);
-        //PlayerPrefs.Save();
+        
         //
-        print("miaou");
         print(gameObject.GetComponent<FileParser>().filePath);
         base.UpdateModification();
         if (!TryGet("detonate", out bool detonate)) return;
         if (!detonate) return;
         print("DETONATE");
-   
+
+        string path = gameObject.GetComponent<FileParser>().filePath;
+        PlayerPrefs.SetString("HasDetonated", path);
+        PlayerPrefs.Save();
     }
 }

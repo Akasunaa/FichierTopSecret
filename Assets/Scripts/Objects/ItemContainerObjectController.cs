@@ -109,9 +109,10 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     private void RecuperateItem()
     {
         _hasItem = false;
-        GameObject new_item = Instantiate(item);
-        new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        new_item.GetComponent<ItemController>().RecuperatingItem();
+        LevelManager.GiveItem(item);
+        //GameObject new_item = Instantiate(item);
+        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        //new_item.GetComponent<ItemController>().RecuperatingItem();
     }
 
     /**

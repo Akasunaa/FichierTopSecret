@@ -22,6 +22,7 @@ public static class ApplyPlayerChange
         { "color", CheckColor },
         { "locked", CheckBool },
         { "power", CheckBool },
+        { "detonate", CheckBool },
     };
 
     private static bool inSystemMessage;

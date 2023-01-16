@@ -313,7 +313,6 @@ public class FilesWatcher : MonoBehaviour
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
                         LevelManager.Instance.NewObject(fc.Fi, isItem: true);
-
                     }
                     else
                     {
@@ -329,9 +328,7 @@ public class FilesWatcher : MonoBehaviour
                             //Debug.LogWarning(relativePath + " has made an impossible change !");
                         }
                     }
-
                     break;
-
                 case FileChangeType.Delete:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {

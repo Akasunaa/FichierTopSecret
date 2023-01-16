@@ -45,6 +45,10 @@ public class FileParser : MonoBehaviour
             if (targetModifiable.canBeDeleted)
             {
                 gameObject.SetActive(false);
+                if(gameObject.TryGetComponent(out ItemController ic)) {
+                    Destroy(targetModifiable.gameObject);
+                    return true; 
+                } //item dont go in cosmic bin
                 DeleteFile(path);
 
                 return true;
@@ -64,7 +68,7 @@ public class FileParser : MonoBehaviour
 
         // create fileinfo
         var fi = new FileInfo(Application.streamingAssetsPath + path);
-
+        
         // add origin scene as property
         if (!fi.FullName.Contains("Cosmicbin"))
         {

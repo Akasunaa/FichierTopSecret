@@ -120,11 +120,11 @@ public class LevelManager : MonoBehaviour
         catch (Exception error) { Debug.LogError("no player found"); }
 
         //Read player prefs
-        //string path  = PlayerPrefs.GetString("HasDetonated");
-        //if (path.Contains(levelName))
-        //{
-        //    print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
-        //}
+        string path = PlayerPrefs.GetString("HasDetonated");
+        if (path.Contains(levelName))
+        {
+            print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
+        }
 
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
@@ -203,6 +203,7 @@ public class LevelManager : MonoBehaviour
 
     /*
      * Create a new game object from a file if it match a regex
+     * isItem : created in /player/
      */
     public void NewObject(FileInfo fi, bool isInComsicBin = false, bool isItem=false)
     {
@@ -221,16 +222,13 @@ public class LevelManager : MonoBehaviour
             if (synonym!=null)
             {
                 Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
+                if (isItem && !pair.go.TryGetComponent(out ItemController ic)) { return; } //Non item object created in player folder
+                newObj = Instantiate(pair.go);
                 if (isItem)
                 {
-                    if(pair.go.TryGetComponent(out ItemController ic))
-                    {
-                        print("YES"); //pop a l'extérieur de la scene loin
-                    }
-                    else 
-                        return;  //Un objet non item est créee dans le player : rien ne se passe
+                    DontDestroyOnLoad(newObj);
+                    newObj.transform.parent = PlayerItems.Instance.transform;
                 }
-                newObj = Instantiate(pair.go);
                 // setup file parser
                 fp = newObj.AddComponent<FileParser>();
         
@@ -306,5 +304,21 @@ public class LevelManager : MonoBehaviour
 
         // Clean the prefab if it is instantiated in the Cosmic bin
         if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
-    }  
+    }
+
+    /**
+    *  Function called when the npc changes state by responding to a player bringing a correct item
+    *  It will create an instance of the stored item, and call its internal ItemController.RecuperatingItem() function
+    */
+    public static void GiveItem(GameObject item)
+    {
+        //GameObject new_item = Instantiate(item);
+        //LevelManager.Instance.NewObject(new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + item + ".txt"), isItem: true);
+        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        //new_item.GetComponent<ItemController>().RecuperatingItem();
+        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + item.name + ".txt"))
+        {
+            sw.Write("");
+        }
+    }
 }
