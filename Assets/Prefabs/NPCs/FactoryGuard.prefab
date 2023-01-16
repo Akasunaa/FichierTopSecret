@@ -219,6 +219,13 @@ MonoBehaviour:
     - 1
     propertyChangeState:
     - FG_Death
+  - propertyName: name
+    propertyValue: H. Syth Marn
+    propertyType: 1
+    conditionIsSuperior: 
+    propertyCondition: []
+    propertyChangeState:
+    - FG_Change_Name
   objectsElements: []
   questItems: []
   reactElements: []
