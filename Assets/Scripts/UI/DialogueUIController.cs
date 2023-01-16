@@ -13,9 +13,9 @@ public class DialogueUIController : MonoBehaviour
 {
     [Header("UI Elements")]
     [SerializeField] private Canvas dialogueCanvas;                 //canvas containing the dialogue items
-    [SerializeField] private Image backgroundDialogueImage;         //probably not required
     [SerializeField] private Image portraitImage;                   //portrait image that will display the correct portrait sprite
     [SerializeField] private TextMeshProUGUI dialogueText;          //the dialogue text bubble
+    [SerializeField] private TextMeshProUGUI dialogNameText;        //name displayed during the dialog
     public GameObject cinematicCanvas;
 
     [SerializeField] public PortraitObject[] availablePortraits;         //all the possible portraits in the game
@@ -24,7 +24,6 @@ public class DialogueUIController : MonoBehaviour
     private void Awake()
     {
         Assert.IsNotNull(dialogueCanvas);
-        Assert.IsNotNull(backgroundDialogueImage);
         Assert.IsNotNull(portraitImage);
         Assert.IsNotNull(dialogueText);
         dialogueCanvas.gameObject.SetActive(false);
@@ -40,25 +39,27 @@ public class DialogueUIController : MonoBehaviour
         {
             portraits.Add(portrait.portraitName, portrait.portraitSprite);
         }
-        print(portraits);
     }
 
     /**
      *  Function called by external scripts when a dialogue is triggered and should be displayed
      *  Param :
      *      text : string : the displayed text needed to be displayed by the dialogue box
-     *      name : string : the entity saying the line (player or npc)
+     *      name : string : name of the entity saying the line that references a name in the portrait boxes
      */
     public void DisplayDialogue(string text, string name)
     {
         dialogueCanvas.gameObject.SetActive(true);
         dialogueText.text = text;
+        Debug.Log("UI : "+name);
         if (portraits.TryGetValue(name, out Sprite curPortrait)) //we obtain the current portrait based on the inputted name
         {
             portraitImage.sprite = curPortrait;
+            dialogNameText.text = name;
         }
         else
         {
+            dialogNameText.text = name;
             portraitImage.sprite = null;
         }
     }
