@@ -317,6 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a12a1985aa74b7591e09e580d94e169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newPos: {x: 0, y: 0, z: 0}
 --- !u!4 &232339089
 Transform:
   m_ObjectHideFlags: 0
@@ -455,6 +456,8 @@ MonoBehaviour:
     go: {fileID: 4121410922239261867, guid: 7891386de522d4147b85eeb32fbd3521, type: 3}
   - reg: teleport
     go: {fileID: 4745399933507643035, guid: 68cb180348ccdee43ae1b60931188bdc, type: 3}
+  - reg: workerDrone
+    go: {fileID: 5443164626271493873, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
   popParticle: {fileID: 7037504838968731600, guid: 74593a8f89b32584991dcc2dceacbcc7, type: 3}
   depopParticle: {fileID: 7037504838968731600, guid: c905f369ed3894140b2f250e1593f1d7, type: 3}
 --- !u!1 &1278027334
