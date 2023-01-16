@@ -126,9 +126,9 @@ MonoBehaviour:
   - propertyName: health
     propertyValue: 1
     propertyType: 0
-    conditionIsSuperior: 00
+    conditionIsSuperior: 01
     propertyCondition:
-    - 
+    - 1
     propertyChangeState:
     - StateDeath
   objectsElements:
