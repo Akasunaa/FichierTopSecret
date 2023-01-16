@@ -40,7 +40,7 @@ public class DialogState : BaseState
      *  Returns :
      *      Int : 0 if the currentSpeech is the last speech, 1 otherwise
      */
-    public int ChangeSpeech()
+    public virtual int ChangeSpeech()
     {
         interactionIndex++;
         if (interactionIndex < speech.Length)

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: FG_Change_Name
+  m_Name: K_Change_Name
   m_EditorClassIdentifier: 
   speech:
-  - Changing my name ? How original
-  - Because $name$ is so much better...
-  currentSpeech: Changing my name ? How original
+  - Changing my name J ?
+  - Come on, we both now I ain't susceptible to that...
+  - Call me $name$ if ya want, we both know Kannath's the real one...
+  currentSpeech: 
