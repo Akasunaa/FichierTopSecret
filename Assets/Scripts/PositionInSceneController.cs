@@ -9,7 +9,7 @@ public class PositionInSceneController : Singleton<PositionInSceneController>
 {
 
     /// <summary>
-    /// Made to watch the value we got from _locToPos when the level was loaded.
+    /// Made to watch the value we got from _locToPos when the level is loaded.
     /// </summary>
     [SerializeField] private Vector3 newPos;
 
