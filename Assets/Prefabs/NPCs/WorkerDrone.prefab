@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 5443164626271493872}
   m_Layer: 0
   m_Name: WorkerDrone
-  m_TagString: NPC
+  m_TagString: WorkerDrone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,6 +198,10 @@ MonoBehaviour:
   nextStates:
   - name: WD_Change_Name
     state: {fileID: 11400000, guid: ecaf502c284a5f341951c4061a3fc9b5, type: 2}
+  - name: WD_Change_Name
+    state: {fileID: 11400000, guid: 87eda1256ea3a9f4cbe48c0021fa25bd, type: 2}
+  - name: WD_Change_Name
+    state: {fileID: 11400000, guid: a8590b9a6e86190478a42e19fb076d56, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &5443164626271493872
 MonoBehaviour:
@@ -224,7 +228,13 @@ MonoBehaviour:
     - WD_Change_Name
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: WorkerDrone
+    stateChangeName:
+    - WD_Cloned
+    - WD_Cloned_Many
+    isSuperior: 0101
+    condition: 0100000005000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}

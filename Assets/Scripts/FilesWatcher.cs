@@ -25,7 +25,7 @@ public class FilesWatcher : MonoBehaviour
     private IntPtr explorerHwnd = IntPtr.Zero;
     private bool isVibrating = false;
 
-    private static string supportedExtensions = "txt|bat";
+    private static string supportedExtensions = "(.txt|.bat)$";
 
     public enum FileChangeType
     {
@@ -423,12 +423,15 @@ public class FilesWatcher : MonoBehaviour
         if (_pathToScript.ContainsKey(relativePath))
         {
             Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
-        }
-        _pathToScript.Add(relativePath, fileParser);
+        } else 
+            _pathToScript.Add(relativePath, fileParser);
     }
 
-    public bool ContainsFile(FileInfo fi)
+    public bool? ContainsFile(FileInfo fi)
     {
+        string extension = Path.GetExtension(fi.FullName);
+        if (!Regex.IsMatch(extension, supportedExtensions, RegexOptions.IgnoreCase))
+            return null;
         return _pathToScript.ContainsKey(RelativePath(fi.FullName));
     }
 

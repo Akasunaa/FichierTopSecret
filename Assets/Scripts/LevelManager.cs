@@ -189,7 +189,9 @@ public class LevelManager : MonoBehaviour
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            if (!FilesWatcher.instance.ContainsFile(fi))
+            // If null it mean it is not a regular file (.txt and .bat)
+            bool containFile = FilesWatcher.instance.ContainsFile(fi) ?? true;
+            if (!containFile)
             {
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: FG_Change_Name
+  m_Name: CD_Change_Work
   m_EditorClassIdentifier: 
   speech:
-  - Changing my name ? How original
-  - Because $name$ is so much better...
-  currentSpeech: Changing my name ? How original
+  - 'Statement : work changed'
+  - 'Statement : $work$ unrecognized'
+  currentSpeech: 
