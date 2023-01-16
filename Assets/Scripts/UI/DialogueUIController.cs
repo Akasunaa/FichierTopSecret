@@ -51,7 +51,6 @@ public class DialogueUIController : MonoBehaviour
     {
         dialogueCanvas.gameObject.SetActive(true);
         dialogueText.text = text;
-        Debug.Log("UI : "+name);
         if (portraits.TryGetValue(name, out Sprite curPortrait)) //we obtain the current portrait based on the inputted name
         {
             portraitImage.sprite = curPortrait;

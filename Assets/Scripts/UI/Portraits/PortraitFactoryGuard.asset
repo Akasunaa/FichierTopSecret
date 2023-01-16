@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
   m_Name: PortraitFactoryGuard
   m_EditorClassIdentifier: 
-  portraitName: factoryGuard
+  portraitName: Factory Guard
   portraitSprite: {fileID: 21300000, guid: 0bc2801915d15f64eaf75cfe1498c264, type: 3}
