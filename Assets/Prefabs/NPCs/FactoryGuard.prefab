@@ -202,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: factoryGuard
+  portraitRef: Factory Guard
   fileProperties:
   - propertyName: employer
     propertyValue: HIDDEN
