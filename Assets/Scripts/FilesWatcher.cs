@@ -354,9 +354,18 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                SpriteRenderer? sr = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
-                if(sr!=null)
-                    sr.material = a.Item2 ? selectedMaterial : unhighlightMaterial;
+                if (a.Item2)
+                {
+                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = selectedMaterial;
+                    foreach (SpriteRenderer sr in fp.gameObject.GetComponentsInChildren<SpriteRenderer>())
+                    {
+                        sr.material.SetFloat("_numberOfSprite", sr.sprite.texture.width / sr.sprite.rect.width);
+                    }
+                }
+                else
+                {
+                    fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
+                }
             }
         }
 
@@ -398,7 +407,7 @@ public class FilesWatcher : MonoBehaviour
         GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
         if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
         {
-            explorerUiController.explorerCanvas.enabled = pathInExplorer;
+            explorerUiController.explorerCanvas.enabled = !pathInExplorer;
         }
         else
         {
@@ -444,9 +453,17 @@ public class FilesWatcher : MonoBehaviour
                 _currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
                 _pathToScript[completeObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
                 _currentHighlightObject = _pathToScript[completeObjectPath];
+                foreach (SpriteRenderer sr in _pathToScript[completeObjectPath].gameObject.gameObject.GetComponentsInChildren<SpriteRenderer>())
+                {
+                    sr.material.SetFloat("_numberOfSprite", sr.sprite.texture.width / sr.sprite.rect.width);
+                }
             }
             _pathToScript[completeObjectPath].gameObject.GetComponentInChildren<SpriteRenderer>().material = highlightMaterial;
             _currentHighlightObject = _pathToScript[completeObjectPath];
+            foreach (SpriteRenderer sr in _pathToScript[completeObjectPath].gameObject.gameObject.GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.material.SetFloat("_numberOfSprite", sr.sprite.texture.width / sr.sprite.rect.width);
+            }
         }
         catch
         {

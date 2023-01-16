@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
-  - component: {fileID: 3969105620170318530}
+  - component: {fileID: 1897949336972610201}
+  - component: {fileID: 5771656993190172378}
   m_Layer: 0
   m_Name: screen
   m_TagString: Untagged
@@ -60,7 +61,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8, y: 2}
   m_EdgeRadius: 0
---- !u!114 &3969105620170318530
+--- !u!114 &1897949336972610201
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -69,15 +70,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54021d1bdb8fd9e4fb4dac349d4d4523, type: 3}
+  m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
-  direction: Openworld
-  isLockedByDefault: 0
-  spriteRenderer: {fileID: 7200008761772708580}
-  closedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
-  openedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
+--- !u!114 &5771656993190172378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueStandard: This is a display screen. Sometimes we use it to display movies
+    at the end of parties, when only the regulars are here... Silvan always has the
+    best movies, straight from Venus' production halls !
+  dialogueOnConditionChange: 
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0

@@ -101,7 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: This is my hologram. I really ought to find this guy...
+  dialogueStandard: This is my hologram. So that's the Issovitch fellow... I really
+    ought to find this guy !
   dialogueOnConditionChange: This is my deactivated hologram. Quite a pointless slob
     of metal right now...
 --- !u!1 &2302938657009832474
@@ -234,7 +235,7 @@ MonoBehaviour:
   - {x: -0.18738277, y: -1.5875077, z: 0}
   m_ShapePathHash: -984881100
   m_Mesh: {fileID: 0}
-  m_InstanceId: 40524
+  m_InstanceId: 54318
 --- !u!1001 &7937114218275943005
 PrefabInstance:
   m_ObjectHideFlags: 0

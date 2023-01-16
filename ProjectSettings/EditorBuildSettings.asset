@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CosmicBin.unity
     guid: 847307a26f220ed4ba20ea791864e05d
+  - enabled: 1
+    path: Assets/Scenes/Bar.unity
+    guid: 187169186c6f11f438cd406acbbabb96
   m_configObjects: {}

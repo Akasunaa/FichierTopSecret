@@ -32,7 +32,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
 
     public override void SetDefaultProperties()
     {
-        properties.Add("locked", new DicoValueProperty {IsImportant = true, Value = true});
+        properties.TryAdd("locked", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
     public void Interact()

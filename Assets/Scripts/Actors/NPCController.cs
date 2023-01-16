@@ -332,10 +332,11 @@ public class NPCController : ModifiableController, Interactable
      */
     public override void SetDefaultProperties()
     {
-        foreach(var element in propertyDict.Values)
+        foreach(var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            properties.Add(element.propertyName, new DicoValueProperty {IsImportant = true, Value = element.propertyValue});
+            //Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty {IsImportant = true, Value = propertyDict[propertyKey].propertyValue});
         }
     }
 
@@ -347,21 +348,24 @@ public class NPCController : ModifiableController, Interactable
         base.UpdateModification();
         foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
+            //Debug.Log("NPC " + gameObject.name + " : value considered : " + propertyDict[propertyString].propertyName);
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
                 if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
                 {
                     for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
                     {
-                        if (properties[propertyDict[propertyString].propertyName].ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        if (properties[propertyDict[propertyString].propertyName].Value.ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
                         {
+                            //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[0]);
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
                             return;
                         }
                     }
                 }
-                if (properties[propertyDict[propertyString].propertyName].ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
+                else if (properties[propertyDict[propertyString].propertyName].Value.ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
                 {
+                    //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " no conditions list found, and file value "+ properties[propertyDict[propertyString].propertyName].Value.ToString()+" different than saved value "+ propertyDict[propertyString].propertyValue.ToString() + ", leading to change state to "+ propertyDict[propertyString].propertyChangeState[0]);
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
                 }
@@ -372,6 +376,7 @@ public class NPCController : ModifiableController, Interactable
             }
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
+                //Debug.Log("NPC "+gameObject.name+" : INTEGER value tested : " + propertyDict[propertyString].propertyName);
                 int integerValue;
                 int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
@@ -380,8 +385,10 @@ public class NPCController : ModifiableController, Interactable
                     int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
                     if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
                     {
+                        //Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " is a superior one");
                         if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
                         {
+                            //Debug.Log("NPC "+gameObject.name+": " + integerValue + " is inferior to "+conditionValue);
                             if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
                             {
                                 gameObject.SetActive(false);
@@ -389,6 +396,7 @@ public class NPCController : ModifiableController, Interactable
                             }
                             else
                             {
+                                //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
                                 OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                                 return;
                             }

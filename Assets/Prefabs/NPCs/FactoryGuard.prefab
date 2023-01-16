@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4121410921527346118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.03, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -187,6 +187,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
     state: {fileID: 11400000, guid: b9dd6a2d9a50874439a05c119c91b859, type: 2}
+  associatedNPCController: {fileID: 0}
 --- !u!114 &4121410922239261864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: factoryGuard
+  portraitRef: Factory Guard
   fileProperties:
   - propertyName: employer
     propertyValue: HIDDEN
@@ -213,8 +214,9 @@ MonoBehaviour:
   - propertyName: health
     propertyValue: 10
     propertyType: 0
-    conditionIsSuperior: 00
-    propertyCondition: []
+    conditionIsSuperior: 01
+    propertyCondition:
+    - 1
     propertyChangeState:
     - FG_Death
   objectsElements: []

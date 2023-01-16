@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4445950530162988810}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.03, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -184,6 +184,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 51dbfe833398a1d41a08bc3fa5dce72b, type: 2}
   - name: Civ_Too_Much
     state: {fileID: 11400000, guid: 1666e67917a77f8499bb50ec6a94c290, type: 2}
+  associatedNPCController: {fileID: 0}
 --- !u!114 &4445950531819338331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: civ
+  portraitRef: Civilian
   fileProperties:
   - propertyName: money
     propertyValue: 0
@@ -220,6 +221,8 @@ MonoBehaviour:
     - Civ_Cloned
     isSuperior: 01
     condition: 01000000
+  playerProperties: []
+  playerPrefsElements: []
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1

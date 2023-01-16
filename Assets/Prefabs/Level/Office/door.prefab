@@ -74,6 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 0
   direction: Openworld
+  isLockedByDefault: 1
   spriteRenderer: {fileID: 7200008761772708580}
   closedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
   openedSprite: {fileID: 21300000, guid: 3daecee522f8a71488cb11f9f484c2df, type: 3}
@@ -203,4 +204,4 @@ MonoBehaviour:
   - {x: 1, y: -1.5, z: 0}
   m_ShapePathHash: 1872098581
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31652
+  m_InstanceId: 54430
