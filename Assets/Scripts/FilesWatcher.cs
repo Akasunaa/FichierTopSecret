@@ -419,8 +419,8 @@ public class FilesWatcher : MonoBehaviour
         if (_pathToScript.ContainsKey(relativePath))
         {
             Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
-        }
-        _pathToScript.Add(relativePath, fileParser);
+        } else 
+            _pathToScript.Add(relativePath, fileParser);
     }
 
     public bool ContainsFile(FileInfo fi)
