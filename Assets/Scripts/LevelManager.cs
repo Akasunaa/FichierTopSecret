@@ -118,6 +118,14 @@ public class LevelManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
         catch (Exception error) { Debug.LogError("no player found"); }
+
+        //Read player prefs
+        //string path  = PlayerPrefs.GetString("HasDetonated");
+        //if (path.Contains(levelName))
+        //{
+        //    print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
+        //}
+
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
