@@ -7,7 +7,7 @@ public class ExplosivController : ItemController
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("detonate", new DicoValueProperty { IsImportant = true, Value = false });
+        properties.TryAdd("detonate", new DicoValueProperty { IsImportant = true, Value = true });
     }
 
     public override void UpdateModification()
@@ -15,10 +15,7 @@ public class ExplosivController : ItemController
         //todo : player pref
         print("miaou");
         base.UpdateModification();
-        //For the lamp object, we test if its power is on or off ??
-        if (TryGet("detonate", out bool detonate))
-        {
-            print("DETONATE");
-        }
+        if (!TryGet("detonate", out bool detonate)) return;
+        print("DETONATE");     
     }
 }
