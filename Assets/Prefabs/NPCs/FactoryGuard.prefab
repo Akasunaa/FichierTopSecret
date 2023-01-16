@@ -186,7 +186,7 @@ MonoBehaviour:
   - name: FactoryGuard_Incorrect_Name
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
-    state: {fileID: 11400000, guid: b9dd6a2d9a50874439a05c119c91b859, type: 2}
+    state: {fileID: 11400000, guid: 4b3ed68cd9d1f7f45b153f38c5a103b2, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &4121410922239261864
 MonoBehaviour:

@@ -10,12 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: StateDeath
+  m_Name: FG_DeathOLD
   m_EditorClassIdentifier: 
   speech:
-  - 'Oh ? '
-  - Did you try to kill me ?
-  - Good try, but I don't have healthpoints buddy...
-  - You're lucky that I have been prohibited from engaging combat, otherwise...
-  - ....it would not end well for you...
+  - ARH.....
   currentSpeech: 
