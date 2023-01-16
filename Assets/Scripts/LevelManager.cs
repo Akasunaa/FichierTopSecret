@@ -287,10 +287,4 @@ public class LevelManager : MonoBehaviour
             if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
         }
     }
-
-    public string GetLevelToLoadName()
-    {
-        return levelToLoad;
-    }
-    
 }
