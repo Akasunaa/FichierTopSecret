@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: FG_Change_Name
+  m_Name: WD_Cloned
   m_EditorClassIdentifier: 
   speech:
-  - Changing my name ? How original
-  - Because $name$ is so much better...
-  currentSpeech: Changing my name ? How original
+  - '*vrr* Clones. Detected.'
+  - '*brr* Protocole. Error.'
+  - '*vrr* New. Work. Helpers.'
+  - '*vrr*  Work. Efficiency. Increased. By. 200. %.'
+  currentSpeech: 
