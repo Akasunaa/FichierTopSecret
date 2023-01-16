@@ -34,8 +34,8 @@ public class LampObjectController :  ModifiableController, Interactable
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
-        properties.Add("power", new DicoValueProperty {IsImportant = true, Value = true});
-        properties.Add("color", new DicoValueProperty {IsImportant = true, Value = Color.white});
+        properties.TryAdd("power", new DicoValueProperty {IsImportant = true, Value = true});
+        properties.TryAdd("color", new DicoValueProperty {IsImportant = true, Value = Color.white});
     }
 
     public override void UpdateModification()
