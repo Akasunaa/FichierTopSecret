@@ -97,7 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: drunk
+  portraitRef: Drunk
   fileProperties:
   - propertyName: sleep
     propertyValue: true

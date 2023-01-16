@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
   m_Name: PortraitDrunk
   m_EditorClassIdentifier: 
-  portraitName: drunk
+  portraitName: Drunk
   portraitSprite: {fileID: -1737019478, guid: 6f18a0ff53426504097f9c869945e79e, type: 3}
