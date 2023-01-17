@@ -111,7 +111,11 @@ public static class ApplyPlayerChange
             Vector3 targetPos = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPositionNew);
             go.transform.position = targetPos;
             Utils.UpdateOrderInLayer(go);
-            
+            if (go.TryGetComponent(out FileParser fp))
+            {
+                fp.WriteToFile();
+            }
+
             // Pierre P. : I remove the shitty softlock in the game
             // string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
             // //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
