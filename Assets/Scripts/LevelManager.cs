@@ -174,6 +174,16 @@ public class LevelManager : MonoBehaviour
                 Destroy(fileParser.gameObject);
             }
         }
+        
+        // TODO : c'est moche
+        ModifiableController[] modifiableGameObjects = FindObjectsOfType<ModifiableController>();
+        foreach (ModifiableController modifiableController in modifiableGameObjects)
+        {
+            if (!modifiableController.TryGetComponent(out FileParser _))
+            {
+                modifiableController.SetDefaultProperties();
+            }
+        }
     }
 
     /*
