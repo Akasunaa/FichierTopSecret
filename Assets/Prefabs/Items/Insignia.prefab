@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1686ebb39f45b43a6b104e8c78f15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   item_name: insignia
   itemSprite: {fileID: 9162052900178188344}
 --- !u!1 &9162052900178188344

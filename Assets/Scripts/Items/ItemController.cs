@@ -15,12 +15,7 @@ public class ItemController : ModifiableController
     [Header("Item Variables")]
     [SerializeField] private string item_name;
     [Header("Item elements")]
-    [SerializeField] private GameObject itemSprite;
-
-    public void OnEnable()
-    {
-        //itemSprite.SetActive(false);
-    }
+    [SerializeField] public GameObject itemSprite;
 
     /**
      *  Function called by external scripts when the Player interacts with objects containing items
@@ -28,7 +23,6 @@ public class ItemController : ModifiableController
      */
     public int RecuperatingItem()
     {
-        var a=0;
         FileParser fileParser = GetComponent<FileParser>();
         FileInfo fileInfo = new FileInfo(fileParser.filePath);
         using (StreamWriter sw = new StreamWriter(fileInfo.FullName))

@@ -287,6 +287,12 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
+    public static bool IsPathToScene(string path, string levelName)
+    {
+        if (path.Contains("\\")){ path = RelativePath(path);}
+        return LevelManager.Capitalize(path.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
+    }
+
     private void Update()
     {
         while (_dataQueue.TryDequeue(out FileChange fc))
@@ -298,8 +304,7 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.New:
                     var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     var alreadyExists = _pathToScript.ContainsKey(relativePath);
-                    var rightDirectory =
-                        LevelManager.Capitalize(relativePath.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
+                    var rightDirectory = IsPathToScene(relativePath, levelName);
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
@@ -351,6 +356,8 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
+                SpriteRenderer? srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
+                if (srenderer == null) { break; }
                 if (a.Item2)
                 {
                     fp.gameObject.GetComponentInChildren<SpriteRenderer>().material = selectedMaterial;

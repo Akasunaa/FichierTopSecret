@@ -129,6 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86695ec7709fbf848b7f39f801e02c9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
-  item_name: 
+  canBeDeleted: 1
+  item_name: explosives
   itemSprite: {fileID: 974190118995348524}

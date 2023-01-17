@@ -125,7 +125,6 @@ public class LevelManager : MonoBehaviour
         {
             print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
         }
-
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
@@ -138,11 +137,6 @@ public class LevelManager : MonoBehaviour
             case "": return input;
             default: return input[0].ToString().ToUpper() + input.ToLower().Substring(1);
         }
-    }
-
-    private void Update()
-    {
-        print(player);
     }
 
     /*
@@ -205,7 +199,7 @@ public class LevelManager : MonoBehaviour
 
     /*
      * Create a new game object from a file if it match a regex
-     * isItem : created in /player/
+     * isItem : created in folder player
      */
     public void NewObject(FileInfo fi, bool isInComsicBin = false, bool isItem=false)
     {
@@ -224,12 +218,14 @@ public class LevelManager : MonoBehaviour
             if (synonym!=null)
             {
                 Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
-                if (isItem && !pair.go.TryGetComponent(out ItemController ic)) { return; } //Non item object created in player folder
+                if (isItem && !pair.go.TryGetComponent(out ItemController _)) { return; } //Non item object created in player folder
                 newObj = Instantiate(pair.go);
                 if (isItem)
                 {
                     DontDestroyOnLoad(newObj);
                     newObj.transform.parent = PlayerItems.Instance.transform;
+                    if(newObj.TryGetComponent(out ItemController ic))
+                        ic.itemSprite.SetActive(false);        
                 }
                 // setup file parser
                 fp = newObj.AddComponent<FileParser>();
@@ -251,11 +247,12 @@ public class LevelManager : MonoBehaviour
                     }
                     newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
-                    ParticleSystem particles = Instantiate(popParticle);
-                    particles.gameObject.transform.position = pos;
-                    particles.Play();
-                    Destroy(particles.gameObject,1);
-
+                    if (!isItem) {
+                        ParticleSystem particles = Instantiate(popParticle);
+                        particles.gameObject.transform.position = pos;
+                        particles.Play();
+                        Destroy(particles.gameObject, 1);
+                    }
                 }
                 fp.targetModifiable.SetDefaultProperties();
 
