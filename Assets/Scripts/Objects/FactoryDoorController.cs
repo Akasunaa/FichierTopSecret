@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ *  Script used by the factory door, that will handle opening the door through the NPC interaction
+ */
 public class FactoryDoorController : DoorObjectController
 {
     [Header("FactoryDoorElements")]
