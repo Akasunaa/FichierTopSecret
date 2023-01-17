@@ -12,5 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: IK_Change_Origin
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - Changed my origin ?
+  - Fufufu, how peculiar...
+  - Is that your way of inviting me to a date ? <3 <3
+  - I'll go to $origin$ anyday with ya <3 <3
   currentSpeech: 

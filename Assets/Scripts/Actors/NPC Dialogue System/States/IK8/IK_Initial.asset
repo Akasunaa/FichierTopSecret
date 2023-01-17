@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: IK_Initial
   m_EditorClassIdentifier: 
   speech:
-  - Hey there Jerrik ! How's that bio-life going for ya ?
-  - '*suprised sound* Hunting a protectorate soldier ? '
-  - 'Well good luck !
-
-'
+  - Hey there J-J ! How's that bio-life going for ya ?
+  - 'Hunting a protectorate soldier ? '
+  - Try to not get killed, I would miss ya <3
+  - Wouldn't ya rather want to stay here, dancing with good old me ?
+  - Hahaha, okay okay, job first...
+  - The usual with ya lil' bio lot
+  - Anywho, I'll be here all cycle if ya need me for anything...
   currentSpeech: 
