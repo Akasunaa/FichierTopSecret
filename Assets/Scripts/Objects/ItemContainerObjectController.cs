@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -109,9 +110,10 @@ public class ItemContainerObjectController : ModifiableController, Interactable
     private void RecuperateItem()
     {
         _hasItem = false;
-        GameObject new_item = Instantiate(item);
-        new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        new_item.GetComponent<ItemController>().RecuperatingItem();
+        LevelManager.GiveItem(item);
+        //GameObject new_item = Instantiate(item);
+        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        //new_item.GetComponent<ItemController>().RecuperatingItem();
     }
 
     /**
@@ -119,7 +121,10 @@ public class ItemContainerObjectController : ModifiableController, Interactable
      */
     private bool CheckItemPresence()
     {
-        GameObject new_item = Instantiate(item);
+        ItemController a = item.GetComponent<ItemController>();
+
+        return PlayerItems.Instance.GetComponentsInChildren<ItemController>().Contains(a);
+        /*GameObject new_item = Instantiate(item);
         if (new_item.GetComponent<ItemController>().CheckPresenceItem()) //if player has item
         {
             Destroy(new_item);
@@ -129,6 +134,6 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         {
             Destroy(new_item);
             return false;
-        }
+        }*/
     }
 }

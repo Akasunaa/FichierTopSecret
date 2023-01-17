@@ -22,9 +22,9 @@ public class TeleportObjectController : ModifiableController, Interactable
     public void Interact()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Vector3Int? target = Utils.NearestTileEmpty((Vector2Int)SceneData.Instance.grid.WorldToCell(pairTeleport.gameObject.transform.position), limit : 1);
+        Vector2Int? target = Utils.NearestTileEmpty((Vector2Int)SceneData.Instance.grid.WorldToCell(pairTeleport.gameObject.transform.position), limit : 1);
         if (target != null)
-            player.transform.position = (Vector3)target; //add feedback ?
+            player.transform.position = new Vector3(target.Value.x, target.Value.y, 0); //add feedback ?
     }
 
     private void Start()
