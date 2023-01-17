@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 6320083818459328203}
   - component: {fileID: 6181472735590123856}
   - component: {fileID: 6203758151109536151}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -270,7 +270,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67512
+  m_InstanceId: 80890
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0
