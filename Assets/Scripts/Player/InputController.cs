@@ -88,19 +88,20 @@ public class InputController : MonoBehaviour
             inputName = "q";
         }
 
-        if (inputName.Equals(input.onFoot.HorizontalLeftMovement.GetBindingDisplayString(1).ToLower()))
+
+        if (inputName.Equals(input.onFoot.HorizontalLeftMovement.GetBindingDisplayString(1).ToLower()) || inputName == "leftArrow")
         {
             return Vector2Int.left;
         }
-        if (inputName.Equals(input.onFoot.VerticalUpMovement.GetBindingDisplayString(1).ToLower()))
+        if (inputName.Equals(input.onFoot.VerticalUpMovement.GetBindingDisplayString(1).ToLower()) || inputName == "upArrow")
         {
             return Vector2Int.up;
         }
-        if (inputName.Equals(input.onFoot.VerticalDownMovement.GetBindingDisplayString(1).ToLower()))
+        if (inputName.Equals(input.onFoot.VerticalDownMovement.GetBindingDisplayString(1).ToLower()) || inputName == "downArrow" )
         {
             return Vector2Int.down;
         }
-        if (inputName.Equals(input.onFoot.HorizontalRightMovement.GetBindingDisplayString(1).ToLower()))
+        if (inputName.Equals(input.onFoot.HorizontalRightMovement.GetBindingDisplayString(1).ToLower()) || inputName == "rightArrow")
         {
             return Vector2Int.right;
         }

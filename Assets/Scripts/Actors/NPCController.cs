@@ -1,3 +1,4 @@
+using Mono.Cecil.Rocks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -282,7 +283,7 @@ public class NPCController : ModifiableController, Interactable
                 OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
                 if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
-                    GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
+                    LevelManager.GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
                     questItemsDict.Remove(objectDict[checkedObject].playerItemChangeState); //we remove the item to avoid giving it twice
                 }
             }
@@ -338,13 +339,13 @@ public class NPCController : ModifiableController, Interactable
             Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty {IsImportant = true, Value = propertyDict[propertyKey].propertyValue});
         }
-        //DEBUG -------------------------
-        foreach (var property in properties.Keys)
-        {
-            Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
+        ////DEBUG -------------------------
+        //foreach (var property in properties.Keys)
+        //{
+        //    Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
 
-        }
-        //-------------------------------
+        //}
+        ////-------------------------------
     }
 
     /**
@@ -353,15 +354,15 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        //DEBUG -------------------------
-        foreach(var property in properties.Keys)
-        {
-            Debug.Log("NPC " + gameObject.name + " : UpdateModification : file properties value considered : " + property);
-        }
-        //-------------------------------
+        ////DEBUG -------------------------
+        //foreach(var property in properties.Keys)
+        //{
+        //    Debug.Log("NPC " + gameObject.name + " : UpdateModification : file properties value considered : " + property);
+        //}
+        ////-------------------------------
         foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
-            Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
+            //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
                 if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
@@ -533,23 +534,12 @@ public class NPCController : ModifiableController, Interactable
     /**
      *  Function that will scan the player's inventory for a specific object
      *  Param :
-     *      @objectName : String : name of the object the npc will check for
+     *  @objectName : String : name of the object the npc will check for
      */
     private bool ScanPlayerInventory(String objectName)
     {
         var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
         return fileInfo.Exists;
-    }
-
-    /**
-    *  Function called when the npc changes state by responding to a player bringing a correct item
-    *  It will create an instance of the stored item, and call its internal ItemController.RecuperatingItem() function
-    */
-    private void GiveItem(GameObject item)
-    { 
-        GameObject new_item = Instantiate(item);
-        new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        new_item.GetComponent<ItemController>().RecuperatingItem();
     }
 
     /**
