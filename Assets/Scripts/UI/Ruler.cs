@@ -15,14 +15,13 @@ public class Ruler : MonoBehaviour
     [SerializeField] private RawImage rulerTopImage;
     [SerializeField] private Image topRulerImageFond;
     [SerializeField] private int topRulerNumbersShown = 8;
-    [SerializeField] private float cameraGridOffsetX = 0f;
+    [SerializeField] private float cameraGridOffsetX;
     
     [Header("Side Ruler Infos")]
     [SerializeField] private RawImage rulerSideImage;
     [SerializeField] private Image sideRulerImageFond;
     [SerializeField] private int sideRulerNumbersShown = 8;
-    [SerializeField] private float cameraGridOffsetY = 0f;
-    [SerializeField] private float rulerSideWidthOffset = 0f;
+    [SerializeField] private float cameraGridOffsetY;
 
     private Vector3 _cameraPos = Vector3.zero;
     private Camera _mainCameraReference;

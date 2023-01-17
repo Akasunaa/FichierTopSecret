@@ -197,4 +197,18 @@ public abstract class ModifiableController : MonoBehaviour
 
         return test;
     }
+
+    /// <summary>
+    /// Calls UpdateModification, UpdateFile and if the associated object has an ObjectInteractionController component,
+    /// also calls ObjectInteractionController.OnChangeDialogue method.
+    /// </summary>
+    public void OnChangeUpdateAll()
+    {
+        UpdateModification();
+        UpdateFile();
+
+        var interactionController = GetComponent<ObjectInteractionController>();
+        if (interactionController == null) return;
+        interactionController.OnChangeDialogue();
+    }
 }

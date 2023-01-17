@@ -43,6 +43,7 @@ public class ObjectInteractionController : MonoBehaviour
      */
     public void OnChangeDialogue()
     {
+        if (dialogueOnConditionChange == "") return;
         _curDialogue = _curDialogue == dialogueOnConditionChange ? dialogueStandard : dialogueOnConditionChange;
     }
 }
