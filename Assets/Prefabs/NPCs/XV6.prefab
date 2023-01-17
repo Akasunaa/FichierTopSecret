@@ -135,7 +135,7 @@ MonoBehaviour:
   - playerItemName: insignia
     playerItemChangeState: StateInsigniaObtained
   questItems:
-  - item: {fileID: 1381264106732799180, guid: ba5e5b30d1e42f548bda7c0ab15988d6, type: 3}
+  - item: {fileID: 3958324133499281067, guid: 3c99a591cff694d408fa531a6dafb721, type: 3}
     questChangeState: StateInsigniaObtained
   reactElements:
   - tagToReact: XV6

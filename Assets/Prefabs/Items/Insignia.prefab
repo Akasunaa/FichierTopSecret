@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9162052899093022863}
   - component: {fileID: 7356846346285365609}
-  - component: {fileID: 1149313033280587997}
   m_Layer: 0
   m_Name: Insignia
   m_TagString: Untagged
@@ -46,22 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1686ebb39f45b43a6b104e8c78f15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   item_name: insignia
   itemSprite: {fileID: 9162052900178188344}
---- !u!114 &1149313033280587997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9162052899093022862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: Player/insignia.txt
 --- !u!1 &9162052900178188344
 GameObject:
   m_ObjectHideFlags: 0

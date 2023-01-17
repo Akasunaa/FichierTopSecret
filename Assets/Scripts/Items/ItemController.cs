@@ -15,12 +15,7 @@ public class ItemController : ModifiableController
     [Header("Item Variables")]
     [SerializeField] private string item_name;
     [Header("Item elements")]
-    [SerializeField] private GameObject itemSprite;
-
-    public void OnEnable()
-    {
-        itemSprite.SetActive(false);
-    }
+    [SerializeField] public GameObject itemSprite;
 
     /**
      *  Function called by external scripts when the Player interacts with objects containing items
@@ -49,8 +44,5 @@ public class ItemController : ModifiableController
         //Debug.Log("PLAYER DOESN'T HAVE ITEM");
     }
 
-    public override void SetDefaultProperties()
-    {
-        
-    }
+    
 }
