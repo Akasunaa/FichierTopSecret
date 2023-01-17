@@ -431,7 +431,7 @@ Transform:
   - {fileID: 1418497621}
   - {fileID: 1374457571}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &474597310
 PrefabInstance:
@@ -447,7 +447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3618637796963457524, guid: a6ce3456e18daa74a8a6c04885e2f20b, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3618637796963457524, guid: a6ce3456e18daa74a8a6c04885e2f20b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -492,6 +492,24 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: a6ce3456e18daa74a8a6c04885e2f20b, type: 3}
+--- !u!1 &474597311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3618637796963457512, guid: a6ce3456e18daa74a8a6c04885e2f20b, type: 3}
+  m_PrefabInstance: {fileID: 474597310}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &474597312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 474597311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjectFileName: Openworld/streetThug.txt
 --- !u!1 &488814721 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
@@ -27313,24 +27331,6 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
---- !u!1 &1124214634 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5443164626271493873, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-  m_PrefabInstance: {fileID: 5443164625180850587}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1124214639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1124214634}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetObjectFileName: Openworld/workerDrone.txt
 --- !u!1001 &1142200459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28574,7 +28574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7805141468238465820, guid: ebcd180306502d64aa34ca9cbc1b45fa, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7805141468238465820, guid: ebcd180306502d64aa34ca9cbc1b45fa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28619,6 +28619,24 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: ebcd180306502d64aa34ca9cbc1b45fa, type: 3}
+--- !u!1 &1522578129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7805141468238465816, guid: ebcd180306502d64aa34ca9cbc1b45fa, type: 3}
+  m_PrefabInstance: {fileID: 1522578128}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1522578130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1522578129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22662a30257447448100811a1e90c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetObjectFileName: Openworld/explosivesMerchant.txt
 --- !u!1 &1523022325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 244007217957566919, guid: 3d61a84bf7001804daa7387127f676b4, type: 3}
@@ -38307,62 +38325,3 @@ PrefabInstance:
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 7007bec4d2dd72546be7789d7a15fe12, type: 3}
---- !u!1001 &5443164625180850587
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 2
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5443164626271493873, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_Name
-      value: WorkerDrone
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5443164626271493877, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_AddedGameObjects: []
-  m_SourcePrefab: {fileID: 100100000, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
