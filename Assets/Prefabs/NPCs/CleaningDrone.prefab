@@ -97,7 +97,7 @@ MonoBehaviour:
   canBeInteracted: 0
   portraitRef: Cleaning Drone
   fileProperties:
-  - propertyName: owner
+  - propertyName: master
     propertyValue: Kannath
     propertyType: 1
     conditionIsSuperior: 
