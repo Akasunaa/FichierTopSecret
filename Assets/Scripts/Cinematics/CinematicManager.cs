@@ -16,9 +16,11 @@ public class CinematicManager : MonoBehaviour
     private PlayableDirector _cinematicDirector;
     private GameObject _player;
     private GameObject _ui;
+    private bool cinematicIsPlaying;
 
     private void Awake()
     {
+        cinematicIsPlaying = false;
         _cinematicDirector = GetComponent<PlayableDirector>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _ui = GameObject.FindGameObjectWithTag("UI");
@@ -32,6 +34,23 @@ public class CinematicManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (cinematicIsPlaying && Input.GetKeyDown(KeyCode.Escape))
+        {
+            StopCinematic();
+        }
+    }
+
+    private void StopCinematic()
+    {
+        StopAllCoroutines();
+        _player.GetComponent<PlayerInput>().enabled = true;
+        PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
+        PlayerPrefs.Save();
+        var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
+        rulerCanvas.SetActive(true);
+    }
 
     /**
      *  Function that will start the cinematic saved in cinematicData 
@@ -43,7 +62,7 @@ public class CinematicManager : MonoBehaviour
             _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
             yield break;
         }
-        
+        cinematicIsPlaying = true;
         var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
         _player.GetComponent<PlayerInput>().enabled = false;
@@ -53,6 +72,7 @@ public class CinematicManager : MonoBehaviour
         _player.GetComponent<PlayerInput>().enabled = true;
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
+        cinematicIsPlaying=false;
         rulerCanvas.SetActive(true);
     }
 }

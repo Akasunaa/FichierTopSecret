@@ -338,13 +338,13 @@ public class NPCController : ModifiableController, Interactable
             Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty {IsImportant = true, Value = propertyDict[propertyKey].propertyValue});
         }
-        //DEBUG -------------------------
-        foreach (var property in properties.Keys)
-        {
-            Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
+        ////DEBUG -------------------------
+        //foreach (var property in properties.Keys)
+        //{
+        //    Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
 
-        }
-        //-------------------------------
+        //}
+        ////-------------------------------
     }
 
     /**
@@ -353,15 +353,15 @@ public class NPCController : ModifiableController, Interactable
     public override void UpdateModification()
     {
         base.UpdateModification();
-        //DEBUG -------------------------
-        foreach(var property in properties.Keys)
-        {
-            Debug.Log("NPC " + gameObject.name + " : UpdateModification : file properties value considered : " + property);
-        }
-        //-------------------------------
+        ////DEBUG -------------------------
+        //foreach(var property in properties.Keys)
+        //{
+        //    Debug.Log("NPC " + gameObject.name + " : UpdateModification : file properties value considered : " + property);
+        //}
+        ////-------------------------------
         foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
-            Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
+            //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
                 if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
