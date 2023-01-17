@@ -58,6 +58,7 @@ public abstract class ModifiableController : MonoBehaviour
         {
             properties[key] = new DicoValueProperty {IsImportant = test, Value = value};
         }
+        Debug.Log("Test: " + key + " | " + properties[key].Value);
     }
 
     public void RemoveValue(string key)
