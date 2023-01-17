@@ -23,7 +23,6 @@ public class FactoryDoorController : DoorObjectController
      */
     public void UnlockDoor()
     {
-        Debug.Log("DOOR UNLOCKED");
         SetValue("locked", false);
         UpdateModification();
     }
