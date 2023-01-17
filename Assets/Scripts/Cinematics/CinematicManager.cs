@@ -45,6 +45,9 @@ public class CinematicManager : MonoBehaviour
     private void StopCinematic()
     {
         StopAllCoroutines();
+        _cinematicDirector.time = _cinematicDirector.playableAsset.duration;
+        _cinematicDirector.Evaluate();
+        _cinematicDirector.Stop();
         _player.GetComponent<PlayerInput>().enabled = true;
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
@@ -62,6 +65,7 @@ public class CinematicManager : MonoBehaviour
             _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
             yield break;
         }
+        _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
         cinematicIsPlaying = true;
         var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
@@ -73,6 +77,7 @@ public class CinematicManager : MonoBehaviour
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
         cinematicIsPlaying=false;
+        _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         rulerCanvas.SetActive(true);
     }
 }
