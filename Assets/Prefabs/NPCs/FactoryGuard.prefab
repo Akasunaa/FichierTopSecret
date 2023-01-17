@@ -178,7 +178,7 @@ MonoBehaviour:
   - name: FactoryGuard_Bar
     state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}
   - name: FactoryGuard_Change_Employer
-    state: {fileID: 11400000, guid: 206c5b0b11ffd254092775829e0f9b1f, type: 2}
+    state: {fileID: 11400000, guid: b8b528685aee8814294380a09ba774c6, type: 2}
   - name: FactoryGuard_Change_Name
     state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
   - name: FactoryGuard_Correct_Name
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 1
+  canBeDeleted: 0
   canBeInteracted: 0
   portraitRef: Factory Guard
   fileProperties:
