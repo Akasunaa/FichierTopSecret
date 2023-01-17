@@ -36,7 +36,7 @@ public class CinematicManager : MonoBehaviour
 
     private void Update()
     {
-        if (cinematicIsPlaying && Input.GetKeyDown(KeyCode.Escape))
+        if (cinematicIsPlaying && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
         {
             StopCinematic();
         }
@@ -45,9 +45,12 @@ public class CinematicManager : MonoBehaviour
     private void StopCinematic()
     {
         StopAllCoroutines();
+        //We stop the cinematic and go to its end :
         _cinematicDirector.time = _cinematicDirector.playableAsset.duration;
         _cinematicDirector.Evaluate();
         _cinematicDirector.Stop();
+        //----------------------------------------
+        //we now enable/disable all the relevant data :
         _player.GetComponent<PlayerInput>().enabled = true;
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
