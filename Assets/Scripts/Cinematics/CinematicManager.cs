@@ -22,7 +22,7 @@ public class CinematicManager : MonoBehaviour
         _cinematicDirector = GetComponent<PlayableDirector>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _ui = GameObject.FindGameObjectWithTag("UI");
-        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" /*|| (Application.isEditor && !playCinematic)*/)
+        if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" && _ui.GetComponent<DialogueUIController>().cinematicCanvas /*|| (Application.isEditor && !playCinematic)*/)
         {
             _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         }
