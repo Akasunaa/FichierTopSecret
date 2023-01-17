@@ -243,7 +243,7 @@ public class LevelManager : MonoBehaviour
                         if (target != null)
                             pos = (Vector3Int)target;
                         else
-                            Destroy(newObj);
+                            pos = Vector3Int.one * 100_000;
                     }
                     newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
                     fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
@@ -286,7 +286,7 @@ public class LevelManager : MonoBehaviour
                 if (target != null)
                     pos = (Vector3Int)target;
                 else
-                    Destroy(newObj);
+                    pos = Vector3Int.one * 100_000;
             }
             newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
             fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
