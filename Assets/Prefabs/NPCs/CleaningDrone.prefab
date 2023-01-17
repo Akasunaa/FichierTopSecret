@@ -97,7 +97,7 @@ MonoBehaviour:
   canBeInteracted: 0
   portraitRef: Cleaning Drone
   fileProperties:
-  - propertyName: owner
+  - propertyName: master
     propertyValue: Kannath
     propertyType: 1
     conditionIsSuperior: 
@@ -117,7 +117,7 @@ MonoBehaviour:
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
-  shouldMove: 0
+  shouldMove: 1
   speed: 1
 --- !u!1 &2886453809585827606
 GameObject:

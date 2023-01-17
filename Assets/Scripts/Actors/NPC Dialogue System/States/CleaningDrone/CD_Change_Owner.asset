@@ -15,7 +15,7 @@ MonoBehaviour:
   speech:
   - '*vrrr*.....'
   - 'Statement : detected changes in owner procedure'
-  - 'Inquiry : what is $owner$'
-  - 'Doubt : no $owner$ detected'
+  - 'Inquiry : what is $master$'
+  - 'Doubt : no $master$ detected'
   - 'Failure : no reason to work detected with no owner'
-  currentSpeech: 
+  currentSpeech: 'Failure : no reason to work detected with no owner'

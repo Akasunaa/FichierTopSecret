@@ -411,6 +411,8 @@ MonoBehaviour:
     go: {fileID: 4121410922239261867, guid: 7891386de522d4147b85eeb32fbd3521, type: 3}
   - reg: teleport
     go: {fileID: 4745399933507643035, guid: 68cb180348ccdee43ae1b60931188bdc, type: 3}
+  - reg: cleaningDrone
+    go: {fileID: 2886453808621407750, guid: 00abb0459558e9b48b66e77586bbb4c2, type: 3}
   popParticle: {fileID: 7037504838968731600, guid: 74593a8f89b32584991dcc2dceacbcc7, type: 3}
   depopParticle: {fileID: 7037504838968731600, guid: c905f369ed3894140b2f250e1593f1d7, type: 3}
 --- !u!1 &1278027334
