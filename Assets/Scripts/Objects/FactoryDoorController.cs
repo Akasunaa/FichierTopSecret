@@ -10,9 +10,8 @@ public class FactoryDoorController : DoorObjectController
     [Header("FactoryDoorElements")]
     [SerializeField] private string playerPrefsName;
 
-    protected override void Awake()
+    protected void Start()
     {
-        base.Awake();
         if(PlayerPrefs.GetString(playerPrefsName) == "TRUE") //if the factory door has already been opened, it is unlocked at the scene's reloading
         {
             isLockedByDefault = false;
