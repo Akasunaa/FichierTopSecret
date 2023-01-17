@@ -122,6 +122,13 @@ public class FileParser : MonoBehaviour
     {
         Debug.Log(name + " write to file " + filePath);
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        
+        if (File.Exists(filePath))
+        {
+            var fileIsReadonly = (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;
+            if (fileIsReadonly) return;
+        }
+
         using (var sw = new StreamWriter(filePath))  
         {  
             sw.Write(targetModifiable.ToFileString());

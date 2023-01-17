@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: CD_Change_Owner
+  m_Name: ST_Respect
   m_EditorClassIdentifier: 
   speech:
-  - '*vrrr*.....'
-  - 'Statement : detected changes in owner procedure'
-  - 'Inquiry : what is $master$'
-  - 'Doubt : no $master$ detected'
-  - 'Failure : no reason to work detected with no owner'
-  currentSpeech: 'Failure : no reason to work detected with no owner'
+  - Is that an official Protectorate insignia ?
+  - Alright, alright, I don't want any troubles man, just leave me alone...
+  currentSpeech: 
