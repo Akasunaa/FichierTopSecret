@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 2637594482985681451}
   - component: {fileID: 570671002103959712}
   - component: {fileID: 3547294842825216699}
+  - component: {fileID: 2959311513393865372}
   m_Layer: 5
   m_Name: UI
   m_TagString: UI
@@ -548,6 +549,23 @@ MonoBehaviour:
   sideRulerImageFond: {fileID: 120081294881219960}
   sideRulerNumbersShown: 9
   cameraGridOffsetY: 0
+--- !u!114 &2959311513393865372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637594482985681454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f84735049a64bbfa4afbc8580b58cc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathMessageLoreTMP: {fileID: 5174501074132805737}
+  deathMessageLoreMaskCanvas: {fileID: 2916269328368218859}
+  deathReasonTMP: {fileID: 8640653267777759674}
+  clickAgainTMP: {fileID: 1492666851459443117}
+  deathMessageLoreScrollSpeed: 7
 --- !u!1 &2637594483460185621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1112,7 +1130,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 88.6
+  m_fontSize: 91.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1790,7 +1808,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.1
+  m_fontSize: 21.75
   m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2968,7 +2986,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.3
+  m_fontSize: 45
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3125,7 +3143,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9101726442277525850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f84735049a64bbfa4afbc8580b58cc9, type: 3}
   m_Name: 

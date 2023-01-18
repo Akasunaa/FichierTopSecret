@@ -43,7 +43,7 @@ public class PlayerDeathScreenController : MonoBehaviour
         var currentPos = deathMessageLoreTMP.rectTransform.localPosition;
         var currentScrollPosition = - deathMessageLoreMaskCanvas.GetComponent<RectTransform>().rect.height/2;
 
-        while(Math.Abs(_totalTravelDistance - currentScrollPosition) > float.Epsilon)
+        while(_totalTravelDistance - currentScrollPosition > float.Epsilon)
         {
             currentScrollPosition += deathMessageLoreScrollSpeed * Time.deltaTime;
             currentPos.y = currentScrollPosition;
