@@ -18,12 +18,11 @@ public class FactoryDoorController : DoorObjectController
         }
     }
 
-    /**
-     *  Function called when the door is opened by the NPC factory guard
-     */
+    /// <summary>
+    /// Function called when the door is opened by the NPC factory guard
+    /// </summary>
     public void UnlockDoor()
     {
-        Debug.Log("DOOR UNLOCKED");
         SetValue("locked", false);
         UpdateModification();
     }
