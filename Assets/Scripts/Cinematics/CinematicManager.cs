@@ -4,21 +4,21 @@ using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
 /**
- *  This script will handle the opening cinematic
+ *  This script will handle cinematics played when a scene is instantiated
  *      One of its main power is to keep the player from doing anything while the cinematic is not over
  */
 public class CinematicManager : MonoBehaviour
 {
     [Header("Cinematic Elements")]
-    [SerializeField] private PlayableAsset cinematicData;
-    [SerializeField] private string cinematicPlayerPrefs; //this playerPref ensures that the cinematic has not already been played
+    [SerializeField] protected PlayableAsset cinematicData;
+    [SerializeField] protected string cinematicPlayerPrefs; //this playerPref ensures that the cinematic has not already been played
     //[SerializeField] private bool playCinematic;
-    private PlayableDirector _cinematicDirector;
-    private GameObject _player;
-    private GameObject _ui;
-    private bool cinematicIsPlaying;
+    protected PlayableDirector _cinematicDirector;
+    protected GameObject _player;
+    protected GameObject _ui;
+    protected bool cinematicIsPlaying;
 
-    private void Awake()
+    protected void Awake()
     {
         cinematicIsPlaying = false;
         _cinematicDirector = GetComponent<PlayableDirector>();
@@ -34,7 +34,7 @@ public class CinematicManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected void Update()
     {
         if (cinematicIsPlaying && (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return)))
         {
@@ -45,7 +45,7 @@ public class CinematicManager : MonoBehaviour
     /// <summary>
     /// Function that stops the cinematic in its track, triggered by a push of a button (SPACE, ESC, or RETURN)
     /// </summary>
-    private void StopCinematic()
+    protected void StopCinematic()
     {
         StopAllCoroutines();
         //We stop the cinematic and go to its end :
@@ -64,7 +64,7 @@ public class CinematicManager : MonoBehaviour
     /// <summary>
     /// Function that will start the cinematic saved in cinematicData 
     /// </summary>    
-    private IEnumerator StartCinematic()
+    protected virtual IEnumerator StartCinematic()
     {
         if (Application.isEditor /*&& !playCinematic*/)
         {
