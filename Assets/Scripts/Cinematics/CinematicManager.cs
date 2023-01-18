@@ -42,6 +42,9 @@ public class CinematicManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function that stops the cinematic in its track, triggered by a push of a button (SPACE, ESC, or RETURN)
+    /// </summary>
     private void StopCinematic()
     {
         StopAllCoroutines();
@@ -58,9 +61,9 @@ public class CinematicManager : MonoBehaviour
         rulerCanvas.SetActive(true);
     }
 
-    /**
-     *  Function that will start the cinematic saved in cinematicData 
-     */
+    /// <summary>
+    /// Function that will start the cinematic saved in cinematicData 
+    /// </summary>    
     private IEnumerator StartCinematic()
     {
         if (Application.isEditor /*&& !playCinematic*/)
