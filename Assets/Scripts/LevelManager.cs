@@ -239,8 +239,11 @@ public class LevelManager : MonoBehaviour
                         ic.itemSprite.SetActive(false);        
                 }
                 // setup file parser
-                fp = newObj.AddComponent<FileParser>();
-        
+
+                print(fi);
+               fp = newObj.AddComponent<FileParser>();
+                print(fp);
+
                 fp.filePath = fi.FullName;
                 fp.ReadFromFile(fi.FullName);
                 FilesWatcher.instance.Set(fp);
