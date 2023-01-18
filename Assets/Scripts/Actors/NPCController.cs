@@ -401,19 +401,10 @@ public class NPCController : ModifiableController, Interactable
                     {
                         //Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " is a superior one");
                         if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                        {
-                            //Debug.Log("NPC "+gameObject.name+": " + integerValue + " is inferior to "+conditionValue);
-                            //if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
-                            //{
-                            //    gameObject.SetActive(false);
-                            //    return;
-                            //}
-                            //else
-                            //{
-                                //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
-                                OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                                return;
-                            //}
+                        {                            
+                            //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                            return;
                         }
                     }
                     else
