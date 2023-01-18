@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speech:
   - You cloned me ?
-  - Haha J, I didn't know you loved me that much <3
+  - Haha J, I didn't know you loved me so much that you'd want one "menage a trois"
+    <3
   currentSpeech: 
