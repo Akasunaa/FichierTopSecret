@@ -28,7 +28,6 @@ public class ExplosiveController : ItemController
 
         //case two : player launch detonate in another scene
         PlayerPrefs.SetString("HasDetonated", path);
-        print("EXPLOSIVES : SAVING HAS DETONATED DATA");
         PlayerPrefs.Save();
     }
 }
