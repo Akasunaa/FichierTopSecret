@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4961505963263090231}
   - component: {fileID: 7999332426177301211}
   - component: {fileID: 1934577417633760782}
+  - component: {fileID: -4571935615947274141}
   m_Layer: 0
   m_Name: chair-front
   m_TagString: Untagged
@@ -88,6 +89,19 @@ MonoBehaviour:
   dialogueStandard: This is my chair. Makemakiens may be jerks, but they sure know
     how to make good furniture.
   dialogueOnConditionChange: 
+--- !u!114 &-4571935615947274141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d14ffb6882376d4f98a946a98402ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDeleted: 1
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
