@@ -10,23 +10,23 @@ using UnityEngine.SceneManagement;
  */
 public class DoorObjectController : ModifiableController, Interactable
 {
-    [SerializeField] private string direction;
-    [SerializeField] private bool isLockedByDefault;
+    [SerializeField] protected string direction;
+    [SerializeField] protected bool isLockedByDefault;
 
     [Header("Animation")]
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
     //[SerializeField] private Animation transitionAnimation;
-    [SerializeField] private Sprite closedSprite;
-    [SerializeField] private Sprite openedSprite;
+    [SerializeField] protected Sprite closedSprite;
+    [SerializeField] protected Sprite openedSprite;
 
-    private ObjectInteractionController _interactionController;
-    private bool _displayingDialogue;
+    protected ObjectInteractionController _interactionController;
+    protected bool _displayingDialogue;
 
-    private bool _isOpened;
+    protected bool _isOpened;
     public bool canBeInteracted { get; set; }
 
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (!spriteRenderer) spriteRenderer = GetComponent<SpriteRenderer>();
         Assert.IsNotNull(spriteRenderer);

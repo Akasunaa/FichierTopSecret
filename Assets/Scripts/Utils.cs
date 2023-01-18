@@ -81,7 +81,7 @@ public static class Utils
     depth : variable de r�cursion
     limit : nombre d'iteration, si on veut une case adjacente mettre "limite: 1" 
     */
-    public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 1000)
+    public static Vector2Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 1000)
     {
         if (depth > limit) { return null; }
         for (int i = -depth; i <= depth; i++)
@@ -92,7 +92,7 @@ public static class Utils
                 {
                     if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
                     {
-                        return new Vector3Int(position.x + i, position.y + j, 0);
+                        return new Vector2Int(position.x + i, position.y + j);
                     }
                 }                 
             }

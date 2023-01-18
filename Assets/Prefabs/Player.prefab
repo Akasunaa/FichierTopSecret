@@ -270,7 +270,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67512
+  m_InstanceId: 51922
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35f328785f3ba840ae7053aa2591343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
 --- !u!61 &3510808418412436298
 BoxCollider2D:
   m_ObjectHideFlags: 0

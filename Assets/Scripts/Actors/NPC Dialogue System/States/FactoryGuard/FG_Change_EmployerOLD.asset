@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9208c74627223040a0a31dad5030007, type: 3}
-  m_Name: FG_Change_Employer
+  m_Script: {fileID: 11500000, guid: 5c0b4103769ee01419cc670fcd9127e7, type: 3}
+  m_Name: FG_Change_EmployerOLD
   m_EditorClassIdentifier: 
   speech:
   - I told you already, I...
@@ -20,7 +20,6 @@ MonoBehaviour:
   - ......
   - I ain't paid enough for that !
   - Help yourself jov'
-  currentSpeech: Help yourself jov'
+  currentSpeech: 
   playerPrefsName: IsFactoryOpen
   playerPrefsValue: TRUE
-  factoryDoorTag: FactoryDoor

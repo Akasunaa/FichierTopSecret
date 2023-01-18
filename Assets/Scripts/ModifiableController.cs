@@ -58,6 +58,7 @@ public abstract class ModifiableController : MonoBehaviour
         {
             properties[key] = new DicoValueProperty {IsImportant = test, Value = value};
         }
+        Debug.Log("Test: " + key + " | " + properties[key].Value);
     }
 
     public void RemoveValue(string key)
@@ -196,5 +197,19 @@ public abstract class ModifiableController : MonoBehaviour
         }
 
         return test;
+    }
+
+    /// <summary>
+    /// Calls UpdateModification, UpdateFile and if the associated object has an ObjectInteractionController component,
+    /// also calls ObjectInteractionController.OnChangeDialogue method.
+    /// </summary>
+    public void OnChangeUpdateAll()
+    {
+        UpdateModification();
+        UpdateFile();
+
+        var interactionController = GetComponent<ObjectInteractionController>();
+        if (interactionController == null) return;
+        interactionController.OnChangeDialogue();
     }
 }

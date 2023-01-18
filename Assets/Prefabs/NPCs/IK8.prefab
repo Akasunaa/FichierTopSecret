@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4121410921527346118
+--- !u!1 &329218076014351505
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4121410921527346119}
-  - component: {fileID: 4121410921527346117}
-  - component: {fileID: 4121410921527346116}
+  - component: {fileID: 329218076014351504}
+  - component: {fileID: 329218076014351533}
+  - component: {fileID: 329218076014351534}
+  - component: {fileID: 329218076014351535}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -18,28 +19,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4121410921527346119
+--- !u!4 &329218076014351504
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410921527346118}
+  m_GameObject: {fileID: 329218076014351505}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4121410922239261871}
+  m_Father: {fileID: 329218077334804230}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &4121410921527346117
+--- !u!212 &329218076014351533
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410921527346118}
+  m_GameObject: {fileID: 329218076014351505}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,32 +75,52 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: 0bc2801915d15f64eaf75cfe1498c264, type: 3}
+  m_Sprite: {fileID: 2042557351, guid: 1e9659eae7102534bb131b90b9857207, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4121410921527346116
+--- !u!114 &329218076014351534
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410921527346118}
+  m_GameObject: {fileID: 329218076014351505}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 4121410921527346117}
+  spriteRenderer: {fileID: 329218076014351533}
   offset: 0
---- !u!1 &4121410922239261867
+--- !u!95 &329218076014351535
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 329218076014351505}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56090930ba5dcc546907d99496f2c25d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &329218077334804234
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,40 +128,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4121410922239261871}
-  - component: {fileID: 4121410922239261870}
-  - component: {fileID: 4121410922239261865}
-  - component: {fileID: 4121410922239261864}
+  - component: {fileID: 329218077334804230}
+  - component: {fileID: 329218077334804231}
+  - component: {fileID: 329218077334804232}
+  - component: {fileID: 329218077334804233}
   m_Layer: 0
-  m_Name: FactoryGuard
+  m_Name: IK8
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4121410922239261871
+--- !u!4 &329218077334804230
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410922239261867}
+  m_GameObject: {fileID: 329218077334804234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4121410921527346119}
+  - {fileID: 329218076014351504}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4121410922239261870
+--- !u!61 &329218077334804231
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410922239261867}
+  m_GameObject: {fileID: 329218077334804234}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -160,82 +181,61 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4121410922239261865
+--- !u!114 &329218077334804232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410922239261867}
+  m_GameObject: {fileID: 329218077334804234}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ebd7b5513f2b6440bb1f9783d0e0885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: c0de5df02d965024cab8a5c71b648c1e, type: 2}
+  startingState: {fileID: 11400000, guid: dfdcffb656f680e45ac12e7abbf6ab0a, type: 2}
   nextStates:
-  - name: FactoryGuard_Bar
-    state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}
-  - name: FactoryGuard_Change_Employer
-    state: {fileID: 11400000, guid: b8b528685aee8814294380a09ba774c6, type: 2}
-  - name: FactoryGuard_Change_Name
-    state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
-  - name: FactoryGuard_Correct_Name
-    state: {fileID: 11400000, guid: 9ecfe2c58a360534cbc0c33bdd768d3a, type: 2}
-  - name: FactoryGuard_Incorrect_Name
-    state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
-  - name: FactoryGuard_Death
-    state: {fileID: 11400000, guid: 4b3ed68cd9d1f7f45b153f38c5a103b2, type: 2}
+  - name: IK_Change_Origin
+    state: {fileID: 11400000, guid: 9b2bc7224b37477488157f588ee8c134, type: 2}
+  - name: IK_Change_Name
+    state: {fileID: 11400000, guid: b3b9ad837b7fd454b8969209b481e0dc, type: 2}
   associatedNPCController: {fileID: 0}
---- !u!114 &4121410922239261864
+--- !u!114 &329218077334804233
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4121410922239261867}
+  m_GameObject: {fileID: 329218077334804234}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   canBeInteracted: 0
-  portraitRef: Factory Guard
+  portraitRef: IK8
   fileProperties:
-  - propertyName: employer
-    propertyValue: HIDDEN
-    propertyType: 1
-    conditionIsSuperior: 
-    propertyCondition: []
-    propertyChangeState:
-    - FG_Change_Employer
-  - propertyName: health
-    propertyValue: 10
-    propertyType: 0
-    conditionIsSuperior: 01
-    propertyCondition:
-    - 1
-    propertyChangeState:
-    - FG_Death
   - propertyName: name
-    propertyValue: H. Syth Marn
+    propertyValue: IK8
     propertyType: 1
     conditionIsSuperior: 
     propertyCondition: []
     propertyChangeState:
-    - FG_Change_Name
+    - IK_Change_Name
+  - propertyName: origin
+    propertyValue: Makemake
+    propertyType: 0
+    conditionIsSuperior: 
+    propertyCondition: []
+    propertyChangeState:
+    - IK_Change_Origin
   objectsElements: []
   questItems: []
   reactElements: []
-  playerProperties:
-  - playerPropertyName: name
-    playerPropertyCondition:
-    - Prevost Mivitch
-    playerPropertyChangeState:
-    - FG_Correct_Name
+  playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
   shouldMove: 0
-  speed: 3
+  speed: 1

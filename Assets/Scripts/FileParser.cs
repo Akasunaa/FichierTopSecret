@@ -44,10 +44,13 @@ public class FileParser : MonoBehaviour
         {
             if (targetModifiable.canBeDeleted)
             {
-                if(gameObject.TryGetComponent(out PlayerMovement playerMov)) { 
-                    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    //SceneManager.LoadScene("CosmicBin");
-                    LevelManager.Instance.LoadScene("CosmicBin");
+
+                if (gameObject.TryGetComponent(out PlayerMovement _)) {
+                    WriteToFile();
+                    if (SceneManager.GetActiveScene().name != "CosmicBin") {
+                        LevelManager.Instance.LoadScene("CosmicBin"); 
+                    }
+                    return false;
                 } //delete player
                 gameObject.SetActive(false);
                 if(gameObject.TryGetComponent(out ItemController ic)) {
@@ -84,6 +87,9 @@ public class FileParser : MonoBehaviour
             filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
             WriteToFile();
             File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+            //if (TryGetComponent(out ModifiableController mc)) { 
+            //    mc.canBeDeleted = false; 
+            //}
         }
         //put particle 
         ParticleSystem particles = Instantiate(FindObjectOfType<LevelManager>().depopParticle);
@@ -128,9 +134,10 @@ public class FileParser : MonoBehaviour
 
     public void WriteToFile()
     {
+
         Debug.Log(name + " write to file " + filePath);
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-        
+
         if (File.Exists(filePath))
         {
             var fileIsReadonly = (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;

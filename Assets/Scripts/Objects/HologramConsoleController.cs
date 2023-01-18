@@ -13,19 +13,11 @@ public class HologramConsoleController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (TryGet("locked", out bool locked) && hologram)
-        {
-            if (!locked)
-            {
-                if (hologram.TryGet("power", out bool power))
-                {
-                    hologram.SetValue("power", !power);
-                    hologram.UpdateModification();
-                    hologram.UpdateFile();
-
-                    hologram.OnChangeHologramState();
-                }
-            }
-        }
+        if (!TryGet("locked", out bool locked) || !hologram) return;
+        if (locked) return;
+        if (!hologram.TryGet("power", out bool power)) return;
+        
+        hologram.SetValue("power", !power);
+        hologram.OnChangeUpdateAll();
     }
 }
