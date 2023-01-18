@@ -123,7 +123,7 @@ public class LevelManager : MonoBehaviour
         string path = PlayerPrefs.GetString("HasDetonated");
         if (path.Contains(levelName))
         {
-            print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
+            print("EXPLOSIVES : HASDETONATED READ IN LEVELMANAGER");
         }
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
