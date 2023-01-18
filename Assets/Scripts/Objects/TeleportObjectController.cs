@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TeleportObjectController : ModifiableController, Interactable
 {
-
-    [SerializeField] TeleportObjectController pairTeleport;
+    [SerializeField, HideInInspector] TeleportObjectController pairTeleport;
     public static event Action deletedTeleport;
 
     //TeleportObjectController.star
