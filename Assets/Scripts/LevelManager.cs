@@ -5,11 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 using System.Linq;
-using JetBrains.Annotations;
-using Mono.Cecil.Rocks;
-using System.Drawing;
 
 public class LevelManager : MonoBehaviour
 {
