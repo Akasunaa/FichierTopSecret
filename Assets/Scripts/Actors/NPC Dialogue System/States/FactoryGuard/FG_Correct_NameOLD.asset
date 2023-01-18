@@ -10,16 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c0b4103769ee01419cc670fcd9127e7, type: 3}
-  m_Name: FG_Change_EmployerOLD
+  m_Name: FG_Correct_NameOLD
   m_EditorClassIdentifier: 
   speech:
-  - I told you already, I...
-  - Huh...
-  - I don't recall being employed here...
-  - I could try to figure out why that is, as it's very strange...
-  - ......
-  - I ain't paid enough for that !
-  - Help yourself jov'
+  - Oh, mister Mivitch, I didn't recognize you...
+  - Ah I get it !
+  - ...you changed your hair ?
+  - Oh yes, of course, please allow me to open the door for you sir.
   currentSpeech: 
   playerPrefsName: IsFactoryOpen
   playerPrefsValue: TRUE
