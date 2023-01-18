@@ -5,11 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor;
 using System.Linq;
-using JetBrains.Annotations;
-using Mono.Cecil.Rocks;
-using System.Drawing;
 
 public class LevelManager : MonoBehaviour
 {
@@ -123,7 +119,11 @@ public class LevelManager : MonoBehaviour
         string path = PlayerPrefs.GetString("HasDetonated");
         if (path.Contains(levelName))
         {
-            print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
+            GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
+            if (breakableWall)
+            {
+                breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+            }
         }
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;

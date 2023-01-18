@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExplosivController : ItemController
+public class ExplosiveController : ItemController
 {
     public override void SetDefaultProperties()
     {
@@ -16,13 +16,13 @@ public class ExplosivController : ItemController
         base.UpdateModification();
         if (!TryGet("detonate", out bool detonate)) return;
         if (!detonate) return;
-        print("DETONATE");
+        print("EXPLOSIVES : DETONATE");
 
         string path = gameObject.GetComponent<FileParser>().filePath;
         //case one : player launch detonate while explosives is in his scene or in hos inventory : dead
         if (path.Contains("player") || FilesWatcher.IsPathToScene(path, SceneManager.GetActiveScene().name))
         {
-            print("YOU DEAD");
+            print("EXPLOSIVES : YOU DEAD");
             return;
         }
 
