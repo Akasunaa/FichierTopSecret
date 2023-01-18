@@ -178,15 +178,15 @@ MonoBehaviour:
   - name: FactoryGuard_Bar
     state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}
   - name: FactoryGuard_Change_Employer
-    state: {fileID: 11400000, guid: 206c5b0b11ffd254092775829e0f9b1f, type: 2}
+    state: {fileID: 11400000, guid: b8b528685aee8814294380a09ba774c6, type: 2}
   - name: FactoryGuard_Change_Name
     state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
   - name: FactoryGuard_Correct_Name
-    state: {fileID: 11400000, guid: 9ecfe2c58a360534cbc0c33bdd768d3a, type: 2}
+    state: {fileID: 11400000, guid: 4ec6591afdc7e094fb99e02919f84c6d, type: 2}
   - name: FactoryGuard_Incorrect_Name
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
-    state: {fileID: 11400000, guid: b9dd6a2d9a50874439a05c119c91b859, type: 2}
+    state: {fileID: 11400000, guid: 4b3ed68cd9d1f7f45b153f38c5a103b2, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &4121410922239261864
 MonoBehaviour:
@@ -200,17 +200,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 1
+  canBeDeleted: 0
   canBeInteracted: 0
   portraitRef: Factory Guard
   fileProperties:
-  - propertyName: employer
-    propertyValue: HIDDEN
-    propertyType: 1
-    conditionIsSuperior: 
-    propertyCondition: []
-    propertyChangeState:
-    - FG_Change_Employer
   - propertyName: health
     propertyValue: 10
     propertyType: 0
@@ -219,6 +212,13 @@ MonoBehaviour:
     - 1
     propertyChangeState:
     - FG_Death
+  - propertyName: name
+    propertyValue: H. Syth Marn
+    propertyType: 1
+    conditionIsSuperior: 
+    propertyCondition: []
+    propertyChangeState:
+    - FG_Change_Name
   objectsElements: []
   questItems: []
   reactElements: []

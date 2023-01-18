@@ -114,6 +114,13 @@ public class LevelManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
         catch (Exception error) { Debug.LogError("no player found"); }
+
+        //Read player prefs
+        string path = PlayerPrefs.GetString("HasDetonated");
+        if (path.Contains(levelName))
+        {
+            print("BOMMMMMMMMMMMMMMMMMMMMMMMMMMBE");
+        }
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
@@ -163,6 +170,16 @@ public class LevelManager : MonoBehaviour
                 Destroy(fileParser.gameObject);
             }
         }
+        
+        // TODO : c'est moche
+        ModifiableController[] modifiableGameObjects = FindObjectsOfType<ModifiableController>();
+        foreach (ModifiableController modifiableController in modifiableGameObjects)
+        {
+            if (!modifiableController.TryGetComponent(out FileParser _))
+            {
+                modifiableController.SetDefaultProperties();
+            }
+        }
     }
 
     /*
@@ -172,7 +189,9 @@ public class LevelManager : MonoBehaviour
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            if (!FilesWatcher.instance.ContainsFile(fi))
+            // If null it mean it is not a regular file (.txt and .bat)
+            bool containFile = FilesWatcher.instance.ContainsFile(fi) ?? true;
+            if (!containFile)
             {
                 NewObject(fi, fi.FullName.Contains("Cosmicbin"));
             }
@@ -186,101 +205,125 @@ public class LevelManager : MonoBehaviour
 
     /*
      * Create a new game object from a file if it match a regex
+     * isItem : created in folder player
      */
-    public void NewObject(FileInfo fi, bool isInComsicBin = false)
+    public void NewObject(FileInfo fi, bool isInComsicBin = false, bool isItem=false)
     {
         GameObject newObj;
         FileParser fp;
         Vector3Int pos = Vector3Int.zero;
-        if (true) //todo
+        string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
+        if (nameObject.Contains("Nouveau ") || nameObject.Contains("New"))
+            return;
+        
+        foreach (RegToGoPair pair in instantiable)
         {
-            string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
-            if (nameObject.Contains("Nouveau ") || nameObject.Contains("New "))
+            //check all synonym
+            string[] synonyms = SynonymController.SearchSynonym(nameObject);
+            var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
+            if (synonym!=null)
             {
-                return;
-            }
-            foreach (RegToGoPair pair in instantiable)
-            {
-                //check all synonym
-                string[] synonyms = SynonymController.SearchSynonym(nameObject);
-                var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
-                if (synonym!=null)
+                Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
+                if (isItem && !pair.go.TryGetComponent(out ItemController _)) { return; } //Non item object created in player folder
+                newObj = Instantiate(pair.go);
+                if (isItem)
                 {
-                    Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
-                    newObj = Instantiate(pair.go);
-
-                    // setup file parser
-                    fp = newObj.AddComponent<FileParser>();
-                    fp.filePath = fi.FullName;
-                    fp.ReadFromFile(fi.FullName);
-                    FilesWatcher.instance.Set(fp);
-                    Vector2? size = null;
-                    if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
-                    if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+                    DontDestroyOnLoad(newObj);
+                    newObj.transform.parent = PlayerItems.Instance.transform;
+                    if(newObj.TryGetComponent(out ItemController ic))
+                        ic.itemSprite.SetActive(false);        
+                }
+                // setup file parser
+                fp = newObj.AddComponent<FileParser>();
+        
+                fp.filePath = fi.FullName;
+                fp.ReadFromFile(fi.FullName);
+                FilesWatcher.instance.Set(fp);
+                Vector2? size = null;
+                if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
+                if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+                {
+                    if (player != null)
                     {
-                        if (player != null)
-                        {
-                            Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
-                            if (target != null)
-                                pos = (Vector3Int)target;
-                            else
-                                Destroy(newObj);
-                        }
-                        newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
-                        fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                        Vector2Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition(), size);
+                        if (target != null)
+                            pos = (Vector3Int)target;
+                        else
+                            pos = Vector3Int.one * 100_000;
+                    }
+                    newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
+                    fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+                    if (!isItem) {
                         ParticleSystem particles = Instantiate(popParticle);
                         particles.gameObject.transform.position = pos;
                         particles.Play();
-                        Destroy(particles.gameObject,1);
-
+                        Destroy(particles.gameObject, 1);
                     }
-                    fp.targetModifiable.SetDefaultProperties();
-
-
-                    // Clean the prefab if it is instantiated in the Cosmic bin
-                    if (isInComsicBin) { 
-                        CosmicBinManager.Instance.AddRestorationController(newObj);
-                    } else
-                    {
-                        fp.WriteToFile();
-                    }
-                    return;
                 }
-            }
-            //nothing object : no object with the name of file 
-            Debug.Log("[LevelManager] Instantiate a nothing : " + fi.FullName);
-            newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
+                fp.targetModifiable.SetDefaultProperties();
 
-            // setup file parser
-            fp = newObj.AddComponent<FileParser>();
-            fp.filePath = fi.FullName;
-            fp.ReadFromFile(fi.FullName);
-            FilesWatcher.instance.Set(fp);
-            if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
-            {
-                if (player != null)
+
+                // Clean the prefab if it is instantiated in the Cosmic bin
+                if (isInComsicBin) { 
+                    CosmicBinManager.Instance.AddRestorationController(newObj);
+                } else
                 {
-                    Vector3Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
-                    if (target != null)
-                        pos = (Vector3Int)target;
-                    else
-                        Destroy(newObj);
+                    fp.WriteToFile();
                 }
-                newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
-                fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
-                ParticleSystem particles = Instantiate(popParticle);
-                particles.gameObject.transform.position = pos;
-                particles.Play();
-                Destroy(particles.gameObject, 1);
+                return;
             }
-            fp.WriteToFile();
-            // using (StreamWriter sw = new StreamWriter(fp.filePath))
-            // {
-            //     sw.Write(fp.targetModifiable.ToFileString());
-            // }
+        }
+        //nothing object : no object with the name of file 
+        if (isItem)
+            return;
+        Debug.Log("[LevelManager] Instantiate a nothing : " + fi.FullName);
+        newObj = Instantiate(instantiable.First(x => x.reg == "nothing").go);
 
-            // Clean the prefab if it is instantiated in the Cosmic bin
-            if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
+        // setup file parser
+        fp = newObj.AddComponent<FileParser>();
+        fp.filePath = fi.FullName;
+        fp.ReadFromFile(fi.FullName);
+        FilesWatcher.instance.Set(fp);
+        if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+        {
+            if (player != null)
+            {
+                Vector2Int? target = Utils.NearestTileEmpty(player.GetComponent<PlayerMovement>().GetTilemapPosition());
+                if (target != null)
+                    pos = (Vector3Int)target;
+                else
+                    pos = Vector3Int.one * 100_000;
+            }
+            newObj.transform.position = SceneData.Instance.grid.GetCellCenterWorld(pos);
+            fp.targetModifiable.SetValue("position", new Vector2Int(pos.x, pos.y));
+            ParticleSystem particles = Instantiate(popParticle);
+            particles.gameObject.transform.position = pos;
+            particles.Play();
+            Destroy(particles.gameObject, 1);
+        }
+        fp.WriteToFile();
+        // using (StreamWriter sw = new StreamWriter(fp.filePath))
+        // {
+        //     sw.Write(fp.targetModifiable.ToFileString());
+        // }
+
+        // Clean the prefab if it is instantiated in the Cosmic bin
+        if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
+    }
+
+    /**
+    *  Function called when the npc changes state by responding to a player bringing a correct item
+    *  It will create an instance of the stored item, and call its internal ItemController.RecuperatingItem() function
+    */
+    public static void GiveItem(GameObject item)
+    {
+        //GameObject new_item = Instantiate(item);
+        //LevelManager.Instance.NewObject(new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + item + ".txt"), isItem: true);
+        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
+        //new_item.GetComponent<ItemController>().RecuperatingItem();
+        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + item.name + ".txt"))
+        {
+            sw.Write("");
         }
     }
 }

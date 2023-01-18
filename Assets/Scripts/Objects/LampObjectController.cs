@@ -43,7 +43,6 @@ public class LampObjectController :  ModifiableController, Interactable
         base.UpdateModification();
         //For the lamp object, we test if its power is on or off
         if (!TryGet("power", out bool power)) return;
-        
         foreach(var light2D in _lights)
         {
             light2D.enabled = power;

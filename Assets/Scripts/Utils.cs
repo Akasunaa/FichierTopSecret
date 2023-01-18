@@ -50,12 +50,12 @@ public static class Utils
 
         if (size == null)
         {
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
         }
         else
         {
             Vector2 colliderSize = (Vector2)size;
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0);
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
         }
         return hit?.gameObject;
     }
@@ -76,12 +76,12 @@ public static class Utils
 
     /**
     Renvoie la position libre la plus proche de la position d'entree s'il y en a une, renvoie null sinon
-    position : position de départ
+    position : position de dï¿½part
     size : taille de la position libre voulue
-    depth : variable de récursion
+    depth : variable de rï¿½cursion
     limit : nombre d'iteration, si on veut une case adjacente mettre "limite: 1" 
     */
-    public static Vector3Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 100)
+    public static Vector2Int? NearestTileEmpty(Vector2Int position, Vector2? size = null, int depth = 1, int limit = 1000)
     {
         if (depth > limit) { return null; }
         for (int i = -depth; i <= depth; i++)
@@ -92,7 +92,7 @@ public static class Utils
                 {
                     if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
                     {
-                        return new Vector3Int(position.x + i, position.y + j, 0);
+                        return new Vector2Int(position.x + i, position.y + j);
                     }
                 }                 
             }

@@ -40,11 +40,23 @@ public class FileParser : MonoBehaviour
      */
     public bool OnDelete(string path)
     {
-        if (targetModifiable) //Ceci est vraiment a corriger au plus vite
+        if (targetModifiable)
         {
             if (targetModifiable.canBeDeleted)
             {
+
+                if (gameObject.TryGetComponent(out PlayerMovement _)) {
+                    WriteToFile();
+                    if (SceneManager.GetActiveScene().name != "CosmicBin") {
+                        LevelManager.Instance.LoadScene("CosmicBin"); 
+                    }
+                    return false;
+                } //delete player
                 gameObject.SetActive(false);
+                if(gameObject.TryGetComponent(out ItemController ic)) {
+                    Destroy(targetModifiable.gameObject);
+                    return true; //item dont go in cosmic bin
+                } 
                 DeleteFile(path);
 
                 return true;
@@ -57,6 +69,9 @@ public class FileParser : MonoBehaviour
 
     }
 
+    /**
+    * Send Object to cosmic bin
+    */
     public void DeleteFile(string path)
     {
         // create CosmicBin if it doesn't exist
@@ -64,7 +79,7 @@ public class FileParser : MonoBehaviour
 
         // create fileinfo
         var fi = new FileInfo(Application.streamingAssetsPath + path);
-
+        
         // add origin scene as property
         if (!fi.FullName.Contains("Cosmicbin"))
         {
@@ -72,6 +87,9 @@ public class FileParser : MonoBehaviour
             filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
             WriteToFile();
             File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+            //if (TryGetComponent(out ModifiableController mc)) { 
+            //    mc.canBeDeleted = false; 
+            //}
         }
         //put particle 
         ParticleSystem particles = Instantiate(FindObjectOfType<LevelManager>().depopParticle);
@@ -116,8 +134,16 @@ public class FileParser : MonoBehaviour
 
     public void WriteToFile()
     {
+
         Debug.Log(name + " write to file " + filePath);
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+        if (File.Exists(filePath))
+        {
+            var fileIsReadonly = (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;
+            if (fileIsReadonly) return;
+        }
+
         using (var sw = new StreamWriter(filePath))  
         {  
             sw.Write(targetModifiable.ToFileString());

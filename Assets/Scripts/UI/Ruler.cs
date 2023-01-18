@@ -22,7 +22,6 @@ public class Ruler : MonoBehaviour
     [SerializeField] private Image sideRulerImageFond;
     [SerializeField] private int sideRulerNumbersShown = 8;
     [SerializeField] private float cameraGridOffsetY;
-    // [SerializeField] private float rulerSideWidthOffset = 0f;
 
     private Vector3 _cameraPos = Vector3.zero;
     private Camera _mainCameraReference;

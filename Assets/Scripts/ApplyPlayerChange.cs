@@ -22,6 +22,8 @@ public static class ApplyPlayerChange
         { "color", CheckColor },
         { "locked", CheckBool },
         { "power", CheckBool },
+        { "detonate", CheckBool },
+        { "sleep", CheckBool },
     };
 
     private static bool inSystemMessage;
@@ -95,20 +97,32 @@ public static class ApplyPlayerChange
             // update order in layer
             Utils.UpdateOrderInLayer(go);
 
+            // Pierre P. : I remove the shitty softlock in the game
             //since the object could be moved, we stop the error display if need be :
-            if (inSystemMessage)
-            {
-                SceneData.Instance.dialogueUIController.EndDisplay();
-                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartAllActions();
-                inSystemMessage = false;
-            }
+            // if (inSystemMessage)
+            // {
+            //     SceneData.Instance.dialogueUIController.EndDisplay();
+            //     GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().RestartAllActions();
+            //     inSystemMessage = false;
+            // }
         } else
         {
-            string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
-            //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
-            SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
-            GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
-            inSystemMessage = true;
+            Vector2Int? target = Utils.NearestTileEmpty(targetPosition, size);
+            Vector2Int targetPositionNew = target != null ? target.Value : Vector2Int.one * 100_000;
+            Vector3 targetPos = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPositionNew);
+            go.transform.position = targetPos;
+            Utils.UpdateOrderInLayer(go);
+            if (go.TryGetComponent(out FileParser fp))
+            {
+                fp.WriteToFile();
+            }
+
+            // Pierre P. : I remove the shitty softlock in the game
+            // string errorText = "I cannot move this object here, something is in the way! Better to move it elsewhere.";
+            // //Display a speech bubble indicating that the space is occupied and prevent player's interactions and movement during said time
+            // SceneData.Instance.dialogueUIController.DisplayDialogue(errorText, "player");
+            // GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopAllActions();
+            // inSystemMessage = true;
         }
         
     }

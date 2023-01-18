@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - UI
+  - NPC
+  - Lamp
+  - XV6
+  - Civilian
+  - FactoryDoor
   layers:
   - Default
   - TransparentFX
@@ -12,7 +17,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - zoneDetectors
   - 
   - 
   - 
