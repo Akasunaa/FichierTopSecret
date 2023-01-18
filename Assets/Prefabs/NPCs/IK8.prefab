@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 329218077334804233}
   m_Layer: 0
   m_Name: IK8
-  m_TagString: NPC
+  m_TagString: IK8
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -200,6 +200,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 9b2bc7224b37477488157f588ee8c134, type: 2}
   - name: IK_Change_Name
     state: {fileID: 11400000, guid: b3b9ad837b7fd454b8969209b481e0dc, type: 2}
+  - name: IK_Change_Name
+    state: {fileID: 11400000, guid: 6bd90d997d9a81a4faa51ff9acb8f3b1, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &329218077334804233
 MonoBehaviour:
@@ -233,7 +235,12 @@ MonoBehaviour:
     - IK_Change_Origin
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: IK8
+    stateChangeName:
+    - IK_Cloned
+    isSuperior: 01
+    condition: 01000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
