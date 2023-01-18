@@ -62,6 +62,7 @@ public class NPCController : ModifiableController, Interactable
     //player's informations
     private GameObject player;
     private PlayerObjectController playerObjectController;
+    private bool newDialog = true;
 
     private void Awake()
     {
@@ -294,7 +295,12 @@ public class NPCController : ModifiableController, Interactable
             EndDialogue();
             return;
         }
-        GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
+        player.gameObject.GetComponent<InputController>().StopMovement();
+        if (newDialog)
+        {
+            player.gameObject.GetComponent<PlayerObjectController>().InteractSound();
+            newDialog = false;
+        }
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
         int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
         shouldEnd = (ret == 0);
@@ -306,6 +312,7 @@ public class NPCController : ModifiableController, Interactable
      */
     private void EndDialogue()
     {
+        newDialog = true;
         canMove = true;
         ui.EndDisplay();
         shouldEnd = false;      //allows the player to interact again

@@ -58,7 +58,7 @@ public class FileParser : MonoBehaviour
                     return true; //item dont go in cosmic bin
                 } 
                 DeleteFile(path);
-
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().DeleteSound();
                 return true;
             }
             // If the file cannot be deleted, re-write the file

@@ -219,7 +219,8 @@ public class LevelManager : MonoBehaviour
         string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
         if (nameObject.Contains("Nouveau ") || nameObject.Contains("New"))
             return;
-        
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().CreateSound();
+
         foreach (RegToGoPair pair in instantiable)
         {
             //check all synonym
