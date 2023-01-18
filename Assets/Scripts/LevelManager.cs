@@ -325,11 +325,12 @@ public class LevelManager : MonoBehaviour
     */
     public static void GiveItem(GameObject item)
     {
-        //GameObject new_item = Instantiate(item);
-        //LevelManager.Instance.NewObject(new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + item + ".txt"), isItem: true);
-        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        //new_item.GetComponent<ItemController>().RecuperatingItem();
-        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + item.name + ".txt"))
+        GiveItem(item.name);
+    }
+
+    public static void GiveItem(string itemName)
+    {
+        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + itemName + ".txt"))
         {
             sw.Write("");
         }
