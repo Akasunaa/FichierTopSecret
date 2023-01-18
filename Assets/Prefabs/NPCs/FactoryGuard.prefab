@@ -182,7 +182,7 @@ MonoBehaviour:
   - name: FactoryGuard_Change_Name
     state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
   - name: FactoryGuard_Correct_Name
-    state: {fileID: 11400000, guid: 9ecfe2c58a360534cbc0c33bdd768d3a, type: 2}
+    state: {fileID: 11400000, guid: 4ec6591afdc7e094fb99e02919f84c6d, type: 2}
   - name: FactoryGuard_Incorrect_Name
     state: {fileID: 11400000, guid: ca4bb6bccdf29294eb00145b077c03f7, type: 2}
   - name: FactoryGuard_Death
@@ -204,13 +204,6 @@ MonoBehaviour:
   canBeInteracted: 0
   portraitRef: Factory Guard
   fileProperties:
-  - propertyName: employer
-    propertyValue: HIDDEN
-    propertyType: 1
-    conditionIsSuperior: 
-    propertyCondition: []
-    propertyChangeState:
-    - FG_Change_Employer
   - propertyName: health
     propertyValue: 10
     propertyType: 0

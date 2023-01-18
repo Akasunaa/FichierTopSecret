@@ -369,7 +369,7 @@ public class NPCController : ModifiableController, Interactable
                 {
                     for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
                     {
-                        if (properties[propertyDict[propertyString].propertyName].Value.ToString() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString()) //we check if they changed
+                        if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString().ToLower()) //we check if they changed
                         {
                             //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[0]);
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
@@ -377,7 +377,7 @@ public class NPCController : ModifiableController, Interactable
                         }
                     }
                 }
-                else if (properties[propertyDict[propertyString].propertyName].Value.ToString() != propertyDict[propertyString].propertyValue.ToString()) //if by default the change corresponds to nothing, the first state will be selected
+                else if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() != propertyDict[propertyString].propertyValue.ToString().ToLower()) //if by default the change corresponds to nothing, the first state will be selected
                 {
                     //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " no conditions list found, and file value "+ properties[propertyDict[propertyString].propertyName].Value.ToString()+" different than saved value "+ propertyDict[propertyString].propertyValue.ToString() + ", leading to change state to "+ propertyDict[propertyString].propertyChangeState[0]);
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
@@ -401,19 +401,10 @@ public class NPCController : ModifiableController, Interactable
                     {
                         //Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " is a superior one");
                         if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                        {
-                            //Debug.Log("NPC "+gameObject.name+": " + integerValue + " is inferior to "+conditionValue);
-                            //if (propertyDict[propertyString].propertyName == "health") //FOR NOW, IF HEALTH WE HAVE DIFFERENT OUTCOME
-                            //{
-                            //    gameObject.SetActive(false);
-                            //    return;
-                            //}
-                            //else
-                            //{
-                                //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
-                                OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                                return;
-                            //}
+                        {                            
+                            //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
+                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                            return;
                         }
                     }
                     else
