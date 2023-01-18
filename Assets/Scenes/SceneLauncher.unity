@@ -375,7 +375,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &334041734
 GameObject:
@@ -508,6 +508,10 @@ MonoBehaviour:
     go: {fileID: 2886453808621407750, guid: 00abb0459558e9b48b66e77586bbb4c2, type: 3}
   - reg: machine
     go: {fileID: 244007217957566919, guid: 4466ada0b66c7524880828ff0d5704b4, type: 3}
+  - reg: workerDrone
+    go: {fileID: 5443164626271493873, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
+  - reg: ik
+    go: {fileID: 329218077334804234, guid: a076e4f748095b1428e7fbc33b309236, type: 3}
   popParticle: {fileID: 7037504838968731600, guid: 74593a8f89b32584991dcc2dceacbcc7, type: 3}
   depopParticle: {fileID: 7037504838968731600, guid: c905f369ed3894140b2f250e1593f1d7, type: 3}
 --- !u!1 &1278027334
