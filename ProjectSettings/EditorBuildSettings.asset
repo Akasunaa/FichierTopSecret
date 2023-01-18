@@ -32,4 +32,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Spaceport.unity
     guid: 2de79767be7a87046bb25137b3dd54f7
+  - enabled: 1
+    path: Assets/Scenes/FactoryRoom1.unity
+    guid: 972c9d9cba9d1dd47bc23978d8481f0c
+  - enabled: 1
+    path: Assets/Scenes/FactoryRoom2.unity
+    guid: 81f2aa7b26c8e4c41862a24c8137047b
   m_configObjects: {}

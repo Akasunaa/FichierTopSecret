@@ -50,12 +50,12 @@ public static class Utils
 
         if (size == null)
         {
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
         }
         else
         {
             Vector2 colliderSize = (Vector2)size;
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0);
+            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
         }
         return hit?.gameObject;
     }
