@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 
 public class PlayerDeathScreenController : MonoBehaviour
 {
+    [Header("To Disable on GameOver")] 
+    [SerializeField] private List<GameObject> canvasToDisable;
+    [SerializeField] private List<GameObject> toDisableSceneSpecific;
+
+    [Header("GameOver screen canvas stuff")] 
+    [SerializeField] private GameObject gameOverScreenCanvas;
     [SerializeField] private TextMeshProUGUI deathMessageLoreTMP;
     [SerializeField] private Canvas deathMessageLoreMaskCanvas;
     [SerializeField] private TextMeshProUGUI deathReasonTMP;
@@ -22,15 +30,39 @@ public class PlayerDeathScreenController : MonoBehaviour
         Assert.IsNotNull(deathReasonTMP);
         Assert.IsNotNull(clickAgainTMP);
         Assert.IsNotNull(deathMessageLoreMaskCanvas);
+        Assert.IsNotNull(gameOverScreenCanvas);
         
         clickAgainTMP.gameObject.SetActive(false);
+        gameOverScreenCanvas.SetActive(false);
+        
         var deathMessageLoreHeight = deathMessageLoreTMP.preferredHeight;
         var deathMessageLoreMaskCanvasHeight = deathMessageLoreMaskCanvas.GetComponent<RectTransform>().rect.height;
         _totalTravelDistance = deathMessageLoreHeight + deathMessageLoreMaskCanvasHeight;
     }
 
-    private void Start()
+    /// <summary>
+    /// Method you need to call when the game is over. Will disable all the canvas of the UI except of the Game Over canvas.
+    /// </summary>
+    public void OnGameOver()
     {
+        Time.timeScale = 0;
+        
+        foreach (var canvas in canvasToDisable)
+        {
+            canvas.SetActive(false);
+        }
+
+        foreach (var localObject in toDisableSceneSpecific)
+        {
+            localObject.SetActive(false);
+        }
+
+        foreach (var localObject in GameObject.FindGameObjectsWithTag("DontDestroyOnLoad"))
+        {
+            Destroy(localObject);
+        }
+
+        gameOverScreenCanvas.SetActive(true);
         StartCoroutine(ScrollDeathMessageLore());
     }
 
@@ -45,7 +77,7 @@ public class PlayerDeathScreenController : MonoBehaviour
 
         while(_totalTravelDistance - currentScrollPosition > float.Epsilon)
         {
-            currentScrollPosition += deathMessageLoreScrollSpeed * Time.deltaTime;
+            currentScrollPosition += deathMessageLoreScrollSpeed * Time.unscaledDeltaTime;
             currentPos.y = currentScrollPosition;
             deathMessageLoreTMP.transform.localPosition = currentPos;
             yield return null;
@@ -59,7 +91,7 @@ public class PlayerDeathScreenController : MonoBehaviour
     private IEnumerator ResetButtonPressedOnceToFalse()
     {
         clickAgainTMP.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSecondsRealtime(5);
         
         clickAgainTMP.gameObject.SetActive(false);
         _buttonPressedOnce = false;
@@ -77,11 +109,16 @@ public class PlayerDeathScreenController : MonoBehaviour
             return;
         }
 
+        Debug.Log($"should do the thing to load main menu");
         StopCoroutine(ResetButtonPressedOnceToFalse());
         _buttonPressedOnce = false;
         clickAgainTMP.gameObject.SetActive(false);
+
+        Time.timeScale = 1;
+        Debug.Log($"Loading main menu scene");
+        SceneManager.LoadScene("MainMenu");
         
         // TODO: Need to load the main menu scene and destroy all the DontDestroyOnLoad objects from SceneLauncher scene.
-        Debug.LogWarning($"[{name}] Need to load the main menu scene and destroy all the DontDestroyOnLoad objects from SceneLauncher scene.");
+        //Debug.LogWarning($"[{name}] Need to load the main menu scene and destroy all the DontDestroyOnLoad objects from SceneLauncher scene.");
     }
 }
