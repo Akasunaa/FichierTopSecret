@@ -21,28 +21,28 @@ public class ItemController : ModifiableController
      *  Function called by external scripts when the Player interacts with objects containing items
      *  It will create the item's file in the corresponding folder
      */
-    public int RecuperatingItem()
-    {
-        FileParser fileParser = GetComponent<FileParser>();
-        FileInfo fileInfo = new FileInfo(fileParser.filePath);
-        using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
-        {
-            sw.Write(fileParser.targetModifiable.ToFileString());
-        }
-        return 0;
-    }
+    //public int RecuperatingItem()
+    //{
+    //    FileParser fileParser = GetComponent<FileParser>();
+    //    FileInfo fileInfo = new FileInfo(fileParser.filePath);
+    //    using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
+    //    {
+    //        sw.Write(fileParser.targetModifiable.ToFileString());
+    //    }
+    //    return 0;
+    //}
 
     /**
      *  Function that will check if the player already possesses the associated item
      */
-    public bool CheckPresenceItem()
-    {
-        FileParser fileParser = GetComponent<FileParser>();
-        FileInfo fileInfo = new FileInfo(fileParser.filePath);
-        return fileInfo.Exists;
-        //Debug.Log("PLAYER ALREADY HAS ITEM");
-        //Debug.Log("PLAYER DOESN'T HAVE ITEM");
-    }
+    //public bool CheckPresenceItem()
+    //{
+    //    FileParser fileParser = GetComponent<FileParser>();
+    //    FileInfo fileInfo = new FileInfo(fileParser.filePath);
+    //    return fileInfo.Exists;
+    //    //Debug.Log("PLAYER ALREADY HAS ITEM");
+    //    //Debug.Log("PLAYER DOESN'T HAVE ITEM");
+    //}
 
     
 }

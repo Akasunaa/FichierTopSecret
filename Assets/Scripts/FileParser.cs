@@ -40,15 +40,20 @@ public class FileParser : MonoBehaviour
      */
     public bool OnDelete(string path)
     {
-        if (targetModifiable) //Ceci est vraiment a corriger au plus vite
+        if (targetModifiable)
         {
             if (targetModifiable.canBeDeleted)
             {
+                if(gameObject.TryGetComponent(out PlayerMovement playerMov)) { 
+                    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    //SceneManager.LoadScene("CosmicBin");
+                    LevelManager.Instance.LoadScene("CosmicBin");
+                } //delete player
                 gameObject.SetActive(false);
                 if(gameObject.TryGetComponent(out ItemController ic)) {
                     Destroy(targetModifiable.gameObject);
-                    return true; 
-                } //item dont go in cosmic bin
+                    return true; //item dont go in cosmic bin
+                } 
                 DeleteFile(path);
 
                 return true;
@@ -61,6 +66,9 @@ public class FileParser : MonoBehaviour
 
     }
 
+    /**
+    * Send Object to cosmic bin
+    */
     public void DeleteFile(string path)
     {
         // create CosmicBin if it doesn't exist
