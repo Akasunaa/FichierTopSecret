@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine.Assertions;
+using System.Linq;
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
@@ -40,6 +41,7 @@ public class FileParser : MonoBehaviour
      */
     public bool OnDelete(string path)
     {
+        if (targetObjectFileName == null) { targetObjectFileName = filePath.Split(Path.DirectorySeparatorChar).Last(); }
         if (targetModifiable)
         {
             if (targetModifiable.canBeDeleted)
