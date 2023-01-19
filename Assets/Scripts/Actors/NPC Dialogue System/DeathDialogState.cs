@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-/**
- *  Script used by special dialog states triggered when an NPC dies, that will, when ariving in their Exit() function, unactivate the the parent NPC
- */
+/// <summary>
+/// Script used by special dialog states triggered when an NPC dies, that will, when ariving in their Exit() function, unactivate the the parent NPC
+/// </summary>
 [CreateAssetMenu(fileName = "Death Dialog State", menuName = "States/Death Dialog State")]
 public class DeathDialogState : DialogState
 {
@@ -14,9 +16,10 @@ public class DeathDialogState : DialogState
     {
     }
 
-    /**
-     *  Inherited and overrided function that will handle the killing of the NPC
-     */
+    /// <summary>
+    /// Inherited and overrided function that will handle the killing of the NPC
+    /// </summary>
+    /// <returns>0 if the NPC has reached the end of its dialog speeches (and dies), otherwise 1</returns>
     public override int ChangeSpeech()
     {
         interactionIndex++;
@@ -35,9 +38,9 @@ public class DeathDialogState : DialogState
         }
     }
 
-    /**
-     *  Actual trigger of the NPC's death
-     */
+    /// <summary>
+    /// Actual trigger of the NPC's death
+    /// </summary>
     public void TriggerNPCDeath()
     {
         SM.ConvertTo<DialogSM>().associatedNPCController.gameObject.SetActive(false);

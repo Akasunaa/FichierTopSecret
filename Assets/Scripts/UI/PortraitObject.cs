@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-/**
- *  Component used to create scriptable objects that will contain the portraits
- */
+/// <summary>
+/// Component used to create scriptable objects that will contain the portraits
+/// </summary>
 [CreateAssetMenu(fileName = "Portrait", menuName = "Portraits")]
 public class PortraitObject : ScriptableObject
 {

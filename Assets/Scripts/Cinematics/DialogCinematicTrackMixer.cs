@@ -1,19 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Playables;
 
-/**
- *  This script will handle the behaviour of the entire dialog track, mainly to allow for no texts being displayed when no clips are loaded at a certain frame
- * 
- */
+/// <summary>
+/// This script will handle the behaviour of the entire dialog track, mainly to allow for no texts being displayed when no clips are loaded at a certain frame
+/// </summary>
 public class DialogCinematicTrackMixer : PlayableBehaviour
 {
-    /**
-     *  Function called every frame of the cinematic that will handle the display of the cinematic dialog
-     */
+    /// <summary>
+    /// Function called every frame of the cinematic that will handle the display of the cinematic dialog.
+    /// </summary>
+    /// <param name="playable"></param>
+    /// <param name="info"></param>
+    /// <param name="playerData"></param>
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         TextMeshProUGUI text = playerData as TextMeshProUGUI;

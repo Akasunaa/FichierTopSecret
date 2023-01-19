@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-/**
- *      This script will be used to create a special state only used by the factory guard that will open a door
- */
+/// <summary>
+/// This script will be used to create a special state only used by the factory guard that will open a door
+/// </summary>
 [CreateAssetMenu(fileName = "Factory Guard Special Dialog State", menuName = "States/Factory Guard Special Dialog State")]
 public class FactoryGuardSpecialState : DialogState
 {
@@ -20,11 +21,12 @@ public class FactoryGuardSpecialState : DialogState
     {
     }
 
-    /**
-     * Function Enter() called when state is loaded
-     * main difference given by that script : 
-     * here, unlike regular dialog states, we're going to modify a player pref to a certain value AND also open the associated door
-    **/
+    /// <summary>
+    /// Function Enter() called when state is loaded.
+    /// Main difference given by that script : 
+    /// here, unlike regular dialog states, we're going to modify a player pref to a certain value AND also open the associated door
+    /// </summary>
+    /// <param name="sm">State Machine operating said state</param>
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);

@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-/**
- *      This script will be used to create specialized dialog states that will, when entered, modify other .txt
- *      To accomplish this, the script will modify values in the PlayerPrefs when its Enter() function inherited from StateMachine is called
- */
+/// <summary>
+/// This script will be used to create specialized dialog states that will, when entered, modify other .txt
+/// To accomplish this, the script will modify values in the PlayerPrefs when its Enter() function inherited from StateMachine is called
+/// </summary>
 [CreateAssetMenu(fileName = "Player Prefs Dialog State", menuName = "States/Player Prefs Dialog State")]
 public class PlayerPrefsDialogState : DialogState
 {
@@ -17,11 +18,12 @@ public class PlayerPrefsDialogState : DialogState
     {
     }
 
-    /**
-     * Function Enter() called when state is loaded
-     * main difference given by that script : 
-     * here, unlike regular dialog states, we're going to modify a player pref to a certain value
-    **/
+    /// <summary>
+    /// Function Enter() called when state is loaded.
+    /// Main difference given by that script : 
+    /// here, unlike regular dialog states, we're going to modify a player pref to a certain value
+    /// </summary>
+    /// <param name="sm">State Machine operating the state</param>
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);

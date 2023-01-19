@@ -1,12 +1,13 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
-/**
- *  This script will handle cinematics played when a scene is instantiated
- *      One of its main power is to keep the player from doing anything while the cinematic is not over
- */
+/// <summary>
+/// This script will handle cinematics played when a scene is instantiated
+/// One of its main power is to keep the player from doing anything while the cinematic is not over
+/// </summary>
 public class CinematicManager : MonoBehaviour
 {
     [Header("Cinematic Elements")]
