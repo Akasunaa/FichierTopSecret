@@ -23,6 +23,13 @@ public class ExplosiveController : ItemController
         if (path.Contains("player") || FilesWatcher.IsPathToScene(path, SceneManager.GetActiveScene().name))
         {
             print("EXPLOSIVES : YOU DEAD");
+            //We trigger death here
+            //we recuperate the ui :
+            GameObject ui = GameObject.FindGameObjectWithTag("UI");
+            //we get the correcte component :
+            //TODO
+            //we launch the right function :
+            //TODO
             return;
         }
 

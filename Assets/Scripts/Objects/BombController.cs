@@ -15,20 +15,30 @@ public class BombController : ModifiableController
 
     private void WireDestroyed(int order)
     {
-        if(order != lastWireDestroyed+1) { print("BOMB EXPLODE");}
+        if(order != lastWireDestroyed+1) 
+        { 
+            print("BOMB EXPLODE");
+            //DEATH TRIGGER
+            //We trigger death here
+            //we recuperate the ui :
+            GameObject ui = GameObject.FindGameObjectWithTag("UI");
+            //we get the correcte component :
+            //TODO
+            //we launch the right function :
+            //TODO
+        }
         else {
             lastWireDestroyed = order;
-            if(lastWireDestroyed == numberOfWire) { print("DESAMORCED"); }
+            if(lastWireDestroyed == numberOfWire) 
+            { 
+                print("DESAMORCED");
+                //TRIGGER VICTORY
+            }
         }
     }
-
-
 
     private void OnDestroy()
     {
         WireBombController.OnWireDestroy -= WireDestroyed;
-    }
-
-
-    
+    }    
 }
