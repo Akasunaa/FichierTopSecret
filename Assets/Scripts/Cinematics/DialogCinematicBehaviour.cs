@@ -1,20 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UIElements;
 
-/**
- *  This script will control how the Dialog Cinematic Track behaves during a cinematic
- */
+/// <summary>
+/// This script will control how the Dialog Cinematic Track behaves during a cinematic
+/// </summary>
 public class DialogCinematicBehaviour : PlayableBehaviour
 {
     public string dialogText; //This is the data received from DialogCinematicClip
 
-    /**
-     *  Function called every frame of the cinematic that will handle the display of the cinematic dialog
-     */
+    /// <summary>
+    /// Function called every frame of the cinematic that will handle the display of the cinematic dialog
+    /// </summary>
+    /// <param name="playable"></param>
+    /// <param name="info"></param>
+    /// <param name="playerData"></param>
     public override void ProcessFrame(Playable playable, FrameData info, object playerData)
     {
         TextMeshProUGUI text = playerData as TextMeshProUGUI;

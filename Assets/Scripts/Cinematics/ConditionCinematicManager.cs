@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 
-/**
- *  This script will handle cinematics that require conditions (PlayerPrefs) to be played
- *      If a certain playerPrefs has been modified, the cinematic changes
- */
+/// <summary>
+/// This script will handle cinematics that require conditions (PlayerPrefs) to be played
+/// If a certain playerPrefs has been modified, the cinematic changes
+/// </summary>
 public class ConditionCinematicManager : CinematicManager
 {
     [Header("Condition cinematic elements")]

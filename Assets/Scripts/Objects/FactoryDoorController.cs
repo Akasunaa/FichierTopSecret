@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-/**
- *  Script used by the factory door, that will handle opening the door through the NPC interaction
- */
+/// <summary>
+/// Script used by the factory door, that will handle opening the door through the NPC interaction
+/// </summary>
 public class FactoryDoorController : DoorObjectController
 {
     [Header("FactoryDoorElements")]

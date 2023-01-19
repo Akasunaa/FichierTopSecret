@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/**
- *  Basic State Machine component that can be inherited into various State machines in the game
- */
+/// <summary>
+/// Basic State Machine component that can be inherited into various State machines in the game
+/// </summary>
 public class StateMachine : MonoBehaviour
 {
     public BaseState currentState;
@@ -26,11 +26,12 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    /**
-     *  Function called when changing state by other external factors
-     *  Calls the currentState's exit method to solve any remaining state's actions if needed
-     *  Then attributes and calls the new state's Enter method
-     */
+    /// <summary>
+    /// Function called when changing state by other external factors.
+    /// Calls the currentState's exit method to solve any remaining state's actions if needed.
+    /// Then attributes and calls the new state's Enter method.
+    /// </summary>
+    /// <param name="newState">new state that the machine will switch to</param>
     public void ChangeState(BaseState newState)
     {
         if(newState != null)
@@ -45,9 +46,10 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    /**
-     *  Function that will return the initial state of a certain state machine (must be updated in following scripts)
-     */
+    /// <summary>
+    /// Function that will return the initial state of a certain state machine 
+    /// </summary>
+    /// <returns>the StateMachine's starting state</returns>
     public virtual BaseState GetStartingState()
     {
         return null;

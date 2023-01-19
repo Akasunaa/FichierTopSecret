@@ -19,11 +19,12 @@ public class FactoryGuardDeathState : DeathDialogState
     {
     }
 
-    /**
-     * Function Enter() called when state is loaded
-     * main difference given by that script : 
-     * here, unlike regular dialog states, we're going to modify a player pref to a certain value AND also open the associated door
-    **/
+    /// <summary>
+    /// Function Enter() called when state is loaded.
+    /// Main difference given by that script : 
+    /// here, unlike regular dialog states, we're going to modify a player pref to a certain value AND also open the associated door.
+    /// </summary>
+    /// <param name="sm">State Machine operating said state</param>
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);

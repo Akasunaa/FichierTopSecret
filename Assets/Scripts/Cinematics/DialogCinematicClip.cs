@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
-/**
- *  Script used to create clips of Cinematic Dialogs used in the game's cinematics
- *      
- */
+/// <summary>
+/// Script used to create clips of Cinematic Dialogs used in the game's cinematics    
+/// </summary>
 public class DialogCinematicClip : PlayableAsset
 {
     [TextArea(3,10)]
