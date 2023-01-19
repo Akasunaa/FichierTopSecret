@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
 
@@ -24,8 +25,10 @@ public class DialogSM : StateMachine
         nextPossibleStates.Add(startingState.name, startingState);
         foreach (NEXT_STATE state in nextStates)
         {
-            if (!nextPossibleStates.ContainsKey(state.name))
+            Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
+            if (!nextPossibleStates.ContainsKey(state.state.name))
             {
+                Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
                 nextPossibleStates.Add(state.state.name, state.state);
             }
         }

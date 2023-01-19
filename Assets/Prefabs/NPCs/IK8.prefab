@@ -200,7 +200,7 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 9b2bc7224b37477488157f588ee8c134, type: 2}
   - name: IK_Change_Name
     state: {fileID: 11400000, guid: b3b9ad837b7fd454b8969209b481e0dc, type: 2}
-  - name: IK_Change_Name
+  - name: IK_Cloned
     state: {fileID: 11400000, guid: 6bd90d997d9a81a4faa51ff9acb8f3b1, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &329218077334804233
