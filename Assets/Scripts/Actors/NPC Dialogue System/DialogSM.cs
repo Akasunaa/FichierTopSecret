@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.TerrainTools;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
-using static UnityEditor.VersionControl.Asset;
 
 /// <summary>
 /// Dialog State Machine used by the NPCs inherited from StateMachine basis
