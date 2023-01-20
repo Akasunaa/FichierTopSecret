@@ -30,6 +30,8 @@ public class GameOverScreenController : MonoBehaviour
     
     private float _totalTravelDistance;
     private bool _buttonPressedOnce;
+
+    private static bool _alreadyCalledThisGame;
     
     private void Awake()
     {
@@ -45,6 +47,8 @@ public class GameOverScreenController : MonoBehaviour
         var deathMessageLoreHeight = gameOverMessageLoreTMP.preferredHeight;
         var deathMessageLoreMaskCanvasHeight = gameOverMessageLoreMaskCanvas.GetComponent<RectTransform>().rect.height;
         _totalTravelDistance = deathMessageLoreHeight + deathMessageLoreMaskCanvasHeight;
+
+        _alreadyCalledThisGame = false;
     }
 
     /// <summary>
@@ -53,6 +57,9 @@ public class GameOverScreenController : MonoBehaviour
     /// <param name="gameOverType"></param>
     public void OnGameOver(GameOverType gameOverType)
     {
+        if (_alreadyCalledThisGame) return;
+        _alreadyCalledThisGame = true;
+        
         Time.timeScale = 0;
         
         foreach (var canvas in canvasToDisable) canvas.SetActive(false);
@@ -87,7 +94,25 @@ public class GameOverScreenController : MonoBehaviour
     private void ActivateGameOverScreen()
     {
         gameOverScreenCanvas.SetActive(true);
+        
+        var canvasGroup = gameOverScreenCanvas.GetComponent<CanvasGroup>();
+        if (canvasGroup != null) 
+            StartCoroutine(FadeCanvasGroupIn(canvasGroup));
+        
         StartCoroutine(ScrollDeathMessageLore());
+    }
+
+    private IEnumerator FadeCanvasGroupIn(CanvasGroup canvasGroup)
+    {
+        var alpha = 0f;
+        do
+        {
+            alpha = Mathf.Clamp(alpha + Time.unscaledDeltaTime, 0, 1);
+            canvasGroup.alpha = alpha;
+            yield return null;
+        } while (canvasGroup.alpha < 1);
+
+        Debug.Log("Screen faded in");
     }
 
     /// <summary>
