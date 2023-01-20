@@ -118,7 +118,7 @@ public static class Utils
     public static string SceneName(string relativePath)
     {
         string moreRelative = relativePath.Substring(("/" + RootFolderName + "/").Length);
-        return moreRelative.Split('/').First();
+        return LevelManager.Capitalize(moreRelative.Split('/').First());
     }
     
     public static string SceneName(FileInfo fi)
