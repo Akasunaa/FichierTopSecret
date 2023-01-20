@@ -85,9 +85,9 @@ public class FileParser : MonoBehaviour
         if (Utils.SceneName(fi) != Utils.CosmicbinFolderName)
         {
             targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
-            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
+            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
+            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
             //if (TryGetComponent(out ModifiableController mc)) { 
             //    mc.canBeDeleted = false; 
             //}

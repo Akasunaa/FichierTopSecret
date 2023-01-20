@@ -40,7 +40,7 @@ public class CosmicBinManager : MonoBehaviour
 
     public void GenerateCosmicBin()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
 
         if (!di.Exists)
         {
