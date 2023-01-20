@@ -48,8 +48,8 @@ public class FileParser : MonoBehaviour
 
                 if (gameObject.TryGetComponent(out PlayerMovement _)) {
                     WriteToFile();
-                    if (SceneManager.GetActiveScene().name != "CosmicBin") {
-                        LevelManager.Instance.LoadScene("CosmicBin"); 
+                    if (SceneManager.GetActiveScene().name != Utils.CosmicbinFolderName) {
+                        LevelManager.Instance.LoadScene(Utils.CosmicbinFolderName); 
                     }
                     return false;
                 } //delete player
@@ -82,12 +82,12 @@ public class FileParser : MonoBehaviour
         var fi = new FileInfo(Application.streamingAssetsPath + path);
         
         // add origin scene as property
-        if (Utils.SceneName(fi) != "Cosmicbin")
+        if (Utils.SceneName(fi) != Utils.CosmicbinFolderName)
         {
             targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
-            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
+            filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
+            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
             //if (TryGetComponent(out ModifiableController mc)) { 
             //    mc.canBeDeleted = false; 
             //}

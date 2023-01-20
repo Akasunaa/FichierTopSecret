@@ -21,7 +21,7 @@ public class ExplosiveController : ItemController
         string absolutePath = gameObject.GetComponent<FileParser>().filePath;
         string relativePath = Utils.RelativePath(absolutePath);
         //case one : player launch detonate while explosives is in his scene or in hos inventory : dead
-        if (Utils.SceneName(relativePath) == "player" || SceneManager.GetActiveScene().name == Utils.SceneName(Utils.RelativePath(absolutePath)))// || Utils.IsPathToScene(path, SceneManager.GetActiveScene().name))
+        if (Utils.SceneName(relativePath) == Utils.PlayerFolderName || SceneManager.GetActiveScene().name == Utils.SceneName(Utils.RelativePath(absolutePath)))// || Utils.IsPathToScene(path, SceneManager.GetActiveScene().name))
         {
             print("EXPLOSIVES : YOU DEAD");
             //We trigger death here

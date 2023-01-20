@@ -46,10 +46,10 @@ public class LevelManager : MonoBehaviour
         if (di.Exists)
         {
             // remove readonly attributes on cosmicbin items to delete them
-            DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin");
+            DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
             if (di2.Exists)
             {
-                foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin"))
+                foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName))
                 {
                     FileInfo fileInfo = new FileInfo(fileName);
                     File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
@@ -116,15 +116,20 @@ public class LevelManager : MonoBehaviour
         catch (Exception error) { Debug.LogError("no player found"); }
 
         //Read player prefs
-        string path = PlayerPrefs.GetString("HasDetonated");
-        if (path.Contains(levelName))
+        string absolutePath = PlayerPrefs.GetString("HasDetonated");
+        if (!string.IsNullOrEmpty(absolutePath))
         {
-            GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
-            if (breakableWall)
+            string relativePath = Utils.RelativePath(absolutePath);
+            if (Utils.SceneName(relativePath) == levelName)
             {
-                breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
+                if (breakableWall)
+                {
+                    breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                }
             }
         }
+
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
@@ -197,7 +202,9 @@ public class LevelManager : MonoBehaviour
             bool containFile = FilesWatcher.instance.ContainsFile(fi) ?? true;
             if (!containFile)
             {
-                NewObject(fi, fi.FullName.Contains("Cosmicbin"));
+                // NewObject(fi, fi.FullName.Contains("Cosmicbin"));
+                string relativePath = Utils.RelativePath(fi);
+                NewObject(fi, Utils.SceneName(relativePath) == Utils.CosmicbinFolderName);
             }
         }
 
