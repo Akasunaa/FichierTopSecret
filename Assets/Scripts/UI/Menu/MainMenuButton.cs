@@ -67,6 +67,8 @@ public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
         if (dragging)
         {
             transform.position = (Vector2) Input.mousePosition - offset;
+            transform.position = new Vector2(Mathf.Clamp(transform.position.x, 0, Screen.width),
+                Mathf.Clamp(transform.position.y, 0, Screen.height));
 
             if (Input.GetMouseButtonUp(0))
             {

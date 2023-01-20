@@ -15,7 +15,7 @@ public static class SynonymController
         new string[] { "lamp", "light", "streetlight"},
         new string[] { "door", "exit","gate"},
         new string[] { "teleport", "teleporter","portal"},
-        new[] { "workerDrone", "drone" }
+        new string[] { "workerDrone", "drone" }
     };
 
     public static string[] SearchSynonym(string word)

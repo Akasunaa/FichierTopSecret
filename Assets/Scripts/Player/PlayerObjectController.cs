@@ -7,10 +7,32 @@ using UnityEngine;
  */
 public class PlayerObjectController : ModifiableController
 {
+    [SerializeField] AudioClip interactSound;
+    [SerializeField] AudioClip createSound;
+    [SerializeField] AudioClip deleteSound;
+    [SerializeField] AudioSource audioSource;
+
+  
+
     public override void SetDefaultProperties()
     {
         properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = "Bob"});
         properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = "10"});
+    }
+
+    public void DeleteSound()
+    {
+        audioSource.PlayOneShot(deleteSound);
+    }
+
+    public void CreateSound()
+    {
+        audioSource.PlayOneShot(createSound);
+    }
+
+    public void InteractSound()
+    {
+        audioSource.PlayOneShot(interactSound);
     }
 
 

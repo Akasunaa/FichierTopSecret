@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: Civ_Info
+  m_Name: IK_Cloned
   m_EditorClassIdentifier: 
   speech:
-  - Hmm ?
-  - Ah, look at that, some god-sent incentive...
-  - A rogue Protectorate's lapdog has been seen in the Factory last eclipse. That
-    rumour must have made its way to Aikara, because they shut down the factory soon
-    after...
+  - You cloned me ?
+  - Haha J, I didn't know you loved me so much that you'd want one "menage a trois"
+    <3
   currentSpeech: 

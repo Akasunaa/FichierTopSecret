@@ -4,12 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.UIElements.Experimental;
+using static FilesWatcher;
+using static UnityEngine.Rendering.DebugUI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 using Random = UnityEngine.Random;
 
 /**
@@ -62,6 +67,7 @@ public class NPCController : ModifiableController, Interactable
     //player's informations
     private GameObject player;
     private PlayerObjectController playerObjectController;
+    private bool newDialog = true;
 
     private void Awake()
     {
@@ -254,10 +260,10 @@ public class NPCController : ModifiableController, Interactable
     }
     #endregion
 
-    /**
-     *  Inherited from the interface, interact method that will trigger the interactions with the player i.e. the dialogue
-     *  For now, at each click on E button, Interact() will be called, updating the text 
-     */
+    /// <summary>
+    /// Inherited from the interface, interact method that will trigger the interactions with the player i.e.the dialogue
+    /// For now, at each click on E button, Interact() will be called, updating the text
+    /// </summary>
     public void Interact()
     {
         //block and facing the player
@@ -294,28 +300,33 @@ public class NPCController : ModifiableController, Interactable
             EndDialogue();
             return;
         }
-        GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
+        player.gameObject.GetComponent<InputController>().StopMovement();
+        if (newDialog)
+        {
+            player.gameObject.GetComponent<PlayerObjectController>().InteractSound();
+            newDialog = false;
+        }
         ui.DisplayDialogue(dialogSM.currentState.ConvertTo<DialogState>().currentSpeech, portraitRef); //visual display of the text
         int ret = dialogSM.OnDialogInteraction(); //the state machine's internal changes switching to the next dialogue line
         shouldEnd = (ret == 0);
     }
 
-    /**
-     *  Function that ends the current dialogue being displayed, giving back control to player
-     *  It does NOT change the state of the NPC : if interacted again, the NPC will repeat the current State's last sentence
-     */
+    /// <summary>
+    ///  Function that ends the current dialogue being displayed, giving back control to player
+    ///     It does NOT change the state of the NPC : if interacted again, the NPC will repeat the current State's last sentence
+    /// </summary>
     private void EndDialogue()
     {
+        newDialog = true;
         canMove = true;
         ui.EndDisplay();
         shouldEnd = false;      //allows the player to interact again
     }
 
-    /**
-     *  Function that will change the NPC's state
-     *  Param :
-     *      newStateName : string : name that references the next state that should be chosen
-     */
+    /// <summary>
+    /// Function that will change the NPC's state
+    /// </summary>
+    /// <param name="newStateName">name that references the next state that should be chosen</param>
     public void OnStateChange(string newStateName)
     {
         dialogSM = GetComponent<DialogSM>();
@@ -324,19 +335,19 @@ public class NPCController : ModifiableController, Interactable
         if (ui!=null) 
         {
             ui.EndDisplay();
-        } 
+        }
     }
 
-    /**
-     *  Function inherited from ModifiableController
-     *  Should be reworked to use a list or something, rather than hard-coded properties.Add
-     */
+    /// <summary>
+    /// Function inherited from ModifiableController
+    /// Should be reworked to use a list or something, rather than hard-coded properties.Add
+    /// </summary>
     public override void SetDefaultProperties()
     {
         foreach(var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            //Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty {IsImportant = true, Value = propertyDict[propertyKey].propertyValue});
         }
         ////DEBUG -------------------------
@@ -348,9 +359,9 @@ public class NPCController : ModifiableController, Interactable
         ////-------------------------------
     }
 
-    /**
-     *  Main Function of the NPC that will handle the modifications of its file
-     */
+    /// <summary>
+    /// Main Function of the NPC that will handle the modifications of its file.
+    /// </summary>
     public override void UpdateModification()
     {
         base.UpdateModification();
@@ -383,10 +394,6 @@ public class NPCController : ModifiableController, Interactable
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
                 }
-                //else //maybe this else condition should be removed or changed -> otherwise, we might switch back to initial state when not needed
-                //{
-                //    OnStateChange(dialogSM.GetInitialState().name);
-                //}
             }
             else if(properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.INTEGER) // if type INTEGER, hence for list of values
             {
@@ -421,11 +428,12 @@ public class NPCController : ModifiableController, Interactable
         OnStateChange(dialogSM.GetStartingState().name); //if by that point nothing returned (triggered) the state changed, NPC should return to initial state
     }
 
-    /**
-     *  Function called everytime the game gains or loses focus
-     *  At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
-     *  We will also use these times to check if the player.txt properties have changed
-     */
+    /// <summary>
+    /// Function called everytime the game gains or loses focus
+    /// At these times, the Duplication Manager will check for gameObjects of a certain tag and trigger an event
+    /// We will also use these times to check if the player.txt properties have changed
+    /// </summary>
+    /// <param name="hasFocus">Boolean indicating if application has focus or not</param>
     private void OnApplicationFocus(bool hasFocus)
     {
         //Check for Player.txt values :
@@ -457,10 +465,12 @@ public class NPCController : ModifiableController, Interactable
         }
     }
 
-    /**
-     *  Function that reacts to a search count of a tag variable
-     *      THE UPPER IFS TAKE PRECEDENCE OVER THE OTHER ONES
-     */
+    /// <summary>
+    /// Function that reacts to a search count of a tag variable
+    /// It will linearily follow the order of tags inputted in the inspector's list
+    /// </summary>
+    /// <param name="searchedTag">tag searched for in the current scene</param>
+    /// <param name="tagCount">number of elements that make a condition in the inspector, can be inferior or superior</param>
     private void ReactSearchCount(string searchedTag, int tagCount)
     {
         if (reactElementsDict.ContainsKey(searchedTag))
@@ -491,10 +501,10 @@ public class NPCController : ModifiableController, Interactable
         return;
     }
 
-    /**
-     *  Function that will search the playerPrefs to see if modifications were added
-     *  Returns true if a state change was operated by reading the playerPrefs
-     */
+    /// <summary>
+    /// Function that will search the playerPrefs to see if modifications were added
+    /// </summary>
+    /// <returns>true if a state change was operated by reading the playerPrefs, false otherwise</returns>
     private bool SearchPlayerPrefs()
     {
         foreach(var playerPref in playerPrefsElementsDict.Keys)
@@ -510,9 +520,11 @@ public class NPCController : ModifiableController, Interactable
         return false;
     }
 
-    /**
-     *  Function that will recuperates a certain value from the properties, if such value exists
-     */
+    /// <summary>
+    /// Function that will recuperates a certain value from the properties, if such value exists
+    /// </summary>
+    /// <param name="propertyName">name of the property being looked for in the file</param>
+    /// <returns>value of said property as a string if found, "DATA NOT FOUND" otherwise</returns>
     public string GetPropertyValue(String propertyName)
     {
         if (properties.ContainsKey(propertyName))
@@ -522,20 +534,21 @@ public class NPCController : ModifiableController, Interactable
         return "DATA NOT FOUND";
     }
 
-    /**
-     *  Function that will scan the player's inventory for a specific object
-     *  Param :
-     *  @objectName : String : name of the object the npc will check for
-     */
+    /// <summary>
+    /// Function that will scan the player's inventory for a specific object
+    /// </summary>
+    /// <param name="objectName">name of the object the npc will check for</param>
+    /// <returns>true if file exists, false otherwise</returns>
     private bool ScanPlayerInventory(String objectName)
     {
         var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + objectName + ".txt");
         return fileInfo.Exists;
     }
 
-    /**
-     *  Function called from special states, that will add specific and previously non-accessible properties to NPC's .txt files
-     */
+    /// <summary>
+    /// Function called from special states, that will add specific and previously non-accessible properties to NPC's .txt files
+    /// </summary>
+    /// <param name="newFileProperties">List of FILE_PROPERTIES elements that will be added to NPC's file</param>
     public void AddProperty(FILE_PROPERTIES[] newFileProperties)
     {
         //we firstly add the values to the .txt file as to not suppress precedently written values :
@@ -555,15 +568,21 @@ public class NPCController : ModifiableController, Interactable
     }
 }
 
+/// <summary>
+/// enum used to indicate if a property is of type integer or string
+/// </summary>
 [System.Serializable]
-public enum TYPE                                        //enum used to indicate if a property is of type integer or string
+public enum TYPE                                      
 {
     INTEGER,
     STRING
 }
 
+/// <summary>
+/// struct used for the dictionnary of the properties of the object
+/// </summary>
 [System.Serializable]
-public struct FILE_PROPERTIES                             //struct used for the dictionnary of the properties of the object 
+public struct FILE_PROPERTIES                             
 {
     public string propertyName;                         //name of the property
     public string propertyValue;                        //value of the property
@@ -573,22 +592,31 @@ public struct FILE_PROPERTIES                             //struct used for the 
     public string[] propertyChangeState;                //associated state of the property if changed
 }
 
+/// <summary>
+/// struct used for the dictionnary of the objects that the NPC will look out for in the player's inventory
+/// </summary>
 [System.Serializable]
-public struct PLAYER_ITEMS                          //struct used for the dictionnary of the objects that the NPC will look out for in the player's inventory
+public struct PLAYER_ITEMS                          
 {
     public string playerItemName;                           //name of the object (must be exact)
     public string playerItemChangeState;                    //state that will change if object detected in player's inventory
 }
 
+/// <summary>
+/// struct used for the dictionnary of the quest items the NPC will give out upon trigger by a certain state's name
+/// </summary>
 [System.Serializable]
-public struct QUEST_ITEMS                               //struct used for the dictionnary of the quest items the NPC will give out upon trigger by a certain state's name
+public struct QUEST_ITEMS                               
 {
     public GameObject item;                             //item that the NPC will give the player
     public string questChangeState;                    //state that will trigger the NPC giving the item
 }
 
+/// <summary>
+/// struct used for elements that the NPC will react to by their tag 
+/// </summary>
 [System.Serializable]
-public struct REACT_ELEMENTS                            //struct used for elements that the NPC will react to by their tag 
+public struct REACT_ELEMENTS                            
 {
     public string tagToReact;                           //tag that it will react to
     public string[] stateChangeName;                    //associated name of the state
@@ -596,16 +624,22 @@ public struct REACT_ELEMENTS                            //struct used for elemen
     public int[] condition;                             //the value for the condition
 }
 
+/// <summary>
+/// struct used for values in the player.txt that the NPC will react to
+/// </summary>
 [System.Serializable]
-public struct PLAYER_PROPERTIES                         //struct used for values in the player.txt that the NPC will react to
+public struct PLAYER_PROPERTIES                         
 {
     public string playerPropertyName;
     public string[] playerPropertyCondition;                   //list of possibilities that property can take and the NPC will react to
     public string[] playerPropertyChangeState;                //associated state of the property if changed
 }
 
+/// <summary>
+/// struct used for values in the PlayerPrefs that the NPC will react to
+/// </summary>
 [System.Serializable]
-public struct PLAYER_PREFS_ELEMENTS                     //struct used for values in the PlayerPrefs that the NPC will react to
+public struct PLAYER_PREFS_ELEMENTS                     
 {
     public string playerPrefsName;
     public string playerPrefsCondition;                   //list of possibilities that property can take and the NPC will react to

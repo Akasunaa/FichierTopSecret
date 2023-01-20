@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting.FullSerializer;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 /**
  *      Script used to create the DialogStates Scriptable Objects
@@ -22,9 +22,11 @@ public class DialogState : BaseState
     public DialogState(string name, DialogSM SM) : base(name, SM) { }
 
     protected StateMachine SM;
-    /**
-     *  Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
-     */
+    
+    /// <summary>
+    /// Upon entering the dialogState, the current Speech that will be used by the NPC will be the first one of the list
+    /// </summary>
+    /// <param name="sm">State machine operating said state</param>
     public override void Enter(StateMachine sm)
     {
         SM = sm;
@@ -35,11 +37,10 @@ public class DialogState : BaseState
     }
 
 
-    /**
-     *  Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
-     *  Returns :
-     *      Int : 0 if the currentSpeech is the last speech, 1 otherwise
-     */
+    /// <summary>
+    /// Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
+    /// </summary>
+    /// <returns>0 if the currentSpeech is the last speech, 1 otherwise</returns>
     public virtual int ChangeSpeech()
     {
         interactionIndex++;
@@ -57,10 +58,11 @@ public class DialogState : BaseState
         }
     }
 
-    /**
-     *  Function that will recover the NPC's data for the current spoken speech, if need be
-     *  Relevant data is seen with $dataname$ tag
-     */
+    /// <summary>
+    /// Function that will recover the NPC's data for the current spoken speech, if need be
+    /// Relevant data is seen with $dataname$ tag
+    /// </summary>
+    /// <param name="SM">State Machine operating state</param>
     protected void GetSpeechVariables(StateMachine SM)
     {
         if (currentSpeech.Contains("$"))

@@ -156,7 +156,7 @@ public class FilesWatcher : MonoBehaviour
                     && path.Substring(0, Application.streamingAssetsPath.Length) ==
                     Application.streamingAssetsPath)
                 {
-                    var relativePath = RelativePath(path);
+                    var relativePath = Utils.RelativePath(path);
                     if (_pathToScript.TryGetValue(relativePath, out var fp))
                     {
                         if (!selectedFiles.Contains(relativePath))
@@ -220,11 +220,6 @@ public class FilesWatcher : MonoBehaviour
     }
     #endif
 
-    public static string RelativePath(string absolutePath)
-    {
-        return absolutePath[Application.streamingAssetsPath.Length..].Replace('\\', '/');
-    }
-
     /*
      * Call when a file is modified
      */
@@ -287,24 +282,18 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
-    public static bool IsPathToScene(string path, string levelName)
-    {
-        if (path.Contains("\\")){ path = RelativePath(path);}
-        return LevelManager.Capitalize(path.Substring(("/" + Utils.RootFolderName + "/").Length, levelName.Length)) == levelName;
-    }
-
     private void Update()
     {
         while (_dataQueue.TryDequeue(out FileChange fc))
         {
-            var relativePath = RelativePath(fc.Fi.FullName);
+            var relativePath = Utils.RelativePath(fc.Fi.FullName);
 
             switch (fc.Type)
             {
                 case FileChangeType.New:
                     var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     var alreadyExists = _pathToScript.ContainsKey(relativePath);
-                    var rightDirectory = IsPathToScene(relativePath, levelName);
+                    var rightDirectory = levelName == relativePath;
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
@@ -426,7 +415,7 @@ public class FilesWatcher : MonoBehaviour
 
     public void Set(FileParser fileParser)
     {
-        var relativePath = RelativePath(fileParser.filePath);
+        var relativePath = Utils.RelativePath(fileParser.filePath);
         if (_pathToScript.ContainsKey(relativePath))
         {
             Debug.LogError("FilesWatcher should not set a FileParser which already exists with the same path: " + relativePath);
@@ -439,7 +428,7 @@ public class FilesWatcher : MonoBehaviour
         string extension = Path.GetExtension(fi.FullName);
         if (!Regex.IsMatch(extension, supportedExtensions, RegexOptions.IgnoreCase))
             return null;
-        return _pathToScript.ContainsKey(RelativePath(fi.FullName));
+        return _pathToScript.ContainsKey(Utils.RelativePath(fi.FullName));
     }
 
     //Use to search for file open in first plan and highlight the object associated with this file

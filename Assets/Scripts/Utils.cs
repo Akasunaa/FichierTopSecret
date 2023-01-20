@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.IO;
 using System.Linq;
 using Unity.VisualScripting.FullSerializer;
 
@@ -100,4 +101,46 @@ public static class Utils
         return NearestTileEmpty(position, size, depth + 1,limit);
     }
 
+    // Utils funtions on path
+    public static string RelativePath(string absolutePath)
+    {
+        return absolutePath[Application.streamingAssetsPath.Length..].Replace('\\', '/');
+    }
+    
+    public static string RelativePath(FileInfo fi)
+    {
+        
+        return fi.FullName[Application.streamingAssetsPath.Length..].Replace('\\', '/');
+    }
+
+    public static string SceneName(string relativePath)
+    {
+        string moreRelative = relativePath.Substring(("/" + RootFolderName + "/").Length);
+        return moreRelative.Split('/').First();
+    }
+    
+    public static string SceneName(FileInfo fi)
+    {
+        string relativePath = RelativePath(fi.FullName);
+        string moreRelative = relativePath.Substring(("/" + RootFolderName + "/").Length);
+        return moreRelative.Split('/').First();
+    }
+
+    public static string SceneRelativePath(string relativePath)
+    {
+        string moreRelative = relativePath.Substring(("/" + RootFolderName + "/").Length);
+        return String.Join('/', moreRelative.Split('/').Skip(1));
+    }
+    
+    public static string SceneRelativePath(FileInfo fi)
+    {
+        string relativePath = RelativePath(fi.FullName);
+        string moreRelative = relativePath.Substring(("/" + RootFolderName + "/").Length);
+        return String.Join('/', moreRelative.Split('/').Skip(1));
+    }
+
+    public static string FileName(string relativePath)
+    {
+        return relativePath.Split('/')[^1];
+    }
 }

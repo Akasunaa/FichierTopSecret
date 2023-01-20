@@ -219,7 +219,8 @@ public class LevelManager : MonoBehaviour
         string nameObject = Path.GetFileNameWithoutExtension(fi.Name);
         if (nameObject.Contains("Nouveau ") || nameObject.Contains("New"))
             return;
-        
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().CreateSound();
+
         foreach (RegToGoPair pair in instantiable)
         {
             //check all synonym
@@ -239,7 +240,6 @@ public class LevelManager : MonoBehaviour
                 }
                 // setup file parser
                 fp = newObj.AddComponent<FileParser>();
-        
                 fp.filePath = fi.FullName;
                 fp.ReadFromFile(fi.FullName);
                 FilesWatcher.instance.Set(fp);
@@ -321,11 +321,12 @@ public class LevelManager : MonoBehaviour
     */
     public static void GiveItem(GameObject item)
     {
-        //GameObject new_item = Instantiate(item);
-        //LevelManager.Instance.NewObject(new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Player/" + item + ".txt"), isItem: true);
-        //new_item.transform.parent = GameObject.FindGameObjectWithTag("Player").transform;
-        //new_item.GetComponent<ItemController>().RecuperatingItem();
-        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + item.name + ".txt"))
+        GiveItem(item.name);
+    }
+
+    public static void GiveItem(string itemName)
+    {
+        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + itemName + ".txt"))
         {
             sw.Write("");
         }

@@ -2,13 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem.LowLevel;
 
-/**
- *  Dialog State Machine used by the NPCs inherited from StateMachine basis
- */
+/// <summary>
+/// Dialog State Machine used by the NPCs inherited from StateMachine basis
+/// </summary>
 public class DialogSM : StateMachine
 {
     [SerializeField] private DialogState startingState;
@@ -24,8 +24,10 @@ public class DialogSM : StateMachine
         nextPossibleStates.Add(startingState.name, startingState);
         foreach (NEXT_STATE state in nextStates)
         {
-            if (!nextPossibleStates.ContainsKey(state.name))
+            //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
+            if (!nextPossibleStates.ContainsKey(state.state.name))
             {
+                //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
                 nextPossibleStates.Add(state.state.name, state.state);
             }
         }
@@ -37,27 +39,30 @@ public class DialogSM : StateMachine
         return startingState;
     }
 
-    /**
-     *  Function only called by the Editor NPC script to setup the starting state
-     */
+    /// <summary>
+    /// Function only called by the Editor NPC script to setup the starting state
+    /// </summary>
+    /// <param name="state">state that will be set as the starting state of the state machine</param>
     public void SetStartingState(BaseState state)
     {
         startingState = state.ConvertTo<DialogState>();
     }
 
-    /**
-     *  Function called by external scripts that will tell the SM that the current speech has been read
-     */
+    /// <summary>
+    /// Function called by external scripts that will tell the SM that the current speech has been read
+    /// </summary>
+    /// <returns>0 if the currentSpeech is the last speech, 1 otherwise</returns>
     public int OnDialogInteraction()
     {
         return currentState.ConvertTo<DialogState>().ChangeSpeech();
     }
 
-    /**
-     *  Function called when changing state by other external factors
-     *  Calls the currentState's exit method to solve any remaining state's actions if needed
-     *  Then attributes and calls the new state's Enter method
-     */
+    /// <summary>
+    /// Function called when changing state by other external factors
+    /// Calls the currentState's exit method to solve any remaining state's actions if needed
+    /// Then attributes and calls the new state's Enter method
+    /// </summary>
+    /// <param name="nextStateName">name of the next state to change to</param>
     public new void ChangeState(string nextStateName)
     {
         if (nextStateName == currentState.name) //same state
@@ -79,12 +84,12 @@ public class DialogSM : StateMachine
     }
 }
 
-/**
- *  Structure of elements used to create the list of new states
- *  We made it a different class to allow other scripts to use it (notably the custom editor window)
- */
+/// <summary>
+/// Structure of elements used to create the list of new states
+/// We made it a different class to allow other scripts to use it (notably the custom editor window)
+/// </summary>
 [System.Serializable]
-public struct NEXT_STATE                               //struct used for the next states
+public struct NEXT_STATE                               
 {
     [HideInInspector] public string name;
     public DialogState state;

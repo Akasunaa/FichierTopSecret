@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 using Unity.VisualScripting;
 using UnityEngine.Assertions;
+using System.Linq;
 
 /**
  *  Component used to handle the read and modify aspects of the game using the file explorer
@@ -16,7 +17,7 @@ public class FileParser : MonoBehaviour
     private string[] _dataArray; //data read from the file
     public string filePath { get; set; } //informations to access file
     [Header("Object File infos")]
-    [SerializeField] private string targetObjectFileName;           //file (name) where the modification is
+    [SerializeField] private string targetObjectFileName;           // ONLY USED FOR THE EDITOR SHOULD NOT BE USED
     public ModifiableController targetModifiable { get; private set; }                  //Modifiable controller of the targetObject that will be called upon identification of the modification and/or other actions
 
     private void Awake()
@@ -58,7 +59,7 @@ public class FileParser : MonoBehaviour
                     return true; //item dont go in cosmic bin
                 } 
                 DeleteFile(path);
-
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().DeleteSound();
                 return true;
             }
             // If the file cannot be deleted, re-write the file
@@ -81,12 +82,12 @@ public class FileParser : MonoBehaviour
         var fi = new FileInfo(Application.streamingAssetsPath + path);
         
         // add origin scene as property
-        if (!fi.FullName.Contains("Cosmicbin"))
+        if (Utils.SceneName(fi) != "Cosmicbin")
         {
             targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
             filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + targetObjectFileName.Split("/")[^1], FileAttributes.ReadOnly);
+            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/Cosmicbin/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
             //if (TryGetComponent(out ModifiableController mc)) { 
             //    mc.canBeDeleted = false; 
             //}
