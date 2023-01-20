@@ -293,7 +293,7 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.New:
                     var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     var alreadyExists = _pathToScript.ContainsKey(relativePath);
-                    var rightDirectory = levelName == relativePath;
+                    var rightDirectory = levelName == Utils.SceneName(relativePath);
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
