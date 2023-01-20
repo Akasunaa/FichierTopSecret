@@ -21,11 +21,12 @@ public class BombController : ModifiableController
             //DEATH TRIGGER
             //We trigger death here
             //we recuperate the ui :
-            GameObject ui = GameObject.FindGameObjectWithTag("UI");
+            // var ui = GameObject.FindGameObjectWithTag("UI");
             //we get the correcte component :
-            //TODO
             //we launch the right function :
-            //TODO
+            var ui = GameObject.FindGameObjectWithTag("UI");
+            var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
+            playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.BombDetonated);
         }
         else {
             lastWireDestroyed = order;
@@ -33,6 +34,9 @@ public class BombController : ModifiableController
             { 
                 print("DESAMORCED");
                 //TRIGGER VICTORY
+                var ui = GameObject.FindGameObjectWithTag("UI");
+                var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
+                playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.Victory);
             }
         }
     }
