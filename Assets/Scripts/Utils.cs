@@ -150,16 +150,16 @@ public static class Utils
     /// Function that handles the comparison between the integer file value and the integer property value of an NPC.
     /// Its main point is to avoid overflow-type errors.
     /// </summary>
-    /// <param name="fileValue"></param>
-    /// <param name="inspectorValue"></param>
-    /// <param name="isSuperiorTest"></param>
-    /// <returns></returns>
+    /// <param name="fileValue">Value obtained in the file that is being tested.</param>
+    /// <param name="inspectorValue">Value setup in the NPC's inspector.</param>
+    /// <param name="isSuperiorTest">Wether or not the test is fileValue is inferior to inspectorValue.</param>
+    /// <returns>True if the test is correct, False otherwise.</returns>
     public static bool NPCCompare(string fileValue, string inspectorValue, bool isSuperiorTest)
     {
-        List<string> numbers = new List<string>() { "0", "1", "2","3","4","5","6","7","8","9","10","-" };
+        List<string> numbers = new List<string>() { "0", "1", "2","3","4","5","6","7","8","9","10" };
         int integerValue;
         int.TryParse(fileValue, out integerValue);
-        if(integerValue == 0 && fileValue.Any(c => c != 0)) //if the parsed value is 0 BUT the string value contains something different than 0, then we have overflow : we return true since the overflow means that value is superior to condition
+        if(integerValue == 0 && fileValue.Any(c => c != 0)) //if the parsed value is 0 BUT the string value contains something different than 0, then we have overflow 
         {
             if(!fileValue.Any(c => numbers.Contains(c.ToString()))) //we test if the value is only made of numbers
             {
