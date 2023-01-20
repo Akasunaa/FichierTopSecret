@@ -146,6 +146,24 @@ public static class Utils
         return relativePath.Split('/')[^1];
     }
 
+    public static bool DeleteFile(FileInfo fi)
+    {
+        try
+        {
+            fi.Delete();
+            return true;
+        }
+        catch (Exception _)
+        {
+            return false;
+        }
+    }
+
+    public static bool DeleteFile(string relativePath)
+    {
+        return DeleteFile(Application.streamingAssetsPath + relativePath);
+    }
+
     /// <summary>
     /// Function that handles the comparison between the integer file value and the integer property value of an NPC.
     /// Its main point is to avoid overflow-type errors.
