@@ -511,7 +511,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -130}
+  m_AnchoredPosition: {x: 250, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &820483072
@@ -573,6 +573,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58327c02020200e41976d2484fe1189b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScript: {fileID: 1176922399}
+  n: 2
   graphicRaycaster: {fileID: 1322053292}
   eventSystem: {fileID: 574695616}
   onClick:
@@ -970,6 +972,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 713591624362fb04f8f7c4dae762e001, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 1795531435}
+  - {fileID: 1428297579}
+  - {fileID: 820483074}
 --- !u!1 &1322053291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,7 +1120,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 17.200012}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &1428297577
@@ -1176,6 +1182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58327c02020200e41976d2484fe1189b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScript: {fileID: 1176922399}
+  n: 1
   graphicRaycaster: {fileID: 1322053292}
   eventSystem: {fileID: 574695616}
   onClick:
@@ -1270,7 +1278,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 170}
+  m_AnchoredPosition: {x: -250, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1795531435
@@ -1285,6 +1293,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58327c02020200e41976d2484fe1189b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScript: {fileID: 1176922399}
+  n: 0
   graphicRaycaster: {fileID: 1322053292}
   eventSystem: {fileID: 574695616}
   onClick:

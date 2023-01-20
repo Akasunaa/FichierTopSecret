@@ -9,6 +9,11 @@ using UnityEngine.UI;
 
 public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    [SerializeField]
+    private MainMenuScript mainMenuScript;
+
+    [SerializeField] private int n;
+
     private bool dragging = false;
     private Vector2 offset = Vector2.zero;
 
@@ -28,7 +33,7 @@ public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
     {
         if (eventData.clickCount == 1)
         {
-            GetComponent<Image>().material.SetInteger("_state", 2);
+            Select();
         }
         else if (eventData.clickCount >= 2)
         {
@@ -56,10 +61,7 @@ public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
                 }
                 else
                 {
-                    if (imageComponent.material.GetInteger("_state") == 2)
-                    {
-                        imageComponent.material.SetInteger("_state", 0);
-                    }
+                    UnSelect();
                 }
             }
         }
@@ -94,6 +96,26 @@ public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
         if (TryGetComponent(out Image imageComponent) && imageComponent.material != null)
         {
             if (imageComponent.material.GetInteger("_state") == 1)
+            {
+                imageComponent.material.SetInteger("_state", 0);
+            }
+        }
+    }
+
+    public void Select()
+    {
+        mainMenuScript.Selected(n);
+        if (TryGetComponent(out Image imageComponent))
+        {
+            imageComponent.material.SetInteger("_state", 2);
+        }
+    }
+
+    public void UnSelect()
+    {
+        if (TryGetComponent(out Image imageComponent))
+        {
+            if (imageComponent.material.GetInteger("_state") == 2)
             {
                 imageComponent.material.SetInteger("_state", 0);
             }
