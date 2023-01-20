@@ -117,15 +117,19 @@ public class LevelManager : MonoBehaviour
 
         //Read player prefs
         string absolutePath = PlayerPrefs.GetString("HasDetonated");
-        string relativePath = Utils.RelativePath(absolutePath);
-        if (Utils.SceneName(relativePath) == levelName)
+        if (!string.IsNullOrEmpty(absolutePath))
         {
-            GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
-            if (breakableWall)
+            string relativePath = Utils.RelativePath(absolutePath);
+            if (Utils.SceneName(relativePath) == levelName)
             {
-                breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
+                if (breakableWall)
+                {
+                    breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                }
             }
         }
+
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
