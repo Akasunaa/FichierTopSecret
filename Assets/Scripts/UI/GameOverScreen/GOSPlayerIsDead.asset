@@ -15,5 +15,6 @@ MonoBehaviour:
   gameOverReason: 2
   gameOverScreenTitle: Game Over
   gameOverReasonText: You are dead
-  endGameLore: ye ye you are dead so now you cant do your job and save the world
-    or something idk i passed cinematics
+  endGameLore: You managed to kill yourself, something even reality-bending powers
+    can't stop. Good job. Unfortunately, thanks to your utimely demise, Issovitch
+    managed to escape, and the Neptune Sphere lies in ruins.

@@ -15,5 +15,8 @@ MonoBehaviour:
   gameOverReason: 1
   gameOverScreenTitle: Game Over
   gameOverReasonText: The bomb detonated
-  endGameLore: Blah blih blah city destroyed and ev1 is dead and it's really dramatic
-    idk
+  endGameLore: The Reality Bomb detonated, obliterating the City of the Immortals
+    in a single flash and shattering Triton. The debris rained down on Neptune, crushing
+    the various orbital cities of the planet, wiping out nearly 70% of the Neptune
+    Sphere's population in the process. The survivors now face an imminent Jovian
+    invasion, and await their untimely demise.
