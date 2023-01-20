@@ -114,9 +114,13 @@ public abstract class ModifiableController : MonoBehaviour
 
     public virtual void UpdateModification()
     {
-        foreach (var (keyName, dicoValueProperty) in properties)
+        string[] keys = properties.Keys.ToArray();
+        foreach (string keyName in keys)
         {
-            ApplyPlayerChange.VisualChange(keyName, dicoValueProperty.Value, gameObject);
+            if (properties.ContainsKey(keyName))
+            {
+                ApplyPlayerChange.VisualChange(keyName, properties[keyName].Value, gameObject);
+            }
         }
     }
 
