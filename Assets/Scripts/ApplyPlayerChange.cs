@@ -116,6 +116,10 @@ public static class ApplyPlayerChange
             {
                 modifiableController.SetValue("position", targetPositionNew);
             }
+            else
+            {
+                Debug.LogError("Moving object without ModifiableController, that is strange...");
+            }
             if (go.TryGetComponent(out FileParser fp))
             {
                 fp.WriteToFile();
