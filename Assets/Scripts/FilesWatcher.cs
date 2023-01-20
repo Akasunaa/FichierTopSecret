@@ -326,9 +326,9 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.Delete:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {
-                        StartCoroutine(VibrateExplorer());
                         if (!fileParser.OnDelete(relativePath))
                         {
+                            StartCoroutine(VibrateExplorer());
                             // Debug.Log("[FileWatcher]" + relativePath + " should not be deleted !");
                         }
                         else
