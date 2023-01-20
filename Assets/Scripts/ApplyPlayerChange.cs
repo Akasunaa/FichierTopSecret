@@ -112,9 +112,21 @@ public static class ApplyPlayerChange
             Vector3 targetPos = SceneData.Instance.grid.GetCellCenterWorld((Vector3Int)targetPositionNew);
             go.transform.position = targetPos;
             Utils.UpdateOrderInLayer(go);
+            if (go.TryGetComponent(out ModifiableController modifiableController)) 
+            {
+                modifiableController.SetValue("position", targetPositionNew);
+            }
+            else
+            {
+                Debug.LogError("Moving object without ModifiableController, that is strange...");
+            }
             if (go.TryGetComponent(out FileParser fp))
             {
                 fp.WriteToFile();
+            }
+            else
+            {
+                Debug.LogError("Moving object without FileParser, that is strange...");
             }
 
             // Pierre P. : I remove the shitty softlock in the game

@@ -293,7 +293,7 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.New:
                     var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
                     var alreadyExists = _pathToScript.ContainsKey(relativePath);
-                    var rightDirectory = levelName == relativePath;
+                    var rightDirectory = levelName == Utils.SceneName(relativePath);
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
@@ -303,7 +303,7 @@ public class FilesWatcher : MonoBehaviour
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " already exists (it is normal if it was already in the scene)");
                     }
-                    else if (relativePath.Contains("/" + Utils.RootFolderName + "/player/"))
+                    else if (Utils.SceneName(relativePath) == Utils.PlayerFolderName)
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
                         LevelManager.Instance.NewObject(fc.Fi, isItem: true);
@@ -326,9 +326,9 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.Delete:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {
-                        StartCoroutine(VibrateExplorer());
                         if (!fileParser.OnDelete(relativePath))
                         {
+                            StartCoroutine(VibrateExplorer());
                             // Debug.Log("[FileWatcher]" + relativePath + " should not be deleted !");
                         }
                         else

@@ -333,7 +333,7 @@ public class LevelManager : MonoBehaviour
 
     public static void GiveItem(string itemName)
     {
-        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/player/" + itemName + ".txt"))
+        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/" + itemName + ".txt"))
         {
             sw.Write("");
         }

@@ -15,13 +15,9 @@ public class BreakableWallController : MonoBehaviour
     private void Start()
     {
         string hasDetonated = PlayerPrefs.GetString("HasDetonated");
-        if (!string.IsNullOrEmpty(hasDetonated))
+        if (string.IsNullOrEmpty(hasDetonated) || Utils.SceneName(Utils.RelativePath(hasDetonated)) != levelName)
         {
-            string relativePath = Utils.RelativePath(hasDetonated);
-            if (Utils.SceneName(relativePath) != levelName)
-            {
-                hiddenGameElement.SetActive(false);
-            }
+            hiddenGameElement.SetActive(false);
         }
     }
 
