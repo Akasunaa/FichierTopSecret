@@ -15,4 +15,5 @@ MonoBehaviour:
   gameOverReason: 0
   gameOverScreenTitle: Victory
   gameOverReasonText: You disabled the bomb and saved the city
-  endGameLore: Blah blah todo add the lore omg
+  endGameLore: Fantastic job, Mr. Jerrik. You managed to uphold the Protectorate's
+    hopes, save the city and Triton. You will be handsomely rewarded for your effort.
