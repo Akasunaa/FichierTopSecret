@@ -197,7 +197,9 @@ public class LevelManager : MonoBehaviour
             bool containFile = FilesWatcher.instance.ContainsFile(fi) ?? true;
             if (!containFile)
             {
-                NewObject(fi, fi.FullName.Contains("Cosmicbin"));
+                // NewObject(fi, fi.FullName.Contains("Cosmicbin"));
+                string relativePath = Utils.RelativePath(fi);
+                NewObject(fi, Utils.SceneName(relativePath) == Utils.CosmicbinFolderName);
             }
         }
 
