@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.UI;
+using System.ComponentModel;
 
 public class LevelManager : MonoBehaviour
 {
@@ -25,8 +27,12 @@ public class LevelManager : MonoBehaviour
     
     [SerializeField] private List<RegToGoPair> instantiable;
 
+    //particle effect
     [SerializeField] private ParticleSystem popParticle;
     [SerializeField] public ParticleSystem depopParticle;
+
+    //fader
+    private Image fadeImage;
 
     void Awake()
     {
@@ -57,7 +63,8 @@ public class LevelManager : MonoBehaviour
             }
             di.Delete(true);
         }
-        
+        fadeImage = GetComponentInChildren<Image>();
+        fadeImage.color = new Color(0F, 0F, 0F, 0F);
     }
 
     void Start()
@@ -69,11 +76,13 @@ public class LevelManager : MonoBehaviour
         if (!isLoading)
         {
             isLoading = true;
+            fadeImage.color = new Color(0F, 0F, 0F, 1F);
             StartCoroutine(LoadSceneCoroutine(Capitalize(levelName)));
         }
     }
 
-    
+
+
     private IEnumerator LoadSceneCoroutine(string levelName)
     {
         isLoading = true;
@@ -87,13 +96,10 @@ public class LevelManager : MonoBehaviour
             di.Create();
         }
 
-        // if (activeLevel.isLoaded)
-        // {
-        //     SceneManager.UnloadSceneAsync(activeLevel);
-        // }
-        
-        AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
-        while (!asyncLoadLevel.isDone) {
+       
+        UnityEngine.AsyncOperation asyncLoadLevel = SceneManager.LoadSceneAsync("Scenes/" + levelName, LoadSceneMode.Single);
+        while (!asyncLoadLevel.isDone)
+        {      
             yield return null;
         }
 
@@ -105,7 +111,8 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("START LOADING");
             CosmicBinManager.Instance.OnCosmicBinLoad();
-        } else
+        }
+        else
         {
             CosmicBinManager.Instance.cosmicBinIsloaded = false;
         }
@@ -113,7 +120,7 @@ public class LevelManager : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
-        catch (Exception error) { Debug.LogError("no player found"); }
+        catch (Exception _) { Debug.LogError("no player found"); }
 
         //Read player prefs
         string absolutePath = PlayerPrefs.GetString("HasDetonated");
@@ -132,6 +139,7 @@ public class LevelManager : MonoBehaviour
 
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
+        fadeImage.color = new Color(0F, 0F, 0F, 0F);
     }
 
     public static string Capitalize(string input)
@@ -336,6 +344,29 @@ public class LevelManager : MonoBehaviour
         using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/" + itemName + ".txt"))
         {
             sw.Write("");
+        }
+    }
+
+    public IEnumerator FadeIn(float time)
+    {
+        while (fadeImage.color.a < 1)
+        {
+            print(fadeImage.color.a);
+            fadeImage.color += new Color(0F,0F,0F,Time.unscaledDeltaTime / time);
+            fadeImage.color = new Color(0F, 0F, 0F, Mathf.Clamp01(fadeImage.color.a));
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeOut(float time)
+    {
+        while (fadeImage.color.a > 0)
+        {
+            print(fadeImage.color.a);
+
+            fadeImage.color -= new Color(0F, 0F, 0F, Time.unscaledDeltaTime / time);
+            fadeImage.color = new Color(0F, 0F, 0F, Mathf.Clamp01(fadeImage.color.a));
+            yield return null;
         }
     }
 }
