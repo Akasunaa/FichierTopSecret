@@ -48,7 +48,7 @@ public class FileParser : MonoBehaviour
 
                 if (gameObject.TryGetComponent(out PlayerMovement _)) {
                     WriteToFile();
-                    if (SceneManager.GetActiveScene().name != Utils.CosmicbinFolderName) {
+                    if (LevelManager.Capitalize(SceneManager.GetActiveScene().name) != Utils.CosmicbinFolderName) {
                         LevelManager.Instance.LoadScene(Utils.CosmicbinFolderName); 
                     }
                     return false;
@@ -84,7 +84,7 @@ public class FileParser : MonoBehaviour
         // add origin scene as property
         if (Utils.SceneName(fi) != Utils.CosmicbinFolderName)
         {
-            targetModifiable.SetValue("scene target", SceneManager.GetActiveScene().name);
+            targetModifiable.SetValue("scene target", LevelManager.Capitalize(SceneManager.GetActiveScene().name));
             filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + fi.Name;
             WriteToFile();
             File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);

@@ -67,6 +67,11 @@ public class LevelManager : MonoBehaviour
         fadeImage.color = new Color(0F, 0F, 0F, 0F);
     }
 
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
     void Start()
     {
         LoadScene(levelToLoad);
@@ -120,22 +125,7 @@ public class LevelManager : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
-        catch (Exception _) { Debug.LogError("no player found"); }
-
-        //Read player prefs
-        string absolutePath = PlayerPrefs.GetString("HasDetonated");
-        if (!string.IsNullOrEmpty(absolutePath))
-        {
-            string relativePath = Utils.RelativePath(absolutePath);
-            if (Utils.SceneName(relativePath) == levelName)
-            {
-                GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
-                if (breakableWall)
-                {
-                    breakableWall.GetComponent<BreakableWallController>().DestroyWall();
-                }
-            }
-        }
+        catch { Debug.LogError("no player found"); }
 
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;

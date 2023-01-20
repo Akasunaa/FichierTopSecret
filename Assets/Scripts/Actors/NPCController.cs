@@ -152,6 +152,34 @@ public class NPCController : ModifiableController, Interactable
 
         //when NPC is initializing, we try to check if the player Prefs have been altered
         SearchPlayerPrefs();
+
+        Invoke("TestHealth", 0.3f);
+    }
+
+    /// <summary>
+    /// Function purposely delayed to ensure that the NPC is unloaded when he was killed in the previous scene launched.
+    /// TODO : SHOULD BE FIXED OTHERWISE (PIERRE)
+    /// </summary>
+    private void TestHealth()
+    {
+        Debug.Log("NPC : " + gameObject.name + " TESTHEALTH CALLED, 0.3f seconds after start");
+        //foreach (var element in properties.Keys)
+        //{
+        //    Debug.Log("NPC : " + gameObject.name + " PROPERTY " + properties[element] + " WITH VALUE " + properties[element].Value);
+        //}
+        int hp = 0;
+        if (properties.ContainsKey("health"))
+        {
+            int.TryParse(properties["health"].Value.ToString(), out hp);
+            Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value);
+        }
+
+        if (properties.ContainsKey("health") && hp <= 0)
+        {
+            //TRIGGER DEATH
+            Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value + " INITIALLY LEADING TO DEATH");
+            gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -344,11 +372,11 @@ public class NPCController : ModifiableController, Interactable
     /// </summary>
     public override void SetDefaultProperties()
     {
-        foreach(var propertyKey in propertyDict.Keys)
+        foreach (var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            //Debug.Log("NPC " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
-            properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty {IsImportant = true, Value = propertyDict[propertyKey].propertyValue});
+            Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty { IsImportant = true, Value = propertyDict[propertyKey].propertyValue });
         }
         ////DEBUG -------------------------
         //foreach (var property in properties.Keys)

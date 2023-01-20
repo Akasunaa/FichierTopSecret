@@ -14,10 +14,14 @@ public class BreakableWallController : MonoBehaviour
 
     private void Start()
     {
-        string hasDetonated = PlayerPrefs.GetString("HasDetonated");
-        if (string.IsNullOrEmpty(hasDetonated) || Utils.SceneName(Utils.RelativePath(hasDetonated)) != levelName)
+        int hasDetonated = PlayerPrefs.GetInt("HasDetonated");
+        if (hasDetonated == 0)
         {
             hiddenGameElement.SetActive(false);
+        }
+        else
+        {
+            DestroyWall();
         }
     }
 

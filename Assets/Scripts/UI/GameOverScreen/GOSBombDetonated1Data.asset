@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8163ad15414c30f42a5f17394b768f37, type: 3}
+  m_Name: GOSBombDetonated1Data
+  m_EditorClassIdentifier: 
+  gameOverReason: 1
+  gameOverScreenTitle: Game Over
+  gameOverReasonText: The bomb detonated
+  endGameLore: The Reality Bomb detonated, obliterating the City of the Immortals
+    in a single flash and shattering Triton. The debris rained down on Neptune, crushing
+    the various orbital cities of the planet, wiping out nearly 70% of the Neptune
+    Sphere's population in the process. The survivors now face an imminent Jovian
+    invasion, and await their untimely demise.

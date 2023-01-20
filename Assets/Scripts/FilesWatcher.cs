@@ -72,6 +72,11 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (instance == this) instance = null;
+    }
+
     private void Start()
     {
         var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
@@ -345,7 +350,7 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                SpriteRenderer? srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
+                SpriteRenderer srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
                 if (srenderer == null) { break; }
                 if (a.Item2)
                 {
@@ -442,8 +447,8 @@ public class FilesWatcher : MonoBehaviour
         {
             var objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             objectFileName = objectFileName.Replace("*", "");
-            var scene = SceneManager.GetActiveScene();
-            var completeObjectPath = "/" + Utils.RootFolderName + "/" + scene.name + "/" + objectFileName; //to be changed
+            string sceneName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
+            var completeObjectPath = "/" + Utils.RootFolderName + "/" + sceneName + "/" + objectFileName; //to be changed
             if (_pathToScript[completeObjectPath] != _currentHighlightObject && _currentHighlightObject)
             {
                 _currentHighlightObject.gameObject.GetComponentInChildren<SpriteRenderer>().material = unhighlightMaterial;
