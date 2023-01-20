@@ -26,14 +26,25 @@ public class CameraShaker : MonoBehaviour
     }
     #endregion
 
+    private bool _isShaking=false;
+
     /// <summary>
     /// Function called by external scripts when a camera shake is required.
     /// </summary>
     /// <param name="duration">Duration of the camera shake.</param>
     /// <param name="magnitude">Magnitude of the camera shake.</param>
-    public void CameraShake(float duration, float magnitude)
+    /// <returns>True if the shake could be started, false otherwise.</returns>
+    public bool CameraShake(float duration, float magnitude)
     {
-        StartCoroutine(CameraShakeCoroutine(duration, magnitude));
+        if(_isShaking)
+        {
+            return false;
+        }
+        else
+        {
+            StartCoroutine(CameraShakeCoroutine(duration, magnitude));
+            return true;
+        }
     }
 
     /// <summary>
@@ -44,6 +55,8 @@ public class CameraShaker : MonoBehaviour
     /// <returns></returns>
     private IEnumerator CameraShakeCoroutine(float duration, float magnitude)
     {
+        _isShaking = true;
+
         //We save up the initial data :
         Vector3 originalPos = transform.position;
         float elapsedTime = 0.0f;
@@ -69,5 +82,6 @@ public class CameraShaker : MonoBehaviour
 
         //Reset the camera :
         transform.position = originalPos;
+        _isShaking = false;
     }
 }

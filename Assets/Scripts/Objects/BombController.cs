@@ -8,6 +8,8 @@ public class BombController : ModifiableController
     [SerializeField] int numberOfWire;
     int lastWireDestroyed=0;
 
+    private bool isDetonating;
+
     private void Awake()
     {
         WireBombController.OnWireDestroy += WireDestroyed;
@@ -19,7 +21,7 @@ public class BombController : ModifiableController
         { 
             print("BOMB EXPLODE");
             //DEATH TRIGGER
-            StartCoroutine(BombExplode());
+            isDetonating = true;
         }
         else {
             lastWireDestroyed = order;
@@ -35,15 +37,26 @@ public class BombController : ModifiableController
         }
     }
 
+    private void OnApplicationFocus(bool focus)
+    {
+        if(isDetonating)
+        {
+            isDetonating= false;
+            StartCoroutine(BombExplode());
+        }
+    }
+
     /// <summary>
     /// Explosion of the bomb, through the camera shake and white fade.
     /// </summary>
     /// <returns></returns>
     private IEnumerator BombExplode()
     {
-        CameraShaker.Instance.CameraShake(4f, 0.25f);
-        yield return new WaitForSeconds(4f);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         var ui = GameObject.FindGameObjectWithTag("UI");
+        CameraShaker.Instance.CameraShake(4f, 0.25f);
+        ui.GetComponent<WhiteFadeController>().StartWhiteFade(4f);
+        yield return new WaitForSeconds(4f);
         var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
         playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.BombDetonated);
     }
