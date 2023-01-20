@@ -15,8 +15,6 @@ public class BombController : ModifiableController
 
     private void WireDestroyed(int order)
     {
-        var ui = GameObject.FindGameObjectWithTag("UI");
-        var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
         if(order != lastWireDestroyed+1) 
         { 
             print("BOMB EXPLODE");
@@ -26,6 +24,8 @@ public class BombController : ModifiableController
             // var ui = GameObject.FindGameObjectWithTag("UI");
             //we get the correcte component :
             //we launch the right function :
+            var ui = GameObject.FindGameObjectWithTag("UI");
+            var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
             playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.BombDetonated);
         }
         else {
@@ -34,6 +34,8 @@ public class BombController : ModifiableController
             { 
                 print("DESAMORCED");
                 //TRIGGER VICTORY
+                var ui = GameObject.FindGameObjectWithTag("UI");
+                var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
                 playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.Victory);
             }
         }

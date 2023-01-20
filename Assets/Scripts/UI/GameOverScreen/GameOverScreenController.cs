@@ -57,20 +57,12 @@ public class GameOverScreenController : MonoBehaviour
     {
         Time.timeScale = 0;
         
-        foreach (var canvas in canvasToDisable)
-        {
-            canvas.SetActive(false);
-        }
-
-        foreach (var localObject in toDisableSceneSpecific)
-        {
-            localObject.SetActive(false);
-        }
-
-        foreach (var localObject in GameObject.FindGameObjectsWithTag("DontDestroyOnLoad"))
-        {
-            Destroy(localObject);
-        }
+        foreach (var canvas in canvasToDisable) canvas.SetActive(false);
+        
+        foreach (var localObject in toDisableSceneSpecific) localObject.SetActive(false);
+        
+        foreach (var localObject in GameObject.FindGameObjectsWithTag("DontDestroyOnLoad")) Destroy(localObject);
+        
 
         UpdateGameOverScreen(gameOverType);
         ActivateGameOverScreen();
@@ -83,7 +75,7 @@ public class GameOverScreenController : MonoBehaviour
         {
             if (screenData.reason != gameOverType) continue;
             test = screenData;
-            return;
+            break;
         }
 
         if (test.reason == (GameOverType)(-1)) return;

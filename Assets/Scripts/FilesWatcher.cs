@@ -72,6 +72,11 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (instance == this) instance = null;
+    }
+
     private void Start()
     {
         var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);

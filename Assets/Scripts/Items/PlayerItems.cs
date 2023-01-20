@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -17,6 +18,11 @@ public class PlayerItems : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }
 

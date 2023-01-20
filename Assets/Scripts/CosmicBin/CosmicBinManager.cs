@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Random = UnityEngine.Random;
 
 public class CosmicBinManager : MonoBehaviour
 {
@@ -106,5 +108,10 @@ public class CosmicBinManager : MonoBehaviour
     public void AddSuppressedObject(GameObject localGameObject)
     {
         objectsSuppressed.Add(localGameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 }
