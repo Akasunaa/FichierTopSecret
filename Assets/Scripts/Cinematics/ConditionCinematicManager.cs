@@ -49,5 +49,4 @@ public class ConditionCinematicManager : CinematicManager
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         rulerCanvas.SetActive(true);
     }
-
 }

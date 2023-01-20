@@ -19,14 +19,7 @@ public class BombController : ModifiableController
         { 
             print("BOMB EXPLODE");
             //DEATH TRIGGER
-            //We trigger death here
-            //we recuperate the ui :
-            // var ui = GameObject.FindGameObjectWithTag("UI");
-            //we get the correcte component :
-            //we launch the right function :
-            var ui = GameObject.FindGameObjectWithTag("UI");
-            var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
-            playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.BombDetonated);
+            StartCoroutine(BombExplode());
         }
         else {
             lastWireDestroyed = order;
@@ -37,8 +30,22 @@ public class BombController : ModifiableController
                 var ui = GameObject.FindGameObjectWithTag("UI");
                 var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
                 playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.Victory);
+
             }
         }
+    }
+
+    /// <summary>
+    /// Explosion of the bomb, through the camera shake and white fade.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator BombExplode()
+    {
+        CameraShaker.Instance.CameraShake(4f, 0.25f);
+        yield return new WaitForSeconds(4f);
+        var ui = GameObject.FindGameObjectWithTag("UI");
+        var playerDeathScreenController = ui.GetComponent<GameOverScreenController>();
+        playerDeathScreenController.OnGameOver(GameOverScreenController.GameOverType.BombDetonated);
     }
 
     private void OnDestroy()
