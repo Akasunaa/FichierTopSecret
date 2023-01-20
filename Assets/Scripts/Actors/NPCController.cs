@@ -402,26 +402,33 @@ public class NPCController : ModifiableController, Interactable
                 int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
-                    int conditionValue;
-                    int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
-                    if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
+                    bool testConditionAcheived = Utils.NPCCompare(properties[propertyString].Value.ToString(), propertyDict[propertyString].propertyCondition[conditionListIndex], propertyDict[propertyString].conditionIsSuperior[conditionListIndex]);
+                    if (testConditionAcheived)
                     {
-                        //Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " is a superior one");
-                        if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                        {                            
-                            //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
-                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                            return;
-                        }
+                        OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                        return;
                     }
-                    else
-                    {
-                        if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                        {
-                            OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                            return;
-                        }
-                    }
+                    //int conditionValue;
+                    //int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
+                    //if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
+                    //{
+                    //    Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " with status is a superior one. Comparing file value : "+ properties[propertyString].Value.ToString()+" with parsed value : "+ integerValue+" to condition value : "+conditionValue);
+                    //    if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                    //    {                            
+                    //        //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
+                    //        OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                    //        return;
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    Debug.Log("NPC " + gameObject.name + ": INTEGER value tested : " + propertyDict[propertyString].propertyName + " with status is NOT a superior one. Comparing file value : " + properties[propertyString].Value.ToString() + " with parsed value : " + integerValue + " to condition value : " + conditionValue);
+                    //    if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
+                    //    {
+                    //        OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                    //        return;
+                    //    }
+                    //}
                 }
             }
         }
