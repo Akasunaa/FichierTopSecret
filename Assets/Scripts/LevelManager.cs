@@ -120,7 +120,7 @@ public class LevelManager : MonoBehaviour
         }
         catch (Exception error) { Debug.LogError("no player found"); }
 
-        //Read player prefs
+        // Detonate explosives
         string absolutePath = PlayerPrefs.GetString("HasDetonated");
         if (!string.IsNullOrEmpty(absolutePath))
         {
