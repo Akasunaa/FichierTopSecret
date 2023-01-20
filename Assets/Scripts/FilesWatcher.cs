@@ -345,7 +345,7 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                SpriteRenderer? srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
+                SpriteRenderer srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
                 if (srenderer == null) { break; }
                 if (a.Item2)
                 {

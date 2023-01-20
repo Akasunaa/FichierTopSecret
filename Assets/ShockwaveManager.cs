@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 public class ShockwaveManager : MonoBehaviour
 {
     [SerializeField] private Transform player;
-    [SerializeField] private TilemapRenderer renderer;
+    [SerializeField] private new TilemapRenderer renderer;
 
     private void Awake()
     {

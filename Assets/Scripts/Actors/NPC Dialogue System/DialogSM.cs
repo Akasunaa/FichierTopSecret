@@ -63,7 +63,7 @@ public class DialogSM : StateMachine
     /// Then attributes and calls the new state's Enter method
     /// </summary>
     /// <param name="nextStateName">name of the next state to change to</param>
-    public new void ChangeState(string nextStateName)
+    public void ChangeState(string nextStateName)
     {
         if (nextStateName == currentState.name) //same state
         {
