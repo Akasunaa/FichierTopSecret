@@ -18,11 +18,20 @@ public class WhiteFadeController : MonoBehaviour
         whiteFadeCanvas.SetActive(false);
     }
 
+    /// <summary>
+    /// Function that triggers the white fade.
+    /// </summary>
+    /// <param name="duration">Duration of the white fade.</param>
     public void StartWhiteFade(float duration)
     {
         StartCoroutine(Fade(duration));
     }
 
+    /// <summary>
+    /// Coroutine handling the fade.
+    /// </summary>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator Fade(float duration)
     {
         whiteFadeCanvas.SetActive(true);

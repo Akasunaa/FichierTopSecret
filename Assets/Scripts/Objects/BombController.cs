@@ -39,7 +39,7 @@ public class BombController : ModifiableController
 
     private void OnApplicationFocus(bool focus)
     {
-        if(isDetonating)
+        if(isDetonating) //We only launch the detonation when the game has regained focus
         {
             isDetonating= false;
             StartCoroutine(BombExplode());
