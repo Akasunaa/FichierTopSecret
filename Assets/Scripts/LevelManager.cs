@@ -120,21 +120,6 @@ public class LevelManager : MonoBehaviour
         }
         catch { Debug.LogError("no player found"); }
 
-        // Detonate explosives
-        string absolutePath = PlayerPrefs.GetString("HasDetonated");
-        if (!string.IsNullOrEmpty(absolutePath))
-        {
-            string relativePath = Utils.RelativePath(absolutePath);
-            if (Utils.SceneName(relativePath) == levelName)
-            {
-                GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
-                if (breakableWall)
-                {
-                    breakableWall.GetComponent<BreakableWallController>().DestroyWall();
-                }
-            }
-        }
-
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
     }
