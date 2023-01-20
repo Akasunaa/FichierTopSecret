@@ -303,7 +303,7 @@ public class FilesWatcher : MonoBehaviour
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " already exists (it is normal if it was already in the scene)");
                     }
-                    else if (relativePath.Contains("/" + Utils.RootFolderName + "/player/"))
+                    else if (Utils.SceneName(relativePath) == Utils.PlayerFolderName)
                     {
                         Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
                         LevelManager.Instance.NewObject(fc.Fi, isItem: true);
