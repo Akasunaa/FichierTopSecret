@@ -10,14 +10,14 @@ public class BreakableWallController : MonoBehaviour
 {
     [SerializeField] private string levelName;
     [Header("Element hidden by breakable wall")]
-    [SerializeField] private GameObject hiddenGameElement;
+    [SerializeField] private GameObject hiddenGameElementSprite;
 
     private void Start()
     {
         int hasDetonated = PlayerPrefs.GetInt("HasDetonated");
         if (hasDetonated == 0)
         {
-            hiddenGameElement.SetActive(false);
+            hiddenGameElementSprite.SetActive(false);
         }
         else
         {
@@ -32,6 +32,6 @@ public class BreakableWallController : MonoBehaviour
     {
         Debug.Log("BREAKABLE WALLS : DESTROYING WALL");
         gameObject.SetActive(false);
-        hiddenGameElement.SetActive(true);
+        hiddenGameElementSprite.SetActive(true);
     }
 }
