@@ -46,7 +46,7 @@ public static class Utils
     /**
     * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
     */
-    public static GameObject? CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
+    public static GameObject CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
     {
         // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
         Collider2D hit;
@@ -153,7 +153,7 @@ public static class Utils
             fi.Delete();
             return true;
         }
-        catch (Exception _)
+        catch
         {
             return false;
         }

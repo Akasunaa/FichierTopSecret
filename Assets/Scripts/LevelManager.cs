@@ -118,7 +118,7 @@ public class LevelManager : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
-        catch (Exception error) { Debug.LogError("no player found"); }
+        catch { Debug.LogError("no player found"); }
 
         // Detonate explosives
         string absolutePath = PlayerPrefs.GetString("HasDetonated");
