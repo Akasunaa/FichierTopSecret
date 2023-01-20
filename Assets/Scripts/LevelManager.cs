@@ -116,8 +116,9 @@ public class LevelManager : MonoBehaviour
         catch (Exception error) { Debug.LogError("no player found"); }
 
         //Read player prefs
-        string path = PlayerPrefs.GetString("HasDetonated");
-        if (path.Contains(levelName))
+        string absolutePath = PlayerPrefs.GetString("HasDetonated");
+        string relativePath = Utils.RelativePath(absolutePath);
+        if (Utils.SceneName(relativePath) == levelName)
         {
             GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
             if (breakableWall)

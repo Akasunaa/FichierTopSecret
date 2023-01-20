@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,14 @@ public class BreakableWallController : MonoBehaviour
 
     private void Start()
     {
-        if (!PlayerPrefs.GetString("HasDetonated").Contains(levelName))
+        string hasDetonated = PlayerPrefs.GetString("HasDetonated");
+        if (!string.IsNullOrEmpty(hasDetonated))
         {
-            hiddenGameElement.SetActive(false);
+            string relativePath = Utils.RelativePath(hasDetonated);
+            if (Utils.SceneName(relativePath) != levelName)
+            {
+                hiddenGameElement.SetActive(false);
+            }
         }
     }
 
