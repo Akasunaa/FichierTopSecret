@@ -51,7 +51,7 @@ public class NeonObjectController : ModifiableController
         properties.TryAdd("power", new DicoValueProperty { IsImportant = true, Value = hasAllElements && light2D.isActiveAndEnabled });
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         UpdateSpriteModification();

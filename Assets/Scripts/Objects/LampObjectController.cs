@@ -36,7 +36,7 @@ public class LampObjectController :  ModifiableController, Interactable
         properties.TryAdd("color", new DicoValueProperty {IsImportant = true, Value = Color.white});
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         //For the lamp object, we test if its power is on or off

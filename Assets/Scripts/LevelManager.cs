@@ -154,7 +154,7 @@ public class LevelManager : MonoBehaviour
             if (fileInfo.Exists)
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
-                fileParser.ReadFromFile(fileInfo.FullName);
+                fileParser.ReadFromFile(fileInfo.FullName, true);
                 FilesWatcher.instance.Set(fileParser);
             }
             else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)

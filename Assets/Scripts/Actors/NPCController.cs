@@ -152,8 +152,6 @@ public class NPCController : ModifiableController, Interactable
 
         //when NPC is initializing, we try to check if the player Prefs have been altered
         SearchPlayerPrefs();
-
-        Invoke("TestHealth", 0.3f);
     }
 
     /// <summary>
@@ -390,8 +388,13 @@ public class NPCController : ModifiableController, Interactable
     /// <summary>
     /// Main Function of the NPC that will handle the modifications of its file.
     /// </summary>
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
+        if (firstRead)
+        {
+            TestHealth();
+        }
+
         base.UpdateModification();
         ////DEBUG -------------------------
         //foreach(var property in properties.Keys)

@@ -112,7 +112,7 @@ public abstract class ModifiableController : MonoBehaviour
         return true;
     }
 
-    public virtual void UpdateModification()
+    public virtual void UpdateModification(bool firstRead = false)
     {
         string[] keys = properties.Keys.ToArray();
         foreach (string keyName in keys)

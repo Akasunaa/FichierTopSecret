@@ -84,7 +84,7 @@ public class ItemContainerObjectController : ModifiableController, Interactable
         }
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         //For Item Container, we test if player can open it or not (visual change)

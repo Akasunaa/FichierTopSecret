@@ -102,8 +102,9 @@ public class FileParser : MonoBehaviour
     /**
      *  Function that will analyse the file found at filePath and will obtain the value needed (targetObjectModifiedVariable)
      *  called from ???
+     * firstRead : is true only after the scene is loaded
      */
-    public void ReadFromFile(string path)
+    public void ReadFromFile(string path, bool firstRead = false)
     {
         const string separator = ":";
         _dataArray = File.ReadAllLines(path);
@@ -130,7 +131,7 @@ public class FileParser : MonoBehaviour
             Debug.LogWarning("File.ReadAllLines("+path+") is null");
         }
 
-        targetModifiable.UpdateModification();
+        targetModifiable.UpdateModification(firstRead);
     }
 
     public void WriteToFile()

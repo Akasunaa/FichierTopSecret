@@ -12,7 +12,7 @@ public class ExplosiveController : ItemController
         properties.TryAdd("detonate", new DicoValueProperty { IsImportant = true, Value = false });
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         if (!TryGet("detonate", out bool detonate)) return;
