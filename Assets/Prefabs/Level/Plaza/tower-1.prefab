@@ -85,8 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a big tower. The infamous "Angel's Quadrant" eh ? Infamous
+    indeed. Quite the shithole.
+  dialogueOnConditionChange: This is a big tower. The infamous "Angel's Quadrant"
+    eh ? Infamous indeed. Quite the shithole.
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,4 +217,4 @@ MonoBehaviour:
   - {x: -0.11918342, y: -9.131444, z: 0}
   m_ShapePathHash: 1225977358
   m_Mesh: {fileID: 0}
-  m_InstanceId: 61112
+  m_InstanceId: 68060

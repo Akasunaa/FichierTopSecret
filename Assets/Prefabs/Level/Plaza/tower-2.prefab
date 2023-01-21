@@ -85,8 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is another big building. Don't you have anything else to
+    do rather than click on random buildings ?
+  dialogueOnConditionChange: This is another big building. Don't you have anything
+    else to do rather than click on random buildings ?
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,4 +217,4 @@ MonoBehaviour:
   - {x: -2.024564, y: -5.956109, z: 0}
   m_ShapePathHash: 579085730
   m_Mesh: {fileID: 0}
-  m_InstanceId: 61432
+  m_InstanceId: 68100

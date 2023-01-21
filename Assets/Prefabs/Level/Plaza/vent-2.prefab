@@ -85,8 +85,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a vent. Even on a distant moon, thousands of kilometers
+    away from Earth, centuries from its inception, and we still make the same vents
+    as the prehistorical 20ieth century...
+  dialogueOnConditionChange: This is a vent. Even on a distant moon, thousands of
+    kilometers away from Earth, centuries from its inception, and we still make the
+    same vents as the prehistorical 20ieth century...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +217,4 @@ MonoBehaviour:
   - {x: 1, y: -0.5, z: 0}
   m_ShapePathHash: 1846396381
   m_Mesh: {fileID: 0}
-  m_InstanceId: 64556
+  m_InstanceId: 68380

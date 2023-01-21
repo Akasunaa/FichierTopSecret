@@ -86,8 +86,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a building. The previous owner was killed two cycles
+    ago in an orbital transfer freak accident... The building is now being sold.
+    Maybe I should buy it ?
+  dialogueOnConditionChange: This is a building. The previous owner was killed two
+    cycles ago in an orbital transfer freak accident... The building is now being
+    sold. Maybe I should buy it ?
 --- !u!61 &2807300431467757729
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -225,4 +229,4 @@ MonoBehaviour:
   - {x: 7, y: -5, z: 0}
   m_ShapePathHash: 991294741
   m_Mesh: {fileID: 0}
-  m_InstanceId: 67246
+  m_InstanceId: 67602

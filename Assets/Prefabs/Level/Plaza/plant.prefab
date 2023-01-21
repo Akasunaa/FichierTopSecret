@@ -85,8 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a plant. If it was not due to the gene alterations, it
+    would have died out in this dried atmosphere...
+  dialogueOnConditionChange: This is a plant. If it was not due to the gene alterations,
+    it would have died out in this dried atmosphere...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +215,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1, z: 0}
   m_ShapePathHash: 1301673237
   m_Mesh: {fileID: 0}
-  m_InstanceId: 48516
+  m_InstanceId: 67970

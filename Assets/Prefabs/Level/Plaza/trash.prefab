@@ -85,8 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: 'This is trash. '
+  dialogueOnConditionChange: 'This is trash. '
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +213,4 @@ MonoBehaviour:
   - {x: 1, y: -1.5, z: 0}
   m_ShapePathHash: 1066792213
   m_Mesh: {fileID: 0}
-  m_InstanceId: 63462
+  m_InstanceId: 68180

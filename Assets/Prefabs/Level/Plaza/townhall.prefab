@@ -85,8 +85,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is the town hall. Every so often it opens up, before being
+    attacked by random pre-technological gangs... The thing has been rebuilt more
+    times than I can recall...
+  dialogueOnConditionChange: This is the town hall. Every so often it opens up, before
+    being attacked by random pre-technological gangs... The thing has been rebuilt
+    more times than I can recall...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,4 +239,4 @@ MonoBehaviour:
   - {x: -9.457487, y: 0.013424754, z: 0}
   m_ShapePathHash: 1837182414
   m_Mesh: {fileID: 0}
-  m_InstanceId: 63002
+  m_InstanceId: 68140
