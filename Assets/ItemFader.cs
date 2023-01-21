@@ -8,6 +8,8 @@ public class ItemFader : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("Variables")]
+    [SerializeField] private bool startAsFaded;
+    [SerializeField] private float range;
     [SerializeField] private float fadeDuration;
     [SerializeField] private float minAlphaValue;
     private bool isFaded;
@@ -22,19 +24,25 @@ public class ItemFader : MonoBehaviour
         {
             playerMovement.onMovementFinish.AddListener(CheckPositions);
         }
-
+        if (range == 0) range = 10;
         isFaded = false;
+    }
+
+    private void Start()
+    {
+        if (startAsFaded) FadeOut();
     }
 
 
     private void CheckPositions()
     {
+        float distance = Vector3.Distance(transform.position, player.position);
         // sprite is hidden and player walk in front of it
-        if (isFaded && player.position.y < transform.position.y)
+        if (isFaded && player.position.y < transform.position.y || distance > range)
         {
             // we make the sprite appear
             FadeIn();
-        } else if (!isFaded && player.position.y > transform.position.y)
+        } else if (!isFaded && player.position.y > transform.position.y && distance <= range)
         {
             // we make the sprite disappear
             FadeOut();
