@@ -86,7 +86,6 @@ public class PlayerInteractionController : MonoBehaviour
             {
                 CheckForInteraction(lastTarget, lastDirection);
             }
-            print("set value at " + interactionPromptState);
             interactionPrompt.SetActive(interactionPromptState);
             playerMovement.GetAnimator().SetTrigger("PowerExitTrigger");
         }
@@ -94,7 +93,6 @@ public class PlayerInteractionController : MonoBehaviour
         {
             // when losing focus we store the state of the interaction prompt
             interactionPromptState = interactionPrompt.activeInHierarchy;
-            print("store state with value " + interactionPromptState);
 
             // deactivate the interaction prompt and start power animation
             interactionPrompt.SetActive(false);
