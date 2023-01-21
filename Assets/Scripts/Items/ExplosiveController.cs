@@ -20,7 +20,7 @@ public class ExplosiveController : ItemController
 
         string absolutePath = gameObject.GetComponent<FileParser>().filePath;
         string relativePath = Utils.RelativePath(absolutePath);
-        string sceneName = Utils.SceneName(relativePath);
+        string sceneName = LevelManager.Capitalize(Utils.SceneName(relativePath));
 
         Debug.Log("[EXPLOSIVES] DETONATE in " + sceneName);
         

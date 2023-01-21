@@ -202,7 +202,7 @@ public class LevelManager : MonoBehaviour
             {
                 // NewObject(fi, fi.FullName.Contains("Cosmicbin"));
                 string relativePath = Utils.RelativePath(fi);
-                NewObject(fi, Utils.SceneName(relativePath) == Utils.CosmicbinFolderName);
+                NewObject(fi,  LevelManager.Capitalize(Utils.SceneName(relativePath)) == Utils.CosmicbinFolderName);
             }
         }
 
@@ -250,7 +250,7 @@ public class LevelManager : MonoBehaviour
                 FilesWatcher.instance.Set(fp);
                 Vector2? size = null;
                 if (newObj.TryGetComponent(out BoxCollider2D collider)){ size = collider.size * fp.transform.lossyScale;}
-                if (!fp.targetModifiable.ContainsKey<Vector2Int>("position"))
+                if (!fp.targetModifiable.ContainsKey<Vector2Int>("position") && !isItem)
                 {
                     if (player != null)
                     {
