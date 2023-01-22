@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+[RequireComponent(typeof(FileParser))]
 
 public class MachineObjectController : ModifiableController, Interactable
 {
