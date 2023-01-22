@@ -35,5 +35,16 @@ public class PlayerObjectController : ModifiableController
         audioSource.PlayOneShot(interactSound);
     }
 
-
+    public override void UpdateModification(bool firstRead = false)
+    {
+        base.UpdateModification(firstRead);
+        if (properties.ContainsKey("position"))
+        {
+            properties.Remove("position");
+            if (TryGetComponent(out FileParser fp))
+            {
+                fp.WriteToFile();
+            }
+        }
+    }
 }
