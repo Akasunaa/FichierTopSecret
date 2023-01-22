@@ -154,6 +154,7 @@ public class LevelManager : MonoBehaviour
             if (fileInfo.Exists)
             {
                 Debug.Log("Updating file: " + fileInfo.FullName);
+                fileParser.targetModifiable.SetDefaultProperties();
                 fileParser.ReadFromFile(fileInfo.FullName, true);
                 FilesWatcher.instance.Set(fileParser);
             }
