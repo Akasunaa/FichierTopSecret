@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PortraitStreetThug
   m_EditorClassIdentifier: 
   portraitName: Street Thug
-  portraitSprite: {fileID: -1303306606, guid: bb15786f508f4a0498cd4683c5e677ef, type: 3}
+  portraitSprite: {fileID: 21300000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
