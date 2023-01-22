@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
-  - component: {fileID: 4842992620441680637}
-  - component: {fileID: 1983265962948327654}
+  - component: {fileID: 7366806478923106442}
   m_Layer: 0
   m_Name: vending-machine
   m_TagString: Untagged
@@ -61,7 +60,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.75, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4842992620441680637
+--- !u!114 &7366806478923106442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -70,25 +69,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 244007217957566919}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 62ee5d865a9082948b50363439b7b204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1983265962948327654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244007217957566919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogueStandard: This is a vending machine. I'd kill for an Oubolos Soda right
-    now...
-  dialogueOnConditionChange: This is a vending machine. I'd kill for an Oubolos Soda
-    right now...
+  canBeDeleted: 0
+  objectName: sodapop
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,4 +200,4 @@ MonoBehaviour:
   - {x: 0.9, y: -1.5, z: 0}
   m_ShapePathHash: 1305911549
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68220
+  m_InstanceId: 95152

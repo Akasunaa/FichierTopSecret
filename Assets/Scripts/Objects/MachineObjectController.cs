@@ -9,6 +9,7 @@ using Debug = UnityEngine.Debug;
 public class MachineObjectController : ModifiableController, Interactable
 {
     public bool canBeInteracted { set; get; }
+    [SerializeField] private string objectName;
 
     public override void SetDefaultProperties()
     {
@@ -17,7 +18,7 @@ public class MachineObjectController : ModifiableController, Interactable
 
     public override string ToFileString()
     {
-        return "set count=0\nfor %%x in (light*.txt) do set /a count+=1\necho NUL > light-%count%.txt";
+        return "set count=0\nfor %%x in (" + objectName + "*.txt) do set /a count+=1\necho NUL > " + objectName + "-%count%.txt";
     }
 
     void Start()
