@@ -6,14 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class TeleportObjectController : ModifiableController, Interactable
 {
-    [SerializeField, HideInInspector] TeleportObjectController pairTeleport;
+    [SerializeField] TeleportObjectController pairTeleport;
     public static event Action deletedTeleport;
-
+    [SerializeField] Sprite spriteBlue;
+    [SerializeField] Sprite spriteOrange;
+    SpriteRenderer spriteRenderer;
     //TeleportObjectController.star
 
     private void Awake()
     {
-        deletedTeleport +=  searchPair;
+        deletedTeleport += deleted;
     }
 
     public bool canBeInteracted { get; set; }
@@ -28,6 +30,9 @@ public class TeleportObjectController : ModifiableController, Interactable
 
     private void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        spriteRenderer.sprite = spriteBlue;
+        pairTeleport = this;
         searchPair();
     }
 
@@ -41,18 +46,32 @@ public class TeleportObjectController : ModifiableController, Interactable
         {
             foreach (TeleportObjectController teleport in teleports)
             {
-                if (teleport != this) { pairTeleport = teleport; break; }
+                if (teleport != this && teleport.pairTeleport== teleport) { 
+                    pairTeleport = teleport;
+                    teleport.pairTeleport = this;
+                    spriteRenderer.sprite = spriteOrange;
+                    break; 
+                }
             }
         }
-        else { pairTeleport = this; }
+    }
+
+    private void deleted()
+    {
+        if(!pairTeleport.gameObject.activeSelf)
+        {
+            spriteRenderer.sprite = spriteBlue;
+            pairTeleport = this;
+        }
     }
 
     /**
-     * if destroy, all teleport search a new pair 
+     * if send to cosmicbin, all teleport search a new pair 
      */
-    private void OnDestroy()
+    private void OnDisable()
     {
-        deletedTeleport -= searchPair;
+        pairTeleport = this;
         deletedTeleport?.Invoke();
+        deletedTeleport -= deleted;
     }
 }
