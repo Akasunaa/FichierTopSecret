@@ -25,10 +25,10 @@ public class DialogSM : StateMachine
         nextPossibleStates.Add(startingState.name, startingState);
         foreach (NEXT_STATE state in nextStates)
         {
-            Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
+            //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
             if (!nextPossibleStates.ContainsKey(state.state.name))
             {
-                Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
+                //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
                 nextPossibleStates.Add(state.state.name, state.state);
             }
         }
@@ -105,6 +105,6 @@ public class DialogSM : StateMachine
 [System.Serializable]
 public struct NEXT_STATE                               
 {
-    [HideInInspector] public string name;
+    /*[HideInInspector] */public string name;
     public DialogState state;
 }

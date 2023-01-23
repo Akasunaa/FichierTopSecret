@@ -537,9 +537,10 @@ public class NPCController : ModifiableController, Interactable
         {
             if(PlayerPrefs.HasKey(playerPrefsElementsDict[playerPref].playerPrefsName) && PlayerPrefs.GetString(playerPrefsElementsDict[playerPref].playerPrefsName) == playerPrefsElementsDict[playerPref].playerPrefsCondition) //if the player pref value exists AND has been set to teh prerequisite condition does it change the NPC's state
             {
+                Debug.Log("NPC " + gameObject.name + ": CHANGING STATE DUE TO PLAYERPREFS : " + playerPrefsElementsDict[playerPref].playerPrefsName + " WITH NEW STATE : "+ playerPrefsElementsDict[playerPref].playerPrefsChangeState);
                 OnStateChange(playerPrefsElementsDict[playerPref].playerPrefsChangeState);
-                PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"READ");
-                PlayerPrefs.Save();
+                //PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"TRUE");
+                //PlayerPrefs.Save();
                 return true;
             }
         }
