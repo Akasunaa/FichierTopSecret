@@ -27,6 +27,7 @@ public static class ApplyPlayerChange
         { "sleep", CheckBool },
         { "health", CheckInt },
         { "money", CheckInt },
+        { "speed", CheckFloat },
     };
 
     private static bool inSystemMessage;
@@ -200,6 +201,24 @@ public static class ApplyPlayerChange
                 return int.MaxValue;
             }
 
+            return 0;
+        }
+
+        return parsedValue;
+    }
+    
+    private static object CheckFloat(string value)
+    {
+        // pattern that we want into the value string - correct ex: (0,0) 
+        const string number = @"-?\d+(\.|\,)?\d*";
+
+        if (!Regex.IsMatch(value, number, options)) return null;
+
+        // here we just want to extract the different decimals inside the value 
+        var matchString = Regex.Match(value, number, options);
+
+        if (!float.TryParse(matchString.Value, out float parsedValue))
+        {
             return 0;
         }
 
