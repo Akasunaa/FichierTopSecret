@@ -30,6 +30,12 @@ public class ObjectInteractionController : MonoBehaviour
         _ui.DisplayDialogue(_curDialogue, "player");
     }
 
+    /// <summary>
+    /// Function handling the display of a specific piece of dialogue.
+    /// </summary>
+    /// <param name="dialogue">Dialogue that will be displayed.</param>
+    public void DisplayDialogue(string dialogue) { _ui.DisplayDialogue(dialogue, "player"); }
+
     /**
      *  Function that will end the dialogue display
      */
