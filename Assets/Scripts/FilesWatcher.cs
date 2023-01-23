@@ -396,6 +396,8 @@ public class FilesWatcher : MonoBehaviour
             if (inExplorer)
             {
                 explorerHwnd = hwnd;
+                GetWindowRect(hwnd, out RECT r);
+                MoveWindow(hwnd, r.Left, r.Top, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
             }
             else
             {
@@ -566,6 +568,9 @@ public class FilesWatcher : MonoBehaviour
 
     [DllImport("user32.dll", SetLastError=true)]
     static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+    
+    [DllImport("user32.dll")]
+    static extern IntPtr GetActiveWindow();
 
 #endif
 
