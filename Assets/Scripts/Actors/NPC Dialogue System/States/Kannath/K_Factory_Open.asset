@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: K_Factory_Open
   m_EditorClassIdentifier: 
+  name: K_Factory_Open
   speech:
   - Ya.. ya managed to open the factory ?
   - Damn J, nice going !

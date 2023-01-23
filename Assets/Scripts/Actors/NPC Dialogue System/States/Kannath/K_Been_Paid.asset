@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: K_Been_Paid
   m_EditorClassIdentifier: 
+  name: K_Been_Paid
   speech:
   - Come on J...
   - Ya can't con a con woman that easily...

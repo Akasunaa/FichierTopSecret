@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a3a81fa42c6bf543b9f3b82e7dd52b4, type: 3}
-  m_Name: CD_Change_Work
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: CD_Change_Owner_Player
   m_EditorClassIdentifier: 
   speech:
-  - 'Statement : work changed'
-  - 'Statement : $work$ unrecognized'
-  - 'Decision : stopping all actions.'
-  currentSpeech: 'Statement : zqd unrecognized'
+  - pouet
+  currentSpeech: 

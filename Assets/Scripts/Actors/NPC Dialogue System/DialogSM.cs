@@ -78,7 +78,7 @@ public class DialogSM : StateMachine
         {
             return;
         }
-        if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
+        if (nextPossibleStates!=null && nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit(this);
             currentState = dialog;
