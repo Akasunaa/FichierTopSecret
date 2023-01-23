@@ -8,7 +8,7 @@ using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
 {
-    public const string RootFolderName = "Test";
+    public const string RootFolderName = "Game";
     public const string PlayerFolderName = "player";
     public const string CosmicbinFolderName = "Cosmicbin";
     const float EPSILON = 0.1f;

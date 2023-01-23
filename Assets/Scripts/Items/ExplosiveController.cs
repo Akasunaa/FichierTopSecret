@@ -27,6 +27,23 @@ public class ExplosiveController : ItemController
         //case one : player launch detonate while explosives is in his scene or in hos inventory : dead
         if (sceneName == Utils.PlayerFolderName || (Time.timeSinceLevelLoad > 2f && LevelManager.Capitalize(SceneManager.GetActiveScene().name) == sceneName)) //TODO: c'est moche mais ok tier
         {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null && playerObject.TryGetComponent(out PlayerObjectController playerObjectController))
+            {
+                if (playerObjectController.TryGet("health", out int health))
+                {
+                    if (health > 1000)
+                    {
+                        playerObjectController.SetValue("health", health - 1000);
+                        if (playerObject.TryGetComponent(out FileParser fp))
+                        {
+                            fp.WriteToFile();
+                        }
+                        return;
+                    }
+                }
+            }
+
             Debug.Log("EXPLOSIVES : YOU DEAD");
             //We trigger death here
             //we recuperate the ui :

@@ -111,7 +111,6 @@ public class FileParser : MonoBehaviour
         if(_dataArray != null)
         {
             var keyNames = new List<string>();
-            var test = false;
             foreach (var line in _dataArray)
             {
                 if (line.Contains(separator))
@@ -119,12 +118,15 @@ public class FileParser : MonoBehaviour
                     var lineSplit = line.Split(separator);
                     var keyName = lineSplit[0];
                     var value = string.Join("", lineSplit[1..]);
-                    test = targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()) || test; // modifying appropriate variable
+                    targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()); // modifying appropriate variable
                     keyNames.Add(keyName);
                 }
             }
-            test = targetModifiable.UpdatePropertiesDico(keyNames) || test;
-            if(test) WriteToFile();
+
+            if (targetModifiable.UpdatePropertiesDico(keyNames))
+            {
+                WriteToFile();
+            }
         }
         else
         {

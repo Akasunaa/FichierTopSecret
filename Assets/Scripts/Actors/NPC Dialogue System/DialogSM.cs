@@ -40,6 +40,15 @@ public class DialogSM : StateMachine
     }
 
     /// <summary>
+    /// Function that returns the name of the currently loaded state
+    /// </summary>
+    /// <returns>Name (string) of the currently playing state of the dialogSM</returns>
+    public string GetCurrentStateName()
+    {
+        return currentState.name;
+    }
+
+    /// <summary>
     /// Function only called by the Editor NPC script to setup the starting state
     /// </summary>
     /// <param name="state">state that will be set as the starting state of the state machine</param>
@@ -69,7 +78,7 @@ public class DialogSM : StateMachine
         {
             return;
         }
-        if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
+        if (nextPossibleStates!=null && nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit(this);
             currentState = dialog;

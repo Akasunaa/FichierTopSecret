@@ -86,6 +86,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: a80cdfab25b05474cbd14d37e8e715a7, type: 2}
   - name: K_Been_Paid
     state: {fileID: 11400000, guid: 33a06a32fc948954f974a38c0905fe6f, type: 2}
+  - name: K_Been_Paid
+    state: {fileID: 11400000, guid: b4cd9670d82d73c46a2c370bf7385c83, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &7627306107656686454
 MonoBehaviour:
@@ -132,6 +134,9 @@ MonoBehaviour:
   - playerPrefsName: IsIssovitchCaptured
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Issovitch_Captured
+  - playerPrefsName: IsFactoryGuardRefuse
+    playerPrefsCondition: TRUE
+    playerPrefsChangeState: K_Factory_Open
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1

@@ -161,4 +161,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return animator;
     }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+        animator.speed = speed;
+    }
 }
