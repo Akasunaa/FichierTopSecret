@@ -306,14 +306,23 @@ public class NPCController : ModifiableController, Interactable
         foreach (var checkedObject in objectDict.Keys) //the NPC will check if the player has the items that he needs to check for when the interaction starts
         {
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
-            if (playerHasObject && !prefHasChanged)
+            if (playerHasObject && !prefHasChanged && !objectDict[checkedObject].hasReacted) //if player has the item, has not changed due to player prefs AND is not already responding to the item, change the NPC's state accordingly
             {
-                OnStateChange(objectDict[checkedObject].playerItemChangeState); //if player has the item, change the NPC's state accordingly
+                Debug.Log("NPC : " + gameObject.name + " REACTING TO PLAYER ITEMS WITH CURRENT STATE : " + dialogSM.GetCurrentStateName() + " TO STATE " + objectDict[checkedObject].playerItemChangeState+ " WITH HASREACTED BOOL OF VALUE : "+ objectDict[checkedObject].hasReacted);
+                OnStateChange(objectDict[checkedObject].playerItemChangeState);
                 if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
+                    Debug.Log("NPC : GIVING ITEM");
                     LevelManager.GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
                     questItemsDict.Remove(objectDict[checkedObject].playerItemChangeState); //we remove the item to avoid giving it twice
                 }
+                PLAYER_ITEMS newItem = new PLAYER_ITEMS();
+                newItem.hasReacted = true;
+                newItem.playerItemChangeState = objectDict[checkedObject].playerItemChangeState;
+                newItem.playerItemName = objectDict[checkedObject].playerItemName;
+                objectDict[checkedObject] = newItem;
+                Debug.Log("NPC : SETTING HASREACTED BOOL TO VALUE : " + objectDict[checkedObject].hasReacted);
+                break;
             }
         }
         if (shouldEnd) //if in the previous interaction the player reached the end of the state's dialogue, rather than repeating the sentence, the NPC ends the dialogue (WITHOUT CHANGING STATE)
@@ -351,6 +360,7 @@ public class NPCController : ModifiableController, Interactable
     /// <param name="newStateName">name that references the next state that should be chosen</param>
     public void OnStateChange(string newStateName)
     {
+        Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
         dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
@@ -634,6 +644,7 @@ public struct PLAYER_ITEMS
 {
     public string playerItemName;                           //name of the object (must be exact)
     public string playerItemChangeState;                    //state that will change if object detected in player's inventory
+    public bool hasReacted;
 }
 
 /// <summary>
