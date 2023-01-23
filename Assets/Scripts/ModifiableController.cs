@@ -80,11 +80,10 @@ public abstract class ModifiableController : MonoBehaviour
 
     /**
      *      Function called by the FileParser associated to the gameObject containing ModifiableController
+     *      Return true if the properties has changed
      */
     public virtual bool OnModification(string keyName, string value)
     {
-        
-        
         // fix typos and find a correct property
         var propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
         // return either "true" or "false" depending of the input string 
@@ -112,11 +111,15 @@ public abstract class ModifiableController : MonoBehaviour
         return true;
     }
 
-    public virtual void UpdateModification()
+    public virtual void UpdateModification(bool firstRead = false)
     {
-        foreach (var (keyName, dicoValueProperty) in properties)
+        string[] keys = properties.Keys.ToArray();
+        foreach (string keyName in keys)
         {
-            ApplyPlayerChange.VisualChange(keyName, dicoValueProperty.Value, gameObject);
+            if (properties.ContainsKey(keyName))
+            {
+                ApplyPlayerChange.VisualChange(keyName, properties[keyName].Value, gameObject);
+            }
         }
     }
 
@@ -173,9 +176,12 @@ public abstract class ModifiableController : MonoBehaviour
         }
     }
 
+    /*
+     * Return if the file should be re-written
+     */
     public bool UpdatePropertiesDico(List<string> propertiesKeysList)
     {
-        var test = false;
+        bool shouldRewriteFile = false;
         var keysToRemoveList = new List<string>();
         foreach (var (keyName, dicoValueProperty) in properties)
         {
@@ -188,15 +194,19 @@ public abstract class ModifiableController : MonoBehaviour
                 // properties.Remove(keyName); // does not work because it breaks the Iterator linked to properties in this foreach loop
                 keysToRemoveList.Add(keyName);
             }
+            else if (!found)
+            {
+                // We should re-write the file if an IsImportant property is deleted
+                shouldRewriteFile = true;
+            }
         }
 
         foreach (var key in keysToRemoveList)
         {
             properties.Remove(key);
-            test = true;
         }
 
-        return test;
+        return shouldRewriteFile;
     }
 
     /// <summary>

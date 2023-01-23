@@ -23,7 +23,7 @@ public class HologramObjectController : ModifiableController
         properties.TryAdd("power", new DicoValueProperty {IsImportant = true, Value = true});
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         //For the lamp object, we test if its power is on or off

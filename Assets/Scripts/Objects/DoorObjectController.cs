@@ -78,7 +78,7 @@ public class DoorObjectController : ModifiableController, Interactable
         } 
     }
 
-    public override void UpdateModification()
+    public override void UpdateModification(bool firstRead = false)
     {
         base.UpdateModification();
         //For the door object, we test if its status is opened or closed

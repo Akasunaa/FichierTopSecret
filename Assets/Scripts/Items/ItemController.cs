@@ -17,6 +17,23 @@ public class ItemController : ModifiableController
     [Header("Item elements")]
     [SerializeField] public GameObject itemSprite;
 
+    public override void SetDefaultProperties()
+    {
+        if (TryGetComponent(out FileParser fp))
+        {
+            string relativePath = Utils.RelativePath(fp.filePath);
+            string sceneName = Utils.SceneName(relativePath);
+            if (sceneName != Utils.PlayerFolderName)
+            {
+                base.SetDefaultProperties();
+            }
+        }
+        else
+        {
+            base.SetDefaultProperties();
+        }
+    }
+
     /**
      *  Function called by external scripts when the Player interacts with objects containing items
      *  It will create the item's file in the corresponding folder

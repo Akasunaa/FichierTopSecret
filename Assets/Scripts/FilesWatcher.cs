@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 using System.Text.RegularExpressions;
+using UnityEngine.UI;
 
 public class FilesWatcher : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class FilesWatcher : MonoBehaviour
     [SerializeField] private Material unhighlightMaterial;
 
     private bool pathInExplorer = false;
-    private IntPtr explorerHwnd = IntPtr.Zero;
+    public IntPtr explorerHwnd = IntPtr.Zero;
     private bool isVibrating = false;
 
     private static string supportedExtensions = "(.txt|.bat)$";
@@ -296,9 +297,10 @@ public class FilesWatcher : MonoBehaviour
             switch (fc.Type)
             {
                 case FileChangeType.New:
-                    var levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
-                    var alreadyExists = _pathToScript.ContainsKey(relativePath);
-                    var rightDirectory = levelName == Utils.SceneName(relativePath);
+                    string levelName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
+                    bool alreadyExists = _pathToScript.ContainsKey(relativePath);
+                    string sceneName = Utils.SceneName(relativePath);
+                    bool rightDirectory = levelName == sceneName;
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
@@ -374,7 +376,17 @@ public class FilesWatcher : MonoBehaviour
             GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
             if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
             {
-                explorerUiController.explorerCanvas.enabled = !inExplorer;
+                if (inExplorer)
+                {
+                    explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color =
+                        new Color(1f, 1f, 1f, 0.4f);
+                }
+                else
+                {
+                    Color c = explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color;
+                    explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color =
+                        new Color(1f, 1f, 1f, 1f);
+                }
             }
             else
             {
@@ -405,7 +417,17 @@ public class FilesWatcher : MonoBehaviour
         GameObject uiObject = GameObject.FindGameObjectWithTag("UI");
         if (uiObject != null && uiObject.TryGetComponent(out ExplorerUIController explorerUiController))
         {
-            explorerUiController.explorerCanvas.enabled = !pathInExplorer;
+            if (pathInExplorer)
+            {
+                explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color =
+                    new Color(1f, 1f, 1f, 0.4f);
+            }
+            else
+            {
+                Color c = explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color;
+                explorerUiController.explorerCanvas.GetComponentInChildren<Image>().color =
+                    new Color(1f, 1f, 1f, 1f);
+            }
         }
         else
         {
@@ -534,7 +556,7 @@ public class FilesWatcher : MonoBehaviour
     private static extern IntPtr GetForegroundWindow();
     
     [DllImport("user32.dll")]
-    static extern bool SetForegroundWindow(IntPtr hWnd);
+    public static extern bool SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
