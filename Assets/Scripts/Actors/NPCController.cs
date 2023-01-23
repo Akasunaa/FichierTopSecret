@@ -308,11 +308,11 @@ public class NPCController : ModifiableController, Interactable
             bool playerHasObject = ScanPlayerInventory(checkedObject); //the NPC will scan the player's Inventory
             if (playerHasObject && !prefHasChanged && !objectDict[checkedObject].hasReacted) //if player has the item, has not changed due to player prefs AND is not already responding to the item, change the NPC's state accordingly
             {
-                Debug.Log("NPC : " + gameObject.name + " REACTING TO PLAYER ITEMS WITH CURRENT STATE : " + dialogSM.GetCurrentStateName() + " TO STATE " + objectDict[checkedObject].playerItemChangeState+ " WITH HASREACTED BOOL OF VALUE : "+ objectDict[checkedObject].hasReacted);
+                //Debug.Log("NPC : " + gameObject.name + " REACTING TO PLAYER ITEMS WITH CURRENT STATE : " + dialogSM.GetCurrentStateName() + " TO STATE " + objectDict[checkedObject].playerItemChangeState+ " WITH HASREACTED BOOL OF VALUE : "+ objectDict[checkedObject].hasReacted);
                 OnStateChange(objectDict[checkedObject].playerItemChangeState);
                 if (questItemsDict.ContainsKey(objectDict[checkedObject].playerItemChangeState)) //if the NPC changes state by recognizing that the player has a certain item, and that the state correspondes to a quest item, the npc will give out said item
                 {
-                    Debug.Log("NPC : GIVING ITEM");
+                    //Debug.Log("NPC : GIVING ITEM");
                     LevelManager.GiveItem(questItemsDict[objectDict[checkedObject].playerItemChangeState].item);
                     questItemsDict.Remove(objectDict[checkedObject].playerItemChangeState); //we remove the item to avoid giving it twice
                 }
@@ -321,7 +321,7 @@ public class NPCController : ModifiableController, Interactable
                 newItem.playerItemChangeState = objectDict[checkedObject].playerItemChangeState;
                 newItem.playerItemName = objectDict[checkedObject].playerItemName;
                 objectDict[checkedObject] = newItem;
-                Debug.Log("NPC : SETTING HASREACTED BOOL TO VALUE : " + objectDict[checkedObject].hasReacted);
+                //Debug.Log("NPC : SETTING HASREACTED BOOL TO VALUE : " + objectDict[checkedObject].hasReacted);
                 break;
             }
         }
