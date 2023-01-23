@@ -17,8 +17,9 @@ public class DialogSM : StateMachine
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
     [SerializeField, HideInInspector] public NPCController associatedNPCController;              //npcController that uses this DialogSM
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
         // We begin the Enter function by creating the dictionary of the next possible states :
         nextPossibleStates = new Dictionary<string, DialogState>();
         nextPossibleStates.Add(startingState.name, startingState);
@@ -87,7 +88,11 @@ public class DialogSM : StateMachine
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName);
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName+" IN NEXT POSSIBLE STATES : "+nextPossibleStates);
+            foreach(string state in nextPossibleStates.Keys)
+            {
+                Debug.LogError("DialogSM : ERROR : STATE IN NEXT POSSIBLE STATE : " + nextPossibleStates[state].name);
+            }
             return;
         }
     }
@@ -100,6 +105,6 @@ public class DialogSM : StateMachine
 [System.Serializable]
 public struct NEXT_STATE                               
 {
-    [HideInInspector] public string name;
+    /*[HideInInspector] */public string name;
     public DialogState state;
 }

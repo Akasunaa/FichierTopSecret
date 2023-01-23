@@ -360,7 +360,7 @@ public class NPCController : ModifiableController, Interactable
     /// <param name="newStateName">name that references the next state that should be chosen</param>
     public void OnStateChange(string newStateName)
     {
-        //Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
+        Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
         dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
@@ -537,9 +537,10 @@ public class NPCController : ModifiableController, Interactable
         {
             if(PlayerPrefs.HasKey(playerPrefsElementsDict[playerPref].playerPrefsName) && PlayerPrefs.GetString(playerPrefsElementsDict[playerPref].playerPrefsName) == playerPrefsElementsDict[playerPref].playerPrefsCondition) //if the player pref value exists AND has been set to teh prerequisite condition does it change the NPC's state
             {
+                Debug.Log("NPC " + gameObject.name + ": CHANGING STATE DUE TO PLAYERPREFS : " + playerPrefsElementsDict[playerPref].playerPrefsName + " WITH NEW STATE : "+ playerPrefsElementsDict[playerPref].playerPrefsChangeState);
                 OnStateChange(playerPrefsElementsDict[playerPref].playerPrefsChangeState);
-                PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"READ");
-                PlayerPrefs.Save();
+                //PlayerPrefs.SetString(playerPrefsElementsDict[playerPref].playerPrefsName,"TRUE");
+                //PlayerPrefs.Save();
                 return true;
             }
         }
