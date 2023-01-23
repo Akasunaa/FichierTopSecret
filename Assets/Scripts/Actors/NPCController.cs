@@ -160,22 +160,18 @@ public class NPCController : ModifiableController, Interactable
     /// </summary>
     private void TestHealth()
     {
-        Debug.Log("NPC : " + gameObject.name + " TESTHEALTH CALLED, 0.3f seconds after start");
-        //foreach (var element in properties.Keys)
-        //{
-        //    Debug.Log("NPC : " + gameObject.name + " PROPERTY " + properties[element] + " WITH VALUE " + properties[element].Value);
-        //}
+        //Debug.Log("NPC : " + gameObject.name + " TESTHEALTH CALLED, 0.3f seconds after start");
         int hp = 0;
         if (properties.ContainsKey("health"))
         {
             int.TryParse(properties["health"].Value.ToString(), out hp);
-            Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value);
+            //Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value);
         }
 
         if (properties.ContainsKey("health") && hp <= 0)
         {
             //TRIGGER DEATH
-            Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value + " INITIALLY LEADING TO DEATH");
+            //Debug.Log("NPC : " + gameObject.name + " PROPERTY HEALTH WITH VALUE " + properties["health"].Value + " INITIALLY LEADING TO DEATH");
             gameObject.SetActive(false);
         }
     }
