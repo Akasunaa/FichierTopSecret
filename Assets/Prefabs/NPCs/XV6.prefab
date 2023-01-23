@@ -89,10 +89,6 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 4998a435b54a0cf40b48ca3df2fda55c, type: 2}
   - name: 
     state: {fileID: 11400000, guid: 75142206398d27c409a5cd80925a8361, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: e6919a5d696e20f4799169f8e24e6b4b, type: 2}
-  - name: 
-    state: {fileID: 11400000, guid: 7411bfd266c386549bb70344d5e842c5, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &6763806151426580000
 MonoBehaviour:
@@ -145,12 +141,6 @@ MonoBehaviour:
     - StateCloneArmy
     isSuperior: 0101
     condition: 0100000003000000
-  - tagToReact: Lamp
-    stateChangeName:
-    - StateTooManyLights
-    - StateNotEnoughLights
-    isSuperior: 0100
-    condition: 1e00000001000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
