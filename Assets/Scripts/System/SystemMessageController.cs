@@ -9,6 +9,7 @@ using UnityEngine;
 public class SystemMessageController : MonoBehaviour
 {
     private DialogueUIController ui;
+    private InputController playerInputController;
     private bool isDisplayindDialogue;
 
     #region SINGLETON PATTERN
@@ -33,6 +34,7 @@ public class SystemMessageController : MonoBehaviour
     private void Start()
     {
         ui = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>();
+        playerInputController=GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
     }
 
     private void Update()
@@ -40,6 +42,7 @@ public class SystemMessageController : MonoBehaviour
         if(isDisplayindDialogue && Input.GetKeyDown(KeyCode.E)) 
         {
             isDisplayindDialogue = false;
+            playerInputController.RestartMovement();
             ui.EndDisplay();
         }
     }
@@ -49,11 +52,13 @@ public class SystemMessageController : MonoBehaviour
     /// </summary>
     /// <param name="message">Message to be displayed</param>
     /// <param name="portraitRef">Reference of the portrait for the displayed dialogue.</param>
-    public void CallSystemMessage(string message, string? portraitRef)
+    public void CallSystemMessage(string message, string? portraitRef="player")
     {
         if(!isDisplayindDialogue)
         {
+            isDisplayindDialogue=true;
             portraitRef = portraitRef==null ? "player" : portraitRef;
+            playerInputController.StopMovement();
             ui.DisplayDialogue(message, portraitRef);
         }
     }
