@@ -35,6 +35,10 @@ public class ExplosiveController : ItemController
                     if (health > 1000)
                     {
                         playerObjectController.SetValue("health", health - 1000);
+                        if (playerObject.TryGetComponent(out FileParser fp))
+                        {
+                            fp.WriteToFile();
+                        }
                         return;
                     }
                 }
