@@ -270,7 +270,7 @@ MonoBehaviour:
   - {x: 0.27231687, y: -0.53390145, z: 0}
   m_ShapePathHash: 1129978979
   m_Mesh: {fileID: 0}
-  m_InstanceId: 72038
+  m_InstanceId: 99866
 --- !u!1 &6320083818522056946
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +498,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
+  playerName: Jerrik
   interactSound: {fileID: 8300000, guid: 36c99f43f7268f84cbdf1c32bee3a2f2, type: 3}
   createSound: {fileID: 8300000, guid: 9ebd95050faa48f4490c59f77ad005e5, type: 3}
   deleteSound: {fileID: 8300000, guid: e7a1a0a1d0e71674ab31a654d75ffa20, type: 3}

@@ -57,7 +57,7 @@ public class NPCController : ModifiableController, Interactable
 
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
-    [SerializeField] private bool shouldMove; //if we want this NPC moving
+    [SerializeField] public bool shouldMove; //if we want this NPC moving
     [SerializeField] private float speed=3f;
     private Animator animator;
     private bool isWaiting=false;
@@ -360,7 +360,7 @@ public class NPCController : ModifiableController, Interactable
     /// <param name="newStateName">name that references the next state that should be chosen</param>
     public void OnStateChange(string newStateName)
     {
-        Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
+        //Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
         dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
@@ -379,7 +379,7 @@ public class NPCController : ModifiableController, Interactable
         foreach (var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            //Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty { IsImportant = true, Value = propertyDict[propertyKey].propertyValue });
         }
         ////DEBUG -------------------------
@@ -413,19 +413,21 @@ public class NPCController : ModifiableController, Interactable
             //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
+                //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value : " + propertyDict[propertyString].propertyValue+" file value : "+ properties[propertyDict[propertyString].propertyName].Value.ToString());
+                //Debug.Log("NPC " + gameObject.name + " : UpdateModification : conditions length : " + propertyDict[propertyString].propertyCondition.Length);
                 if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
                 {
                     for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
                     {
                         if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString().ToLower()) //we check if they changed
                         {
-                            //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[0]);
+                            //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
                             return;
                         }
                     }
                 }
-                else if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() != propertyDict[propertyString].propertyValue.ToString().ToLower()) //if by default the change corresponds to nothing, the first state will be selected
+                if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() != propertyDict[propertyString].propertyValue.ToString().ToLower()) //if by default the change corresponds to nothing, the first state will be selected
                 {
                     //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " no conditions list found, and file value "+ properties[propertyDict[propertyString].propertyName].Value.ToString()+" different than saved value "+ propertyDict[propertyString].propertyValue.ToString() + ", leading to change state to "+ propertyDict[propertyString].propertyChangeState[0]);
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
@@ -445,27 +447,7 @@ public class NPCController : ModifiableController, Interactable
                         OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                         return;
                     }
-                    //int conditionValue;
-                    //int.TryParse(propertyDict[propertyString].propertyCondition[conditionListIndex], out conditionValue);
-                    //if (propertyDict[propertyString].conditionIsSuperior[conditionListIndex]) //if the condition is a superior one
-                    //{
-                    //    Debug.Log("NPC "+gameObject.name+": INTEGER value tested : " + propertyDict[propertyString].propertyName+ " with status is a superior one. Comparing file value : "+ properties[propertyString].Value.ToString()+" with parsed value : "+ integerValue+" to condition value : "+conditionValue);
-                    //    if (integerValue < conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                    //    {                            
-                    //        //Debug.Log("NPC "+gameObject.name+" : changing state to "+ propertyDict[propertyString].propertyChangeState[conditionListIndex]+" for value different than health");
-                    //        OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                    //        return;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log("NPC " + gameObject.name + ": INTEGER value tested : " + propertyDict[propertyString].propertyName + " with status is NOT a superior one. Comparing file value : " + properties[propertyString].Value.ToString() + " with parsed value : " + integerValue + " to condition value : " + conditionValue);
-                    //    if (integerValue > conditionValue) //AS OF RIGHT NOW, WE TEST FOR A PRESET CONDITION (should be reworked as either editor or something else)
-                    //    {
-                    //        OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);
-                    //        return;
-                    //    }
-                    //}
+                    
                 }
             }
         }
