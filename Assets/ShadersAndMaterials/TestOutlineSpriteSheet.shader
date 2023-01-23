@@ -92,7 +92,9 @@ Shader "Unlit/TestOutlineSpriteSheet"
 								continue;
 							}
 							float2 pos = float2(i.uv.x + _MainTex_TexelSize.x * x, i.uv.y + _MainTex_TexelSize.y * y);
-							if (pos.x <= 1 && pos.x >= 0 && pos.y <= 1 && pos.y >= 0)
+							float a = ((float)(nSprite + 1)) / ((float) _numberOfSprite);
+							float b = ((float)(nSprite)) / ((float) _numberOfSprite);
+							if (pos.x <= a && pos.x >= b && pos.y <= 1 && pos.y >= 0)
 							{
 								if (tex2D(_MainTex, pos).a != 0)
 								{
