@@ -7,6 +7,10 @@ using UnityEngine;
  */
 public class PlayerObjectController : ModifiableController
 {
+    [Header("Player.txt elements")]
+    [SerializeField] private string playerName;
+
+    [Header("Audio elements")]
     [SerializeField] AudioClip interactSound;
     [SerializeField] AudioClip createSound;
     [SerializeField] AudioClip deleteSound;
@@ -16,7 +20,7 @@ public class PlayerObjectController : ModifiableController
 
     public override void SetDefaultProperties()
     {
-        properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = "Bob"});
+        properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = playerName });
         properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = 10});
     }
 

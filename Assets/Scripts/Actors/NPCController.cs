@@ -360,7 +360,7 @@ public class NPCController : ModifiableController, Interactable
     /// <param name="newStateName">name that references the next state that should be chosen</param>
     public void OnStateChange(string newStateName)
     {
-        Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
+        //Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
         dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
@@ -379,7 +379,7 @@ public class NPCController : ModifiableController, Interactable
         foreach (var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            //Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty { IsImportant = true, Value = propertyDict[propertyKey].propertyValue });
         }
         ////DEBUG -------------------------
