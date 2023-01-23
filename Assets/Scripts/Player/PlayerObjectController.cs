@@ -17,7 +17,7 @@ public class PlayerObjectController : ModifiableController
     public override void SetDefaultProperties()
     {
         properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = "Bob"});
-        properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = "10"});
+        properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = 10});
     }
 
     public void DeleteSound()
