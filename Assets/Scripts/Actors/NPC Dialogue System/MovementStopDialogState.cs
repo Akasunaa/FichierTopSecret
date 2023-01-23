@@ -9,6 +9,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Movement Stop Dialog State", menuName = "States/Movement Stop Dialog State")]
 public class MovementStopDialogState : DialogState
 {
+    [SerializeField] private bool shouldMoveBool;
+
     public MovementStopDialogState(string name, DialogSM SM) : base(name, SM)
     {
     }
@@ -21,6 +23,6 @@ public class MovementStopDialogState : DialogState
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);
-        sm.ConvertTo<DialogSM>().associatedNPCController.shouldMove = false;
+        sm.ConvertTo<DialogSM>().associatedNPCController.shouldMove = shouldMoveBool;
     }
 }

@@ -410,18 +410,18 @@ public class NPCController : ModifiableController, Interactable
         ////-------------------------------
         foreach (var propertyString in propertyDict.Keys) //for all properties in the NPC dico => SHOULD BE REWORKED, AS, FOR NOW, THE NPC REACTS TO THEFIRST VALUE IN THE DICO CHANGED, NOT THE LAST ONE UPDATED
         {
-            Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
+            //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value considered : " + propertyDict[propertyString].propertyName);
             if (properties.ContainsKey(propertyString) && propertyDict[propertyString].propertyType == TYPE.STRING) //we check if they exist in the file AND their the STRING type 
             {
-                Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value : " + propertyDict[propertyString].propertyValue+" file value : "+ properties[propertyDict[propertyString].propertyName].Value.ToString());
-                Debug.Log("NPC " + gameObject.name + " : UpdateModification : conditions length : " + propertyDict[propertyString].propertyCondition.Length);
+                //Debug.Log("NPC " + gameObject.name + " : UpdateModification : propertyDict value : " + propertyDict[propertyString].propertyValue+" file value : "+ properties[propertyDict[propertyString].propertyName].Value.ToString());
+                //Debug.Log("NPC " + gameObject.name + " : UpdateModification : conditions length : " + propertyDict[propertyString].propertyCondition.Length);
                 if (propertyDict[propertyString].propertyCondition.Length > 0) //if there are various possible conditions to check for, we check for them
                 {
                     for (int conditionListIndex = 0; conditionListIndex < propertyDict[propertyString].propertyCondition.Length; conditionListIndex++) //the NPC will check if the changed string corresponds to a certain value, if it does it will trigger specific state change
                     {
                         if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() == propertyDict[propertyString].propertyCondition[conditionListIndex].ToString().ToLower()) //we check if they changed
                         {
-                            Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[conditionListIndex]);
+                            //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " condition met, changing state to " + propertyDict[propertyString].propertyChangeState[conditionListIndex]);
                             OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]); //we change the state accordingly
                             return;
                         }
@@ -429,7 +429,7 @@ public class NPCController : ModifiableController, Interactable
                 }
                 if (properties[propertyDict[propertyString].propertyName].Value.ToString().ToLower() != propertyDict[propertyString].propertyValue.ToString().ToLower()) //if by default the change corresponds to nothing, the first state will be selected
                 {
-                    Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " no conditions list found, and file value "+ properties[propertyDict[propertyString].propertyName].Value.ToString()+" different than saved value "+ propertyDict[propertyString].propertyValue.ToString() + ", leading to change state to "+ propertyDict[propertyString].propertyChangeState[0]);
+                    //Debug.Log("NPC " + gameObject.name + ": for STRING value " + propertyDict[propertyString].propertyName + " no conditions list found, and file value "+ properties[propertyDict[propertyString].propertyName].Value.ToString()+" different than saved value "+ propertyDict[propertyString].propertyValue.ToString() + ", leading to change state to "+ propertyDict[propertyString].propertyChangeState[0]);
                     OnStateChange(propertyDict[propertyString].propertyChangeState[0]); //we change the state accordingly
                     return;
                 }

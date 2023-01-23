@@ -82,6 +82,10 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 18f9d1968aa83134d8f7ce8e3f613017, type: 2}
   - name: CD_Change_Owner
     state: {fileID: 11400000, guid: 3137404b8f66ea248a1e216104fa6c33, type: 2}
+  - name: CD_Change_Owner
+    state: {fileID: 11400000, guid: 5bf20067f4bed9b43a8f3c4f292a149a, type: 2}
+  - name: CD_Change_Owner
+    state: {fileID: 11400000, guid: 06dba2c1d52aa9c478ca1fe9908df157, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &2886453808621407751
 MonoBehaviour:
@@ -113,9 +117,13 @@ MonoBehaviour:
     propertyCondition:
     - 
     - KILLING
+    - CLEANING
+    - DYING
     propertyChangeState:
     - CD_Change_Work
     - CD_Change_Work_Killing
+    - CD_Correct_Work
+    - CD_Death
   objectsElements: []
   questItems: []
   reactElements: []
