@@ -17,17 +17,18 @@ public class DialogSM : StateMachine
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
     [SerializeField, HideInInspector] public NPCController associatedNPCController;              //npcController that uses this DialogSM
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
         // We begin the Enter function by creating the dictionary of the next possible states :
         nextPossibleStates = new Dictionary<string, DialogState>();
         nextPossibleStates.Add(startingState.name, startingState);
         foreach (NEXT_STATE state in nextStates)
         {
-            //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
+            Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " CONSIDERED TO ADD IN DICT");
             if (!nextPossibleStates.ContainsKey(state.state.name))
             {
-                //Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
+                Debug.Log("DIALOG SM : " + gameObject.name + " : STATE " + state.state.name + " IN DICT");
                 nextPossibleStates.Add(state.state.name, state.state);
             }
         }
@@ -87,7 +88,11 @@ public class DialogSM : StateMachine
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName);
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName+" IN NEXT POSSIBLE STATES : "+nextPossibleStates);
+            foreach(string state in nextPossibleStates.Keys)
+            {
+                Debug.LogError("DialogSM : ERROR : STATE IN NEXT POSSIBLE STATE : " + nextPossibleStates[state].name);
+            }
             return;
         }
     }

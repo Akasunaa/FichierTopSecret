@@ -125,7 +125,7 @@ MonoBehaviour:
   reactElements: []
   playerProperties: []
   playerPrefsElements:
-  - playerPrefsName: IsFactoryOpen
+  - playerPrefsName: IsFactoryGuardRefuse
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Drunk_Intel
   - playerPrefsName: IsDrunkWoken
@@ -134,7 +134,7 @@ MonoBehaviour:
   - playerPrefsName: IsIssovitchCaptured
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Issovitch_Captured
-  - playerPrefsName: IsFactoryGuardRefuse
+  - playerPrefsName: IsFactoryOpen
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Factory_Open
   grid: {fileID: 0}
