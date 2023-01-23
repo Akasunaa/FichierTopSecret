@@ -1,12 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 public class MainMenuScript : MonoBehaviour
 {
+    [SerializeField] private GameObject settingsMenuCanvas;
     [SerializeField] private MainMenuButton[] buttons;
     private int selectedButton = 0;
+
+    private void Awake()
+    {
+        Assert.IsNotNull(settingsMenuCanvas);
+    }
 
     public void Quit()
     {
@@ -20,8 +28,8 @@ public class MainMenuScript : MonoBehaviour
     
     public void Settings()
     {
-        Debug.Log("GOTO Settings I hope");
-        // SceneManager.LoadScene("SceneLauncher");
+        settingsMenuCanvas.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void Selected(int n)

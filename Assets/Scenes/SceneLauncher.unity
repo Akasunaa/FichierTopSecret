@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 59574805}
   m_Layer: 0
   m_Name: FilesWatcher
-  m_TagString: DontDestroyOnLoad
+  m_TagString: DestroyOnGameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 163971941}
   m_Layer: 0
   m_Name: PlayerItems
-  m_TagString: DontDestroyOnLoad
+  m_TagString: DestroyOnGameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -344,7 +344,7 @@ GameObject:
   - component: {fileID: 232339088}
   m_Layer: 0
   m_Name: PositionInSceneController
-  m_TagString: DontDestroyOnLoad
+  m_TagString: DestroyOnGameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 334041735}
   m_Layer: 0
   m_Name: CosmicBinManager
-  m_TagString: DontDestroyOnLoad
+  m_TagString: DestroyOnGameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 1203355587}
   m_Layer: 0
   m_Name: LevelManager
-  m_TagString: DontDestroyOnLoad
+  m_TagString: DestroyOnGameOver
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 1278027336}
   m_Layer: 0
   m_Name: Cleaner
-  m_TagString: DontDestroyOnLoad
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

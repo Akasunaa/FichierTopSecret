@@ -66,7 +66,7 @@ public class GameOverScreenController : MonoBehaviour
         
         foreach (var localObject in toDisableSceneSpecific) localObject.SetActive(false);
         
-        foreach (var localObject in GameObject.FindGameObjectsWithTag("DontDestroyOnLoad")) Destroy(localObject);
+        foreach (var localObject in GameObject.FindGameObjectsWithTag("DestroyOnGameOver")) Destroy(localObject);
         
 
         UpdateGameOverScreen(gameOverType);

@@ -10,6 +10,9 @@ TagManager:
   - XV6
   - Civilian
   - FactoryDoor
+  - IK8
+  - WorkerDrone
+  - DestroyOnGameOver
   layers:
   - Default
   - TransparentFX
