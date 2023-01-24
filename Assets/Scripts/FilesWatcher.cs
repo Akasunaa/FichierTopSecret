@@ -393,7 +393,7 @@ public class FilesWatcher : MonoBehaviour
             {
                 explorerHwnd = hwnd;
                 GetWindowRect(hwnd, out RECT r);
-                MoveWindow(hwnd, Display.main.systemWidth / 2, Display.main.renderingHeight / 2, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
+                MoveWindow(hwnd, Display.main.systemWidth / 2, Display.main.renderingHeight / 4, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
             }
             else
             {
