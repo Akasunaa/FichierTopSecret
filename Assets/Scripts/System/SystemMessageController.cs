@@ -52,12 +52,12 @@ public class SystemMessageController : MonoBehaviour
     /// </summary>
     /// <param name="message">Message to be displayed</param>
     /// <param name="portraitRef">Reference of the portrait for the displayed dialogue.</param>
-    public void CallSystemMessage(string message, string? portraitRef="player")
+    public void CallSystemMessage(string message, string portraitRef="player")
     {
         if(!isDisplayindDialogue)
         {
             isDisplayindDialogue=true;
-            portraitRef = portraitRef==null ? "player" : portraitRef;
+            portraitRef = portraitRef == null ? "player" : portraitRef;
             playerInputController.StopMovement();
             ui.DisplayDialogue(message, portraitRef);
         }
