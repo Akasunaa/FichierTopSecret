@@ -76,10 +76,8 @@ MonoBehaviour:
   currentState: {fileID: 0}
   startingState: {fileID: 11400000, guid: ac3fd4688e76d6c4aa6a189abb225b6a, type: 2}
   nextStates:
-  - name: D_Accept
-    state: {fileID: 11400000, guid: 0ea7920ee200130438d8b4b50883b02d, type: 2}
-  - name: D_Refuse
-    state: {fileID: 11400000, guid: 6a220155b87db10419b905e7b02c3bfa, type: 2}
+  - name: D_Name
+    state: {fileID: 11400000, guid: 2028428607b80b1429b6ed8da4e5551f, type: 2}
   - name: D_Woken
     state: {fileID: 11400000, guid: 6ee8689af8a3a8145b1e20c85a2f2476, type: 2}
   associatedNPCController: {fileID: 0}
@@ -114,7 +112,7 @@ MonoBehaviour:
   playerPrefsElements:
   - playerPrefsName: IsKannathDrunkIntel
     playerPrefsCondition: TRUE
-    playerPrefsChangeState: D_Refuse
+    playerPrefsChangeState: D_Name
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1

@@ -23,8 +23,7 @@ public class PlayerObjectController : ModifiableController
         properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = playerName });
         properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = 10});
         properties.TryAdd("money", new DicoValueProperty {IsImportant = true, Value = 0});
-        if(Application.isEditor) { properties.TryAdd("speed", new DicoValueProperty { IsImportant = true, Value = 10f }); }
-        else { properties.TryAdd("speed", new DicoValueProperty { IsImportant = true, Value = 3f }); }
+        properties.TryAdd("speed", new DicoValueProperty { IsImportant = true, Value = 3f });
         
     }
 
