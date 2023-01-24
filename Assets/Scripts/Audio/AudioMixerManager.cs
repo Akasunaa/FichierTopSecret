@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class AudioMixerManager : Singleton<AudioMixerManager>
 {
@@ -14,12 +12,36 @@ public class AudioMixerManager : Singleton<AudioMixerManager>
     protected override void OnAwake()
     {
         base.OnAwake();
+        SetDefaults();
+        LoadAudioSettings();
+    }
+
+    private void LoadAudioSettings()
+    {
+        var data = SaveSystem.LoadAudioSettingsData();
+        if (data == null) return;
         
-        SetSfxLevel(0.3f, false);
-        MuteSfx(false, false);
         
-        SetMusicLevel(0.77f, false);
-        MuteMusic(true, false);
+        SetSfxLevel(data.sfxLevel, false);
+        MuteSfx(data.sfxMute, false);
+        
+        SetMusicLevel(data.musicLevel, false);
+        MuteMusic(data.musicMute, false);
+        
+    }
+
+    public void SaveAudioSettings()
+    {
+        SaveSystem.SaveAudioSettings(this);
+    }
+
+    private void SetDefaults()
+    {
+        sfxLevel = 1;
+        sfxMuted = false;
+
+        musicLevel = 1;
+        musicMuted = false;
     }
 
     public void SetSfxLevel(float level, bool update = true)

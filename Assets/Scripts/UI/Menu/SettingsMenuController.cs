@@ -49,8 +49,6 @@ public class SettingsMenuController : MonoBehaviour
     private int _currentRefreshRateIndex = -1;
     private int _currentResolutionIndex;
 
-    private AudioMixerManager _mixerManager;
-    
     private void Start()
     {
         // RESOLUTION AND REFRESH RATE GUI INITIALIZATION
@@ -65,9 +63,7 @@ public class SettingsMenuController : MonoBehaviour
         
         
         // AUDIO GUI INITIALIZATION
-        
-        SetMixerManager();
-        
+
         SetSfxUI();
     }
 
@@ -130,13 +126,6 @@ public class SettingsMenuController : MonoBehaviour
     #endregion
 
     #region Audio
-
-    private void SetMixerManager()
-    {
-        _mixerManager = FindObjectOfType<AudioMixerManager>();
-        if(_mixerManager == null) 
-            Debug.LogError($"[{name}] No AudioMixerManager found in the scene, changing sound settings wont work.");
-    }
 
     private void SetSfxUI()
     {
@@ -204,6 +193,7 @@ public class SettingsMenuController : MonoBehaviour
 
     public void ToMainMenu()
     {
+        AudioMixerManager.instance.SaveAudioSettings();
         mainMenuCanvas.SetActive(true);
         gameObject.SetActive(false);
     }
