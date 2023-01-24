@@ -234,7 +234,7 @@ public class SettingsMenuController : MonoBehaviour
     
     private static void SetRefreshRate(int rate)
     {
-        Application.targetFrameRate = rate;
+        Application.targetFrameRate = rate; // does not really work
     }
 
     private static void SetResolution(int width, int height)
