@@ -7,6 +7,10 @@ using UnityEngine;
  */
 public class PlayerObjectController : ModifiableController
 {
+    [Header("Player.txt elements")]
+    [SerializeField] private string playerName;
+
+    [Header("Audio elements")]
     [SerializeField] AudioClip interactSound;
     [SerializeField] AudioClip createSound;
     [SerializeField] AudioClip deleteSound;
@@ -16,8 +20,10 @@ public class PlayerObjectController : ModifiableController
 
     public override void SetDefaultProperties()
     {
-        properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = "Bob"});
-        properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = "10"});
+        properties.TryAdd("name", new DicoValueProperty {IsImportant = true, Value = playerName });
+        properties.TryAdd("health", new DicoValueProperty {IsImportant = true, Value = 10});
+        properties.TryAdd("money", new DicoValueProperty {IsImportant = true, Value = 0});
+        properties.TryAdd("speed", new DicoValueProperty {IsImportant = true, Value = 3f});
     }
 
     public void DeleteSound()
@@ -45,6 +51,11 @@ public class PlayerObjectController : ModifiableController
             {
                 fp.WriteToFile();
             }
+        }
+
+        if (TryGet("speed", out float speed) && TryGetComponent(out PlayerMovement playerMovement))
+        {
+            playerMovement.SetSpeed(Mathf.Clamp(speed, 0.1f, 10f));
         }
     }
 }

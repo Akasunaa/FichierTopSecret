@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-/**
- *  Component used by objects that will allow the player to spew dialogue when interacting with them
- */
+/// <summary>
+/// Component used by objects that will allow the player to spew dialogue when interacting with them
+/// </summary>
 public class ObjectInteractionController : MonoBehaviour
 {
     [TextArea(3, 10)]
@@ -22,25 +22,31 @@ public class ObjectInteractionController : MonoBehaviour
         _curDialogue = dialogueStandard;
     }
 
-    /**
-     *  Function called by ObjectControllers to display the currently loaded dialogue when interacting with them
-     */
+    /// <summary>
+    /// Function called by ObjectControllers to display the currently loaded dialogue when interacting with them.
+    /// </summary>
     public void DisplayInteractionDialogue()
     {
         _ui.DisplayDialogue(_curDialogue, "player");
     }
 
-    /**
-     *  Function that will end the dialogue display
-     */
+    /// <summary>
+    /// Function handling the display of a specific piece of dialogue.
+    /// </summary>
+    /// <param name="dialogue">Dialogue that will be displayed.</param>
+    public void DisplayDialogue(string dialogue) { _ui.DisplayDialogue(dialogue, "player"); }
+
+    /// <summary>
+    /// Function that will end the dialogue display.
+    /// </summary>
     public void EndDisplay()
     {
         _ui.EndDisplay();
     }
 
-    /**
-     *  Function called by exterior scripts to change the currently displayed dialogue
-     */
+    /// <summary>
+    /// Function called by exterior scripts to change the currently displayed dialogue.
+    /// </summary>
     public void OnChangeDialogue()
     {
         if (dialogueOnConditionChange == "") return;

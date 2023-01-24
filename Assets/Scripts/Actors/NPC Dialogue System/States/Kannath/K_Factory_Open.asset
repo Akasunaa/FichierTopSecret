@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: K_Factory_Open
+  m_EditorClassIdentifier: 
+  name: K_Factory_Open
+  speech:
+  - Ya.. ya managed to open the factory ?
+  - Damn J, nice going !
+  - I bet that Issovitch fella will be inside, you might wanna take a look around.
+  - Be careful tho, ya don't know what he's up to...
+  currentSpeech: 

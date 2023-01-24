@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: c0de5df02d965024cab8a5c71b648c1e, type: 2}
+  startingState: {fileID: 11400000, guid: 1ddfb4efad45b62498e753704f9d94af, type: 2}
   nextStates:
   - name: FactoryGuard_Bar
     state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}

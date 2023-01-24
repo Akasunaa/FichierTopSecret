@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c0b4103769ee01419cc670fcd9127e7, type: 3}
   m_Name: K_Drunk_Intel
   m_EditorClassIdentifier: 
+  name: K_Drunk_Intel
   speech:
   - '''ello J, how''s that lil'' investigation doin'' ?'
   - The factory huh ?

@@ -13,6 +13,10 @@ public class DoorObjectController : ModifiableController, Interactable
     [SerializeField] protected string direction;
     [SerializeField] protected bool isLockedByDefault;
 
+    [Header("Door Special Interactions")]
+    [TextArea(3,10)]
+    [SerializeField] protected string noDirectionDialogue;
+
     [Header("Animation")]
     [SerializeField] protected SpriteRenderer spriteRenderer;
     //[SerializeField] private Animation transitionAnimation;
@@ -37,6 +41,10 @@ public class DoorObjectController : ModifiableController, Interactable
         _interactionController = GetComponent<ObjectInteractionController>();
         _isOpened = false;
         _displayingDialogue = false;
+        if(noDirectionDialogue==null || noDirectionDialogue == "")
+        {
+            noDirectionDialogue = "This door doesn't lead to anywhere... Like, a unending void of darkness is behind its frame...";
+        }
     }
 
     public void Interact()
@@ -57,23 +65,21 @@ public class DoorObjectController : ModifiableController, Interactable
             return;
             //Time.timeScale = 1f;
         }
-        if (!_displayingDialogue && TryGet("locked", out locked) && !locked)
+        if (!_displayingDialogue && TryGet("locked", out locked) && !locked && TryGet("direction", out string dir))
         {
-            if (TryGet("direction", out string dir))
+            if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0)
+            {   
+                if(PositionInSceneController.hasInstance) 
+                    PositionInSceneController.instance.OnPlayerExitedLevel();
+                    
+                LevelManager.Instance.LoadScene(dir);
+            }
+            else
             {
-                if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0)
-                {
-                    print("Door interact");
-                    
-                    if(PositionInSceneController.hasInstance) 
-                        PositionInSceneController.instance.OnPlayerExitedLevel();
-                    
-                    LevelManager.Instance.LoadScene(dir);
-                }
-                else
-                {
-                    Debug.LogWarning("Scene: " + dir + " does not exists or is not in build");
-                }
+                _displayingDialogue = true;
+                _interactionController.DisplayDialogue(noDirectionDialogue);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
+                Debug.LogWarning("Scene: " + dir + " does not exists or is not in build");
             }
         } 
     }

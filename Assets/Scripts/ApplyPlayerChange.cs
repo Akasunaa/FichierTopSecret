@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Unity.VisualScripting.FullSerializer;
@@ -24,6 +25,9 @@ public static class ApplyPlayerChange
         { "power", CheckBool },
         { "detonate", CheckBool },
         { "sleep", CheckBool },
+        { "health", CheckInt },
+        { "money", CheckInt },
+        { "speed", CheckFloat },
     };
 
     private static bool inSystemMessage;
@@ -178,6 +182,47 @@ public static class ApplyPlayerChange
         float yTarget = float.Parse(decodedCoordinates[1].Value);
 
         return new Vector2Int((int)xTarget, (int)yTarget);
+    }
+    
+    private static object CheckInt(string value)
+    {
+        // pattern that we want into the value string - correct ex: (0,0) 
+        const string number = @"-?\d+";
+
+        if (!Regex.IsMatch(value, number, options)) return null;
+
+        // here we just want to extract the different decimals inside the value 
+        var matchString = Regex.Match(value, number, options);
+
+        if (!int.TryParse(matchString.Value, out int parsedValue))
+        {
+            if (value.Any(c => c != '0') && value.Length > 5)
+            {
+                return int.MaxValue;
+            }
+
+            return 0;
+        }
+
+        return parsedValue;
+    }
+    
+    private static object CheckFloat(string value)
+    {
+        // pattern that we want into the value string - correct ex: (0,0) 
+        const string number = @"-?\d+(\.|\,)?\d*";
+
+        if (!Regex.IsMatch(value, number, options)) return null;
+
+        // here we just want to extract the different decimals inside the value 
+        var matchString = Regex.Match(value, number, options);
+
+        if (!float.TryParse(matchString.Value, out float parsedValue))
+        {
+            return 0;
+        }
+
+        return parsedValue;
     }
 
     private static object CheckColor(string value)

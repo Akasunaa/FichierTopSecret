@@ -109,8 +109,8 @@ public class LevelManager : MonoBehaviour
         }
 
         activeLevel = SceneManager.GetSceneByName(levelName);
-        UpdateFileGameObjects(directoryExists);
-        CreateGameObjectFromFiles(di);
+        bool completeSceneLoading = UpdateFileGameObjects(directoryExists);
+        completeSceneLoading = CreateGameObjectFromFiles(di) && completeSceneLoading;
 
         if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinFolderName))
         {
@@ -126,6 +126,14 @@ public class LevelManager : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
         }
         catch { Debug.LogError("no player found"); }
+
+        if (!completeSceneLoading)
+        {
+            if (SystemMessageController.Instance != null)
+            {
+                SystemMessageController.Instance.CallSystemMessage("Scene loading incomplete, please remove some files...");
+            }
+        }
 
         FilesWatcher.instance.EndLoadScene();
         isLoading = false;
@@ -145,14 +153,27 @@ public class LevelManager : MonoBehaviour
     /*
      * Update game objects in the scene to load base on the files present
      */
-    private void UpdateFileGameObjects(bool directoryExists)
+    private bool UpdateFileGameObjects(bool directoryExists)
     {
+        // TODO : c'est moche
+        ModifiableController[] modifiableGameObjects = FindObjectsOfType<ModifiableController>();
+        foreach (ModifiableController modifiableController in modifiableGameObjects)
+        {
+            if (!modifiableController.TryGetComponent(out FileParser _))
+            {
+                modifiableController.SetDefaultProperties();
+            }
+        }
+
+        uint nFileRead = 0;
         FileParser[] fileGameObjects = FindObjectsOfType<FileParser>();
         foreach (FileParser fileParser in fileGameObjects)
         {
+            if (nFileRead > Utils.MAX_READ_FILE_SCENELOAD) { return false; }
             FileInfo fileInfo = new FileInfo(fileParser.filePath);
             if (fileInfo.Exists)
             {
+                nFileRead++;
                 Debug.Log("Updating file: " + fileInfo.FullName);
                 fileParser.targetModifiable.SetDefaultProperties();
                 fileParser.ReadFromFile(fileInfo.FullName, true);
@@ -160,6 +181,7 @@ public class LevelManager : MonoBehaviour
             }
             else if (!directoryExists || !fileParser.targetModifiable.canBeDeleted)
             {
+                nFileRead++;
                 Debug.Log("Creating file: " + fileInfo.FullName);
                 if (!Directory.Exists(fileInfo.DirectoryName))
                 {
@@ -178,29 +200,23 @@ public class LevelManager : MonoBehaviour
                 Destroy(fileParser.gameObject);
             }
         }
-        
-        // TODO : c'est moche
-        ModifiableController[] modifiableGameObjects = FindObjectsOfType<ModifiableController>();
-        foreach (ModifiableController modifiableController in modifiableGameObjects)
-        {
-            if (!modifiableController.TryGetComponent(out FileParser _))
-            {
-                modifiableController.SetDefaultProperties();
-            }
-        }
+
+        return true;
     }
 
     /*
      * Recursively browse all files in the directory and create game objects from the files
      */
-    private void CreateGameObjectFromFiles(DirectoryInfo di)
+    private bool CreateGameObjectFromFiles(DirectoryInfo di, uint nFileRead = 0)
     {
         foreach (FileInfo fi in di.EnumerateFiles())
         {
+            if (nFileRead > Utils.MAX_READ_FILE_SCENELOAD) { return false; }
             // If null it mean it is not a regular file (.txt and .bat)
             bool containFile = FilesWatcher.instance.ContainsFile(fi) ?? true;
             if (!containFile)
             {
+                nFileRead++;
                 // NewObject(fi, fi.FullName.Contains("Cosmicbin"));
                 string relativePath = Utils.RelativePath(fi);
                 NewObject(fi,  LevelManager.Capitalize(Utils.SceneName(relativePath)) == Utils.CosmicbinFolderName);
@@ -209,8 +225,10 @@ public class LevelManager : MonoBehaviour
 
         foreach (DirectoryInfo diTmp in di.EnumerateDirectories())
         {
-            CreateGameObjectFromFiles(diTmp);
+            CreateGameObjectFromFiles(diTmp, nFileRead);
         }
+
+        return true;
     }
 
     /*

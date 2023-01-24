@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 2886453809585827607}
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2886453808621407769
 BoxCollider2D:
@@ -77,9 +77,15 @@ MonoBehaviour:
   startingState: {fileID: 11400000, guid: 60e240f3fd41ab44f883501a1f0748cd, type: 2}
   nextStates:
   - name: CD_Change_Work
-    state: {fileID: 11400000, guid: 83d9d41a15476d7458a2b85a49d4568d, type: 2}
+    state: {fileID: 11400000, guid: b4da5e6c8bbb9874eb31bec996e80faa, type: 2}
   - name: CD_Change_Owner
     state: {fileID: 11400000, guid: 18f9d1968aa83134d8f7ce8e3f613017, type: 2}
+  - name: CD_Change_Owner
+    state: {fileID: 11400000, guid: 3137404b8f66ea248a1e216104fa6c33, type: 2}
+  - name: CD_Change_Owner
+    state: {fileID: 11400000, guid: 5bf20067f4bed9b43a8f3c4f292a149a, type: 2}
+  - name: CD_Change_Owner
+    state: {fileID: 11400000, guid: 06dba2c1d52aa9c478ca1fe9908df157, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &2886453808621407751
 MonoBehaviour:
@@ -108,9 +114,16 @@ MonoBehaviour:
     propertyValue: CLEANING
     propertyType: 1
     conditionIsSuperior: 
-    propertyCondition: []
+    propertyCondition:
+    - 
+    - KILLING
+    - CLEANING
+    - DYING
     propertyChangeState:
     - CD_Change_Work
+    - CD_Change_Work_Killing
+    - CD_Correct_Work
+    - CD_Death
   objectsElements: []
   questItems: []
   reactElements: []

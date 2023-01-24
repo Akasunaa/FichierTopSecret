@@ -8,10 +8,11 @@ using Unity.VisualScripting.FullSerializer;
 
 public static class Utils
 {
-    public const string RootFolderName = "Test";
+    public const string RootFolderName = "Game";
     public const string PlayerFolderName = "player";
     public const string CosmicbinFolderName = "Cosmicbin";
-    const float EPSILON = 0.1f;
+    const float EPSILON = 0.1f; // Used for collision detection on a tile to not detect neighbours tiles colliders
+    public const uint MAX_READ_FILE_SCENELOAD = 40;
     /**
      * Method checking a tile for a collider and returning it. If there are no collider on the tile, returns null.
      */

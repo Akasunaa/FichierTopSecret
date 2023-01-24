@@ -17,8 +17,9 @@ public class DialogSM : StateMachine
     [HideInInspector] public Dictionary<string, DialogState> nextPossibleStates; //the dictionnary used for the possible next states
     [SerializeField, HideInInspector] public NPCController associatedNPCController;              //npcController that uses this DialogSM
 
-    protected void Start()
+    protected override void Awake()
     {
+        base.Awake();
         // We begin the Enter function by creating the dictionary of the next possible states :
         nextPossibleStates = new Dictionary<string, DialogState>();
         nextPossibleStates.Add(startingState.name, startingState);
@@ -37,6 +38,15 @@ public class DialogSM : StateMachine
     public override BaseState GetStartingState()
     {
         return startingState;
+    }
+
+    /// <summary>
+    /// Function that returns the name of the currently loaded state
+    /// </summary>
+    /// <returns>Name (string) of the currently playing state of the dialogSM</returns>
+    public string GetCurrentStateName()
+    {
+        return currentState.name;
     }
 
     /// <summary>
@@ -69,7 +79,7 @@ public class DialogSM : StateMachine
         {
             return;
         }
-        if (nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
+        if (nextPossibleStates!=null && nextPossibleStates.TryGetValue(nextStateName, out DialogState dialog))
         {
             currentState.Exit(this);
             currentState = dialog;
@@ -78,7 +88,11 @@ public class DialogSM : StateMachine
         }
         else
         {
-            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName);
+            Debug.LogError("DialogSM : ERROR : NOT ACCEPTABLE NEW STATE NAME. INPUTTED NAME : "+nextStateName+" IN NEXT POSSIBLE STATES : "+nextPossibleStates);
+            foreach(string state in nextPossibleStates.Keys)
+            {
+                Debug.LogError("DialogSM : ERROR : STATE IN NEXT POSSIBLE STATE : " + nextPossibleStates[state].name);
+            }
             return;
         }
     }
@@ -91,6 +105,6 @@ public class DialogSM : StateMachine
 [System.Serializable]
 public struct NEXT_STATE                               
 {
-    [HideInInspector] public string name;
+    /*[HideInInspector] */public string name;
     public DialogState state;
 }

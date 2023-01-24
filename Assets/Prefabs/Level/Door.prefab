@@ -75,6 +75,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canBeDeleted: 1
   direction: 
+  isLockedByDefault: 0
+  noDirectionDialogue: This door doesn't lead to anywhere... Like, a unending void
+    of darkness is behind its frame...
   spriteRenderer: {fileID: 7836684255820629799}
   closedSprite: {fileID: 21300000, guid: 829b89b03797f834abe5a5da963b7855, type: 3}
   openedSprite: {fileID: 21300000, guid: 91f9f088f287658449921ccb420a9859, type: 3}
@@ -220,4 +223,4 @@ MonoBehaviour:
   - {x: 1, y: -1, z: 0}
   m_ShapePathHash: -1449790187
   m_Mesh: {fileID: 0}
-  m_InstanceId: 53702
+  m_InstanceId: 77156
