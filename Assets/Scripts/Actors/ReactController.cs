@@ -37,6 +37,8 @@ public class ReactController : MonoBehaviour
                     case "speed":
                         possibility = new []{ "Vroum vroum" };
                         break;
+                    case "name":
+                        break;
                     default:
                         possibility = new []{ "Seems like " + propertyChange.Item1 + " has changed..." };
                         break;
