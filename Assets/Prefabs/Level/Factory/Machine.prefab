@@ -72,6 +72,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ee5d865a9082948b50363439b7b204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canBeDeleted: 0
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
+  objectName: 
+  dialogueNoMoney: This is a machine. I have no money. Fuck.
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
