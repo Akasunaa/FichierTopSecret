@@ -1491,7 +1491,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2043531580}
         m_TargetAssemblyTypeName: SettingsMenuController, Assembly-CSharp
-        m_MethodName: SetRefreshRate
+        m_MethodName: SetRefreshRateFromIndex
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

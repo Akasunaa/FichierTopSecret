@@ -51,7 +51,7 @@ public class SettingsMenuController : MonoBehaviour
 
     private void Awake()
     {
-        
+        LoadScreenSettings();
     }
 
     private void Start()
@@ -75,6 +75,15 @@ public class SettingsMenuController : MonoBehaviour
     #region Starting methods
     
     #region Resolution and refresh rate
+
+    private static void LoadScreenSettings()
+    {
+        var data = SaveSystem.LoadScreenSettingsData();
+        if (data == null) return;
+        
+        SetResolution(data.resolution[0], data.resolution[1]);
+        SetRefreshRate(data.refreshRate);
+    }
     
     private void BuildResolutions()
     {
@@ -154,7 +163,7 @@ public class SettingsMenuController : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, false);
     }
 
-    public void SetRefreshRate(int refreshRateIndex)
+    public void SetRefreshRateFromIndex(int refreshRateIndex)
     {
         var rate = _acceptedRefreshRates[refreshRateIndex];
         _currentRefreshRateIndex = refreshRateIndex;
@@ -176,7 +185,7 @@ public class SettingsMenuController : MonoBehaviour
     {
         AudioMixerManager.instance.SetSfxLevel(level);
     }
-
+    
     
     
     public void MusicOnTest()
@@ -195,10 +204,12 @@ public class SettingsMenuController : MonoBehaviour
         AudioMixerManager.instance.SetMusicLevel(level);
     }
 
+    
 
     public void ToMainMenu()
     {
         AudioMixerManager.instance.SaveAudioSettings();
+        SaveScreenSettings();
         mainMenuCanvas.SetActive(true);
         gameObject.SetActive(false);
     }
@@ -219,6 +230,21 @@ public class SettingsMenuController : MonoBehaviour
     {
         var index = Random.Range(0, clipList.Count);
         return clipList[index];
+    }
+    
+    private static void SetRefreshRate(int rate)
+    {
+        Application.targetFrameRate = rate;
+    }
+
+    private static void SetResolution(int width, int height)
+    {
+        Screen.SetResolution(width, height, false);
+    }
+
+    private static void SaveScreenSettings()
+    {
+        SaveSystem.SaveScreenSettingsData(Screen.width, Screen.height, Screen.currentResolution.refreshRate);
     }
 
     #endregion
