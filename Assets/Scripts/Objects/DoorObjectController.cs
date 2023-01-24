@@ -69,9 +69,9 @@ public class DoorObjectController : ModifiableController, Interactable
         {
             if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0)
             {   
-                if(PositionInSceneController.hasInstance) 
-                    PositionInSceneController.instance.OnPlayerExitedLevel();
-                    
+                if(PositionInSceneController.hasInstance) { PositionInSceneController.instance.OnPlayerExitedLevel(); }
+
+                ChangeSceneAnalyserController.SetLoadingState(true);
                 LevelManager.Instance.LoadScene(dir);
             }
             else

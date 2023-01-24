@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class used to display messages during playtime, as self-reflexions by the player of errors/things happening.
@@ -35,6 +36,10 @@ public class SystemMessageController : MonoBehaviour
     {
         ui = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>();
         playerInputController=GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>();
+        if (ChangeSceneAnalyserController.GetLoadingState() && SceneManager.GetActiveScene().name=="CosmicBin")
+        {
+            CallSystemMessage("LOADED THROUGH DOOR");
+        }
     }
 
     private void Update()
