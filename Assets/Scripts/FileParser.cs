@@ -73,7 +73,7 @@ public class FileParser : MonoBehaviour
     /**
     * Send Object to cosmic bin
     */
-    public void DeleteFile(string path)
+    private void DeleteFile(string path)
     {
         // create CosmicBin if it doesn't exist
         CosmicBinManager.Instance.GenerateCosmicBin();

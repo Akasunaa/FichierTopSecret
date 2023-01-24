@@ -391,6 +391,7 @@ public class FilesWatcher : MonoBehaviour
                 Debug.LogWarning("Cannot find UI object");
             }
 
+            #if !UNITY_EDITOR
             if (inExplorer)
             {
                 explorerHwnd = hwnd;
@@ -401,6 +402,7 @@ public class FilesWatcher : MonoBehaviour
             {
                 explorerHwnd = IntPtr.Zero;
             }
+            #endif
 
             pathInExplorer = inExplorer;
         }
