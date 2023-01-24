@@ -252,6 +252,7 @@ public class LevelManager : MonoBehaviour
             var synonym = synonyms.FirstOrDefault(x => Regex.IsMatch(x,pair.reg, RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace));      
             if (synonym!=null)
             {
+                if (pair.go == null) { return; }
                 Debug.Log("[LevelManager] Instantiate new file : " + fi.FullName);
                 if (isItem && !pair.go.TryGetComponent(out ItemController _)) { return; } //Non item object created in player folder
                 newObj = Instantiate(pair.go);

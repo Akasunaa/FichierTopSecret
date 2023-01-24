@@ -5,7 +5,7 @@ using UnityEngine;
 using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 /// <summary>
-/// Script used by special dialog states that will, when ariving in their Enter() function, add a new property to the.txt of associated NPCs
+/// Script used by special dialog states that will add a new property to the.txt of associated NPCs
 /// </summary>
 [CreateAssetMenu(fileName = "New Property Dialog State", menuName = "States/New Property Dialog State")]
 public class NewPropertyDialogState : DialogState
@@ -27,6 +27,29 @@ public class NewPropertyDialogState : DialogState
     {
         base.Enter(sm);
         //Debug.Log("NON ACCESSIBLE DIALOG STATE : ENTER()");
-        sm.ConvertTo<DialogSM>().associatedNPCController.AddProperty(fileProperties);
+    }
+
+    /// <summary>
+    /// Function that will change the currently displayed speech of the state : at every call of the function by external scripts, will switch to next speech until the last one
+    /// Main difference given by that script : 
+    /// here, unlike regular dialog states, we're going to modify a file property
+    /// </summary>
+    /// <returns>0 if the currentSpeech is the last speech, 1 otherwise</returns>
+    public override int ChangeSpeech()
+    {
+        interactionIndex++;
+        if (interactionIndex < speech.Length)
+        {
+            currentSpeech = speech[interactionIndex];
+            GetSpeechVariables(SM);
+            return 1;
+        }
+        else //when reaching the end of the various speeches, the NPC will repeat the last inputted speech
+        {
+            currentSpeech = speech[^1];
+            GetSpeechVariables(SM);
+            SM.ConvertTo<DialogSM>().associatedNPCController.AddProperty(fileProperties);
+            return 0;
+        }
     }
 }
