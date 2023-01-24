@@ -315,10 +315,6 @@ public class FilesWatcher : MonoBehaviour
                         Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
                         LevelManager.Instance.NewObject(fc.Fi, isItem: true);
                     }
-                    else
-                    {
-                        Debug.LogWarning("[FileWatcher] File " + relativePath + " is in the wrong directory");
-                    }
                     break;
                 case FileChangeType.Change:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser1))
@@ -508,7 +504,6 @@ public class FilesWatcher : MonoBehaviour
 
     public IEnumerator VibrateExplorer()
     {
-        Debug.Log("Vibrate explorer");
         if (explorerHwnd != IntPtr.Zero && !isVibrating)
         {
             isVibrating = true;
