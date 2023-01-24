@@ -20,7 +20,7 @@ public class ExplosiveController : ItemController
 
         string absolutePath = gameObject.GetComponent<FileParser>().filePath;
         string relativePath = Utils.RelativePath(absolutePath);
-        string sceneName = LevelManager.Capitalize(Utils.SceneName(relativePath));
+        string sceneName = Utils.SceneName(relativePath);
 
         Debug.Log("[EXPLOSIVES] DETONATE in " + sceneName);
         
@@ -35,9 +35,14 @@ public class ExplosiveController : ItemController
                     if (health > 1000)
                     {
                         playerObjectController.SetValue("health", health - 1000);
-                        if (playerObject.TryGetComponent(out FileParser fp))
+                        if (playerObject.TryGetComponent(out FileParser playeFp))
                         {
-                            fp.WriteToFile();
+                            playeFp.WriteToFile();
+                        }
+
+                        if (TryGetComponent(out FileParser fp))
+                        {
+                            File.Delete(fp.filePath);
                         }
                         return;
                     }

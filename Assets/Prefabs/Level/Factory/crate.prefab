@@ -85,8 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a crate. There are no indications on what it holds. And
+    I don't think it holds anything that makes sense...
+  dialogueOnConditionChange: This is a crate. There are no indications on what it
+    holds. And I don't think it holds anything that makes sense...
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +215,4 @@ MonoBehaviour:
   - {x: 1, y: -1.5, z: 0}
   m_ShapePathHash: 1872098581
   m_Mesh: {fileID: 0}
-  m_InstanceId: 59044
+  m_InstanceId: 79218
