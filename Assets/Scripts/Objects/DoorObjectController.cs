@@ -71,7 +71,7 @@ public class DoorObjectController : ModifiableController, Interactable
             {   
                 if(PositionInSceneController.hasInstance) { PositionInSceneController.instance.OnPlayerExitedLevel(); }
 
-                ChangeSceneAnalyserController.SetLoadingState(true);
+                ChangeSceneAnalyserController.Instance.SetLoadingState(true); //we indicate to the system message analyser that we changed scene through a door
                 LevelManager.Instance.LoadScene(dir);
             }
             else
