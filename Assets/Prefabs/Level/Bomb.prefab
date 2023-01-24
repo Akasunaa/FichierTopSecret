@@ -73,6 +73,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 0
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
   numberOfWire: 0
 --- !u!1 &5980940905801137229
 GameObject:
