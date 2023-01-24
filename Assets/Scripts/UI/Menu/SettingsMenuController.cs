@@ -44,10 +44,15 @@ public class SettingsMenuController : MonoBehaviour
     
     private readonly List<Resolution> _resolutions = new();
     private readonly ScreenRatio _screenRatio = new(4, 3);
-    private readonly int[] _acceptedScreenWidths = { 800, 1000, 1600 };
+    private readonly int[] _acceptedScreenWidths = { 800, 1000, 1200, 1400, 1600, 1800 };
     private readonly List<int> _acceptedRefreshRates = new() { 30, 60, 75, 120, 144, 240 };
     private int _currentRefreshRateIndex = -1;
     private int _currentResolutionIndex;
+
+    private void Awake()
+    {
+        
+    }
 
     private void Start()
     {
@@ -135,7 +140,7 @@ public class SettingsMenuController : MonoBehaviour
         musicToggle.isOn = !AudioMixerManager.instance.musicMuted;
         musicSlider.value = AudioMixerManager.instance.musicLevel;
     }
-    
+
     #endregion
     
     #endregion
