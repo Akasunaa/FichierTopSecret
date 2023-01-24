@@ -12,7 +12,6 @@ public class AudioMixerManager : Singleton<AudioMixerManager>
     public void SetSfxLevel(float level)
     {
         sfxLevel = Mathf.Clamp(level, 0f, 1f);
-        // Debug.Log($"[{name}] New SFX level of {sfxLevel}.");
         UpdateAllSourceParametersInScene();
     }
 
@@ -21,14 +20,12 @@ public class AudioMixerManager : Singleton<AudioMixerManager>
         if (sfxMuted && mute) return;
 
         sfxMuted = mute;
-        // Debug.Log($"[{name}] SFX mute set to {sfxMuted}.");
         UpdateAllSourceParametersInScene();
     }
 
     public void SetMusicLevel(float level)
     {
         musicLevel = Mathf.Clamp(level, 0f, 1f);
-        // Debug.Log($"[{name}] New Music level of {musicLevel}.");
         UpdateAllSourceParametersInScene();
     }
 
@@ -37,7 +34,6 @@ public class AudioMixerManager : Singleton<AudioMixerManager>
         if (musicMuted && mute) return;
         
         musicMuted = mute;
-        // Debug.Log($"[{name}] Music mute set to {musicMuted}.");
         UpdateAllSourceParametersInScene();
     }
 
