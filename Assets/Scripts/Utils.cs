@@ -41,7 +41,21 @@ public static class Utils
             (Vector2) (size == null ? grid.cellSize : size)- Vector2.one * EPSILON,
             0);
 
-        return hits.Select(hit => hit.gameObject).ToList();
+        return hits.Where(col => !col.isTrigger).Select(hit => hit.gameObject).ToList();
+    }
+    
+    public static List<GameObject> CheckPresencesOnTile(Grid grid, Vector3Int position, Vector2? size = null)
+    {
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
+            grid.GetCellCenterWorld(position),
+            (Vector2) (size == null ? grid.cellSize : size)- Vector2.one * EPSILON,
+            0);
+
+        // foreach (var col in hits)
+        // {
+        //     Debug.LogError("Test: " + col.name + " | " + col.TryGetComponent(out Collider2D col));
+        // }
+        return hits.Where(col => !col.isTrigger).Select(hit => hit.gameObject).ToList();
     }
 
     /**

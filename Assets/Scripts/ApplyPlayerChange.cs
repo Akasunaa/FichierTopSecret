@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -171,16 +172,24 @@ public static class ApplyPlayerChange
     {
         // pattern that we want into the value string - correct ex: (0,0) 
         const string number = @"(\-?)\d+";
-        const string separator = @"[\ \;\,]+";
+        const string separator = @"[\ \;\, \.]+";
 
-        if (!Regex.IsMatch(value, number + separator + number, options)) return null;
+        if (!Regex.IsMatch(value, number + separator + number, options) // 0,0
+            && !Regex.IsMatch(value, number + separator + number + separator + number + separator + number, options) //0.1,2.3
+            && !Regex.IsMatch(value, number + separator + number + separator + number, options)) //0.2,3 ou 0,0.3
+            return null;
 
         // here we just want to extract the different decimals inside the value 
         var decodedCoordinates = Regex.Matches(value, number, options);
-
+        var decodedSeparator = Regex.Matches(value, separator, options);
         float xTarget = float.Parse(decodedCoordinates[0].Value);
         float yTarget = float.Parse(decodedCoordinates[1].Value);
-
+        if (decodedCoordinates.Count > 2)
+        {
+            xTarget = float.Parse(decodedCoordinates[0].Value);
+            if (decodedSeparator[0].Value == ","){yTarget = float.Parse(decodedCoordinates[1].Value);}
+            else{yTarget = float.Parse(decodedCoordinates[2].Value);}
+        }
         return new Vector2Int((int)xTarget, (int)yTarget);
     }
     

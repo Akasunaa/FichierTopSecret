@@ -16,12 +16,12 @@ MonoBehaviour:
   - What ? My name ?
   - 'Why would I give you that ? '
   - Go annoy someone else !
-  currentSpeech: 
+  currentSpeech: Go annoy someone else !
   fileProperties:
   - propertyName: money
     propertyValue: 0
     propertyType: 0
-    conditionIsSuperior: 01
+    conditionIsSuperior: 00
     propertyCondition:
     - 500
     propertyChangeState:
