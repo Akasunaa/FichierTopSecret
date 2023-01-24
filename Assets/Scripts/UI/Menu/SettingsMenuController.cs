@@ -36,11 +36,6 @@ public class SettingsMenuController : MonoBehaviour
             _heightFactor = hFactor;
         }
 
-        public int WidthFromHeight(int height)
-        {
-            return height * _widthFactor / _heightFactor;
-        }
-
         public int HeightFromWidth(int width)
         {
             return width * _heightFactor / _widthFactor;
@@ -48,9 +43,9 @@ public class SettingsMenuController : MonoBehaviour
     }
     
     private readonly List<Resolution> _resolutions = new();
+    private readonly ScreenRatio _screenRatio = new(4, 3);
     private readonly int[] _acceptedScreenWidths = { 800, 1000, 1600 };
     private readonly List<int> _acceptedRefreshRates = new() { 30, 60, 75, 120, 144, 240 };
-    private readonly ScreenRatio _screenRatio = new(4, 3);
     private int _currentRefreshRateIndex = -1;
     private int _currentResolutionIndex;
 
@@ -58,6 +53,8 @@ public class SettingsMenuController : MonoBehaviour
     
     private void Start()
     {
+        // RESOLUTION AND REFRESH RATE GUI INITIALIZATION
+        
         BuildResolutions();
         
         SetRefreshRateIndex();
@@ -66,7 +63,12 @@ public class SettingsMenuController : MonoBehaviour
         
         SetResolutionDropdown();
         
+        
+        // AUDIO GUI INITIALIZATION
+        
         SetMixerManager();
+        
+        SetSfxUI();
     }
 
     #region Starting methods
@@ -136,6 +138,15 @@ public class SettingsMenuController : MonoBehaviour
             Debug.LogError($"[{name}] No AudioMixerManager found in the scene, changing sound settings wont work.");
     }
 
+    private void SetSfxUI()
+    {
+        soundToggle.isOn = !AudioMixerManager.instance.sfxMuted;
+        soundSlider.value = AudioMixerManager.instance.sfxLevel;
+        
+        musicToggle.isOn = !AudioMixerManager.instance.musicMuted;
+        musicSlider.value = AudioMixerManager.instance.musicLevel;
+    }
+    
     #endregion
     
     #endregion
