@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using ColorUtility = UnityEngine.ColorUtility;
 
 /**
@@ -10,6 +11,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
+    public UnityEvent<(string, object)> fileChange;
 
     protected struct DicoValueProperty
     {
@@ -58,7 +60,6 @@ public abstract class ModifiableController : MonoBehaviour
         {
             properties[key] = new DicoValueProperty {IsImportant = test, Value = value};
         }
-        Debug.Log("Test: " + key + " | " + properties[key].Value);
     }
 
     public void RemoveValue(string key)
@@ -96,6 +97,7 @@ public abstract class ModifiableController : MonoBehaviour
         }
 
         print("Modifying '" + keyName + "' with value '" + value + "' from file");
+        fileChange.Invoke((keyName, value));
 
         if (properties.ContainsKey(propertyName))
         {

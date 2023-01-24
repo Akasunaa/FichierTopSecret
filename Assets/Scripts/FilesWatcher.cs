@@ -315,10 +315,6 @@ public class FilesWatcher : MonoBehaviour
                         Debug.Log("[FileWatcher] Object " + relativePath + " is in player pocket");
                         LevelManager.Instance.NewObject(fc.Fi, isItem: true);
                     }
-                    else
-                    {
-                        Debug.LogWarning("[FileWatcher] File " + relativePath + " is in the wrong directory");
-                    }
                     break;
                 case FileChangeType.Change:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser1))
@@ -399,7 +395,7 @@ public class FilesWatcher : MonoBehaviour
             {
                 explorerHwnd = hwnd;
                 GetWindowRect(hwnd, out RECT r);
-                MoveWindow(hwnd, r.Left, r.Top, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
+                MoveWindow(hwnd, Display.main.systemWidth / 2, Display.main.renderingHeight / 4, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
             }
             else
             {
@@ -510,7 +506,6 @@ public class FilesWatcher : MonoBehaviour
 
     public IEnumerator VibrateExplorer()
     {
-        Debug.Log("Vibrate explorer");
         if (explorerHwnd != IntPtr.Zero && !isVibrating)
         {
             isVibrating = true;
@@ -566,13 +561,13 @@ public class FilesWatcher : MonoBehaviour
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
     
     [DllImport("user32.dll", SetLastError = true)]
-    static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
     [DllImport("user32.dll", SetLastError=true)]
-    static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+    public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
     
     [DllImport("user32.dll")]
-    static extern IntPtr GetActiveWindow();
+    public static extern IntPtr GetActiveWindow();
 
 #endif
 

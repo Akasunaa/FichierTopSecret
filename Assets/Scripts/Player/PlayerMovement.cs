@@ -70,9 +70,9 @@ public class PlayerMovement : MonoBehaviour
             RefreshOrientationSprite();
 
             // check if the cell is occupied
-            if (Utils.CheckPresenceOnTile(grid, targetTilemapPosition))
+            if (Utils.CheckPresencesOnTile(grid, targetTilemapPosition).Count > 0)
             {
-                  return;
+                return;
             }
 
             // start the movement
