@@ -31,6 +31,12 @@ public class DialogueUIController : MonoBehaviour
         Assert.IsNotNull(portraitImage);
         Assert.IsNotNull(dialogueText);
         dialogueCanvas.gameObject.SetActive(false);
+        // we add to a dictionnary all the portraits and their associated indentifying strings
+        portraits = new Dictionary<string, Sprite>();
+        foreach (var portrait in availablePortraits) 
+        {
+            portraits.Add(portrait.portraitName, portrait.portraitSprite);
+        }
     }
 
     /**
@@ -38,11 +44,11 @@ public class DialogueUIController : MonoBehaviour
      */
     private void Start()
     {
-        portraits = new Dictionary<string, Sprite>();
-        foreach(var portrait in availablePortraits)
-        {
-            portraits.Add(portrait.portraitName, portrait.portraitSprite);
-        }
+        //portraits = new Dictionary<string, Sprite>();
+        //foreach(var portrait in availablePortraits)
+        //{
+        //    portraits.Add(portrait.portraitName, portrait.portraitSprite);
+        //}
     }
 
     /// <summary>
