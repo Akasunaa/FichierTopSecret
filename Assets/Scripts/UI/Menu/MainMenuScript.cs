@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,21 @@ public class MainMenuScript : MonoBehaviour
 {
     [SerializeField] private MainMenuButton[] buttons;
     private int selectedButton = 0;
+
+    void Start()
+    {
+        #if UNITY_STANDALONE_WIN
+        IntPtr unityWindow = FilesWatcher.GetActiveWindow();
+        if (unityWindow != IntPtr.Zero)
+        {
+            if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
+            {
+                FilesWatcher.MoveWindow(unityWindow, 0, Display.main.renderingHeight / 2,
+                    r.Right - r.Left, r.Bottom - r.Top, true);
+            }
+        }
+        #endif
+    }
 
     public void Quit()
     {

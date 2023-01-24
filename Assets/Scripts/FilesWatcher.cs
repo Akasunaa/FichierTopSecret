@@ -393,7 +393,7 @@ public class FilesWatcher : MonoBehaviour
             {
                 explorerHwnd = hwnd;
                 GetWindowRect(hwnd, out RECT r);
-                MoveWindow(hwnd, r.Left, r.Top, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
+                MoveWindow(hwnd, Display.main.systemWidth / 2, Display.main.renderingHeight / 2, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
             }
             else
             {
@@ -559,13 +559,13 @@ public class FilesWatcher : MonoBehaviour
     static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
     
     [DllImport("user32.dll", SetLastError = true)]
-    static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
 
     [DllImport("user32.dll", SetLastError=true)]
-    static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+    public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
     
     [DllImport("user32.dll")]
-    static extern IntPtr GetActiveWindow();
+    public static extern IntPtr GetActiveWindow();
 
 #endif
 
