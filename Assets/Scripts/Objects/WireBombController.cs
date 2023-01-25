@@ -6,7 +6,7 @@ using UnityEngine;
 public class WireBombController : ModifiableController
 {
     [SerializeField] int order;
-    public static event Action<int> OnWireDestroy;
+    [HideInInspector] public static event Action<int> OnWireDestroy;
 
     private void OnDestroy()
     {

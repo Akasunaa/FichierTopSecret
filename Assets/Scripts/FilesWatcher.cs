@@ -32,7 +32,8 @@ public class FilesWatcher : MonoBehaviour
     {
         New,
         Change,
-        Delete
+        Delete,
+        SpecialDelete
     }
 
     public struct FileChange
@@ -242,8 +243,8 @@ public class FilesWatcher : MonoBehaviour
         }
         else // Looks weird, but the OnDelete is never triggered when the root folder is deleted so...
         {
-            Debug.Log("[FileWatcher] OnChanged File Deleted: " + e.FullPath);
-            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.Delete));
+            Debug.Log("[FileWatcher] OnChanged File Deleted: " + e.FullPath + " | " + e.ChangeType);
+            _dataQueue.Enqueue(new FileChange(fi, FileChangeType.SpecialDelete));
         }
     }
 
@@ -288,6 +289,12 @@ public class FilesWatcher : MonoBehaviour
         }
     }
 
+    private IEnumerator AddSpecialDelete(FileChange fc)
+    {
+        yield return new WaitForSeconds(1);
+        _dataQueue.Enqueue(new FileChange(fc.Fi, FileChangeType.Delete));
+    }
+
     private void Update()
     {
         while (_dataQueue.TryDequeue(out FileChange fc))
@@ -304,7 +311,23 @@ public class FilesWatcher : MonoBehaviour
                     if (!alreadyExists && relativePath.Length >= ("/" + Utils.RootFolderName + "/").Length + levelName.Length && rightDirectory)
                     {
                         Debug.Log("[FileWatcher] Trying to create new object from " + relativePath);
-                        LevelManager.Instance.NewObject(fc.Fi);
+                        if (sceneName == "Spaceport" && _dataQueue.TryPeek(out FileChange fcNext) && fcNext.Type == FileChangeType.Delete && _pathToScript.ContainsKey(Utils.RelativePath(fcNext.Fi.FullName)))
+                        {
+                            Debug.Log("File renamed correctly");
+                            string relativeNextPath = Utils.RelativePath(fcNext.Fi.FullName);
+
+                            _pathToScript[relativeNextPath].filePath = fcNext.Fi.FullName;
+                            if (!_pathToScript.TryAdd(relativePath, _pathToScript[relativeNextPath]))
+                            {
+                                Debug.LogError("Impossible to insert a name in _pathToScript");
+                            }
+                            _pathToScript.Remove(relativeNextPath);
+                            _dataQueue.TryDequeue(out _);
+                        }
+                        else
+                        {
+                            LevelManager.Instance.NewObject(fc.Fi);
+                        }
                     }
                     else if (alreadyExists)
                     {
@@ -329,16 +352,43 @@ public class FilesWatcher : MonoBehaviour
                 case FileChangeType.Delete:
                     if (_pathToScript.TryGetValue(relativePath, out var fileParser))
                     {
+                        string sceneNameDelete = Utils.SceneName(relativePath);
+                        if (sceneNameDelete == "Spaceport")
+                        {
+                            while (_dataQueue.TryPeek(out FileChange fcNextTmp) && fcNextTmp.Type == FileChangeType.Delete &&
+                                   fcNextTmp.Fi.FullName == fc.Fi.FullName)
+                            {
+                                _dataQueue.TryDequeue(out _);
+                            }
+
+                            if (_dataQueue.TryPeek(out FileChange fcNext) && fcNext.Type == FileChangeType.New &&
+                                _pathToScript.ContainsKey(relativePath))
+                            {
+                                Debug.Log("File renamed correctly");
+                                string relativeNextPath = Utils.RelativePath(fcNext.Fi.FullName);
+                                _pathToScript[relativePath].filePath = fcNext.Fi.FullName;
+                                if (!_pathToScript.TryAdd(relativeNextPath, _pathToScript[relativePath]))
+                                {
+                                    Debug.LogError("Impossible to insert a name in _pathToScript");
+                                }
+                                _pathToScript.Remove(relativePath);
+                                _dataQueue.TryDequeue(out _);
+                                continue;
+                            }
+                        }
+
                         if (!fileParser.OnDelete(relativePath))
                         {
                             StartCoroutine(VibrateExplorer());
-                            // Debug.Log("[FileWatcher]" + relativePath + " should not be deleted !");
                         }
                         else
                         {
                             _pathToScript.Remove(relativePath);
                         }
                     }
+                    break;
+                case FileChangeType.SpecialDelete:
+                    StartCoroutine(AddSpecialDelete(fc));
                     break;
             }
         }
