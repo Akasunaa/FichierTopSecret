@@ -35,7 +35,13 @@ public class PositionInSceneController : Singleton<PositionInSceneController>
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
-    
+
+    protected override void OnDestruction()
+    {
+        base.OnDestruction();
+        _locToPos.Clear();
+    }
+
     #endregion
     
     #region Private Methods
