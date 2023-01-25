@@ -106,16 +106,16 @@ public class FileParser : MonoBehaviour
      */
     public void ReadFromFile(string path, bool firstRead = false)
     {
-        const string separator = ":";
+        Char[] separators = {':', '='};
         _dataArray = File.ReadAllLines(path);
         if(_dataArray != null)
         {
             var keyNames = new List<string>();
             foreach (var line in _dataArray)
             {
-                if (line.Contains(separator))
+                if (separators.Any(sep => line.Contains(sep)))
                 {
-                    var lineSplit = line.Split(separator);
+                    var lineSplit = line.Split(separators);
                     var keyName = lineSplit[0];
                     var value = string.Join("", lineSplit[1..]);
                     targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()); // modifying appropriate variable

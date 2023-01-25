@@ -12,7 +12,7 @@ TagManager:
   - FactoryDoor
   - IK8
   - WorkerDrone
-  - DontDestroyOnLoad
+  - DestroyOnGameOver
   layers:
   - Default
   - TransparentFX

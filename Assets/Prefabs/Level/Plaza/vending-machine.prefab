@@ -78,7 +78,7 @@ MonoBehaviour:
       m_Calls: []
   objectName: sodapop
   dialogueNoMoney: I have no money, 10 N$ for an astro-sodapop
-  dialogueCooldown: It seems the machine for some reason is reloading
+  dialogueCooldown: I need to wait, until the machine's mechanism cools down...
   machineCooldown: 2
 --- !u!1 &2302938657009832474
 GameObject:

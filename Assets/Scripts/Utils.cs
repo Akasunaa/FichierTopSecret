@@ -13,23 +13,24 @@ public static class Utils
     public const string CosmicbinFolderName = "Cosmicbin";
     const float EPSILON = 0.1f; // Used for collision detection on a tile to not detect neighbours tiles colliders
     public const uint MAX_READ_FILE_SCENELOAD = 40;
-    /**
-     * Method checking a tile for a collider and returning it. If there are no collider on the tile, returns null.
-     */
-    public static GameObject CheckPresenceOnTile(Grid grid, Vector2 position, Vector2? size = null)
-    {
-        Collider2D hit;
-        
-        if (size == null)
-        {
-            hit = Physics2D.OverlapBox(position, (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
-        } else
-        {
-            Vector2 colliderSize = (Vector2) size;
-            hit = Physics2D.OverlapBox(position, colliderSize - Vector2.one * EPSILON, 0);
-        }
-        return hit?.gameObject;
-    }
+
+    // /**
+    //  * Method checking a tile for a collider and returning it. If there are no collider on the tile, returns null.
+    //  */
+    // public static GameObject CheckPresenceOnTile(Grid grid, Vector2 position, Vector2? size = null)
+    // {
+    //     Collider2D hit;
+    //     
+    //     if (size == null)
+    //     {
+    //         hit = Physics2D.OverlapBox(position, (Vector2) grid.cellSize - Vector2.one * EPSILON, 0);
+    //     } else
+    //     {
+    //         Vector2 colliderSize = (Vector2) size;
+    //         hit = Physics2D.OverlapBox(position, colliderSize - Vector2.one * EPSILON, 0);
+    //     }
+    //     return hit?.gameObject;
+    // }
 
     /**
      * Method checking a tile for colliders and returning them. If there are no collider on the tile, returns null.
@@ -58,28 +59,25 @@ public static class Utils
         return hits.Where(col => !col.isTrigger).Select(hit => hit.gameObject).ToList();
     }
 
-    /**
-    * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
-    */
-    public static GameObject CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
-    {
-        // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
-        Collider2D hit;
-
-        if (size == null)
-        {
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
-        }
-        else
-        {
-            Vector2 colliderSize = (Vector2)size;
-            hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
-        }
-        return hit?.gameObject;
-    }
-
-
-
+    // /**
+    // * Method checking a tile for a collider and returning it with tiilemap position. If there are no collider on the tile, returns null.
+    // */
+    // public static GameObject CheckPresenceOnTile(Grid grid, Vector3Int position, Vector2? size = null) //look if player can move to the target 
+    // {
+    //     // using GetCellCenterWorld is very important to avoid locking on to the corner of the tile
+    //     Collider2D hit;
+    //
+    //     if (size == null)
+    //     {
+    //         hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), (Vector2) grid.cellSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
+    //     }
+    //     else
+    //     {
+    //         Vector2 colliderSize = (Vector2)size;
+    //         hit = Physics2D.OverlapBox(grid.GetCellCenterWorld(position), colliderSize - Vector2.one * EPSILON, 0, LayerMask.GetMask("Default"));
+    //     }
+    //     return hit?.gameObject;
+    // }
 
     public static void UpdateOrderInLayer(GameObject go)
     {
@@ -108,7 +106,7 @@ public static class Utils
             {
                 if(i==depth || i==-depth || j==-depth || j == depth)
                 {
-                    if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
+                    if (Utils.CheckPresencesOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size).Count == 0)
                     {
                         return new Vector2Int(position.x + i, position.y + j);
                     }
