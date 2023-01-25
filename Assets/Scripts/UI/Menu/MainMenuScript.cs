@@ -24,7 +24,7 @@ public class MainMenuScript : MonoBehaviour
         {
             if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
             {
-                FilesWatcher.MoveWindow(unityWindow, 0, 50,
+                FilesWatcher.MoveWindow(unityWindow, 0, 10,
                     r.Right - r.Left, r.Bottom - r.Top, true);
             }
         }
