@@ -221,7 +221,7 @@ public class NPCController : ModifiableController, Interactable
         }
         for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresencesOnTile(grid, actualGridPosition + moved).Any(go => go != this.gameObject)) {
+            if (Utils.CheckPresencesOnTile(grid, actualGridPosition + moved).All(go => go == gameObject)) {
                 targetPositions.Add(actualGridPosition + moved);
             }
             else
@@ -262,7 +262,7 @@ public class NPCController : ModifiableController, Interactable
         }
         player.GetComponent<PlayerMovement>().RefreshOrientationSprite(); //Permet de reset l'interaction avec le joueur 
         targetPositions.RemoveAt(0);
-        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
+        if (targetPositions.Any() && Utils.CheckPresencesOnTile(grid, targetPositions[0]).All(go => go == gameObject) && canMove)
         {
             lastSmoothMov = SmoothMovement(targetPositions);
             StartCoroutine(lastSmoothMov);
