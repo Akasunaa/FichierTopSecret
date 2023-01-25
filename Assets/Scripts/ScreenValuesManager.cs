@@ -111,7 +111,7 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
         var resolution = resolutions[resolutionIndex];
         currentResolutionIndex = resolutionIndex;
         Screen.SetResolution(resolution.width, resolution.height, false);
-        Invoke("ResetPosition", 0.5f);
+        Invoke(nameof(ResetPosition), 0.05f);
     }
 
     private void ResetPosition()

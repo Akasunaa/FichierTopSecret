@@ -9,17 +9,13 @@ using UnityEngine;
 public class BreakableWallController : MonoBehaviour
 {
     [SerializeField] private string levelName;
-    [Header("Element hidden by breakable wall")]
-    [SerializeField] private GameObject hiddenGameElementSprite;
+    //[Header("Element hidden by breakable wall")]
+    //[SerializeField] private GameObject hiddenGameElementSprite;
 
     private void Start()
     {
         int hasDetonated = PlayerPrefs.GetInt("HasDetonated");
-        if (hasDetonated == 0)
-        {
-            hiddenGameElementSprite.SetActive(false);
-        }
-        else
+        if (hasDetonated !=0)
         {
             DestroyWall();
         }
@@ -32,6 +28,5 @@ public class BreakableWallController : MonoBehaviour
     {
         Debug.Log("BREAKABLE WALLS : DESTROYING WALL");
         gameObject.SetActive(false);
-        hiddenGameElementSprite.SetActive(true);
     }
 }
