@@ -14,7 +14,7 @@ public static class ApplyPlayerChange
 {
     static RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
     // names of the properties we interact with
-    private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power" };
+    private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power", "detonate", "sleep", "health", "money", "speed", "death" };
     private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated" };
     private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated" };
 
@@ -29,6 +29,7 @@ public static class ApplyPlayerChange
         { "health", CheckInt },
         { "money", CheckInt },
         { "speed", CheckFloat },
+        { "death", CheckBool },
     };
 
     private static bool inSystemMessage;
@@ -297,6 +298,10 @@ public static class ApplyPlayerChange
      */
     public static string PropertyNameValidation(string propertyNameInput, int inclusiveValidationThreshold = 2)
     {
+        Dictionary<string, string> synonymProperties = new Dictionary<string, string>()
+        {
+            { "dead", "death"},
+        };
         if (propertyNameInput.Length == 0) return string.Empty;
 
         var closestPropertyName = PropertyNames[0];
@@ -316,10 +321,12 @@ public static class ApplyPlayerChange
         {
             return closestPropertyName;
         }
-        else
+        
+        if (synonymProperties.TryGetValue(propertyNameInput.ToLower(), out string synonymPropertyName))
         {
-            return propertyNameInput;
+            return synonymPropertyName;
         }
+        return propertyNameInput;
     }
 
     private static object CheckBool(string propertyValueInput)

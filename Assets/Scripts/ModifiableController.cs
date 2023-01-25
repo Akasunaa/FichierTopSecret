@@ -89,7 +89,7 @@ public abstract class ModifiableController : MonoBehaviour
         var propertyName = ApplyPlayerChange.PropertyNameValidation(keyName);
         // return either "true" or "false" depending of the input string 
         // string propertyValue = ApplyPlayerChange.BooleanPropertyValueValidation(value);
-        var objectValue = ApplyPlayerChange.ObjectFromValue(keyName, value);
+        var objectValue = ApplyPlayerChange.ObjectFromValue(propertyName, value);
         
         if (properties.TryGetValue(propertyName, out var dicoValueProperty) && dicoValueProperty.Value.ToString() == objectValue.ToString())
         {
@@ -121,6 +121,21 @@ public abstract class ModifiableController : MonoBehaviour
             if (properties.ContainsKey(keyName))
             {
                 ApplyPlayerChange.VisualChange(keyName, properties[keyName].Value, gameObject);
+                switch (keyName)
+                {
+                    case "death":
+                        if (TryGet("death", out bool death) && death)
+                        {
+                            SetValue("health", 0);
+                        }
+                        break;
+                    case "power":
+                        if (TryGet("power", out string power) && power.ToLower() == "unlimited")
+                        {
+                            SetValue("power", true);
+                        }
+                        break;
+                }
             }
         }
     }
