@@ -133,12 +133,21 @@ public class Ruler : MonoBehaviour
     private void OnScreenChangedSize()
     {
         // change top ruler y pos and height
-        var transform1 = rulerTopImage.transform;
-        var topRulerPosition = transform1.position;
+        var rulerTopImageTransform = rulerTopImage.transform;
+        var topRulerPosition = rulerTopImageTransform.position;
         topRulerPosition.y = Screen.height * topRulerPositionInScreenPercent;
-        transform1.position = topRulerPosition;
-
+        rulerTopImageTransform.position = topRulerPosition;
+        
+        // change top ruler height :wink: :wink:
         rulerTopImage.rectTransform.sizeDelta = new Vector2(rulerTopImage.rectTransform.rect.width, Screen.height * topRulerHeightInScreenPercent);
+        
+        // let's do the same for the side ruler now !
+        var rulerSideImageTransform = rulerSideImage.transform;
+        var sideRulerPosition = rulerSideImageTransform.position;
+        sideRulerPosition.x = Screen.width * (1 - topRulerPositionInScreenPercent);
+        rulerSideImageTransform.position = sideRulerPosition;
+
+        rulerSideImage.rectTransform.sizeDelta = new Vector2(rulerSideImage.rectTransform.rect.width, rulerTopImage.rectTransform.sizeDelta.y);
 
         // check what space is between two graduations on the real world, converted to screen scale
         _deltaPTop = Mathf.Abs(_mainCameraReference.WorldToScreenPoint(_cameraPos).x - _mainCameraReference.WorldToScreenPoint(_cameraPos + Vector3.left).x);
