@@ -35,15 +35,35 @@ public class ExplosiveController : ItemController
                     if (health > 1000)
                     {
                         playerObjectController.SetValue("health", health - 1000);
-                        if (playerObject.TryGetComponent(out FileParser playeFp))
+                        if (playerObject.TryGetComponent(out FileParser playerFp))
                         {
-                            playeFp.WriteToFile();
+                            playerFp.WriteToFile();
+                        }
+                        
+                        if (sceneName == "Factoryroom1") //TODO : HARD CODE MAIS PAS GRAVE
+                        {
+                            PlayerPrefs.SetInt("HasDetonated", 1);
+                            PlayerPrefs.Save();
+                            GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
+                            if (breakableWall)
+                            {
+                                breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                            }
                         }
 
-                        if (TryGetComponent(out FileParser fp))
+                        DirectoryInfo di1 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + sceneName);
+                        foreach (FileInfo file in di1.GetFiles())
                         {
-                            File.Delete(fp.filePath);
+                            if (file.Name != "player.txt" || sceneName != Utils.PlayerFolderName)
+                            {
+                                file.Delete(); 
+                            }
                         }
+                        foreach (DirectoryInfo dir in di1.GetDirectories())
+                        {
+                            dir.Delete(true); 
+                        }
+                        
                         return;
                     }
                 }
@@ -54,10 +74,10 @@ public class ExplosiveController : ItemController
             //we recuperate the ui :
             GameObject ui = GameObject.FindGameObjectWithTag("UI");
             if (ui == null) return;
-            
+
             //we get the correcte component :
-            var gameOverScreenController = ui.GetComponent<GameOverScreenController>();
-            if (ui == null) return; 
+            GameOverScreenController gameOverScreenController = ui.GetComponent<GameOverScreenController>();
+            if (gameOverScreenController == null) return; 
             
             //we launch the right function :
             gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.PlayerIsDead);

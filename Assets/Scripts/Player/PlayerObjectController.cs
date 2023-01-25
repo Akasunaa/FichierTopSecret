@@ -58,5 +58,19 @@ public class PlayerObjectController : ModifiableController
         {
             playerMovement.SetSpeed(Mathf.Clamp(speed, 0.1f, 10f));
         }
+        
+        if (TryGet("health", out int health) && health <= 0)
+        {
+            GameObject ui = GameObject.FindGameObjectWithTag("UI");
+            GameOverScreenController gameOverScreenController = ui.GetComponent<GameOverScreenController>();
+
+            if (ui != null && gameOverScreenController != null)
+            {
+                //we launch the right function :
+                gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.PlayerIsDead);
+            
+                return;
+            }
+        }
     }
 }
