@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ScreenValuesManager : Singleton<ScreenValuesManager>
@@ -110,5 +111,21 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
         var resolution = resolutions[resolutionIndex];
         currentResolutionIndex = resolutionIndex;
         Screen.SetResolution(resolution.width, resolution.height, false);
+        Invoke("ResetPosition", 0.5f);
+    }
+
+    private void ResetPosition()
+    {
+        #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+        IntPtr unityWindow = FilesWatcher.GetActiveWindow();
+        if (unityWindow != IntPtr.Zero)
+        {
+            if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
+            {
+                FilesWatcher.MoveWindow(unityWindow, 0, 50,
+                    r.Right - r.Left, r.Bottom - r.Top, true);
+            }
+        }
+        #endif
     }
 }
