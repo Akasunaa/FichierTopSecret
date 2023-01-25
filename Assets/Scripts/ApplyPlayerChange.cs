@@ -261,6 +261,11 @@ public static class ApplyPlayerChange
         {
             return Color.white;
         }
+        
+        if (value.ToLower() == "invisible" || value.ToLower() == "transparent")
+        {
+            return new Color(1, 1, 1, 0.4f);
+        }
 
         return null;
     }
@@ -300,8 +305,9 @@ public static class ApplyPlayerChange
     {
         Dictionary<string, string> synonymProperties = new Dictionary<string, string>()
         {
-            { "dead", "death"},
+            { "dead", "death" },
         };
+
         if (propertyNameInput.Length == 0) return string.Empty;
 
         var closestPropertyName = PropertyNames[0];
