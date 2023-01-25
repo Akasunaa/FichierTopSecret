@@ -17,6 +17,7 @@ public class CinematicManager : MonoBehaviour
     protected PlayableDirector _cinematicDirector;
     protected GameObject _player;
     protected GameObject _ui;
+    protected GameObject _uiConstant;
     protected bool cinematicIsPlaying;
 
     protected void Awake()
@@ -25,6 +26,7 @@ public class CinematicManager : MonoBehaviour
         _cinematicDirector = GetComponent<PlayableDirector>();
         _player = GameObject.FindGameObjectWithTag("Player");
         _ui = GameObject.FindGameObjectWithTag("UI");
+        _uiConstant = GameObject.FindGameObjectWithTag("UI-CONSTANT");
         if(PlayerPrefs.GetString(cinematicPlayerPrefs) == "TRUE" && _ui.GetComponent<DialogueUIController>().cinematicCanvas /*|| (Application.isEditor && !playCinematic)*/)
         {
             _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
@@ -58,7 +60,7 @@ public class CinematicManager : MonoBehaviour
         _player.GetComponent<PlayerInput>().enabled = true;
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
-        var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
+        var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(true);
     }
 
@@ -74,7 +76,7 @@ public class CinematicManager : MonoBehaviour
         }
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
         cinematicIsPlaying = true;
-        var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
+        var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
         _player.GetComponent<PlayerInput>().enabled = false;
         _cinematicDirector.playableAsset = cinematicData;
