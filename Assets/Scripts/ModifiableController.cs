@@ -120,7 +120,6 @@ public abstract class ModifiableController : MonoBehaviour
         {
             if (properties.ContainsKey(keyName))
             {
-                ApplyPlayerChange.VisualChange(keyName, properties[keyName].Value, gameObject);
                 switch (keyName)
                 {
                     case "death":
@@ -135,7 +134,21 @@ public abstract class ModifiableController : MonoBehaviour
                             SetValue("power", true);
                         }
                         break;
+                    case "visible":
+                        if (TryGet("visible", out bool visible) && !visible)
+                        {
+                            SetValue("color", new Color(1, 1, 1, 0.4f));
+                        }
+                        break;
                 }
+            }
+        }
+        keys = properties.Keys.ToArray();
+        foreach (string keyName in keys)
+        {
+            if (properties.ContainsKey(keyName))
+            {
+                ApplyPlayerChange.VisualChange(keyName, properties[keyName].Value, gameObject);
             }
         }
     }

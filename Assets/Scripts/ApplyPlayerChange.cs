@@ -14,11 +14,11 @@ public static class ApplyPlayerChange
 {
     static RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace;
     // names of the properties we interact with
-    private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power", "detonate", "sleep", "health", "money", "speed", "death" };
+    private static readonly string[] PropertyNames = { "position", "color", "size", "direction", "power", "detonate", "sleep", "health", "money", "speed", "death", "visible" };
     private static readonly string[] TruthyPropertyValues = { "true", "on", "yes", "enabled", "activated" };
     private static readonly string[] FalsyPropertyValues = { "false", "off", "no", "disabled", "deactivated" };
 
-    public static readonly Dictionary<string, Func<string, object>> name2value = new Dictionary<string, Func<string, object>>()
+    private static readonly Dictionary<string, Func<string, object>> name2value = new Dictionary<string, Func<string, object>>()
     {
         { "position", CheckPosition },
         { "color", CheckColor },
@@ -30,6 +30,7 @@ public static class ApplyPlayerChange
         { "money", CheckInt },
         { "speed", CheckFloat },
         { "death", CheckBool },
+        { "visible", CheckBool },
     };
 
     private static bool inSystemMessage;
