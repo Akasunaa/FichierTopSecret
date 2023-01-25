@@ -191,7 +191,6 @@ public class NPCController : ModifiableController, Interactable
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
         float randomTimer = Random.Range(movementCooldown+2, movementCooldown+5);
-        print(randomTimer);
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
