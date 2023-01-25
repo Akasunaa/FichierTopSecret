@@ -355,12 +355,6 @@ public class FilesWatcher : MonoBehaviour
                         string sceneNameDelete = Utils.SceneName(relativePath);
                         if (sceneNameDelete == "Spaceport")
                         {
-                            while (_dataQueue.TryPeek(out FileChange fcNextTmp) && fcNextTmp.Type == FileChangeType.Delete &&
-                                   fcNextTmp.Fi.FullName == fc.Fi.FullName)
-                            {
-                                _dataQueue.TryDequeue(out _);
-                            }
-
                             if (_dataQueue.TryPeek(out FileChange fcNext) && fcNext.Type == FileChangeType.New &&
                                 _pathToScript.ContainsKey(relativePath))
                             {
