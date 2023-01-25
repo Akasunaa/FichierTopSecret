@@ -106,7 +106,7 @@ public class FileParser : MonoBehaviour
      */
     public void ReadFromFile(string path, bool firstRead = false)
     {
-        Char[] separators = new Char[]{':', '='};
+        Char[] separators = {':', '='};
         _dataArray = File.ReadAllLines(path);
         if(_dataArray != null)
         {
