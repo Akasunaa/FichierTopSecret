@@ -191,7 +191,6 @@ public class NPCController : ModifiableController, Interactable
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
         float randomTimer = Random.Range(movementCooldown+2, movementCooldown+5);
-        print(randomTimer);
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
@@ -221,7 +220,7 @@ public class NPCController : ModifiableController, Interactable
         }
         for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresencesOnTile(grid, actualGridPosition + moved).Any(go => go != this.gameObject)) {
+            if (Utils.CheckPresencesOnTile(grid, actualGridPosition + moved).All(go => go == gameObject)) {
                 targetPositions.Add(actualGridPosition + moved);
             }
             else
@@ -262,7 +261,7 @@ public class NPCController : ModifiableController, Interactable
         }
         player.GetComponent<PlayerMovement>().RefreshOrientationSprite(); //Permet de reset l'interaction avec le joueur 
         targetPositions.RemoveAt(0);
-        if (targetPositions.Any() && !Utils.CheckPresenceOnTile(grid, targetPositions[0]) && canMove)
+        if (targetPositions.Any() && Utils.CheckPresencesOnTile(grid, targetPositions[0]).All(go => go == gameObject) && canMove)
         {
             lastSmoothMov = SmoothMovement(targetPositions);
             StartCoroutine(lastSmoothMov);
@@ -359,7 +358,7 @@ public class NPCController : ModifiableController, Interactable
     /// Function that will change the NPC's state
     /// </summary>
     /// <param name="newStateName">name that references the next state that should be chosen</param>
-    public void OnStateChange(string newStateName)
+    public virtual void OnStateChange(string newStateName)
     {
         Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();

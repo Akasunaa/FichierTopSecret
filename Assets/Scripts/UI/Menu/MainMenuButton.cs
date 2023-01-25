@@ -121,4 +121,9 @@ public class MainMenuButton : MonoBehaviour, IPointerClickHandler, IPointerEnter
             }
         }
     }
+
+    private void OnEnable()
+    {
+        dragging = false;
+    }
 }
