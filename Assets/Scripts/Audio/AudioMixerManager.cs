@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioMixerManager : Singleton<AudioMixerManager>
 {
@@ -14,6 +16,17 @@ public class AudioMixerManager : Singleton<AudioMixerManager>
         base.OnAwake();
         SetDefaults();
         LoadAudioSettings();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private static void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        var audioSources = FindObjectsOfType<AudioSource>();
+        foreach (var source in audioSources)
+        {
+            if (source.GetComponent<AudioSourceController>() == null)
+                source.AddComponent<AudioSourceController>().audioType = AudioSourceController.AudioType.Music;
+        }
     }
 
     private void LoadAudioSettings()

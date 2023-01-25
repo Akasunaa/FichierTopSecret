@@ -4,10 +4,21 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class AudioSourceController : MonoBehaviour
 {
-    [SerializeField] private AudioType type;
+    
+    [SerializeField] private AudioType type = AudioType.Music;
+    
+    public AudioType audioType
+    {
+        get => type;
+        set
+        {
+            type = value;
+            if(_source != null) UpdateSourceParameters();
+        }
+    }
 
     private AudioSource _source;
-    
+
     private void Start()
     {
         _source = gameObject.GetComponent<AudioSource>();
@@ -16,7 +27,7 @@ public class AudioSourceController : MonoBehaviour
 
     public void UpdateSourceParameters()
     {
-        switch (type)
+        switch (audioType)
         {
             case AudioType.Music:
                 _source.volume = AudioMixerManager.instance.musicLevel;
@@ -31,7 +42,7 @@ public class AudioSourceController : MonoBehaviour
         }
     }
 
-    private enum AudioType
+    public enum AudioType
     {
         Music,
         Sfx
