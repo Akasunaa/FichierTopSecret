@@ -35,15 +35,24 @@ public class ExplosiveController : ItemController
                     if (health > 1000)
                     {
                         playerObjectController.SetValue("health", health - 1000);
-                        if (playerObject.TryGetComponent(out FileParser playeFp))
+                        if (playerObject.TryGetComponent(out FileParser playerFp))
                         {
-                            playeFp.WriteToFile();
+                            playerFp.WriteToFile();
                         }
 
-                        if (TryGetComponent(out FileParser fp))
+                        DirectoryInfo di1 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + sceneName);
+                        foreach (FileInfo file in di1.GetFiles())
                         {
-                            File.Delete(fp.filePath);
+                            if (file.Name != "player.txt" || sceneName != Utils.PlayerFolderName)
+                            {
+                                file.Delete(); 
+                            }
                         }
+                        foreach (DirectoryInfo dir in di1.GetDirectories())
+                        {
+                            dir.Delete(true); 
+                        }
+                        
                         return;
                     }
                 }
