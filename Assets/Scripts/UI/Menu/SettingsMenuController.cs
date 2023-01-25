@@ -25,43 +25,11 @@ public class SettingsMenuController : MonoBehaviour
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioClip[] musicClips;
     
-    private readonly struct ScreenRatio
-    {
-        private readonly int _widthFactor;
-        private readonly int _heightFactor;
-
-        public ScreenRatio(int wFactor, int hFactor)
-        {
-            _widthFactor = wFactor;
-            _heightFactor = hFactor;
-        }
-
-        public int HeightFromWidth(int width)
-        {
-            return width * _heightFactor / _widthFactor;
-        }
-    }
     
-    private readonly List<Resolution> _resolutions = new();
-    private readonly ScreenRatio _screenRatio = new(4, 3);
-    private readonly int[] _acceptedScreenWidths = { 800, 1000, 1200, 1400, 1600, 1800 };
-    private readonly List<int> _acceptedRefreshRates = new() { 30, 60, 75, 120, 144, 240 };
-    private int _currentRefreshRateIndex = -1;
-    private int _currentResolutionIndex;
-
-    private void Awake()
-    {
-        LoadScreenSettings();
-    }
-
     private void Start()
     {
         // RESOLUTION AND REFRESH RATE GUI INITIALIZATION
-        
-        BuildResolutions();
-        
-        SetRefreshRateIndex();
-        
+
         SetRefreshRateDropdown();
         
         SetResolutionDropdown();
@@ -76,64 +44,31 @@ public class SettingsMenuController : MonoBehaviour
     
     #region Resolution and refresh rate
 
-    private static void LoadScreenSettings()
-    {
-        var data = SaveSystem.LoadScreenSettingsData();
-        if (data == null) return;
-        
-        SetResolution(data.resolution[0], data.resolution[1]);
-        SetRefreshRate(data.refreshRate);
-    }
-    
-    private void BuildResolutions()
-    {
-        foreach (var width in _acceptedScreenWidths)
-        {
-            _resolutions.Add(new Resolution
-            {
-                width = width,
-                height = _screenRatio.HeightFromWidth(width),
-                refreshRate = 30 // dummy refresh rate
-            });
-        }
-    }
-    private void SetRefreshRateIndex()
-    {        
-        for (var i = 0; i < _acceptedRefreshRates.Count; i++) 
-            if (_acceptedRefreshRates[i] == Screen.currentResolution.refreshRate) 
-                _currentRefreshRateIndex = i;
-
-        if (_currentRefreshRateIndex >= 0) return;
-        
-        _currentRefreshRateIndex = _acceptedRefreshRates.Count;
-        _acceptedRefreshRates.Add(Screen.currentResolution.refreshRate);
-    }
-
     private void SetRefreshRateDropdown()
     {
-        var options = _acceptedRefreshRates.Select(rate => rate + "Hz").ToList();
+        var options = ScreenValuesManager.instance.acceptedRefreshRates.Select(rate => rate + "Hz").ToList();
         
         refreshRateDropdown.ClearOptions();
         refreshRateDropdown.AddOptions(options);
-        refreshRateDropdown.value = _currentRefreshRateIndex;
+        refreshRateDropdown.value = ScreenValuesManager.instance.currentRefreshRateIndex;
         refreshRateDropdown.RefreshShownValue();
     }
     
     private void SetResolutionDropdown()
     {
         List<string> options = new();
-        for (var i = 0; i < _resolutions.Count; i++)
+        for (var i = 0; i < ScreenValuesManager.instance.resolutions.Count; i++)
         {
-            var resolution = _resolutions[i];
+            var resolution = ScreenValuesManager.instance.resolutions[i];
             var resolutionOption = resolution.width + "x" + resolution.height;
             options.Add(resolutionOption);
             if (resolution.width == Screen.width && resolution.height == Screen.height)
-                _currentResolutionIndex = i;
+                ScreenValuesManager.instance.currentResolutionIndex = i;
         }
         
         resolutionDropdown.ClearOptions();
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = _currentResolutionIndex;
+        resolutionDropdown.value = ScreenValuesManager.instance.currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
     
@@ -158,21 +93,19 @@ public class SettingsMenuController : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
-        var resolution = _resolutions[resolutionIndex];
-        _currentResolutionIndex = resolutionIndex;
-        Screen.SetResolution(resolution.width, resolution.height, false);
+        ScreenValuesManager.instance.SetResolution(resolutionIndex);
     }
 
     public void SetRefreshRateFromIndex(int refreshRateIndex)
     {
-        var rate = _acceptedRefreshRates[refreshRateIndex];
-        _currentRefreshRateIndex = refreshRateIndex;
-        Application.targetFrameRate = rate;
+        ScreenValuesManager.instance.SetRefreshRateFromIndex(refreshRateIndex);
     }
 
     public void SoundOnTest()
     {
         StopAllCoroutines();
+        if(musicAudioSource.isPlaying) musicAudioSource.Stop();
+        if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
         StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(soundClips), sfxAudioSource));
     }
     
@@ -191,6 +124,8 @@ public class SettingsMenuController : MonoBehaviour
     public void MusicOnTest()
     {
         StopAllCoroutines();
+        if(musicAudioSource.isPlaying) musicAudioSource.Stop();
+        if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
         StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource));
     }
 
@@ -209,7 +144,7 @@ public class SettingsMenuController : MonoBehaviour
     public void ToMainMenu()
     {
         AudioMixerManager.instance.SaveAudioSettings();
-        SaveScreenSettings();
+        ScreenValuesManager.instance.SaveScreenSettings();
         mainMenuCanvas.SetActive(true);
         gameObject.SetActive(false);
     }
@@ -230,21 +165,6 @@ public class SettingsMenuController : MonoBehaviour
     {
         var index = Random.Range(0, clipList.Count);
         return clipList[index];
-    }
-    
-    private static void SetRefreshRate(int rate)
-    {
-        Application.targetFrameRate = rate; // does not really work
-    }
-
-    private static void SetResolution(int width, int height)
-    {
-        Screen.SetResolution(width, height, false);
-    }
-
-    private static void SaveScreenSettings()
-    {
-        SaveSystem.SaveScreenSettingsData(Screen.width, Screen.height, Screen.currentResolution.refreshRate);
     }
 
     #endregion
