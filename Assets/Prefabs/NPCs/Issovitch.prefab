@@ -194,10 +194,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: 59e3e6be4f568cb48988fb3d05e54f37, type: 2}
+  startingState: {fileID: 11400000, guid: b8752e053503a48419afa46cd6b44492, type: 2}
   nextStates:
-  - name: Iss_Surrender
-    state: {fileID: 11400000, guid: 4dd78e32ea33a79418cba2c2680977a5, type: 2}
+  - name: Iss_Death
+    state: {fileID: 11400000, guid: 96a653c859115604796d900f44b478d5, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &437886885631314306
 MonoBehaviour:
@@ -212,17 +212,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
   canBeInteracted: 0
   portraitRef: issovitch
-  fileProperties: []
+  fileProperties:
+  - propertyName: health
+    propertyValue: 10
+    propertyType: 0
+    conditionIsSuperior: 01
+    propertyCondition:
+    - 1
+    propertyChangeState:
+    - Iss_Death
   objectsElements: []
   questItems: []
   reactElements: []
   playerProperties: []
-  playerPrefsElements:
-  - playerPrefsName: IsIssovitchInitialFinished
-    playerPrefsCondition: TRUE
-    playerPrefsChangeState: Iss_Surrender
+  playerPrefsElements: []
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1

@@ -92,6 +92,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 33a06a32fc948954f974a38c0905fe6f, type: 2}
   - name: K_Factory_Open
     state: {fileID: 11400000, guid: b4cd9670d82d73c46a2c370bf7385c83, type: 2}
+  - name: K_Issovitch_Dead
+    state: {fileID: 11400000, guid: 88d4cb90c0ce243428fc0fc3bfb9a16a, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &7627306107656686454
 MonoBehaviour:
@@ -141,6 +143,9 @@ MonoBehaviour:
   - playerPrefsName: IsIssovitchCaptured
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Issovitch_Captured
+  - playerPrefsName: IsIssovitchDead
+    playerPrefsCondition: TRUE
+    playerPrefsChangeState: K_Issovitch_Dead
   - playerPrefsName: IsFactoryOpen
     playerPrefsCondition: TRUE
     playerPrefsChangeState: K_Factory_Open
