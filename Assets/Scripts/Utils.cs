@@ -108,7 +108,7 @@ public static class Utils
             {
                 if(i==depth || i==-depth || j==-depth || j == depth)
                 {
-                    if (Utils.CheckPresenceOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size) == null)
+                    if (Utils.CheckPresencesOnTile(SceneData.Instance.grid, new Vector3Int(position.x + i, position.y + j, 0), size).Count == 0)
                     {
                         return new Vector2Int(position.x + i, position.y + j);
                     }
