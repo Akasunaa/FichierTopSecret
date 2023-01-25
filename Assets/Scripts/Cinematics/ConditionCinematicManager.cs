@@ -37,7 +37,7 @@ public class ConditionCinematicManager : CinematicManager
 
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
         cinematicIsPlaying = true;
-        var rulerCanvas = _ui.GetComponent<Ruler>().rulerCanvas;
+        var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
         _player.GetComponent<PlayerInput>().enabled = false;
         _cinematicDirector.Play();
