@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19cf5c9576bda8e439a555e66b1b3776, type: 3}
-  m_Name: D_Initial
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: D_InitialOLD
   m_EditorClassIdentifier: 
   speech:
   - ZZZzzzzzzz...

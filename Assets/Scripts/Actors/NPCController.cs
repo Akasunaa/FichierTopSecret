@@ -358,7 +358,7 @@ public class NPCController : ModifiableController, Interactable
     /// Function that will change the NPC's state
     /// </summary>
     /// <param name="newStateName">name that references the next state that should be chosen</param>
-    public void OnStateChange(string newStateName)
+    public virtual void OnStateChange(string newStateName)
     {
         Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
