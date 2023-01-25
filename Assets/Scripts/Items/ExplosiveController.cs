@@ -39,6 +39,17 @@ public class ExplosiveController : ItemController
                         {
                             playerFp.WriteToFile();
                         }
+                        
+                        if (sceneName == "Factoryroom1") //TODO : HARD CODE MAIS PAS GRAVE
+                        {
+                            PlayerPrefs.SetInt("HasDetonated", 1);
+                            PlayerPrefs.Save();
+                            GameObject breakableWall = GameObject.FindGameObjectWithTag("BreakableWall");
+                            if (breakableWall)
+                            {
+                                breakableWall.GetComponent<BreakableWallController>().DestroyWall();
+                            }
+                        }
 
                         DirectoryInfo di1 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + sceneName);
                         foreach (FileInfo file in di1.GetFiles())
