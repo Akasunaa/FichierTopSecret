@@ -1,6 +1,6 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
-using Debug = System.Diagnostics.Debug;
 
 public class Ruler : MonoBehaviour
 {
@@ -16,6 +16,8 @@ public class Ruler : MonoBehaviour
     [SerializeField] private Image topRulerImageFond;
     [SerializeField] private int topRulerNumbersShown = 8;
     [SerializeField] private float cameraGridOffsetX;
+    [SerializeField] private float topRulerPositionInScreenPercent = 0.98f;
+    [SerializeField] private float topRulerHeightInScreenPercent = 0.04f;
     
     [Header("Side Ruler Infos")]
     [SerializeField] private RawImage rulerSideImage;
@@ -36,25 +38,13 @@ public class Ruler : MonoBehaviour
 
     private void Start()
     {
-        Debug.Assert(Camera.main != null, "Ruler.cs : Camera.main != null");
-        Debug.Assert(rulerTopImage != null, "Ruler.cs : rulerTopImage != null");
-        Debug.Assert(rulerSideImage != null, "Ruler.cs : rulerSideImage != null");
+        Initialization();
         
-        // we have to make referenced of these because we'll use them later and accessing these at run-time takes too muc
-        _mainCameraReference = Camera.main;
-        _cameraPos = _mainCameraReference.transform.position;
-        _haveCamera = true;
-        // _player = GameObject.FindGameObjectWithTag("Player");
-        
-        // _initialTopRulerPosition = rulerTopImage.transform.position;
+        OnScreenChangedSize();
     }
 
     private void FixedUpdate()
     {
-        // check what space is between two graduations on the real world, converted to screen scale
-        _deltaPTop = Mathf.Abs(_mainCameraReference.WorldToScreenPoint(_cameraPos).x - _mainCameraReference.WorldToScreenPoint(_cameraPos + Vector3.left).x);
-        _deltaPSide = Mathf.Abs(_mainCameraReference.WorldToScreenPoint(_cameraPos).y - _mainCameraReference.WorldToScreenPoint(_cameraPos + Vector3.down).y);
-        
         MoveRuler();
     }
     
@@ -127,6 +117,32 @@ public class Ruler : MonoBehaviour
         sideRulerImageFond.rectTransform.sizeDelta = rulerSideImage.rectTransform.sizeDelta;
         
         _cameraPos = newCameraPos;
+    }
+    
+    private void Initialization() {  
+        Assert.IsNotNull(Camera.main);
+        Assert.IsNotNull(rulerTopImage);
+        Assert.IsNotNull(rulerSideImage);
+        
+        // we have to make referenced of these because we'll use them later and accessing these at run-time takes too muc
+        _mainCameraReference = Camera.main;
+        _cameraPos = _mainCameraReference.transform.position;
+        _haveCamera = true;
+    }
+
+    private void OnScreenChangedSize()
+    {
+        // change top ruler y pos and height
+        var transform1 = rulerTopImage.transform;
+        var topRulerPosition = transform1.position;
+        topRulerPosition.y = Screen.height * topRulerPositionInScreenPercent;
+        transform1.position = topRulerPosition;
+
+        rulerTopImage.rectTransform.sizeDelta = new Vector2(rulerTopImage.rectTransform.rect.width, Screen.height * topRulerHeightInScreenPercent);
+
+        // check what space is between two graduations on the real world, converted to screen scale
+        _deltaPTop = Mathf.Abs(_mainCameraReference.WorldToScreenPoint(_cameraPos).x - _mainCameraReference.WorldToScreenPoint(_cameraPos + Vector3.left).x);
+        _deltaPSide = Mathf.Abs(_mainCameraReference.WorldToScreenPoint(_cameraPos).y - _mainCameraReference.WorldToScreenPoint(_cameraPos + Vector3.down).y);
     }
     
 }
