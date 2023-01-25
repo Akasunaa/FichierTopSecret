@@ -99,6 +99,8 @@ public abstract class Singleton<T> : MonoBehaviour
     /// Method called at the end of Awake, made for users to add some code while not breaking Singleton.Awake function.
     /// </summary>
     protected virtual void OnAwake() { }
+    
+    protected virtual void OnDestruction() { }
 
     #endregion
 
@@ -136,6 +138,7 @@ public abstract class Singleton<T> : MonoBehaviour
 
     protected virtual void OnDestroy()
     {
+        OnDestruction();
         if (_instance != this) return;
         _instance = null;
 #if UNITY_EDITOR
