@@ -256,6 +256,11 @@ public static class ApplyPlayerChange
             return new Color(c.R, c.G, c.B, c.A);
         }
 
+        if (value.ToLower() == "none")
+        {
+            return Color.white;
+        }
+
         return null;
     }
 
