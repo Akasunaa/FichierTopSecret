@@ -13,8 +13,12 @@ public class MachineObjectController : ModifiableController, Interactable
     private DialogueUIController uiDialogController;
     [TextArea(3, 10)]
     [SerializeField] private string dialogueNoMoney;
+    [TextArea(3, 10)]
+    [SerializeField] private string dialogueCooldown;
     private GameObject playerObject;
     private bool isInInteraction = false;
+    [SerializeField] private float machineCooldown = 2f;
+    private float machineUsageTime = 0;
 
     public override void SetDefaultProperties()
     {
@@ -35,12 +39,13 @@ public class MachineObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (playerObject != null)
+        if (playerObject != null && Time.time > machineUsageTime + machineCooldown)
         {
             if (playerObject.TryGetComponent(out PlayerObjectController playerObjectController))
             {
                 if (playerObjectController.TryGet("money", out int money) && money >= 10)
                 {
+                    machineUsageTime = Time.time;
                     playerObjectController.SetValue("money", money - 10);
                     if (playerObject.TryGetComponent(out FileParser fp))
                     {
@@ -64,7 +69,15 @@ public class MachineObjectController : ModifiableController, Interactable
         if (!isInInteraction)
         {
             playerObject.GetComponent<InputController>().StopMovement();
-            uiDialogController.DisplayDialogue(dialogueNoMoney, "player");
+            if (Time.time <= machineUsageTime + machineCooldown)
+            {
+                uiDialogController.DisplayDialogue(dialogueCooldown, "player");
+            }
+            else
+            {
+                uiDialogController.DisplayDialogue(dialogueNoMoney, "player");   
+            }
+
             isInInteraction = true;
         }
         else
