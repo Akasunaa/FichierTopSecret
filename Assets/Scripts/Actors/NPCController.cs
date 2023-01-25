@@ -190,14 +190,15 @@ public class NPCController : ModifiableController, Interactable
     {
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
-        int randomTimer = Random.Range((int)movementCooldown*randomDistance*2+1, (int)movementCooldown * randomDistance*3+1);        
+        float randomTimer = Random.Range(movementCooldown+2, movementCooldown+5);
+        print(randomTimer);
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
     /**
     * Check if NPC can do the deplacement and launch it, then wait for the next movement 
     */
-    IEnumerator Deplacement(int timer, int distance)
+    IEnumerator Deplacement(float timer, int distance)
     { 
         isWaiting = true;
         Vector3Int actualGridPosition = grid.WorldToCell(transform.position);
@@ -220,7 +221,7 @@ public class NPCController : ModifiableController, Interactable
         }
         for (Vector3Int moved = vectorDirection; moved.magnitude <= distance; moved += vectorDirection)
         {
-            if (!Utils.CheckPresenceOnTile(grid, actualGridPosition + moved)) {
+            if (!Utils.CheckPresencesOnTile(grid, actualGridPosition + moved).Any(go => go != this.gameObject)) {
                 targetPositions.Add(actualGridPosition + moved);
             }
             else
