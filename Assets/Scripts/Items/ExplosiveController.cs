@@ -74,10 +74,10 @@ public class ExplosiveController : ItemController
             //we recuperate the ui :
             GameObject ui = GameObject.FindGameObjectWithTag("UI");
             if (ui == null) return;
-            
+
             //we get the correcte component :
-            var gameOverScreenController = ui.GetComponent<GameOverScreenController>();
-            if (ui == null) return; 
+            GameOverScreenController gameOverScreenController = ui.GetComponent<GameOverScreenController>();
+            if (gameOverScreenController == null) return; 
             
             //we launch the right function :
             gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.PlayerIsDead);
