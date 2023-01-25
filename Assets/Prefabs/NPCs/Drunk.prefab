@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: {fileID: 0}
-  startingState: {fileID: 11400000, guid: ac3fd4688e76d6c4aa6a189abb225b6a, type: 2}
+  startingState: {fileID: 11400000, guid: ccb285aee6b5e0141af003b6bcba7f10, type: 2}
   nextStates:
   - name: D_Name
     state: {fileID: 11400000, guid: 2028428607b80b1429b6ed8da4e5551f, type: 2}
@@ -282,9 +282,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4953147978709949602}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f3844d0f5fc8aa546b4718c8f02767ab, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4d4effce7cddd3f48b553779b33da078, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
