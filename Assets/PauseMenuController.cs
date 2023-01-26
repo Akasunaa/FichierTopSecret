@@ -15,6 +15,8 @@ public class PauseMenuController : MonoBehaviour
     private bool _buttonPressedOnce;
     
     public bool gamePaused { get; private set; }
+
+    private bool isInSettings => settingsMenuCanvas.gameObject.activeInHierarchy;
     
     private void Awake()
     {
@@ -28,9 +30,10 @@ public class PauseMenuController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused)
+        if (Input.GetKeyDown(KeyCode.Escape) && !isInSettings)
         {
-            PauseGame();
+            if(gamePaused) ResumeGame();
+            else PauseGame();
         }
     }
 

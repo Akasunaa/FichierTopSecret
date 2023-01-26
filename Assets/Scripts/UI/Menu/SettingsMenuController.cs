@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class SettingsMenuController : MonoBehaviour
 {
@@ -41,6 +42,14 @@ public class SettingsMenuController : MonoBehaviour
         // AUDIO GUI INITIALIZATION
 
         SetSfxUI();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            BackButton();
+        }
     }
 
     #region Starting methods
