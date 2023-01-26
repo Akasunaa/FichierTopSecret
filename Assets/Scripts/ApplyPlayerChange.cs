@@ -341,13 +341,13 @@ public static class ApplyPlayerChange
         if (propertyValueInput.Length == 0) return null;
 
         // if truthy values contain the input return true
-        if (Array.IndexOf(TruthyPropertyValues, propertyValueInput) > -1)
+        if (TruthyPropertyValues.Contains(propertyValueInput))
         {
             return true;
         }
 
         // if falsy values contain the input return false
-        if (Array.IndexOf(FalsyPropertyValues, propertyValueInput) > -1)
+        if (FalsyPropertyValues.Contains(propertyValueInput))
         {
             return false;
         }
