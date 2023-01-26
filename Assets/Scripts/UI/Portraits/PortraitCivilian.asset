@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PortraitCivilian
   m_EditorClassIdentifier: 
   portraitName: Civilian
-  portraitSprite: {fileID: 21300000, guid: d83540c9c828305449b9f191a862f9b4, type: 3}
+  portraitSprite: {fileID: -1589218333, guid: 0723264665f1aa44894e5e4a3d7da257, type: 3}
