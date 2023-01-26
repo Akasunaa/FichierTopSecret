@@ -61,6 +61,7 @@ public class CinematicManager : MonoBehaviour
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
+        _ui.GetComponent<PauseMenuController>().enabled = true;
         rulerCanvas.SetActive(true);
     }
 
@@ -75,6 +76,7 @@ public class CinematicManager : MonoBehaviour
             yield break;
         }
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
+        _ui.GetComponent<PauseMenuController>().enabled= false;
         cinematicIsPlaying = true;
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
@@ -87,6 +89,7 @@ public class CinematicManager : MonoBehaviour
         PlayerPrefs.Save();
         cinematicIsPlaying=false;
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
+        _ui.GetComponent<PauseMenuController>().enabled = true;
         rulerCanvas.SetActive(true);
     }
 }
