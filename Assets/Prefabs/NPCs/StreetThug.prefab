@@ -110,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 3618637796370816504}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2199e3d01dd8b514d8c7e2725ff18ba0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 06c8f24e54d37cd4dbb4a869894decbb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
-  shouldMove: 0
+  shouldMove: 1
   speed: 1
   minTimeWait: 4
 --- !u!50 &1806806163327714877
