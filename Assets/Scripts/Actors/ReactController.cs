@@ -13,11 +13,11 @@ public class ReactController : MonoBehaviour
     [SerializeField] private Image imagePanel;
     [SerializeField] private TextMeshProUGUI reactionText;
     private bool inReaction = false;
-    private UnityAction<(string, object)> listener;
+    private UnityAction<(string, object, object)> listener; // (string, object, object) : (keyName, newValue, oldValue)
 
     void Awake()
     {
-        listener = ((string, object) propertyChange) =>
+        listener = ((string, object, object) propertyChange) =>
         {
             if (!inReaction)
             {
@@ -29,13 +29,103 @@ public class ReactController : MonoBehaviour
                         possibility = new []{ "Trying to move objects ?" };
                         break;
                     case "color":
-                        possibility = new []{ "It looks weird isn't it ?", "Did I put some sunglasses ?" };
+                        if (ModifiableController.TryParse(propertyChange.Item2, out Color newColor))
+                        {
+                            Color purpleColor = ColorUtility.TryParseHtmlString("purple", out Color purpleColorTmp) ? purpleColorTmp : purpleColorTmp;
+                            Color orangeColor = ColorUtility.TryParseHtmlString("orange", out Color orangeColorTmp) ? orangeColorTmp : orangeColorTmp;
+                            Color yellowColor = ColorUtility.TryParseHtmlString("yellow", out Color yellowColorTmp) ? yellowColorTmp : yellowColorTmp;
+                            Color greenColor = ColorUtility.TryParseHtmlString("green", out Color greenColorTmp) ? greenColorTmp : greenColorTmp;
+                            if (newColor == Color.black)
+                            {
+                                possibility = new[] { "Edgy too ?", "Kohuro would love that" };
+                            }
+                            else if (newColor == Color.red || newColor == yellowColor || newColor == greenColor || newColor == Color.blue)
+                            {
+                                possibility = new[] { "Do you know about the DiSC personality test ?" };
+                            }
+                            else if (newColor == purpleColor)
+                            {
+                                possibility = new[] { "Raphiki would love that", "BiscuitPrime would love that" };
+                            }
+                            else if (newColor == orangeColor)
+                            {
+                                possibility = new[] { "Akasuna would love that" };
+                            }
+                            else if (newColor == Color.cyan)
+                            {
+                                possibility = new[] { "PtiBouchon would love that" };
+                            }
+                            else
+                            {
+                                possibility = new[] { "WoW, I love the new style" };
+                            }
+                        }
+                        else
+                        {
+                            possibility = new[] { "It looks weird isn't it ?", "Did I put some sunglasses ?" };
+                        }
+
                         break;
                     case "money":
-                        possibility = new []{ "Looks like someone is greedy" };
+                        if (ModifiableController.TryParse(propertyChange.Item2, out int newMoney) &&
+                            ModifiableController.TryParse(propertyChange.Item3, out int oldMoney))
+                        {
+                            if (newMoney > oldMoney)
+                            {
+                                possibility = new[] { "Looks like someone is greedy" };
+                            }
+                            else
+                            {
+                                possibility = new[] { "Trying to get rid of some N$ ?" };
+                            }
+                        }
+                        else
+                        {
+                            possibility = new []{ "Money is a reward for solving problems" };
+                        }
+                        
                         break;
                     case "speed":
-                        possibility = new []{ "Vroum vroum" };
+                        if (ModifiableController.TryParse(propertyChange.Item2, out float newSpeed) &&
+                            ModifiableController.TryParse(propertyChange.Item3, out float oldSpeed))
+                        {
+                            if (newSpeed > oldSpeed)
+                            {
+                                possibility = new[] { "There is more to life than increasing one's speed", "Vroum vroum" };
+                            }
+                            else
+                            {
+                                possibility = new[] { "Feeling slow maybe ?" };
+                            }
+                        }
+                        else
+                        {
+                            possibility = new[] { "Speed or not speed ? This is the question" };
+                        }
+
+                        break;
+                    case "health":
+                        if (ModifiableController.TryParse(propertyChange.Item2, out int newHealth) &&
+                            ModifiableController.TryParse(propertyChange.Item3, out int oldHealth))
+                        {
+                            if (newHealth <= 0)
+                            {
+                                possibility = new[] { "Murder is like potato chips: you can't stop with just one" };
+                            }
+                            else if (newHealth > oldHealth)
+                            {
+                                possibility = new[] { "It might help in case of explosive danger" };
+                            }
+                            else
+                            {
+                                possibility = new[] { "Not looking good" };
+                            }
+                        }
+                        else
+                        {
+                            possibility = new[] { "The first wealth is health", "Health is not valuable until sickness comes" };
+                        }
+
                         break;
                     case "name":
                         break;

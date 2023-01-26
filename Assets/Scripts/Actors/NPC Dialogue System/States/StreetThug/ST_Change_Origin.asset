@@ -15,5 +15,5 @@ MonoBehaviour:
   speech:
   - Hey, you gaz leecher, knock it off
   - I know that... huh...
-  - "What the $\xA3#% did you do to me ? I know that I never went to $origin$ "
-  currentSpeech: 
+  - "What the #\xA3#% did you do to me ? I know that I never went to $origin$ "
+  currentSpeech: What the DATA NOT FOUNDorigin

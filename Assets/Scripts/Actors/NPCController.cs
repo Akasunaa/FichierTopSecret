@@ -54,11 +54,12 @@ public class NPCController : ModifiableController, Interactable
     [Header("Player Prefs elements to react to")]
     [SerializeField] public PLAYER_PREFS_ELEMENTS[] playerPrefsElements;
     [HideInInspector] public Dictionary<string,PLAYER_PREFS_ELEMENTS> playerPrefsElementsDict = new Dictionary<string,PLAYER_PREFS_ELEMENTS>();
-
+    
     [Header("Deplacement")]
     [SerializeField] private Grid grid;
     [SerializeField] public bool shouldMove; //if we want this NPC moving
     [SerializeField] private float speed=3f;
+    [SerializeField] private float minTimeWait=4;
     private Animator animator;
     private bool isWaiting=false;
     static private bool canMove = true; //if the NPC can moving (not in dialogState)
@@ -190,7 +191,7 @@ public class NPCController : ModifiableController, Interactable
     {
         float movementCooldown = animator.GetCurrentAnimatorClipInfo(0)[0].clip.length/speed;
         int randomDistance = Random.Range(1, 4);
-        float randomTimer = Random.Range(movementCooldown+2, movementCooldown+5);
+        float randomTimer = Random.Range(movementCooldown+minTimeWait, movementCooldown+minTimeWait+2);
         StartCoroutine(Deplacement(randomTimer,randomDistance));
     }
     
@@ -441,7 +442,8 @@ public class NPCController : ModifiableController, Interactable
                 int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
-                    bool testConditionAcheived = Utils.NPCCompare(properties[propertyString].Value.ToString(), propertyDict[propertyString].propertyCondition[conditionListIndex], propertyDict[propertyString].conditionIsSuperior[conditionListIndex]);
+                    Debug.Log("NPC : " + gameObject.name + " COMPARING INITIAL VALUE " + propertyDict[propertyString].propertyValue + " / CONDITION VALUE " + propertyDict[propertyString].propertyCondition[conditionListIndex] + " / WITH FILE VALUE : " + properties[propertyString].Value.ToString());
+                    bool testConditionAcheived = Utils.NPCCompare(properties[propertyString].Value.ToString(), propertyDict[propertyString].propertyValue, propertyDict[propertyString].propertyCondition[conditionListIndex], propertyDict[propertyString].conditionIsSuperior[conditionListIndex]);
                     if (testConditionAcheived)
                     {
                         OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);

@@ -118,7 +118,7 @@ public class FileParser : MonoBehaviour
                     var lineSplit = line.Split(separators);
                     var keyName = lineSplit[0];
                     var value = string.Join("", lineSplit[1..]);
-                    targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim()); // modifying appropriate variable
+                    targetModifiable.OnModification(keyName.Trim().ToLower(), value.Trim().ToLower()); // modifying appropriate variable
                     keyNames.Add(keyName);
                 }
             }

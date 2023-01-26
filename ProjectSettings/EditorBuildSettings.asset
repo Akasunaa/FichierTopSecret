@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Office.unity
     guid: e4047e9580605684d929f1aa72555fa9
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/OpenWorld.unity
     guid: 8c7b57ef7c0b05148bf2a79463d38b0e
   - enabled: 1
