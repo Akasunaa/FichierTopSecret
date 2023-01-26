@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: StateNotEnoughLights
+  m_Name: XV_Insignia_Obtained
   m_EditorClassIdentifier: 
   speech:
-  - 'Shutting all the lights ? '
-  - 'What''s the point ? You''re trying to steal my explosives ? '
-  - I have IR sensors you bio-idiot. I can see you.
+  - Huh...
+  - Would you look at that...
+  - 'A level-5 credential ? "Authorization on all matter, direct authority on all
+    matters, authorization code.. I don''t care" '
+  - Alright, then off you go ! Take these explosives ! And go blow yourself up or
+    leave ! I don't care which !
   currentSpeech: 

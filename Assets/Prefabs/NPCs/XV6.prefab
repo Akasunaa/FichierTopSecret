@@ -81,18 +81,20 @@ MonoBehaviour:
   currentState: {fileID: 0}
   startingState: {fileID: 11400000, guid: 07544ab702d81054ba9fad43a8a8300c, type: 2}
   nextStates:
-  - name: 
+  - name: XV_Change_Name
     state: {fileID: 11400000, guid: 7fce0aecce8fc464b8612493e073f3d9, type: 2}
-  - name: 
+  - name: XV_Insignia_Obtained
     state: {fileID: 11400000, guid: a4c1ff8de611fa44d92cba0eea09ba61, type: 2}
-  - name: 
+  - name: XV_Cloned
     state: {fileID: 11400000, guid: 4e7e957ad21bdda4e879838ff0ae0903, type: 2}
-  - name: 
+  - name: XV_Cloned_Many
     state: {fileID: 11400000, guid: 26d1eacb6cba4ee498990a76f5a19f14, type: 2}
-  - name: 
+  - name: XV_Death
     state: {fileID: 11400000, guid: 4998a435b54a0cf40b48ca3df2fda55c, type: 2}
-  - name: 
+  - name: XV_Change_Origin
     state: {fileID: 11400000, guid: 75142206398d27c409a5cd80925a8361, type: 2}
+  - name: XV_Thug_Death
+    state: {fileID: 11400000, guid: 5fcff89510c8b554593b3a280c92cbbd, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &6763806151426580000
 MonoBehaviour:
@@ -119,14 +121,14 @@ MonoBehaviour:
     conditionIsSuperior: 
     propertyCondition: []
     propertyChangeState:
-    - StateChangedName
+    - XV_Change_Name
   - propertyName: origin
-    propertyValue: makemake
+    propertyValue: Makemake
     propertyType: 1
     conditionIsSuperior: 
     propertyCondition: []
     propertyChangeState:
-    - StateChangedOrigin
+    - XV_Change_Origin
   - propertyName: health
     propertyValue: 1
     propertyType: 0
@@ -134,21 +136,26 @@ MonoBehaviour:
     propertyCondition:
     - 1
     propertyChangeState:
-    - StateDeath
+    - XV_Death
   objectsElements:
   - playerItemName: insignia
-    playerItemChangeState: StateInsigniaObtained
+    playerItemChangeState: XV_Insignia_Obtained
     hasReacted: 0
   questItems:
   - item: {fileID: 3958324133499281067, guid: 3c99a591cff694d408fa531a6dafb721, type: 3}
-    questChangeState: StateInsigniaObtained
+    questChangeState: XV_Insignia_Obtained
   reactElements:
   - tagToReact: XV6
     stateChangeName:
-    - StateCloned
-    - StateCloneArmy
+    - XV_Cloned
+    - XV_Cloned_Many
     isSuperior: 0101
     condition: 0100000003000000
+  - tagToReact: StreetThug
+    stateChangeName:
+    - XV_Thug_Death
+    isSuperior: 00
+    condition: 01000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}

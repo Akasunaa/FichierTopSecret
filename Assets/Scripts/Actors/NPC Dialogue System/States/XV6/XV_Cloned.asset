@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
-  m_Name: StateCloned
+  m_Name: XV_Cloned
   m_EditorClassIdentifier: 
-  name: StateCloned
   speech:
   - Wait, you cloned me ?
   - That's illegal under the Pluto Registration Act
+  - But, please do keep going
+  - It'll be easier to wipe you miserable organic shits.
   currentSpeech: 
