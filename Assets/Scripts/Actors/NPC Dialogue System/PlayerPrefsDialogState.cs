@@ -10,7 +10,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player Prefs Dialog State", menuName = "States/Player Prefs Dialog State")]
 public class PlayerPrefsDialogState : DialogState
 {
-    [Header("Special Dialog Elements")]
+    [Header("Player Prefs Dialog Elements")]
     [SerializeField] private string playerPrefsName;  //name of the player pref that we're going to modify upon call in the Enter() function
     [SerializeField] private string playerPrefsValue; //value inputted in said playerpref
 
