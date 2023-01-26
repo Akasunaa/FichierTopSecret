@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 21300000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
+  m_Sprite: {fileID: -2144894639, guid: fddb09390a18ff34599779561a923721, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -110,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 3618637796370816504}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f3844d0f5fc8aa546b4718c8f02767ab, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2199e3d01dd8b514d8c7e2725ff18ba0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -409,6 +409,10 @@ PrefabInstance:
     - target: {fileID: 3604119746800016443, guid: e568d58579c080c4f82cc7826d1c555e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5312839563113931251, guid: e568d58579c080c4f82cc7826d1c555e, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
