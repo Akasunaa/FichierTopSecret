@@ -752,6 +752,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 817648be6223aa3479f4065e923cf419, type: 2}
   - {fileID: 11400000, guid: 10c7e930cf5ea5f478ed7c510fb33435, type: 2}
   - {fileID: 11400000, guid: 024d1ac38d8ac9d4f8f0771525cad9cb, type: 2}
+  - {fileID: 11400000, guid: 76d5e6e5cb02a5a4f8d30caf47864cbe, type: 2}
   titleTMP: {fileID: 4871846479864346008}
   gameOverReasonTMP: {fileID: 8640653267777759674}
   clickAgainTMP: {fileID: 1492666851459443117}
@@ -759,7 +760,6 @@ MonoBehaviour:
   gameOverMessageLoreMaskCanvas: {fileID: 2916269328368218859}
   gameOverMessageLoreScrollSpeed: 7
   canvasToDisable:
-  - {fileID: 0}
   - {fileID: 2637594483460185621}
   - {fileID: 6862395628585596899}
   - {fileID: 784647451069752233}
@@ -1881,7 +1881,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.65
+  m_fontSize: 24.65
   m_fontSizeBase: 23.3
   m_fontWeight: 400
   m_enableAutoSizing: 1

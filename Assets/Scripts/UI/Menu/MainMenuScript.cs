@@ -15,21 +15,6 @@ public class MainMenuScript : MonoBehaviour
     {
         Assert.IsNotNull(settingsMenuCanvas);
     }
-    
-    private void Start()
-    {
-        #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
-        IntPtr unityWindow = FilesWatcher.GetActiveWindow();
-        if (unityWindow != IntPtr.Zero)
-        {
-            if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
-            {
-                FilesWatcher.MoveWindow(unityWindow, 0, 10,
-                    r.Right - r.Left, r.Bottom - r.Top, true);
-            }
-        }
-        #endif
-    }
 
     public void Quit()
     {

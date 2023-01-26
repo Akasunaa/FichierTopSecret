@@ -110,7 +110,7 @@ Animator:
   m_GameObject: {fileID: 3618637796370816504}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2199e3d01dd8b514d8c7e2725ff18ba0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 06c8f24e54d37cd4dbb4a869894decbb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -216,6 +216,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 362f9de5e987d6a41b659d30128256c9, type: 2}
   - name: ST_Cloned_Many
     state: {fileID: 11400000, guid: e5bb44dba9bd76b45996c1a93e905de5, type: 2}
+  - name: ST_Steal_Kill
+    state: {fileID: 11400000, guid: ca5367e4e5c3e0c4c82ca532de9f4343, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &3618637796963457515
 MonoBehaviour:
@@ -239,11 +241,13 @@ MonoBehaviour:
   - propertyName: money
     propertyValue: 150
     propertyType: 0
-    conditionIsSuperior: 0100
+    conditionIsSuperior: 010100
     propertyCondition:
+    - 10
     - 150
     - 1000
     propertyChangeState:
+    - ST_Steal_Kill
     - ST_Steal_Money
     - ST_Give_Money
   - propertyName: name
@@ -283,8 +287,9 @@ MonoBehaviour:
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
-  shouldMove: 0
+  shouldMove: 1
   speed: 1
+  minTimeWait: 4
 --- !u!50 &1806806163327714877
 Rigidbody2D:
   serializedVersion: 4

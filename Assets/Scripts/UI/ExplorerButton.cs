@@ -13,7 +13,14 @@ public class ExplorerButton : MonoBehaviour
         }
         else
         {
-            FilesWatcher.SetForegroundWindow(FilesWatcher.instance.explorerHwnd);
+            try
+            {
+                FilesWatcher.SetForegroundWindow(FilesWatcher.instance.explorerHwnd);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
     }
 }

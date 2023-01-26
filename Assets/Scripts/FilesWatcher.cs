@@ -85,7 +85,14 @@ public class FilesWatcher : MonoBehaviour
 
         if (!di.Exists)
         {
-            di.Create();
+            try
+            {
+                di.Create();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
 
         Debug.Log("[FileWatcher] BasePath: " + di.FullName);
@@ -392,8 +399,6 @@ public class FilesWatcher : MonoBehaviour
         {
             if (_pathToScript.TryGetValue(a.Item1, out FileParser fp))
             {
-                print("FP: " + fp);
-                print("FP GAMEOBJECT" + fp.gameObject);
                 SpriteRenderer srenderer = fp.gameObject.GetComponentInChildren<SpriteRenderer>();
                 if (srenderer == null) { break; }
                 if (a.Item2)
@@ -439,8 +444,16 @@ public class FilesWatcher : MonoBehaviour
             if (inExplorer)
             {
                 explorerHwnd = hwnd;
-                GetWindowRect(hwnd, out RECT r);
-                MoveWindow(hwnd, Display.main.systemWidth / 2, 10, Display.main.systemWidth / 2, Display.main.systemHeight / 2, true);
+                try
+                {
+                    GetWindowRect(hwnd, out RECT r);
+                    MoveWindow(hwnd, Display.main.systemWidth / 2, 10, Display.main.systemWidth / 2,
+                        Display.main.systemHeight / 2, true);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
             }
             else
             {
@@ -508,11 +521,11 @@ public class FilesWatcher : MonoBehaviour
     IEnumerator FindForegroundWindow()
     {
         _isGettingCurrentObject = true;
-        var hWnd = GetForegroundWindow();
-        var windowName = new StringBuilder(100);
-        GetWindowText(hWnd, windowName, 100);
         try
         {
+            var hWnd = GetForegroundWindow();
+            var windowName = new StringBuilder(100);
+            GetWindowText(hWnd, windowName, 100);
             var objectFileName = Path.GetFileName(windowName.ToString()).Split()[0];
             objectFileName = objectFileName.Replace("*", "");
             string sceneName = LevelManager.Capitalize(SceneManager.GetActiveScene().name);
