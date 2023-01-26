@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PortraitCleaningDrone
   m_EditorClassIdentifier: 
   portraitName: Cleaning Drone
-  portraitSprite: {fileID: -1993880480, guid: f6e1e96b6329a87429a13773d5f007db, type: 3}
+  portraitSprite: {fileID: 121902196, guid: 57ae84f3dcd550d48bdf83debaf65a3e, type: 3}
