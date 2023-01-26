@@ -67,7 +67,7 @@ public class PlayerObjectController : ModifiableController
             if (ui != null && gameOverScreenController != null)
             {
                 //we launch the right function :
-                gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.PlayerIsDead);
+                gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.ExplosiveDeath);
             
                 return;
             }

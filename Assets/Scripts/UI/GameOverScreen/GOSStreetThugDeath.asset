@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8163ad15414c30f42a5f17394b768f37, type: 3}
-  m_Name: GOSPlayerIsDead
+  m_Name: GOSStreetThugDeath
   m_EditorClassIdentifier: 
-  gameOverReason: 2
+  gameOverReason: 3
   gameOverScreenTitle: Game Over
-  gameOverReasonText: You are dead
-  endGameLore: You managed to kill yourself, something even reality-bending powers
-    can't stop. Good job. Unfortunately, thanks to your utimely demise, Issovitch
-    managed to escape, and the Neptune Sphere lies in ruins.
+  gameOverReasonText: You have been killed.
+  endGameLore: You were killed by a random street thug. Something quite ubiquitous
+    on these low-levels of Triton. However, that outcome was far from the Protectorate's
+    expectations. Neptune now lies in ruins.

@@ -80,7 +80,7 @@ public class ExplosiveController : ItemController
             if (gameOverScreenController == null) return; 
             
             //we launch the right function :
-            gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.PlayerIsDead);
+            gameOverScreenController.OnGameOver(GameOverScreenController.GameOverType.ExplosiveDeath);
             
             return;
         }
