@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 750492682925020577}
   - component: {fileID: 5278289054536073797}
+  - component: {fileID: 2509510086512955903}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 15802206, guid: 07c6b9cc79ec1c14e9268a829013e0d0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,6 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2509510086512955903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974190118995348524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 5278289054536073797}
+  offset: 0
 --- !u!1 &3958324133499281067
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,5 +145,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
   item_name: explosives
   itemSprite: {fileID: 974190118995348524}
