@@ -182,10 +182,10 @@ public static class Utils
     /// Its main point is to avoid overflow-type errors.
     /// </summary>
     /// <param name="fileValue">Value obtained in the file that is being tested.</param>
-    /// <param name="inspectorValue">Value setup in the NPC's inspector.</param>
+    /// <param name="inspectorConditionValue">Condition Value setup in the NPC's inspector.</param>
     /// <param name="isSuperiorTest">Wether or not the test is fileValue is inferior to inspectorValue.</param>
     /// <returns>True if the test is correct, False otherwise.</returns>
-    public static bool NPCCompare(string fileValue, string inspectorValue, bool isSuperiorTest)
+    public static bool NPCCompare(string fileValue, string inspectorValue, string inspectorConditionValue, bool isSuperiorTest)
     {
         List<string> numbers = new List<string>() { "0", "1", "2","3","4","5","6","7","8","9","10" };
         int integerValue;
@@ -196,10 +196,15 @@ public static class Utils
             {
                 return false;
             }
-            return true;
         }
+        Debug.Log("NPC COMPARE : COMPARING INSPECTOR INITIAL VALUE " + inspectorValue + " AND FILE VALUE CURRENT " + integerValue);
+        int inspectorInitialValue;
+        int.TryParse(inspectorValue, out inspectorInitialValue);
+        if(inspectorInitialValue == integerValue) { return false; } //if the file value is the same as the initial inspector-defined value, nothing happens
+
+        Debug.Log("NPC COMPARE : COMPARING INSPECTOR CONDITION VALUE " + inspectorConditionValue + " AND FILE VALUE CURRENT " + integerValue);
         int conditionValue;
-        int.TryParse(inspectorValue, out conditionValue);
+        int.TryParse(inspectorConditionValue, out conditionValue);
         if (isSuperiorTest)
         {
             if (integerValue < conditionValue)
