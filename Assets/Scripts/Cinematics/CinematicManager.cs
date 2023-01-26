@@ -61,6 +61,7 @@ public class CinematicManager : MonoBehaviour
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
+        _ui.GetComponent<PauseMenuController>().enabled = true;
         rulerCanvas.SetActive(true);
     }
 
