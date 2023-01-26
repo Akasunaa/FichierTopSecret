@@ -170,6 +170,7 @@ public class GameOverScreenController : MonoBehaviour
     {
         Victory = 0,
         BombDetonated,
-        PlayerIsDead
+        ExplosiveDeath,
+        StreetThugDeath
     }
 }
