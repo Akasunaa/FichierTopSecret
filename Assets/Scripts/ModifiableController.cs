@@ -11,7 +11,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
-    [HideInInspector] public UnityEvent<(string, object)> fileChange;
+    [HideInInspector] public UnityEvent<(string, object, object)> fileChange;
 
     protected struct DicoValueProperty
     {
@@ -97,15 +97,16 @@ public abstract class ModifiableController : MonoBehaviour
         }
 
         print("Modifying '" + keyName + "' with value '" + value + "' from file");
-        fileChange.Invoke((keyName, value));
 
         if (properties.ContainsKey(propertyName))
         {
+            fileChange.Invoke((keyName, objectValue, properties[propertyName].Value));
             var wasImportant = properties[propertyName].IsImportant;
             properties[propertyName] = new DicoValueProperty {IsImportant = wasImportant, Value = objectValue};
         }
         else
         {
+            fileChange.Invoke((keyName, objectValue, null));
             // if there is a new property added we assume that it is not "important"
             properties.Add(propertyName, new DicoValueProperty {IsImportant = false, Value = objectValue});
         }
@@ -221,6 +222,7 @@ public abstract class ModifiableController : MonoBehaviour
             // if it was not modified (is not in the file rn) && is not important, then remove it from the properties
             if (!found && !dicoValueProperty.IsImportant)
             {
+                fileChange.Invoke((keyName, null, dicoValueProperty.Value));
                 // properties.Remove(keyName); // does not work because it breaks the Iterator linked to properties in this foreach loop
                 keysToRemoveList.Add(keyName);
             }
