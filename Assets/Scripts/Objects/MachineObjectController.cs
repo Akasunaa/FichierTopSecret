@@ -18,6 +18,7 @@ public class MachineObjectController : ModifiableController, Interactable
     private GameObject playerObject;
     private bool isInInteraction = false;
     [SerializeField] private float machineCooldown = 2f;
+    [SerializeField] private int itemCost = 0;
     private float machineUsageTime = 0;
 
     public override void SetDefaultProperties()
@@ -39,14 +40,29 @@ public class MachineObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (playerObject != null && Time.time > machineUsageTime + machineCooldown)
+        if (itemCost == 0 && Time.time > machineUsageTime + machineCooldown)
+        {
+            machineUsageTime = Time.time;
+            string filePath = GetComponent<FileParser>().filePath;
+            FileInfo fi = new FileInfo(filePath);
+            ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
+            processInfo.CreateNoWindow = true;
+            processInfo.UseShellExecute = false;
+            processInfo.WorkingDirectory = fi.DirectoryName;
+        
+            Process process = Process.Start(processInfo);
+            process.WaitForExit();
+            process.Close();
+            return;
+        }
+        else if (playerObject != null && Time.time > machineUsageTime + machineCooldown)
         {
             if (playerObject.TryGetComponent(out PlayerObjectController playerObjectController))
             {
-                if (playerObjectController.TryGet("money", out int money) && money >= 10)
+                if (playerObjectController.TryGet("money", out int money) && money >= itemCost)
                 {
                     machineUsageTime = Time.time;
-                    playerObjectController.SetValue("money", money - 10);
+                    playerObjectController.SetValue("money", money - itemCost);
                     if (playerObject.TryGetComponent(out FileParser fp))
                     {
                         fp.WriteToFile();
