@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class ScreenValuesManager : Singleton<ScreenValuesManager>
@@ -94,9 +95,10 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
         QualitySettings.vSyncCount = 0;
     }
     
-    private static void SetResolution(int width, int height)
+    private void SetResolution(int width, int height)
     {
         Screen.SetResolution(width, height, false);
+        Invoke(nameof(ResetPosition), 0.05f);
     }
     
     public void SetRefreshRateFromIndex(int refreshRateIndex)
