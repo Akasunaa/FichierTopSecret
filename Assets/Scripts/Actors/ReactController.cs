@@ -37,23 +37,23 @@ public class ReactController : MonoBehaviour
                             Color greenColor = ColorUtility.TryParseHtmlString("green", out Color greenColorTmp) ? greenColorTmp : greenColorTmp;
                             if (newColor == Color.black)
                             {
-                                possibility = new[] { "Edgy too ?", "Kohuro would loved that" };
+                                possibility = new[] { "Edgy too ?", "Kohuro would love that" };
                             }
                             else if (newColor == Color.red || newColor == yellowColor || newColor == greenColor || newColor == Color.blue)
                             {
-                                possibility = new[] { "Do you know about the DiSC personality ?" };
+                                possibility = new[] { "Do you know about the DiSC personality test ?" };
                             }
                             else if (newColor == purpleColor)
                             {
-                                possibility = new[] { "Raphiki would loved that", "BiscuitPrime would loved that" };
+                                possibility = new[] { "Raphiki would love that", "BiscuitPrime would love that" };
                             }
                             else if (newColor == orangeColor)
                             {
-                                possibility = new[] { "Akasuna would loved that" };
+                                possibility = new[] { "Akasuna would love that" };
                             }
                             else if (newColor == Color.cyan)
                             {
-                                possibility = new[] { "PtiBouchon would loved that" };
+                                possibility = new[] { "PtiBouchon would love that" };
                             }
                             else
                             {
@@ -91,7 +91,7 @@ public class ReactController : MonoBehaviour
                         {
                             if (newSpeed > oldSpeed)
                             {
-                                possibility = new[] { "There is more to life than increasing its speed", "Vroum vroum" };
+                                possibility = new[] { "There is more to life than increasing one's speed", "Vroum vroum" };
                             }
                             else
                             {
@@ -114,7 +114,7 @@ public class ReactController : MonoBehaviour
                             }
                             else if (newHealth > oldHealth)
                             {
-                                possibility = new[] { "It might help in case of danger" };
+                                possibility = new[] { "It might help in case of explosive danger" };
                             }
                             else
                             {
