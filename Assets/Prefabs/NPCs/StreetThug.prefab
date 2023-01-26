@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 3338391348367901693}
   m_Layer: 0
   m_Name: StreetThug
-  m_TagString: NPC
+  m_TagString: StreetThug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -210,6 +210,12 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 5a7d9bdfe8048444bb4d9a7ac4a7f613, type: 2}
   - name: ST_Respect
     state: {fileID: 11400000, guid: 543ac0b51a855cf4ea7b0a49521db171, type: 2}
+  - name: ST_Give_Money
+    state: {fileID: 11400000, guid: aa64a93a04ce67040863b44b9de1eb47, type: 2}
+  - name: ST_Cloned
+    state: {fileID: 11400000, guid: 362f9de5e987d6a41b659d30128256c9, type: 2}
+  - name: ST_Cloned_Many
+    state: {fileID: 11400000, guid: e5bb44dba9bd76b45996c1a93e905de5, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &3618637796963457515
 MonoBehaviour:
@@ -233,11 +239,13 @@ MonoBehaviour:
   - propertyName: money
     propertyValue: 150
     propertyType: 0
-    conditionIsSuperior: 01
+    conditionIsSuperior: 0100
     propertyCondition:
     - 150
+    - 1000
     propertyChangeState:
     - ST_Steal_Money
+    - ST_Give_Money
   - propertyName: name
     propertyValue: Reval Makan
     propertyType: 1
@@ -252,12 +260,26 @@ MonoBehaviour:
     propertyCondition: []
     propertyChangeState:
     - ST_Change_Origin
+  - propertyName: health
+    propertyValue: 10
+    propertyType: 0
+    conditionIsSuperior: 01
+    propertyCondition:
+    - 1
+    propertyChangeState:
+    - ST_Death
   objectsElements:
   - playerItemName: insignia
     playerItemChangeState: ST_Respect
     hasReacted: 0
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: StreetThug
+    stateChangeName:
+    - ST_Cloned_Many
+    - ST_Cloned
+    isSuperior: 0101
+    condition: 0500000001000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
