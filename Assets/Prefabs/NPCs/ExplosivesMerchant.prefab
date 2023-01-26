@@ -82,6 +82,8 @@ MonoBehaviour:
   nextStates:
   - name: EM_Information_Bomb
     state: {fileID: 11400000, guid: 3bb9529b5b031f1429afc2c989f09535, type: 2}
+  - name: EM_Duck_Information
+    state: {fileID: 11400000, guid: dffd62252db58ea46aefde021105f69a, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &7805141468238465817
 MonoBehaviour:
@@ -110,7 +112,10 @@ MonoBehaviour:
     - 20
     propertyChangeState:
     - EM_Information_Bomb
-  objectsElements: []
+  objectsElements:
+  - playerItemName: plasticduck
+    playerItemChangeState: EM_Duck_Information
+    hasReacted: 0
   questItems: []
   reactElements: []
   playerProperties: []

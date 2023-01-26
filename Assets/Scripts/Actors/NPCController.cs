@@ -571,8 +571,17 @@ public class NPCController : ModifiableController, Interactable
     /// <returns>true if file exists, false otherwise</returns>
     private bool ScanPlayerInventory(String objectName)
     {
-        var fileInfo = new FileInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/" + objectName + ".txt");
-        return fileInfo.Exists;
+        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/");
+        Debug.Log("NPC : Scanning player inventory");
+        foreach (FileInfo fi in di.EnumerateFiles())
+        {
+            Debug.Log("NPC : Scanning if object : "+ objectName+" is in file name : "+ fi.Name);
+            if (fi.Name.Contains(objectName))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /// <summary>
