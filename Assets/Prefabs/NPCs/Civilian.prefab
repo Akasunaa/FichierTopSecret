@@ -192,6 +192,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: ab16c3446f7d5c8448cf8b89df25dec1, type: 2}
   - name: Civ_Death
     state: {fileID: 11400000, guid: 254ec4d883f1ee84ca2ac5782a4747fd, type: 2}
+  - name: Civ_Hurt
+    state: {fileID: 11400000, guid: 70fc0e30d7694d04fba4adfda72c8fc9, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &4445950531819338331
 MonoBehaviour:
@@ -227,11 +229,13 @@ MonoBehaviour:
   - propertyName: health
     propertyValue: 10
     propertyType: 0
-    conditionIsSuperior: 01
+    conditionIsSuperior: 0101
     propertyCondition:
     - 1
+    - 10
     propertyChangeState:
     - Civ_Death
+    - Civ_Hurt
   objectsElements: []
   questItems: []
   reactElements:
