@@ -441,7 +441,8 @@ public class NPCController : ModifiableController, Interactable
                 int.TryParse(properties[propertyString].Value.ToString(), out integerValue);
                 for(int conditionListIndex = 0;conditionListIndex < propertyDict[propertyString].propertyCondition.Length;conditionListIndex++)
                 {
-                    bool testConditionAcheived = Utils.NPCCompare(properties[propertyString].Value.ToString(), propertyDict[propertyString].propertyCondition[conditionListIndex], propertyDict[propertyString].conditionIsSuperior[conditionListIndex]);
+                    Debug.Log("NPC : " + gameObject.name + " COMPARING INITIAL VALUE " + propertyDict[propertyString].propertyValue + " / CONDITION VALUE " + propertyDict[propertyString].propertyCondition[conditionListIndex] + " / WITH FILE VALUE : " + properties[propertyString].Value.ToString());
+                    bool testConditionAcheived = Utils.NPCCompare(properties[propertyString].Value.ToString(), propertyDict[propertyString].propertyValue, propertyDict[propertyString].propertyCondition[conditionListIndex], propertyDict[propertyString].conditionIsSuperior[conditionListIndex]);
                     if (testConditionAcheived)
                     {
                         OnStateChange(propertyDict[propertyString].propertyChangeState[conditionListIndex]);

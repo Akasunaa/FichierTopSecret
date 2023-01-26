@@ -186,8 +186,14 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 82c14cbb05358b64eb2dabc3515e75b4, type: 2}
   - name: Civ_Too_Much
     state: {fileID: 11400000, guid: 51dbfe833398a1d41a08bc3fa5dce72b, type: 2}
-  - name: Civ_Too_Much
+  - name: Civ_Cloned
     state: {fileID: 11400000, guid: 1666e67917a77f8499bb50ec6a94c290, type: 2}
+  - name: Civ_Cloned_Many
+    state: {fileID: 11400000, guid: ab16c3446f7d5c8448cf8b89df25dec1, type: 2}
+  - name: Civ_Death
+    state: {fileID: 11400000, guid: 254ec4d883f1ee84ca2ac5782a4747fd, type: 2}
+  - name: Civ_Hurt
+    state: {fileID: 11400000, guid: 70fc0e30d7694d04fba4adfda72c8fc9, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &4445950531819338331
 MonoBehaviour:
@@ -220,14 +226,25 @@ MonoBehaviour:
     - Civ_Not_Enough
     - Civ_Too_Much
     - Civ_Info
+  - propertyName: health
+    propertyValue: 10
+    propertyType: 0
+    conditionIsSuperior: 0101
+    propertyCondition:
+    - 1
+    - 10
+    propertyChangeState:
+    - Civ_Death
+    - Civ_Hurt
   objectsElements: []
   questItems: []
   reactElements:
   - tagToReact: Civilian
     stateChangeName:
+    - Civ_Cloned_Many
     - Civ_Cloned
-    isSuperior: 01
-    condition: 01000000
+    isSuperior: 0101
+    condition: 0500000001000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
