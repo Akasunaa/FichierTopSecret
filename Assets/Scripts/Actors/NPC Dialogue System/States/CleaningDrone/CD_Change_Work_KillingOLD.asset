@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 729edf62f9434ab40896864c7a9272e5, type: 3}
-  m_Name: CD_Change_Work_Killing
+  m_Script: {fileID: 11500000, guid: 1a3a81fa42c6bf543b9f3b82e7dd52b4, type: 3}
+  m_Name: CD_Change_Work_KillingOLD
   m_EditorClassIdentifier: 
   speech:
   - 'Statement : work changed'
@@ -19,4 +19,3 @@ MonoBehaviour:
   - 'Question : killing implemented ?'
   - 'Decision : no decision taken.'
   currentSpeech: 'Statement : zqd unrecognized'
-  shouldMoveBool: 0
