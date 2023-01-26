@@ -45,14 +45,22 @@ public class MachineObjectController : ModifiableController, Interactable
             machineUsageTime = Time.time;
             string filePath = GetComponent<FileParser>().filePath;
             FileInfo fi = new FileInfo(filePath);
-            ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
-            processInfo.CreateNoWindow = true;
-            processInfo.UseShellExecute = false;
-            processInfo.WorkingDirectory = fi.DirectoryName;
-        
-            Process process = Process.Start(processInfo);
-            process.WaitForExit();
-            process.Close();
+            try
+            {
+                ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
+                processInfo.CreateNoWindow = true;
+                processInfo.UseShellExecute = false;
+                processInfo.WorkingDirectory = fi.DirectoryName;
+
+                Process process = Process.Start(processInfo);
+                process.WaitForExit();
+                process.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
+
             return;
         }
         else if (playerObject != null && Time.time > machineUsageTime + machineCooldown)
@@ -69,14 +77,22 @@ public class MachineObjectController : ModifiableController, Interactable
                     }
                     string filePath = GetComponent<FileParser>().filePath;
                     FileInfo fi = new FileInfo(filePath);
-                    ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
-                    processInfo.CreateNoWindow = true;
-                    processInfo.UseShellExecute = false;
-                    processInfo.WorkingDirectory = fi.DirectoryName;
-        
-                    Process process = Process.Start(processInfo);
-                    process.WaitForExit();
-                    process.Close();
+                    try
+                    {
+                        ProcessStartInfo processInfo = new ProcessStartInfo("cmd.exe", "/c " + filePath);
+                        processInfo.CreateNoWindow = true;
+                        processInfo.UseShellExecute = false;
+                        processInfo.WorkingDirectory = fi.DirectoryName;
+
+                        Process process = Process.Start(processInfo);
+                        process.WaitForExit();
+                        process.Close();
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
+
                     return;
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -57,9 +58,16 @@ public class FileDialogState : DialogState
         Debug.Log("DONKEY : " + filePath);
         Directory.CreateDirectory(filePath);
 
-        using (var sw = new StreamWriter(filePath + "/" + fileName))
+        try
         {
-            sw.Write(fileData);
+            using (var sw = new StreamWriter(filePath + "/" + fileName))
+            {
+                sw.Write(fileData);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
 
         //File.SetAttributes(filePath + "/" + fileName, FileAttributes.ReadOnly);

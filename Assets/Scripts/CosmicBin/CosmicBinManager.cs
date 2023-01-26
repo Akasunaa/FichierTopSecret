@@ -42,12 +42,20 @@ public class CosmicBinManager : MonoBehaviour
 
     public void GenerateCosmicBin()
     {
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
-
-        if (!di.Exists)
+        try
         {
-            Debug.Log("Create new directory: " + di.FullName + " | " + cosmicBinFolderName);
-            di.Create();
+            DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" +
+                                                 Utils.CosmicbinFolderName);
+
+            if (!di.Exists)
+            {
+                Debug.Log("Create new directory: " + di.FullName + " | " + cosmicBinFolderName);
+                di.Create();
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 
@@ -91,8 +99,16 @@ public class CosmicBinManager : MonoBehaviour
             FileInfo fi = new FileInfo(fileParser.filePath);
 
             // remove read only and delete the file
-            File.SetAttributes(fileParser.filePath, File.GetAttributes(fileParser.filePath) & ~FileAttributes.ReadOnly);
-            File.Delete(fileParser.filePath);
+            try
+            {
+                File.SetAttributes(fileParser.filePath,
+                    File.GetAttributes(fileParser.filePath) & ~FileAttributes.ReadOnly);
+                File.Delete(fileParser.filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
 
             // change the path to the origin folder and rewrite the file
             fileParser.filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + folderDestination + "/" + fi.Name;

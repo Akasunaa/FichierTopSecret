@@ -87,7 +87,16 @@ public class FileParser : MonoBehaviour
             targetModifiable.SetValue("scene target", LevelManager.Capitalize(SceneManager.GetActiveScene().name));
             filePath = Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + fi.Name;
             WriteToFile();
-            File.SetAttributes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName + "/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
+            try
+            {
+                File.SetAttributes(
+                    Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName +
+                    "/" + Utils.FileName(Utils.RelativePath(filePath)), FileAttributes.ReadOnly);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
             //if (TryGetComponent(out ModifiableController mc)) { 
             //    mc.canBeDeleted = false; 
             //}
@@ -107,7 +116,16 @@ public class FileParser : MonoBehaviour
     public void ReadFromFile(string path, bool firstRead = false)
     {
         Char[] separators = {':', '='};
-        _dataArray = File.ReadAllLines(path);
+        try
+        {
+            _dataArray = File.ReadAllLines(path);
+        }
+        catch (Exception e)
+        {
+            _dataArray = null;
+            Debug.LogError(e);
+        }
+
         if(_dataArray != null)
         {
             var keyNames = new List<string>();
@@ -140,17 +158,38 @@ public class FileParser : MonoBehaviour
     {
 
         Debug.Log(name + " write to file " + filePath);
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-        if (File.Exists(filePath))
+        try
         {
-            var fileIsReadonly = (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;
-            if (fileIsReadonly) return;
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
 
-        using (var sw = new StreamWriter(filePath))  
-        {  
-            sw.Write(targetModifiable.ToFileString());
+        try
+        {
+            if (File.Exists(filePath))
+            {
+                var fileIsReadonly = (File.GetAttributes(filePath) & FileAttributes.ReadOnly) != 0;
+                if (fileIsReadonly) return;
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
+
+        try
+        {
+            using (var sw = new StreamWriter(filePath))
+            {
+                sw.Write(targetModifiable.ToFileString());
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 }

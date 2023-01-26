@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -56,12 +57,26 @@ public class ExplosiveController : ItemController
                         {
                             if (file.Name != "player.txt" || sceneName != Utils.PlayerFolderName)
                             {
-                                file.Delete(); 
+                                try
+                                {
+                                    file.Delete();
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.LogError(e);
+                                }
                             }
                         }
                         foreach (DirectoryInfo dir in di1.GetDirectories())
                         {
-                            dir.Delete(true); 
+                            try
+                            {
+                                dir.Delete(true);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError(e);
+                            }
                         }
                         
                         return;
@@ -100,11 +115,25 @@ public class ExplosiveController : ItemController
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + sceneName);
         foreach (FileInfo file in di.GetFiles())
         {
-            file.Delete(); 
+            try
+            {
+                file.Delete();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
         foreach (DirectoryInfo dir in di.GetDirectories())
         {
-            dir.Delete(true); 
+            try
+            {
+                dir.Delete(true);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
     }
 }

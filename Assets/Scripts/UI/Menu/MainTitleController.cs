@@ -25,14 +25,19 @@ public class MainTitleController : MonoBehaviour
     private void Start()
     {
         #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
-        IntPtr unityWindow = FilesWatcher.GetActiveWindow();
-        if (unityWindow != IntPtr.Zero)
-        {
-            if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
+        try {
+            IntPtr unityWindow = FilesWatcher.GetActiveWindow();
+            if (unityWindow != IntPtr.Zero)
             {
-                FilesWatcher.MoveWindow(unityWindow, 0, 10,
-                    r.Right - r.Left, r.Bottom - r.Top, true);
+                if (FilesWatcher.GetWindowRect(unityWindow, out FilesWatcher.RECT r))
+                {
+                    FilesWatcher.MoveWindow(unityWindow, 0, 10,
+                        r.Right - r.Left, r.Bottom - r.Top, true);
+                }
             }
+        }
+        catch (Exception e) {
+            Debug.LogError(e);
         }
         #endif
         _currentAlpha = 0;

@@ -58,10 +58,25 @@ public class LevelManager : MonoBehaviour
                 foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName))
                 {
                     FileInfo fileInfo = new FileInfo(fileName);
-                    File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
+                    try
+                    {
+                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
                 }
             }
-            di.Delete(true);
+
+            try
+            {
+                di.Delete(true);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
         }
         fadeImage = GetComponentInChildren<Image>();
         fadeImage.color = new Color(0F, 0F, 0F, 0F);
@@ -185,13 +200,28 @@ public class LevelManager : MonoBehaviour
                 Debug.Log("Creating file: " + fileInfo.FullName);
                 if (!Directory.Exists(fileInfo.DirectoryName))
                 {
-                    Directory.CreateDirectory(fileInfo.DirectoryName);
+                    try
+                    {
+                        Directory.CreateDirectory(fileInfo.DirectoryName);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                    }
                 }
                 fileParser.targetModifiable.SetDefaultProperties();
-                using (StreamWriter sw = new StreamWriter(fileInfo.FullName))  
-                {  
-                    sw.Write(fileParser.targetModifiable.ToFileString());
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(fileInfo.FullName))
+                    {
+                        sw.Write(fileParser.targetModifiable.ToFileString());
+                    }
                 }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+
                 FilesWatcher.instance.Set(fileParser);
             }
             else
@@ -351,9 +381,17 @@ public class LevelManager : MonoBehaviour
 
     public static void GiveItem(string itemName)
     {
-        using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/" + itemName + ".txt"))
+        try
         {
-            sw.Write("");
+            using (StreamWriter sw = new StreamWriter(Application.streamingAssetsPath + "/" + Utils.RootFolderName +
+                                                      "/" + Utils.PlayerFolderName + "/" + itemName + ".txt"))
+            {
+                sw.Write("");
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
         }
     }
 
@@ -361,7 +399,6 @@ public class LevelManager : MonoBehaviour
     {
         while (fadeImage.color.a < 1)
         {
-            print(fadeImage.color.a);
             fadeImage.color += new Color(0F,0F,0F,Time.unscaledDeltaTime / time);
             fadeImage.color = new Color(0F, 0F, 0F, Mathf.Clamp01(fadeImage.color.a));
             yield return null;
@@ -372,8 +409,6 @@ public class LevelManager : MonoBehaviour
     {
         while (fadeImage.color.a > 0)
         {
-            print(fadeImage.color.a);
-
             fadeImage.color -= new Color(0F, 0F, 0F, Time.unscaledDeltaTime / time);
             fadeImage.color = new Color(0F, 0F, 0F, Mathf.Clamp01(fadeImage.color.a));
             yield return null;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +16,14 @@ public class PickupItemController : ModifiableController, Interactable
             if (fi.Exists)
             {
                 LevelManager.GiveItem(fi.Name.Substring(0, fi.Name.Length - fi.Extension.Length));
-                fi.Delete();
+                try
+                {
+                    fi.Delete();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
             }
         }
     }
