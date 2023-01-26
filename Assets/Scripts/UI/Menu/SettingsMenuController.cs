@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class SettingsMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject mainMenuCanvas;
+    [SerializeField] private GameObject backToThatCanvas;
 
     [Header("Resolution and Refresh rate")]
     [SerializeField] private TMP_Dropdown resolutionDropdown;
@@ -28,6 +28,9 @@ public class SettingsMenuController : MonoBehaviour
     
     private void Start()
     {
+
+        AudioSourcesReferencesCheck();
+        
         // RESOLUTION AND REFRESH RATE GUI INITIALIZATION
 
         SetRefreshRateDropdown();
@@ -76,6 +79,24 @@ public class SettingsMenuController : MonoBehaviour
 
     #region Audio
 
+    private void AudioSourcesReferencesCheck()
+    {
+        var testSfx = sfxAudioSource == null;
+        var testMusic = musicAudioSource == null;
+        if (!testMusic && !testSfx) return;
+        
+        var sources = FindObjectsOfType<AudioSource>();
+        foreach (var source in sources)
+        {
+            var sourceController = source.GetComponent<AudioSourceController>();
+            if (sourceController == null) continue;
+            
+            var type = sourceController.audioType;
+            if (testSfx && type == AudioSourceController.AudioType.Sfx) sfxAudioSource = source;
+            else if (testMusic && type == AudioSourceController.AudioType.Music) musicAudioSource = source;
+        }
+    }
+    
     private void SetSfxUI()
     {
         soundToggle.isOn = !AudioMixerManager.instance.sfxMuted;
@@ -141,11 +162,11 @@ public class SettingsMenuController : MonoBehaviour
 
     
 
-    public void ToMainMenu()
+    public void BackButton()
     {
         AudioMixerManager.instance.SaveAudioSettings();
         ScreenValuesManager.instance.SaveScreenSettings();
-        mainMenuCanvas.SetActive(true);
+        backToThatCanvas.SetActive(true);
         gameObject.SetActive(false);
     }
     

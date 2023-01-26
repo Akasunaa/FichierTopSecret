@@ -576,7 +576,7 @@ public class NPCController : ModifiableController, Interactable
         foreach (FileInfo fi in di.EnumerateFiles())
         {
             Debug.Log("NPC : Scanning if object : "+ objectName+" is in file name : "+ fi.Name);
-            if (fi.Name.Contains(objectName))
+            if (fi.Name.ToLower().Contains(objectName.ToLower()))
             {
                 return true;
             }
