@@ -11,7 +11,7 @@ using ColorUtility = UnityEngine.ColorUtility;
 public abstract class ModifiableController : MonoBehaviour
 {
     public bool canBeDeleted;
-    public UnityEvent<(string, object)> fileChange;
+    [HideInInspector] public UnityEvent<(string, object)> fileChange;
 
     protected struct DicoValueProperty
     {

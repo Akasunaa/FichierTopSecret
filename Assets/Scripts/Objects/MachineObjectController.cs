@@ -27,12 +27,12 @@ public class MachineObjectController : ModifiableController, Interactable
 
     public override string ToFileString()
     {
-        return "set count=0\nfor %%x in (" + objectName + "*.txt) do set /a count+=1\necho NUL > " + objectName + "-%count%.txt";
+        return "echo NUL > " + objectName + "-%RANDOM%.txt";
+        // return "set count=0\r\nfor %%x in (" + objectName + "*.txt) do set /a count+=1\r\necho NUL > " + objectName + "-%count%.txt";
     }
 
     void Start()
     {
-        canBeInteracted = true;
         uiDialogController = GameObject.FindGameObjectWithTag("UI").GetComponent<DialogueUIController>();
         playerObject = GameObject.FindGameObjectWithTag("Player");
     }
