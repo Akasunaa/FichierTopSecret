@@ -86,8 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a small container. I still remember when I worked on
+    the docks, even these were a pain in the ass to move around.
+  dialogueOnConditionChange: This is a small container. I still remember when I worked
+    on the docks, even these were a pain in the ass to move around.
 --- !u!114 &7140177735156028771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,4 +232,4 @@ MonoBehaviour:
   - {x: 1.5469308, y: -1.5113639, z: 0}
   m_ShapePathHash: 582523442
   m_Mesh: {fileID: 0}
-  m_InstanceId: 88880
+  m_InstanceId: 70138

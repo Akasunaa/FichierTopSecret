@@ -86,8 +86,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a container. It is brought by fret from the Neptunian
+    anchors in high orbit. They rarely hold anything when they go away too...
+  dialogueOnConditionChange: This is a container. It is brought by fret from the
+    Neptunian anchors in high orbit. They rarely hold anything when they go away
+    too...
 --- !u!114 &7140177735156028771
 MonoBehaviour:
   m_ObjectHideFlags: 0

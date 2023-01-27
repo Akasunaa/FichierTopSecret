@@ -86,8 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is the spaceport's billboard. I still remember when I first
+    saw it, arriving from the Jovian sphere... So long ago....
+  dialogueOnConditionChange: This is the spaceport's billboard. I still remember
+    when I first saw it, arriving from the Jovian sphere... So long ago....
 --- !u!114 &7140177735156028771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,7 +233,7 @@ MonoBehaviour:
   - {x: 1.4941344, y: -0.3136149, z: 0}
   m_ShapePathHash: -142912725
   m_Mesh: {fileID: 0}
-  m_InstanceId: 99552
+  m_InstanceId: 70228
 --- !u!95 &5349596147676059237
 Animator:
   serializedVersion: 4
