@@ -25,6 +25,7 @@ public class CleaningBotKillingDialogState : DialogState
         //Debug.Log("NPC DRUNK : SWITCHING TO SLEEP");
         sm.ConvertTo<DialogSM>().associatedNPCController.shouldMove = shouldMoveBool;
         SM.gameObject.GetComponentInChildren<Animator>().SetBool("IsKilling", true);
+        SM.gameObject.GetComponent<NPCController>().portraitRef = "Killing Drone";
     }
 
     /// <summary>
@@ -36,6 +37,7 @@ public class CleaningBotKillingDialogState : DialogState
         base.Exit(sm);
         //Debug.Log("NPC DRUNK : SWITCHING TO IDLE");
         SM.gameObject.GetComponentInChildren<Animator>().SetBool("IsKilling", false);
+        SM.gameObject.GetComponent<NPCController>().portraitRef = "Cleaning Drone";
         //Debug.Log(SM.gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name);
     }
 }
