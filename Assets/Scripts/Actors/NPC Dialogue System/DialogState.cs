@@ -59,10 +59,10 @@ public class DialogState : BaseState
     }
 
     /// <summary>
-    /// Function that will recover the NPC's data for the current spoken speech, if need be
-    /// Relevant data is seen with $dataname$ tag
+    /// Function that will recover the NPC's or Player's data for the current spoken speech, if need be
+    /// Relevant data is seen with $dataname$ tag for NPC properties, ¤dataname¤ for Player properties.
     /// </summary>
-    /// <param name="SM">State Machine operating state</param>
+    /// <param name="SM">State Machine operating state.</param>
     protected void GetSpeechVariables(StateMachine SM)
     {
         if (currentSpeech.Contains("$"))
@@ -78,7 +78,6 @@ public class DialogState : BaseState
             String newSpeech = "";
             newSpeech += currentSpeech.Split("¤")[0];
             newSpeech += GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().GetPropertyValue(currentSpeech.Split("¤")[1]);
-            //newSpeech += SM.gameObject.GetComponent<NPCController>().GetPropertyValue(currentSpeech.Split("$")[1]);
             newSpeech += currentSpeech.Split("¤")[2];
             currentSpeech = newSpeech;
         }

@@ -15,4 +15,5 @@ MonoBehaviour:
   speech:
   - Changing my name ? How original
   - Because $name$ is so much better...
+  - "Well at least it's still better than \xA4name\xA4"
   currentSpeech: Changing my name ? How original

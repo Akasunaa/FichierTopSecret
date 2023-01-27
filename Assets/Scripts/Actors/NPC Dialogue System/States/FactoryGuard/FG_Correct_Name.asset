@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: FG_Correct_Name
   m_EditorClassIdentifier: 
   speech:
-  - Oh, mister Mivitch, I didn't recognize you...
+  - "Oh, mister \xA4name\xA4, I didn't recognize you..."
   - Ah I get it !
   - ...you changed your hair ?
+  - "Regardless your card says \xA4name\xA4 so it must be you !"
   - Oh yes, of course, please allow me to open the door for you sir.
   currentSpeech: 
   playerPrefsName: IsFactoryOpen

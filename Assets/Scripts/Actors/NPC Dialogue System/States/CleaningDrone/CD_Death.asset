@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CD_Death
   m_EditorClassIdentifier: 
   speech:
-  - 'Statement : $work$ Recognized.'
-  - 'Statement : self-preservation protocols overriden.'
-  - 'Decision : executing death protocol.'
+  - '*vrr* Statement : $work$ Recognized.'
+  - 'Statement : self-preservation protocols overriden. *vrrrr*'
+  - 'Decision : executing death protocol. *vrrr*'
   - 'Statement : Goodbye worthless bio.'
   currentSpeech: 
