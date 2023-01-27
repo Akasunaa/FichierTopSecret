@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4961505963263090231}
   - component: {fileID: 1756760912501290349}
   - component: {fileID: 3666317992465588561}
+  - component: {fileID: 951917905214921311}
   m_Layer: 0
   m_Name: bin
   m_TagString: Untagged
@@ -87,6 +88,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueStandard: This is my bin. Really useful for C++ projects.
   dialogueOnConditionChange: 
+--- !u!114 &951917905214921311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d14ffb6882376d4f98a946a98402ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDeleted: 1
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,4 +230,4 @@ MonoBehaviour:
   - {x: 0.5, y: -1.5, z: 0}
   m_ShapePathHash: 1201009941
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42882
+  m_InstanceId: 37926

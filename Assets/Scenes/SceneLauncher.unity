@@ -664,14 +664,10 @@ MonoBehaviour:
     go: {fileID: 244007217957566919, guid: 9bbc68452b7065c47bf0338dac514dc8, type: 3}
   - reg: hologram
     go: {fileID: 244007217957566919, guid: 2bba95cf76e84b04ab58169982605ecd, type: 3}
-  - reg: desk
-    go: {fileID: 244007217957566919, guid: 2f27b8973ebe84a4fbeb46a979d093b7, type: 3}
   - reg: chair
     go: {fileID: 244007217957566919, guid: 14deb6604adac6d4f9c546512390a2c2, type: 3}
   - reg: bin
     go: {fileID: 244007217957566919, guid: 9e136ede099c68a40a7384de0e4d70c0, type: 3}
-  - reg: shelf
-    go: {fileID: 244007217957566919, guid: 262f770c95ecaa94cb186a4136a10aef, type: 3}
   - reg: bookshelves
     go: {fileID: 244007217957566919, guid: 4e84953741dd38440a1a9e651ec27c6c, type: 3}
   - reg: nothing
@@ -680,8 +676,6 @@ MonoBehaviour:
     go: {fileID: 4787518617515403794, guid: 4f5023184c96d894385ff1646ad45c7d, type: 3}
   - reg: civilian
     go: {fileID: 4445950531819338328, guid: 7007bec4d2dd72546be7789d7a15fe12, type: 3}
-  - reg: factoryGuard
-    go: {fileID: 4121410922239261867, guid: 7891386de522d4147b85eeb32fbd3521, type: 3}
   - reg: teleport
     go: {fileID: 4745399933507643035, guid: 68cb180348ccdee43ae1b60931188bdc, type: 3}
   - reg: explosives

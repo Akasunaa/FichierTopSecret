@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4961505963263090231}
   - component: {fileID: 4842992620441680637}
   - component: {fileID: 1983265962948327654}
+  - component: {fileID: 7140177735156028771}
   m_Layer: 0
   m_Name: bookshelves-front
   m_TagString: Untagged
@@ -89,6 +90,22 @@ MonoBehaviour:
     market... Good times...
   dialogueOnConditionChange: This is my bookshelf. I remember buying it off Europa's
     flea market... Good times...
+--- !u!114 &7140177735156028771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244007217957566919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d14ffb6882376d4f98a946a98402ce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canBeDeleted: 1
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,4 +232,4 @@ MonoBehaviour:
   - {x: 1, y: -1.5, z: 0}
   m_ShapePathHash: 1872098581
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42024
+  m_InstanceId: 37970
