@@ -84,12 +84,14 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: b4da5e6c8bbb9874eb31bec996e80faa, type: 2}
   - name: CD_Change_Owner
     state: {fileID: 11400000, guid: 18f9d1968aa83134d8f7ce8e3f613017, type: 2}
-  - name: CD_Change_Owner
-    state: {fileID: 11400000, guid: 3137404b8f66ea248a1e216104fa6c33, type: 2}
-  - name: CD_Change_Owner
+  - name: CD_Change_Work_Killing
+    state: {fileID: 11400000, guid: ac2d61162109b534ba903d082f30c3e8, type: 2}
+  - name: CD_Correct_Work
     state: {fileID: 11400000, guid: 5bf20067f4bed9b43a8f3c4f292a149a, type: 2}
-  - name: CD_Change_Owner
+  - name: CD_Death
     state: {fileID: 11400000, guid: 06dba2c1d52aa9c478ca1fe9908df157, type: 2}
+  - name: CD_Litter
+    state: {fileID: 11400000, guid: 6315a86342f77f14b812ef02ae9f4970, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &2886453808621407751
 MonoBehaviour:
@@ -133,7 +135,12 @@ MonoBehaviour:
     - CD_Death
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: Litter
+    stateChangeName:
+    - CD_Litter
+    isSuperior: 01
+    condition: 00000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
@@ -266,7 +273,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 100
-  m_Sprite: {fileID: 230018539, guid: f6e1e96b6329a87429a13773d5f007db, type: 3}
+  m_Sprite: {fileID: 1057041838, guid: 57ae84f3dcd550d48bdf83debaf65a3e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

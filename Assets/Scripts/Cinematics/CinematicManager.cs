@@ -58,6 +58,7 @@ public class CinematicManager : MonoBehaviour
         //----------------------------------------
         //we now enable/disable all the relevant data :
         _player.GetComponent<PlayerInput>().enabled = true;
+        _player.GetComponent<InputController>().RestartMovement();
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
@@ -80,11 +81,13 @@ public class CinematicManager : MonoBehaviour
         cinematicIsPlaying = true;
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
+        _player.GetComponent<InputController>().StopMovement();
         _player.GetComponent<PlayerInput>().enabled = false;
         _cinematicDirector.playableAsset = cinematicData;
         _cinematicDirector.Play();
         yield return new WaitForSeconds((float)cinematicData.duration);
         _player.GetComponent<PlayerInput>().enabled = true;
+        _player.GetComponent<InputController>().RestartMovement();
         PlayerPrefs.SetString(cinematicPlayerPrefs, "TRUE");
         PlayerPrefs.Save();
         cinematicIsPlaying=false;

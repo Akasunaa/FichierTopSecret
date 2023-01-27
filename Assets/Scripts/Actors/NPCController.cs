@@ -490,6 +490,7 @@ public class NPCController : ModifiableController, Interactable
             int elementTagCount = DuplicationCheckManager.Instance.Search(elementTag);
             //Debug.Log("NPC : FOUND " + elementTagCount + " ELEMENTS OF TAG " + elementTag);
             ReactSearchCount(elementTag, elementTagCount);
+            //OnStateChange(dialogSM.GetStartingState().name);
         }
     }
 
@@ -523,8 +524,8 @@ public class NPCController : ModifiableController, Interactable
                         return;
                     }
                 }
-               
             }
+            OnStateChange(dialogSM.GetStartingState().name);
         }
         return;
     }

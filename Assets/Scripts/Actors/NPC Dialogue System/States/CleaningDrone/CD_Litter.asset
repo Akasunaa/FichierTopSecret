@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
-  m_Name: PortraitCleaningDrone
+  m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
+  m_Name: CD_Litter
   m_EditorClassIdentifier: 
-  portraitName: Cleaning Drone
-  portraitSprite: {fileID: 121902196, guid: 57ae84f3dcd550d48bdf83debaf65a3e, type: 3}
+  speech:
+  - '*vrr* Stop littering !'
+  - '*vrr* Pick up your trash, NOW !'
+  currentSpeech: 

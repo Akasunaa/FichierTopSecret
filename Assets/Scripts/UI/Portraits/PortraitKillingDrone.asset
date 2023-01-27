@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
-  m_Name: PortraitCleaningDrone
+  m_Name: PortraitKillingDrone
   m_EditorClassIdentifier: 
-  portraitName: Cleaning Drone
-  portraitSprite: {fileID: 121902196, guid: 57ae84f3dcd550d48bdf83debaf65a3e, type: 3}
+  portraitName: Killing Drone
+  portraitSprite: {fileID: 997777239, guid: f40df83151b95834dbe83b4d1e5d66b9, type: 3}
