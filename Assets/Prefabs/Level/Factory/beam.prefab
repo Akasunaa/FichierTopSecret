@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5596418771676856235}
   - component: {fileID: 4961505963263090231}
-  - component: {fileID: 4842992620441680637}
-  - component: {fileID: 1983265962948327654}
+  - component: {fileID: 6636545200634957874}
+  - component: {fileID: 811854935347361156}
   m_Layer: 0
-  m_Name: teleporter-sign
+  m_Name: beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.5, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -59,9 +59,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4842992620441680637
+--- !u!114 &6636545200634957874
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426f56cd3c316374c9c532bb6c8d26b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1983265962948327654
+--- !u!114 &811854935347361156
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,10 +85,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: This is a factory billboard. Twenty cycles and counting, and
-    I still have no clue what the hell they're making inside it.
-  dialogueOnConditionChange: This is a factory billboard. Twenty cycles and counting,
-    and I still have no clue what the hell they're making inside it.
+  dialogueStandard: 
+  dialogueOnConditionChange: '
+
+'
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2302938657009832474}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -164,7 +164,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: cbe5b15dbbaa16a418c0e34d78edfffc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6d56e656e02e23428ce42686c894361, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -209,10 +209,10 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -2, y: -1, z: 0}
-  - {x: -2, y: 0.8, z: 0}
-  - {x: 2, y: 0.8, z: 0}
-  - {x: 2, y: -1, z: 0}
-  m_ShapePathHash: -183646755
+  - {x: -0.43272078, y: -1.5315155, z: 0}
+  - {x: -0.42221558, y: -0.67032206, z: 0}
+  - {x: 0.44322604, y: -0.65981674, z: 0}
+  - {x: 0.45373118, y: -1.5210103, z: 0}
+  m_ShapePathHash: 1299313023
   m_Mesh: {fileID: 0}
-  m_InstanceId: 69386
+  m_InstanceId: 69446
