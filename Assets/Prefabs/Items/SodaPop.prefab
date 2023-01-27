@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1919930744486906715}
   m_Layer: 0
   m_Name: SodaPop
-  m_TagString: Untagged
+  m_TagString: Litter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,6 +73,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canBeDeleted: 1
+  fileChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1919930745886976221
 GameObject:
   m_ObjectHideFlags: 0

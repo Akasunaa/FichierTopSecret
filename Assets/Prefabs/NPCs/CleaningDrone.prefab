@@ -90,6 +90,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 5bf20067f4bed9b43a8f3c4f292a149a, type: 2}
   - name: CD_Death
     state: {fileID: 11400000, guid: 06dba2c1d52aa9c478ca1fe9908df157, type: 2}
+  - name: CD_Litter
+    state: {fileID: 11400000, guid: 6315a86342f77f14b812ef02ae9f4970, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &2886453808621407751
 MonoBehaviour:
@@ -133,7 +135,12 @@ MonoBehaviour:
     - CD_Death
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: Litter
+    stateChangeName:
+    - CD_Litter
+    isSuperior: 01
+    condition: 00000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
