@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b63a6d0d00baddb4c8220c318a475969, type: 3}
   m_Name: DNPC_Change_Origin
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - Very well creator, I shall henceforth come from $origin$
   currentSpeech: 

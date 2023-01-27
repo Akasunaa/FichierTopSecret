@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240b0f92d4bcfa84a84e1973ff149ad6, type: 3}
   m_Name: DNPC_Death
   m_EditorClassIdentifier: 
-  speech: []
+  speech:
+  - O creator, I shall then suffer death at your hand, by your will.
+  - Let your will be true.
   currentSpeech: 
