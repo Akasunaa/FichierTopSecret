@@ -130,7 +130,7 @@ public class Ruler : MonoBehaviour
         _haveCamera = true;
     }
 
-    private void OnScreenChangedSize()
+    public void OnScreenChangedSize()
     {
         // change top ruler y pos and height
         var rulerTopImageTransform = rulerTopImage.transform;

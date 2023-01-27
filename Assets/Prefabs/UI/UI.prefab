@@ -1881,7 +1881,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.65
+  m_fontSize: 26.65
   m_fontSizeBase: 23.3
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3999,6 +3999,22 @@ PrefabInstance:
       propertyPath: backToThatCanvas
       value: 
       objectReference: {fileID: 2995161272995348801}
+    - target: {fileID: 1206248990384687550, guid: 0c07061cd4317004d9831fe17b9d3bc2, type: 3}
+      propertyPath: onScreenResolutionChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206248990384687550, guid: 0c07061cd4317004d9831fe17b9d3bc2, type: 3}
+      propertyPath: onScreenResolutionChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1206248990384687550, guid: 0c07061cd4317004d9831fe17b9d3bc2, type: 3}
+      propertyPath: onScreenResolutionChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2637594482985681454}
+    - target: {fileID: 1206248990384687550, guid: 0c07061cd4317004d9831fe17b9d3bc2, type: 3}
+      propertyPath: onScreenResolutionChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1206248990797644948, guid: 0c07061cd4317004d9831fe17b9d3bc2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

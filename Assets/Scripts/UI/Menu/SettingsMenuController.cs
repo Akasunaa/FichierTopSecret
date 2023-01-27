@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -25,7 +26,8 @@ public class SettingsMenuController : MonoBehaviour
     [SerializeField] private Slider musicSlider;
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioClip[] musicClips;
-    
+
+    public UnityEvent onScreenResolutionChanged;
     
     private void Start()
     {
@@ -124,6 +126,7 @@ public class SettingsMenuController : MonoBehaviour
     public void SetResolution(int resolutionIndex)
     {
         ScreenValuesManager.instance.SetResolution(resolutionIndex);
+        onScreenResolutionChanged.Invoke();
     }
 
     public void SetRefreshRateFromIndex(int refreshRateIndex)
