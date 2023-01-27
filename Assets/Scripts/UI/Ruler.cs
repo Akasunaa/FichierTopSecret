@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -35,6 +36,12 @@ public class Ruler : MonoBehaviour
     
     private float _deltaPTop;
     private float _deltaPSide;
+
+    private void OnEnable()
+    {
+        ScreenValuesManager.instance.GetResolutionHasChanged(out var changed);
+        if(changed) OnScreenChangedSize();
+    }
 
     private void Start()
     {
@@ -130,7 +137,7 @@ public class Ruler : MonoBehaviour
         _haveCamera = true;
     }
 
-    public void OnScreenChangedSize()
+    private void OnScreenChangedSize()
     {
         // change top ruler y pos and height
         var rulerTopImageTransform = rulerTopImage.transform;

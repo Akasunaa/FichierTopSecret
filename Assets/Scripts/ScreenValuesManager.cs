@@ -31,7 +31,14 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
 
     public List<int> acceptedRefreshRates { get; } = new() { 30, 60, 75, 120, 144, 240 };
     public int currentRefreshRateIndex { get; private set; } = -1;
-    
+
+    private bool _resolutionHasChanged;
+
+    public void GetResolutionHasChanged(out bool hasChanged)
+    {
+        hasChanged = _resolutionHasChanged;
+        _resolutionHasChanged = false;
+    }
     
     protected override void OnAwake()
     {
@@ -98,6 +105,7 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
     {
         Screen.SetResolution(width, height, false);
         Invoke(nameof(ResetPosition), 0.05f);
+        _resolutionHasChanged = true;
     }
     
     public void SetRefreshRateFromIndex(int refreshRateIndex)
@@ -113,6 +121,7 @@ public class ScreenValuesManager : Singleton<ScreenValuesManager>
         currentResolutionIndex = resolutionIndex;
         Screen.SetResolution(resolution.width, resolution.height, false);
         Invoke(nameof(ResetPosition), 0.05f);
+        _resolutionHasChanged = true;
     }
 
     private void ResetPosition()
