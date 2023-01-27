@@ -586,7 +586,7 @@ public class NPCController : ModifiableController, Interactable
                     }
                 }
             }
-            OnStateChange(dialogSM.GetStartingState().name);
+            //OnStateChange(dialogSM.GetStartingState().name);
         }
         return;
     }

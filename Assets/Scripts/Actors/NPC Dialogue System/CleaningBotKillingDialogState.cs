@@ -22,7 +22,7 @@ public class CleaningBotKillingDialogState : DialogState
     public override void Enter(StateMachine sm)
     {
         base.Enter(sm);
-        //Debug.Log("NPC DRUNK : SWITCHING TO SLEEP");
+        //Debug.Log("NPC CLEANING : SWITCHING TO KILLING");
         sm.ConvertTo<DialogSM>().associatedNPCController.shouldMove = shouldMoveBool;
         SM.gameObject.GetComponentInChildren<Animator>().SetBool("IsKilling", true);
         SM.gameObject.GetComponent<NPCController>().portraitRef = "Killing Drone";
@@ -35,7 +35,7 @@ public class CleaningBotKillingDialogState : DialogState
     public override void Exit(StateMachine sm)
     {
         base.Exit(sm);
-        //Debug.Log("NPC DRUNK : SWITCHING TO IDLE");
+        //Debug.Log("NPC CLEANING : SWITCHING TO CLEANING");
         SM.gameObject.GetComponentInChildren<Animator>().SetBool("IsKilling", false);
         SM.gameObject.GetComponent<NPCController>().portraitRef = "Cleaning Drone";
         //Debug.Log(SM.gameObject.GetComponentInChildren<Animator>().GetCurrentAnimatorClipInfo(0)[0].clip.name);
