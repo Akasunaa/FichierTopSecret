@@ -86,8 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bce8118f51f573443842b93877dc5dff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueStandard: 
-  dialogueOnConditionChange: 
+  dialogueStandard: This is a bench. Sometimes old people come watch the starships
+    breaking orbit on these benches.
+  dialogueOnConditionChange: This is a bench. Sometimes old people come watch the
+    starships breaking orbit on these benches.
 --- !u!114 &7140177735156028771
 MonoBehaviour:
   m_ObjectHideFlags: 0
