@@ -73,5 +73,14 @@ public class DialogState : BaseState
             newSpeech += currentSpeech.Split("$")[2];
             currentSpeech = newSpeech;
         }
+        if(currentSpeech.Contains("¤")) 
+        {
+            String newSpeech = "";
+            newSpeech += currentSpeech.Split("¤")[0];
+            newSpeech += GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerObjectController>().GetPropertyValue(currentSpeech.Split("¤")[1]);
+            //newSpeech += SM.gameObject.GetComponent<NPCController>().GetPropertyValue(currentSpeech.Split("$")[1]);
+            newSpeech += currentSpeech.Split("¤")[2];
+            currentSpeech = newSpeech;
+        }
     }
 }

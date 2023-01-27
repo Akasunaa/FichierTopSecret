@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,5 +73,19 @@ public class PlayerObjectController : ModifiableController
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Function that will recuperates a certain value from the properties, if such value exists
+    /// </summary>
+    /// <param name="propertyName">name of the property being looked for in the file</param>
+    /// <returns>value of said property as a string if found, "DATA NOT FOUND" otherwise</returns>
+    public string GetPropertyValue(String propertyName)
+    {
+        if (properties.ContainsKey(propertyName))
+        {
+            return properties[propertyName].Value.ToString();
+        }
+        return "DATA NOT FOUND";
     }
 }
