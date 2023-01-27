@@ -380,16 +380,16 @@ public class NPCController : ModifiableController, Interactable
         foreach (var propertyKey in propertyDict.Keys)
         {
             // as they are default properties, they are considered as important
-            //Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
+            Debug.Log("NPC : " + gameObject.name + " SetDefaultProperties : value considered : " + propertyDict[propertyKey].propertyName);
             properties.TryAdd(propertyDict[propertyKey].propertyName, new DicoValueProperty { IsImportant = true, Value = propertyDict[propertyKey].propertyValue });
         }
-        ////DEBUG -------------------------
-        //foreach (var property in properties.Keys)
-        //{
-        //    Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
+        //DEBUG -------------------------
+        foreach (var property in properties.Keys)
+        {
+            Debug.Log("NPC " + gameObject.name + " : SetDefaultProperties : file properties value added : " + property);
 
-        //}
-        ////-------------------------------
+        }
+        //-------------------------------
     }
 
     /// <summary>

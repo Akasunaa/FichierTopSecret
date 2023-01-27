@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2020358621227853707}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.25, y: 4.53, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -154,7 +154,7 @@ Transform:
   - {fileID: 7121171740623528593}
   - {fileID: 7983657614563163755}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &3064556043135657640
 BoxCollider2D:
@@ -197,12 +197,12 @@ MonoBehaviour:
   currentState: {fileID: 0}
   startingState: {fileID: 11400000, guid: d7e6638ce2c269d4b8eba649d67cdd24, type: 2}
   nextStates:
-  - name: DNPC_Death
-    state: {fileID: 11400000, guid: 2a358219502ea5741a97907592f1b976, type: 2}
   - name: DNPC_Change_Name
     state: {fileID: 11400000, guid: 3790b09e4a9c24c438f749e31decabcd, type: 2}
   - name: DNPC_Change_Origin
     state: {fileID: 11400000, guid: 85a31781dd324804eb6315a2eba38fec, type: 2}
+  - name: DNPC_Death
+    state: {fileID: 11400000, guid: 2a358219502ea5741a97907592f1b976, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &5116816693877485058
 MonoBehaviour:
