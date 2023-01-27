@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62ee5d865a9082948b50363439b7b204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   fileChange:
     m_PersistentCalls:
       m_Calls: []
@@ -80,6 +80,7 @@ MonoBehaviour:
   dialogueNoMoney: I have no money, 10 N$ for an astro-sodapop
   dialogueCooldown: I need to wait, until the machine's mechanism cools down...
   machineCooldown: 2
+  itemCost: 0
 --- !u!1 &2302938657009832474
 GameObject:
   m_ObjectHideFlags: 0

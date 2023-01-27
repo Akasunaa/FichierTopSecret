@@ -691,7 +691,7 @@ MonoBehaviour:
   - reg: cleaningDrone
     go: {fileID: 2886453808621407750, guid: 00abb0459558e9b48b66e77586bbb4c2, type: 3}
   - reg: machine
-    go: {fileID: 244007217957566919, guid: 4466ada0b66c7524880828ff0d5704b4, type: 3}
+    go: {fileID: 244007217957566919, guid: a8f3a3e8848f6dc4da2293c1ff5837d8, type: 3}
   - reg: workerDrone
     go: {fileID: 5443164626271493873, guid: d5c162327acb2f641bfc5777dc788324, type: 3}
   - reg: ik
