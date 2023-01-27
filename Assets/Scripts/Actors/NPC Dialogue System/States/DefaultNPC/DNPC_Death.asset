@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
-  m_Name: PortraitNPC
+  m_Script: {fileID: 11500000, guid: 240b0f92d4bcfa84a84e1973ff149ad6, type: 3}
+  m_Name: DNPC_Death
   m_EditorClassIdentifier: 
-  portraitName: npc
-  portraitSprite: {fileID: -1589218333, guid: 0723264665f1aa44894e5e4a3d7da257, type: 3}
+  speech:
+  - O creator, I shall then suffer death at your hand, by your will.
+  - Let your will be true.
+  currentSpeech: 
