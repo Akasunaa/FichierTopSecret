@@ -40,7 +40,7 @@ public class Ruler : MonoBehaviour
     private void OnEnable()
     {
         ScreenValuesManager.instance.GetResolutionHasChanged(out var changed);
-        if(changed) OnScreenChangedSize();
+        if(changed && _haveCamera) OnScreenChangedSize();
     }
 
     private void Start()
