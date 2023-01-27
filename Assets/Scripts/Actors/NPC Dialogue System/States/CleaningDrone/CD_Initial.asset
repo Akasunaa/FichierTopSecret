@@ -15,5 +15,6 @@ MonoBehaviour:
   speech:
   - '*vrrrrr*'
   - '*vrrrrr* Statement : cleaning procedure *vrrrr*'
-  - '*vrrrrr* Statement : please step aside bio trash *vrrrrr*'
-  currentSpeech: 
+  - "*vrrrrr* Statement : recognizing \xA4name\xA4 bio entity*vrrrrr*"
+  - "*vrrrrr* Statement : happy to see \xA4name\xA4 *vrrrrr*"
+  currentSpeech: '*vrrrrr*'

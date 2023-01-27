@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speech:
   - 'Statement : work changed'
-  - 'Statement : $work$ recognized'
-  - 'Decision : proceeding with $work$.'
+  - '*brrrr* Statement : $work$ recognized'
+  - 'Decision : proceeding with $work$. *vrrr*'
   currentSpeech: 'Statement : zqd unrecognized'
   shouldMoveBool: 1

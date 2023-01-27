@@ -181,8 +181,6 @@ MonoBehaviour:
   nextStates:
   - name: FactoryGuard_Bar
     state: {fileID: 11400000, guid: e3116ba70e0c35b42bccc6c716f878e5, type: 2}
-  - name: FactoryGuard_Change_Employer
-    state: {fileID: 11400000, guid: b8b528685aee8814294380a09ba774c6, type: 2}
   - name: FactoryGuard_Change_Name
     state: {fileID: 11400000, guid: 461a121ae886bc84392504c38d3ffc32, type: 2}
   - name: FactoryGuard_Correct_Name
@@ -239,6 +237,7 @@ MonoBehaviour:
   grid: {fileID: 0}
   shouldMove: 0
   speed: 3
+  minTimeWait: 4
 --- !u!50 &-4164853177574637668
 Rigidbody2D:
   serializedVersion: 4

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: EM_Initial
   m_EditorClassIdentifier: 
   speech:
-  - Hey there Mr. Jerrik !
-  - How are you today ?
+  - Hey there  !
+  - "How are you today \xA4name\xA4 ?"
   - 'Business ? '
   - Yeah it's booming ! Not literally I hope, but you know, haha...
   - Hm ?

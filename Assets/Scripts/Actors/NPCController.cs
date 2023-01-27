@@ -573,10 +573,10 @@ public class NPCController : ModifiableController, Interactable
     private bool ScanPlayerInventory(String objectName)
     {
         DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.PlayerFolderName + "/");
-        Debug.Log("NPC : Scanning player inventory");
+        //Debug.Log("NPC : Scanning player inventory");
         foreach (FileInfo fi in di.EnumerateFiles())
         {
-            Debug.Log("NPC : Scanning if object : "+ objectName+" is in file name : "+ fi.Name);
+            //Debug.Log("NPC : Scanning if object : "+ objectName+" is in file name : "+ fi.Name);
             if (fi.Name.ToLower().Contains(objectName.ToLower()))
             {
                 return true;
