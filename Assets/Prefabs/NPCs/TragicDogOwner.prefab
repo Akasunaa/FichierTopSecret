@@ -202,6 +202,8 @@ MonoBehaviour:
   nextStates:
   - name: TDO_Change_Name
     state: {fileID: 11400000, guid: 586fcb7ad42064542bbcfe6d646ab8e9, type: 2}
+  - name: TDO_Dog_Returned
+    state: {fileID: 11400000, guid: 42ef49be30fb1204aadaa00ec108fe7f, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &8190019406241624018
 MonoBehaviour:
@@ -231,12 +233,18 @@ MonoBehaviour:
     - TDO_Change_Name
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: Dog
+    stateChangeName:
+    - TDO_Dog_Returned
+    isSuperior: 01
+    condition: 01000000
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1
+  minTimeWait: 4
 --- !u!50 &5186242519599287859
 Rigidbody2D:
   serializedVersion: 4
