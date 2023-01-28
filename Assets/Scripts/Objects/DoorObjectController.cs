@@ -67,7 +67,7 @@ public class DoorObjectController : ModifiableController, Interactable
         }
         if (!_displayingDialogue && TryGet("locked", out locked) && !locked && TryGet("direction", out string dir))
         {
-            if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0)
+            if (SceneUtility.GetBuildIndexByScenePath(dir) >= 0 && dir.ToLower() != "mainmenu")
             {   
                 if(PositionInSceneController.hasInstance) { PositionInSceneController.instance.OnPlayerExitedLevel(); }
 
