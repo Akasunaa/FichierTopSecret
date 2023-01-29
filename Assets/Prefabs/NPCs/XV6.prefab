@@ -113,7 +113,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canBeInteracted: 0
-  portraitRef: xv6
+  portraitRef: Robot
   fileProperties:
   - propertyName: name
     propertyValue: XV6
@@ -161,6 +161,7 @@ MonoBehaviour:
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1
+  minTimeWait: 4
 --- !u!50 &1493762876690802660
 Rigidbody2D:
   serializedVersion: 4

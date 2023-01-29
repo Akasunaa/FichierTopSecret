@@ -233,12 +233,7 @@ MonoBehaviour:
     - TDO_Change_Name
   objectsElements: []
   questItems: []
-  reactElements:
-  - tagToReact: Dog
-    stateChangeName:
-    - TDO_Dog_Returned
-    isSuperior: 01
-    condition: 01000000
+  reactElements: []
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}

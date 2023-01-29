@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
   m_Name: PortraitXV6
   m_EditorClassIdentifier: 
-  portraitName: xv6
+  portraitName: Robot
   portraitSprite: {fileID: 2042557351, guid: 1e9659eae7102534bb131b90b9857207, type: 3}
