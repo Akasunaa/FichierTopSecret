@@ -274,28 +274,23 @@ public static class ApplyPlayerChange
     /**
      * Calculate the levenshtein distance between two words
      */
-    private static int LevenshteinDistance(string subject, string model)
+    private static int LevenshteinDistance(string subject, string model, int threshold)
     {
+        if (threshold <= 0) { return 1000; }
         if (Mathf.Min(subject.Length, model.Length) == 0)
         {
             return Mathf.Max(subject.Length, model.Length);
         }
-        else
-        {
-            string subSubject = subject.Substring(1);
-            string subModel = model.Substring(1);
+        string subSubject = subject.Substring(1);
+        string subModel = model.Substring(1);
 
-            if (subject[0] == model[0])
-            {
-                return LevenshteinDistance(subSubject, subModel);
-            }
-            else
-            {
-                return 1 + Mathf.Min(LevenshteinDistance(subSubject, model),
-                                 LevenshteinDistance(subject, subModel),
-                                 LevenshteinDistance(subSubject, subModel));
-            }
+        if (subject[0] == model[0])
+        {
+            return LevenshteinDistance(subSubject, subModel, threshold);
         }
+        return 1 + Mathf.Min(LevenshteinDistance(subSubject, model, threshold - 1),
+                         LevenshteinDistance(subject, subModel , threshold - 1),
+                         LevenshteinDistance(subSubject, subModel, threshold - 1));
     }
 
     /**
@@ -312,11 +307,11 @@ public static class ApplyPlayerChange
         if (propertyNameInput.Length == 0) return string.Empty;
 
         var closestPropertyName = PropertyNames[0];
-        var levenshteinDistance = 10;
+        var levenshteinDistance = 1000;
 
         foreach (var propertyName in PropertyNames)
         {
-            var currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName);
+            var currentLevenshteinDistance = LevenshteinDistance(propertyNameInput, propertyName, inclusiveValidationThreshold);
             if (currentLevenshteinDistance < levenshteinDistance)
             {
                 closestPropertyName = propertyName;
