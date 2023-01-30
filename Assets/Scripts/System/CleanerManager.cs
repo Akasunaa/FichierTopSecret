@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.IO;
 using UnityEngine;
 
 /**
@@ -12,5 +12,39 @@ public class CleanerManager : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.DeleteAll();
+        
+        CleanFilesAndFolders();
+    }
+
+    private static void CleanFilesAndFolders()
+    {
+        var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
+        if (!di.Exists) return;
+        
+        // remove readonly attributes on cosmicbin items to delete them
+        var di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
+        if (di2.Exists)
+        {
+            foreach (var fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName))
+            {
+                try
+                {
+                    File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+            }
+        }
+
+        try
+        {
+            di.Delete(true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
     }
 }

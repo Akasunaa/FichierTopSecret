@@ -46,39 +46,7 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
         }
-
         
-        DirectoryInfo di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
-
-        if (di.Exists)
-        {
-            // remove readonly attributes on cosmicbin items to delete them
-            DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
-            if (di2.Exists)
-            {
-                foreach (string fileName in Directory.GetFiles(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName))
-                {
-                    FileInfo fileInfo = new FileInfo(fileName);
-                    try
-                    {
-                        File.SetAttributes(fileName, File.GetAttributes(fileName) & ~FileAttributes.ReadOnly);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError(e);
-                    }
-                }
-            }
-
-            try
-            {
-                di.Delete(true);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-            }
-        }
         fadeImage = GetComponentInChildren<Image>();
         fadeImage.color = new Color(0F, 0F, 0F, 0F);
     }

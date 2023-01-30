@@ -49,14 +49,14 @@ public class FilesWatcher : MonoBehaviour
     }
 
     // Associate each file path (which already exists in the game) to a FileParser
-    private static Dictionary<string, FileParser> _pathToScript = new Dictionary<string, FileParser>(10);
+    private static Dictionary<string, FileParser> _pathToScript;
     public static FilesWatcher instance { get; private set; }
 
-    private static ConcurrentQueue<FileChange> _dataQueue = new ConcurrentQueue<FileChange>();
-    private static ConcurrentQueue<(string, bool)> _selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
+    private static ConcurrentQueue<FileChange> _dataQueue;
+    private static ConcurrentQueue<(string, bool)> _selectedFilesQueue;
     
     // Tells whether there is an explorer in the streaming asset directory already open
-    private static ConcurrentQueue<(bool, IntPtr)> _explorerPathsQueue = new ConcurrentQueue<(bool, IntPtr)>();
+    private static ConcurrentQueue<(bool, IntPtr)> _explorerPathsQueue;
 
     private bool _isGettingCurrentObject;
     private FileParser _currentHighlightObject;
@@ -81,6 +81,9 @@ public class FilesWatcher : MonoBehaviour
 
     private void Start()
     {
+        Initialize();
+        
+        
         var di = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName);
 
         if (!di.Exists)
@@ -128,6 +131,14 @@ public class FilesWatcher : MonoBehaviour
         var thread = new Thread(() => HighlightSelectedFilesAndGetExplorer(_selectedFilesQueue, _explorerPathsQueue));
         thread.Start();
         #endif
+    }
+
+    private void Initialize()
+    {
+        _dataQueue = new ConcurrentQueue<FileChange>();
+        _pathToScript = new Dictionary<string, FileParser>(10);
+        _selectedFilesQueue = new ConcurrentQueue<(string, bool)>();
+        _explorerPathsQueue = new ConcurrentQueue<(bool, IntPtr)>();
     }
     
     #if UNITY_STANDALONE_WIN

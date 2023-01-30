@@ -703,7 +703,6 @@ MonoBehaviour:
     go: {fileID: 1919930744486906714, guid: c5216bae134cbbe40b48d2428552ad0b, type: 3}
   popParticle: {fileID: 7037504838968731600, guid: 74593a8f89b32584991dcc2dceacbcc7, type: 3}
   depopParticle: {fileID: 7037504838968731600, guid: c905f369ed3894140b2f250e1593f1d7, type: 3}
-  filesWatcher: {fileID: 59574805}
 --- !u!1 &1221730896
 GameObject:
   m_ObjectHideFlags: 0
@@ -787,7 +786,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1278027335
 Transform:
   m_ObjectHideFlags: 0
