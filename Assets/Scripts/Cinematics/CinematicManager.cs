@@ -76,13 +76,13 @@ public class CinematicManager : MonoBehaviour
         //    _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
         //    yield break;
         //}
+        _player.GetComponent<InputController>().StopMovement();
+        _player.GetComponent<PlayerInput>().enabled = false;
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
         _ui.GetComponent<PauseMenuController>().enabled= false;
         cinematicIsPlaying = true;
         var rulerCanvas = _uiConstant.GetComponent<Ruler>().rulerCanvas;
         rulerCanvas.SetActive(false);
-        _player.GetComponent<InputController>().StopMovement();
-        _player.GetComponent<PlayerInput>().enabled = false;
         _cinematicDirector.playableAsset = cinematicData;
         _cinematicDirector.Play();
         yield return new WaitForSeconds((float)cinematicData.duration);
