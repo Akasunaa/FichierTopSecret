@@ -33,7 +33,6 @@ public class InteractableObjectController : MonoBehaviour, Interactable
         }
         else
         {
-
             isInInteraction = true;
             GameObject.FindGameObjectWithTag("Player").GetComponent<InputController>().StopMovement();
         }

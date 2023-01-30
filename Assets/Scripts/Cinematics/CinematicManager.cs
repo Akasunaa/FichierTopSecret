@@ -71,11 +71,11 @@ public class CinematicManager : MonoBehaviour
     /// </summary>    
     protected virtual IEnumerator StartCinematic()
     {
-        if (Application.isEditor /*&& !playCinematic*/)
-        {
-            _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
-            yield break;
-        }
+        //if (Application.isEditor /*&& !playCinematic*/)
+        //{
+        //    _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(false);
+        //    yield break;
+        //}
         _ui.GetComponent<DialogueUIController>().cinematicCanvas.SetActive(true);
         _ui.GetComponent<PauseMenuController>().enabled= false;
         cinematicIsPlaying = true;

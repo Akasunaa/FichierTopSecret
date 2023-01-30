@@ -16,7 +16,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class DialogueUIController : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private Canvas dialogueCanvas;                 //canvas containing the dialogue items
+    [SerializeField] public Canvas dialogueCanvas;                 //canvas containing the dialogue items
     [SerializeField] private UnityEngine.UI.Image portraitImage;                   //portrait image that will display the correct portrait sprite
     [SerializeField] private TextMeshProUGUI dialogueText;          //the dialogue text bubble
     [SerializeField] private TextMeshProUGUI dialogNameText;        //name displayed during the dialog
