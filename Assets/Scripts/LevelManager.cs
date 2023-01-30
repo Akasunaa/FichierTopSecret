@@ -109,14 +109,14 @@ public class LevelManager : MonoBehaviour
         bool completeSceneLoading = UpdateFileGameObjects(directoryExists);
         completeSceneLoading = CreateGameObjectFromFiles(di) && completeSceneLoading;
 
-        if (levelName == Capitalize(CosmicBinManager.Instance.cosmicBinFolderName))
+        if (levelName == Capitalize(CosmicBinManager.instance.cosmicBinFolderName))
         {
             Debug.Log("START LOADING");
-            CosmicBinManager.Instance.OnCosmicBinLoad();
+            CosmicBinManager.instance.OnCosmicBinLoad();
         }
         else
         {
-            CosmicBinManager.Instance.cosmicBinIsloaded = false;
+            CosmicBinManager.instance.cosmicBinIsLoaded = false;
         }
         try
         {
@@ -306,7 +306,7 @@ public class LevelManager : MonoBehaviour
 
                 // Clean the prefab if it is instantiated in the Cosmic bin
                 if (isInComsicBin) { 
-                    CosmicBinManager.Instance.AddRestorationController(newObj);
+                    CosmicBinManager.AddRestorationController(newObj);
                 } else
                 {
                     fp.WriteToFile();
@@ -349,7 +349,7 @@ public class LevelManager : MonoBehaviour
         // }
 
         // Clean the prefab if it is instantiated in the Cosmic bin
-        if (isInComsicBin) CosmicBinManager.Instance.AddRestorationController(newObj);
+        if (isInComsicBin) CosmicBinManager.AddRestorationController(newObj);
     }
 
     /**

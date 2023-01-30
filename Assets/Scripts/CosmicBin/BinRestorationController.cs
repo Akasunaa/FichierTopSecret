@@ -12,6 +12,6 @@ public class BinRestorationController : MonoBehaviour, Interactable
 
     public void Interact()
     {
-        CosmicBinManager.Instance.RestoreSuppressedObject(gameObject);
+        CosmicBinManager.RestoreSuppressedObject(gameObject);
     }
 }

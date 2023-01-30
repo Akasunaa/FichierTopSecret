@@ -76,7 +76,7 @@ public class FileParser : MonoBehaviour
     private void DeleteFile(string path)
     {
         // create CosmicBin if it doesn't exist
-        CosmicBinManager.Instance.GenerateCosmicBin();
+        CosmicBinManager.instance.GenerateCosmicBin();
 
         // create fileinfo
         var fi = new FileInfo(Application.streamingAssetsPath + path);
