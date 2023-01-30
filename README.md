@@ -1,6 +1,10 @@
 # The Neptune Records - A Folded Reality 
 PFE JIN 2022-2023
 
+## Télécharger le jeu
+
+https://akasuna.itch.io/the-neptune-records
+
 ## Pitch
 
 Vous incarnerez un détective Neptunien au pouvoir de manipuler la réalité. Comment ? En modifiant les fichiers mêmes du jeu dans votre explorateur de fichiers.
