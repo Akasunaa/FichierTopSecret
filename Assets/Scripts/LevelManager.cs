@@ -272,8 +272,10 @@ public class LevelManager : MonoBehaviour
                 {
                     DontDestroyOnLoad(newObj);
                     newObj.transform.parent = PlayerItems.Instance.transform;
-                    if(newObj.TryGetComponent(out ItemController ic))
-                        ic.itemSprite.SetActive(false);        
+                    if (newObj.TryGetComponent(out ItemController ic) && ic.itemSprite != null)
+                    {
+                        ic.itemSprite.SetActive(false);
+                    }
                 }
                 // setup file parser
                 fp = newObj.AddComponent<FileParser>();
