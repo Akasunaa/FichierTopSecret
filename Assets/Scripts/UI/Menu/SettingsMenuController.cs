@@ -28,6 +28,11 @@ public class SettingsMenuController : MonoBehaviour
     [SerializeField] private AudioClip[] musicClips;
 
     public UnityEvent onScreenResolutionChanged;
+
+    private bool _isMusicWaiting;
+    private AudioClip _musicAwaiting;
+    private float _timeMusicAwaitingAt;
+    private bool _wasJustTestingMusic;
     
     private void Start()
     {
@@ -137,8 +142,20 @@ public class SettingsMenuController : MonoBehaviour
     public void SoundOnTest()
     {
         StopAllCoroutines();
-        if(musicAudioSource.isPlaying) musicAudioSource.Pause();
+        if (_isMusicWaiting) musicAudioSource.Stop();
+        else
+        {
+            _isMusicWaiting = musicAudioSource.isPlaying;
+            if(_isMusicWaiting)
+            {
+                musicAudioSource.Pause();
+                _timeMusicAwaitingAt = musicAudioSource.time;
+                _musicAwaiting = musicAudioSource.clip;
+            }
+        }
+        
         if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
+        
         StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(soundClips), sfxAudioSource));
     }
     
@@ -157,13 +174,21 @@ public class SettingsMenuController : MonoBehaviour
     public void MusicOnTest()
     {
         StopAllCoroutines();
-        if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
-        if (musicAudioSource.isPlaying)
+        if (_isMusicWaiting || _wasJustTestingMusic) musicAudioSource.Stop();
+        else
         {
-            musicAudioSource.Stop();
-            StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource, isPaused : true));
+            _isMusicWaiting = musicAudioSource.isPlaying;
+            if (_isMusicWaiting)
+            {
+                musicAudioSource.Pause();
+                _timeMusicAwaitingAt = musicAudioSource.time;
+                _musicAwaiting = musicAudioSource.clip;
+            }
+            else _wasJustTestingMusic = true;
         }
-        else { StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource)); }
+        
+        if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
+        StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource));
     }
 
     public void MusicOnMute(bool enableMusic)
@@ -190,13 +215,19 @@ public class SettingsMenuController : MonoBehaviour
 
     #region Private Methods
 
-    private static IEnumerator PlayAudioClipForSec(AudioClip clip, AudioSource source, float time = 5f, bool isPaused = false)
+    private IEnumerator PlayAudioClipForSec(AudioClip clip, AudioSource source, float time = 5f)
     {
         source.Stop();
         source.PlayOneShot(clip);
-        yield return new WaitForSecondsRealtime(time);
+        yield return new WaitForSecondsRealtime(Mathf.Min(time, clip.length));
         if(source.isPlaying) source.Stop();
-        if (isPaused) { source.Play(); }
+        if (_isMusicWaiting)
+        {
+            musicAudioSource.clip = _musicAwaiting;
+            musicAudioSource.time = _timeMusicAwaitingAt;
+            musicAudioSource.Play();
+            _isMusicWaiting = false;
+        }
     }
 
     private static AudioClip GetRandomClipFrom(IReadOnlyList<AudioClip> clipList)
