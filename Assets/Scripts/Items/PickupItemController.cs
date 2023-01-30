@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class PickupItemController : ModifiableController, Interactable
+public class PickupItemController : ItemController, Interactable
 {
     public bool canBeInteracted { get; set; }
 

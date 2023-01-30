@@ -76,6 +76,8 @@ MonoBehaviour:
   fileChange:
     m_PersistentCalls:
       m_Calls: []
+  item_name: plastickDuck
+  itemSprite: {fileID: 0}
 --- !u!1 &1919930745886976221
 GameObject:
   m_ObjectHideFlags: 0

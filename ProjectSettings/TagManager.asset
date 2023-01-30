@@ -13,6 +13,11 @@ TagManager:
   - IK8
   - WorkerDrone
   - DestroyOnGameOver
+  - Litter
+  - StreetThug
+  - UI-CONSTANT
+  - BreakableWall
+  - Dog
   layers:
   - Default
   - TransparentFX
