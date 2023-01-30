@@ -137,7 +137,7 @@ public class SettingsMenuController : MonoBehaviour
     public void SoundOnTest()
     {
         StopAllCoroutines();
-        if(musicAudioSource.isPlaying) musicAudioSource.Stop();
+        if(musicAudioSource.isPlaying) musicAudioSource.Pause();
         if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
         StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(soundClips), sfxAudioSource));
     }
@@ -157,9 +157,13 @@ public class SettingsMenuController : MonoBehaviour
     public void MusicOnTest()
     {
         StopAllCoroutines();
-        if(musicAudioSource.isPlaying) musicAudioSource.Stop();
         if(sfxAudioSource.isPlaying) sfxAudioSource.Stop();
-        StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource));
+        if (musicAudioSource.isPlaying)
+        {
+            musicAudioSource.Stop();
+            StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource, isPaused : true));
+        }
+        else { StartCoroutine(PlayAudioClipForSec(GetRandomClipFrom(musicClips), musicAudioSource)); }
     }
 
     public void MusicOnMute(bool enableMusic)
@@ -181,17 +185,18 @@ public class SettingsMenuController : MonoBehaviour
         backToThatCanvas.SetActive(true);
         gameObject.SetActive(false);
     }
-    
+
     #endregion
 
     #region Private Methods
 
-    private static IEnumerator PlayAudioClipForSec(AudioClip clip, AudioSource source, float time = 5f)
+    private static IEnumerator PlayAudioClipForSec(AudioClip clip, AudioSource source, float time = 5f, bool isPaused = false)
     {
         source.Stop();
         source.PlayOneShot(clip);
         yield return new WaitForSecondsRealtime(time);
         if(source.isPlaying) source.Stop();
+        if (isPaused) { source.Play(); }
     }
 
     private static AudioClip GetRandomClipFrom(IReadOnlyList<AudioClip> clipList)

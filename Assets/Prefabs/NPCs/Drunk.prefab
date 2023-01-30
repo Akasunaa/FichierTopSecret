@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 1
+  canBeDeleted: 0
   fileChange:
     m_PersistentCalls:
       m_Calls: []
@@ -123,6 +123,7 @@ MonoBehaviour:
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1
+  minTimeWait: 4
 --- !u!50 &7580858126535032912
 Rigidbody2D:
   serializedVersion: 4
