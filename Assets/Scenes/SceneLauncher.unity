@@ -701,6 +701,8 @@ MonoBehaviour:
     go: {fileID: 3618637796963457512, guid: a6ce3456e18daa74a8a6c04885e2f20b, type: 3}
   - reg: plasticDuck
     go: {fileID: 1919930744486906714, guid: c5216bae134cbbe40b48d2428552ad0b, type: 3}
+  - reg: dog
+    go: {fileID: 2578754168293890584, guid: 5dfd5ee5c54219a4ca91815f48689d02, type: 3}
   popParticle: {fileID: 7037504838968731600, guid: 74593a8f89b32584991dcc2dceacbcc7, type: 3}
   depopParticle: {fileID: 7037504838968731600, guid: c905f369ed3894140b2f250e1593f1d7, type: 3}
 --- !u!1 &1221730896
