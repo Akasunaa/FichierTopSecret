@@ -197,12 +197,12 @@ public static class Utils
                 return false;
             }
         }
-        Debug.Log("NPC COMPARE : COMPARING INSPECTOR INITIAL VALUE " + inspectorValue + " AND FILE VALUE CURRENT " + integerValue);
+        //Debug.Log("NPC COMPARE : COMPARING INSPECTOR INITIAL VALUE " + inspectorValue + " AND FILE VALUE CURRENT " + integerValue);
         int inspectorInitialValue;
         int.TryParse(inspectorValue, out inspectorInitialValue);
         if(inspectorInitialValue == integerValue) { return false; } //if the file value is the same as the initial inspector-defined value, nothing happens
 
-        Debug.Log("NPC COMPARE : COMPARING INSPECTOR CONDITION VALUE " + inspectorConditionValue + " AND FILE VALUE CURRENT " + integerValue);
+        //Debug.Log("NPC COMPARE : COMPARING INSPECTOR CONDITION VALUE " + inspectorConditionValue + " AND FILE VALUE CURRENT " + integerValue);
         int conditionValue;
         int.TryParse(inspectorConditionValue, out conditionValue);
         if (isSuperiorTest)

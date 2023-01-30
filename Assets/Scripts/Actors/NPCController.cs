@@ -82,66 +82,6 @@ public class NPCController : ModifiableController, Interactable
         ui = GameObject.FindGameObjectsWithTag("UI")[0].GetComponent<DialogueUIController>();
         Assert.IsNotNull(ui);
 
-        ////Creating the dict of the values :
-        //foreach(var element in fileProperties)
-        //{
-        //    if (!propertyDict.ContainsKey(element.propertyName))
-        //    {
-        //        propertyDict.Add(element.propertyName, element);
-        //    }
-        //}
-        ////-----------------------------------
-
-        ////Creating the dict of the objects :
-        //foreach (var element in objectsElements)
-        //{
-        //    if (!objectDict.ContainsKey(element.playerItemName))
-        //    {
-        //        objectDict.Add(element.playerItemName, element);
-        //    }
-        //}
-        ////-----------------------------------
-
-        ////Creating the dict of the quest items to give out :
-        //foreach (var element in questItems)
-        //{
-        //    if (!questItemsDict.ContainsKey(element.questChangeState))
-        //    {
-        //        questItemsDict.Add(element.questChangeState, element);
-        //    }
-        //}
-        ////-----------------------------------
-
-        ////Creating the dict of the react elements to check out for :
-        //foreach (var element in reactElements)
-        //{
-        //    if (!reactElementsDict.ContainsKey(element.tagToReact))
-        //    {
-        //        reactElementsDict.Add(element.tagToReact, element);
-        //    }
-        //}
-        ////-----------------------------------
-
-        ////Creating the dict of the player.txt elements to check out for :
-        //foreach (var element in playerProperties)
-        //{
-        //    if (!playerPropertiesDict.ContainsKey(element.playerPropertyName))
-        //    {
-        //        playerPropertiesDict.Add(element.playerPropertyName, element);
-        //    }
-        //}
-        ////-----------------------------------
-
-        ////Creating the dict of the Player Prefs Elements to check out for :
-        //foreach (var element in playerPrefsElements)
-        //{
-        //    if (!playerPrefsElementsDict.ContainsKey(element.playerPrefsName))
-        //    {
-        //        playerPrefsElementsDict.Add(element.playerPrefsName, element);
-        //    }
-        //}
-        ////-----------------------------------
-
         //we set up the different variables of the NPC controller that do not require external help :
         player = GameObject.FindGameObjectWithTag("Player");
         playerObjectController = player.GetComponent<PlayerObjectController>();
@@ -350,6 +290,7 @@ public class NPCController : ModifiableController, Interactable
     /// </summary>
     private void EndDialogue()
     {
+        Debug.Log("NPC : END DIALOGUE CALLED");
         newDialog = true;
         canMove = true;
         ui.EndDisplay();
@@ -362,12 +303,13 @@ public class NPCController : ModifiableController, Interactable
     /// <param name="newStateName">name that references the next state that should be chosen</param>
     public virtual void OnStateChange(string newStateName)
     {
-        Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
+        //Debug.Log("NPC : " + gameObject.name + " CHANGING CURRENT STATE " + dialogSM.currentState.name + " TO STATE " + newStateName);
         dialogSM = GetComponent<DialogSM>();
         dialogSM.associatedNPCController = this;
         dialogSM.ChangeState(newStateName);
         if (ui!=null) 
         {
+            player.GetComponent<InputController>().RestartMovement();
             ui.EndDisplay();
         }
     }
