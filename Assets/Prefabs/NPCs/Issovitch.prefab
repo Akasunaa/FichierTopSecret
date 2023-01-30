@@ -198,6 +198,8 @@ MonoBehaviour:
   nextStates:
   - name: Iss_Death
     state: {fileID: 11400000, guid: 96a653c859115604796d900f44b478d5, type: 2}
+  - name: Iss_Torture
+    state: {fileID: 11400000, guid: 1425ed8fd23aff34db5228f04b30353e, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &437886885631314306
 MonoBehaviour:
@@ -216,16 +218,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canBeInteracted: 0
-  portraitRef: issovitch
+  portraitRef: Issovitch
   fileProperties:
   - propertyName: health
     propertyValue: 10
     propertyType: 0
-    conditionIsSuperior: 01
+    conditionIsSuperior: 0101
     propertyCondition:
     - 1
+    - 5
     propertyChangeState:
     - Iss_Death
+    - Iss_Torture
   objectsElements: []
   questItems: []
   reactElements: []
@@ -234,3 +238,4 @@ MonoBehaviour:
   grid: {fileID: 0}
   shouldMove: 0
   speed: 1
+  minTimeWait: 4
