@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &974190118995348524
+--- !u!1 &8700064090788229410
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 750492682925020577}
-  - component: {fileID: 5278289054536073797}
-  - component: {fileID: 2509510086512955903}
+  - component: {fileID: 8700064090788229409}
+  - component: {fileID: 8700064090788229408}
+  - component: {fileID: 8700064090788229411}
+  - component: {fileID: 5864985317493407825}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: ExplosionEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &750492682925020577
+--- !u!4 &8700064090788229409
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974190118995348524}
+  m_GameObject: {fileID: 8700064090788229410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.88, y: 0.4, z: 0}
+  m_LocalScale: {x: 26.85983, y: 26.85983, z: 26.85983}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8661490979540794006}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5278289054536073797
+--- !u!212 &8700064090788229408
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974190118995348524}
+  m_GameObject: {fileID: 8700064090788229410}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 15802206, guid: 07c6b9cc79ec1c14e9268a829013e0d0, type: 3}
+  m_Sprite: {fileID: 1371468217, guid: 2d49de56194bf574388ca745fd65e561, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,69 +86,35 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2509510086512955903
+--- !u!95 &8700064090788229411
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8700064090788229410}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b196dad6552c597498e30bda8111ca1d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5864985317493407825
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 974190118995348524}
+  m_GameObject: {fileID: 8700064090788229410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba11bea17211e54d903f156fa3e95d3, type: 3}
+  m_Script: {fileID: 11500000, guid: dffc6011f0ca48e459a454719606d91d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteRenderer: {fileID: 5278289054536073797}
-  offset: 0
---- !u!1 &3958324133499281067
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8661490979540794006}
-  - component: {fileID: 306113451400478565}
-  m_Layer: 0
-  m_Name: Explosives
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8661490979540794006
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3958324133499281067}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.649061, y: -0.62835884, z: 0.077943474}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 750492682925020577}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &306113451400478565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3958324133499281067}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86695ec7709fbf848b7f39f801e02c9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canBeDeleted: 1
-  fileChange:
-    m_PersistentCalls:
-      m_Calls: []
-  item_name: explosives
-  itemSprite: {fileID: 974190118995348524}
-  explosionEffect: {fileID: 8700064090788229410, guid: 81cb77b28e98be14d81f7bcd181ba060, type: 3}

@@ -5,8 +5,14 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Script used by the explosives of the player
+/// </summary>
 public class ExplosiveController : ItemController
 {
+    [Header("Effects")]
+    [SerializeField] private GameObject explosionEffect;
+
     public override void SetDefaultProperties()
     {
         base.SetDefaultProperties();
@@ -135,5 +141,12 @@ public class ExplosiveController : ItemController
                 Debug.LogError(e);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        GameObject explosionInstance = Instantiate(explosionEffect);
+        explosionInstance.transform.parent = null;
+        explosionInstance.transform.position= transform.position;
     }
 }
