@@ -7552,8 +7552,9 @@ MonoBehaviour:
   musicSlider: {fileID: 1971928539}
   musicAudioSource: {fileID: 770628708}
   musicClips:
-  - {fileID: 8300000, guid: 18cd18e841a27bf4c89b47a1e5e24987, type: 3}
-  - {fileID: 8300000, guid: 9522e62ea7ea5cc4589df1b0c8ae5d15, type: 3}
+  - {fileID: 8300000, guid: a3eae550de9699040a6d0a485479bd35, type: 3}
+  - {fileID: 8300000, guid: 24ea5eb9abebbe049a2adfd5d4bd73a4, type: 3}
+  - {fileID: 8300000, guid: 867b7cede0a062f4394fd96f305bf66d, type: 3}
   onScreenResolutionChanged:
     m_PersistentCalls:
       m_Calls: []
