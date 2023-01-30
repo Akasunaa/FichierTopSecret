@@ -83,6 +83,8 @@ public class PauseMenuController : MonoBehaviour
         _buttonPressedOnce = false;
         clickAgainTMP.gameObject.SetActive(false);
 
+        DestroyOnB2MM();
+        
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu");
     }
@@ -100,5 +102,10 @@ public class PauseMenuController : MonoBehaviour
         _uiConstant.gameObject.SetActive(!pause);
         
         pauseMenuCanvas.gameObject.SetActive(pause);
+    }
+
+    private static void DestroyOnB2MM()
+    {
+        foreach (var localObject in GameObject.FindGameObjectsWithTag("DestroyOnGameOver")) Destroy(localObject);
     }
 }

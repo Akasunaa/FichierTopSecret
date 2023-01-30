@@ -31,6 +31,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private ParticleSystem popParticle;
     [SerializeField] public ParticleSystem depopParticle;
 
+    [SerializeField] private FilesWatcher filesWatcher;
+
     //fader
     private Image fadeImage;
 
@@ -51,6 +53,7 @@ public class LevelManager : MonoBehaviour
 
         if (di.Exists)
         {
+            if(filesWatcher != null) filesWatcher.gameObject.SetActive(false);
             // remove readonly attributes on cosmicbin items to delete them
             DirectoryInfo di2 = new DirectoryInfo(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/" + Utils.CosmicbinFolderName);
             if (di2.Exists)
@@ -77,6 +80,8 @@ public class LevelManager : MonoBehaviour
             {
                 Debug.LogError(e);
             }
+            
+            if(filesWatcher != null) filesWatcher.gameObject.SetActive(true);
         }
         fadeImage = GetComponentInChildren<Image>();
         fadeImage.color = new Color(0F, 0F, 0F, 0F);

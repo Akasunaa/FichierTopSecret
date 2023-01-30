@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,5 +46,10 @@ public class ChangeSceneAnalyserController : MonoBehaviour
     public bool GetLoadingState()
     {
         return loadedThroughDoor;
+    }
+
+    private void OnDestroy()
+    {
+        if(_instance == this) _instance = null;
     }
 }

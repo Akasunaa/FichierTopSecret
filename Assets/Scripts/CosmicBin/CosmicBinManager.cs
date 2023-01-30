@@ -129,5 +129,6 @@ public class CosmicBinManager : MonoBehaviour
     private void OnDestroy()
     {
         if (Instance == this) Instance = null;
+        objectsSuppressed.Clear();
     }
 }
