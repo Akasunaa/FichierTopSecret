@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
@@ -12,11 +12,31 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new();
         var path = Application.persistentDataPath + AudioDataFileName;
-        var stream = new FileStream(path, FileMode.Create);
-
+        
+        FileStream stream;
+        try
+        {
+            stream = new FileStream(path, FileMode.Create);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            return;
+        }
+        
         var data = new AudioSettingsData(audioMixerManager);
         
-        formatter.Serialize(stream, data);
+        try
+        {
+            formatter.Serialize(stream, data);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            stream.Close();
+            return;
+        }
+        
         stream.Close();
     }
     public static AudioSettingsData LoadAudioSettingsData()
@@ -29,10 +49,30 @@ public static class SaveSystem
         }
 
         BinaryFormatter formatter = new();
-        var stream = new FileStream(path, FileMode.Open);
-        var data = formatter.Deserialize(stream) as AudioSettingsData;
-        stream.Close();
+        FileStream stream;
+        try 
+        {
+            stream = new FileStream(path, FileMode.Open);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            return null;
+        }
+
+        AudioSettingsData data;
+        try
+        {
+            data = formatter.Deserialize(stream) as AudioSettingsData;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            stream.Close();
+            return null;
+        }
         
+        stream.Close();
         return data;
     }
 
@@ -40,11 +80,31 @@ public static class SaveSystem
     {
         BinaryFormatter formatter = new();
         var path = Application.persistentDataPath + ScreenDataFileName;
-        var stream = new FileStream(path, FileMode.Create);
+        
+        FileStream stream;
+        try
+        {
+            stream = new FileStream(path, FileMode.Create);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            return;
+        }
 
         var data = new ScreenSettingsData(width, height, refreshRate);
         
-        formatter.Serialize(stream, data);
+        try
+        {
+            formatter.Serialize(stream, data);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            stream.Close();
+            return;
+        }
+        
         stream.Close();
     }
 
@@ -58,10 +118,30 @@ public static class SaveSystem
         }
 
         BinaryFormatter formatter = new();
-        var stream = new FileStream(path, FileMode.Open);
-        var data = formatter.Deserialize(stream) as ScreenSettingsData;
-        stream.Close();
+        FileStream stream;
+        try
+        {
+            stream = new FileStream(path, FileMode.Open);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            return null;
+        }
+
+        ScreenSettingsData data;
+        try
+        {
+            data = formatter.Deserialize(stream) as ScreenSettingsData;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[SaveSystem] {e}");
+            stream.Close();
+            return null;
+        }
         
+        stream.Close();
         return data;
     }
 }
