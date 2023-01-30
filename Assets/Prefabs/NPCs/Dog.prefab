@@ -222,6 +222,6 @@ MonoBehaviour:
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
-  shouldMove: 0
+  shouldMove: 1
   speed: 1
   minTimeWait: 1
