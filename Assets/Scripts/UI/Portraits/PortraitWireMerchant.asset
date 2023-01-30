@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 662fe578fa325c04aa7e4c0e81bc4c05, type: 3}
-  m_Name: PortraitExplosivesMerchant
+  m_Name: PortraitWireMerchant
   m_EditorClassIdentifier: 
-  portraitName: Explosives Merchant
+  portraitName: Wire Merchant
   portraitSprite: {fileID: -1440896390, guid: 57f44793aa99df24c9f142d9192f2bd8, type: 3}

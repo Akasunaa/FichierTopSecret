@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3572885504756079366}
   - component: {fileID: 1177684485441327658}
   m_Layer: 0
-  m_Name: ExplosivesMerchant
+  m_Name: WireMerchant
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80,9 +80,9 @@ MonoBehaviour:
   currentState: {fileID: 0}
   startingState: {fileID: 11400000, guid: 1451077d5af6b334e86efd30c3927a09, type: 2}
   nextStates:
-  - name: EM_Information_Bomb
+  - name: WM_Information_Bomb
     state: {fileID: 11400000, guid: 3bb9529b5b031f1429afc2c989f09535, type: 2}
-  - name: EM_Duck_Information
+  - name: WM_Duck_Information
     state: {fileID: 11400000, guid: dffd62252db58ea46aefde021105f69a, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &7805141468238465817
@@ -102,7 +102,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canBeInteracted: 0
-  portraitRef: Explosives Merchant
+  portraitRef: Wire Merchant
   fileProperties:
   - propertyName: money
     propertyValue: 0
@@ -111,10 +111,10 @@ MonoBehaviour:
     propertyCondition:
     - 20
     propertyChangeState:
-    - EM_Information_Bomb
+    - WM_Information_Bomb
   objectsElements:
   - playerItemName: plasticduck
-    playerItemChangeState: EM_Duck_Information
+    playerItemChangeState: WM_Duck_Information
     hasReacted: 0
   questItems: []
   reactElements: []
