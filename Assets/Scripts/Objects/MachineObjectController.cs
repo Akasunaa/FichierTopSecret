@@ -40,7 +40,7 @@ public class MachineObjectController : ModifiableController, Interactable
 
     public void Interact()
     {
-        if (itemCost == 0 && Time.time > machineUsageTime + machineCooldown)
+        if (!isInInteraction && itemCost == 0 && Time.time > machineUsageTime + machineCooldown)
         {
             machineUsageTime = Time.time;
             string filePath = GetComponent<FileParser>().filePath;
@@ -63,7 +63,8 @@ public class MachineObjectController : ModifiableController, Interactable
 
             return;
         }
-        else if (playerObject != null && Time.time > machineUsageTime + machineCooldown)
+
+        if (!isInInteraction && playerObject != null && Time.time > machineUsageTime + machineCooldown)
         {
             if (playerObject.TryGetComponent(out PlayerObjectController playerObjectController))
             {

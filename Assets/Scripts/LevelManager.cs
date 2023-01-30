@@ -11,6 +11,7 @@ using System.ComponentModel;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private Texture2D manual;
     public static LevelManager Instance { get; private set; }
 
     private Scene activeLevel;
@@ -94,6 +95,9 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        //CREATE MANUAL :
+        CreateManual();
+        //LOAD SCENE :
         LoadScene(levelToLoad);
     }
     public void LoadScene(string levelName)
@@ -106,7 +110,17 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Function that will create the Manual PNG file in the root Game folder
+    /// </summary>
+    private void CreateManual()
+    {
+        if (manual != null)
+        {
+            byte[] bytes = manual.EncodeToPNG();
+            File.WriteAllBytes(Application.streamingAssetsPath + "/" + Utils.RootFolderName + "/manual.png", bytes);
+        }
+    }
 
     private IEnumerator LoadSceneCoroutine(string levelName)
     {

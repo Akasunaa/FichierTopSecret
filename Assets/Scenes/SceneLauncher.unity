@@ -652,6 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bff91f69daef7f4ca6449676105e070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  manual: {fileID: 2800000, guid: c489716cdc44ad04b97857b75ebcad11, type: 3}
   levelToLoad: Office
   instantiable:
   - reg: light
