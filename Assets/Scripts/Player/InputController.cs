@@ -63,6 +63,7 @@ public class InputController : MonoBehaviour
         {
             // decrease the number of keys pressed,reset movement only if all the keys are released
             nbKeyPressed--;
+            if (nbKeyPressed < 0) { nbKeyPressed = 0; }
 
             playerMovement.RemoveMovementInStack(InputVectorConversion(context.action.activeControl));
             if (nbKeyPressed == 0)
