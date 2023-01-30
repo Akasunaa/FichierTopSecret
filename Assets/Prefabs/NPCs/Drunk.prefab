@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3566864838009014294}
   m_Layer: 0
   m_Name: Drunk
-  m_TagString: NPC
+  m_TagString: Drunk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84,6 +84,8 @@ MonoBehaviour:
     state: {fileID: 11400000, guid: 2028428607b80b1429b6ed8da4e5551f, type: 2}
   - name: D_Woken
     state: {fileID: 11400000, guid: 6ee8689af8a3a8145b1e20c85a2f2476, type: 2}
+  - name: D_Cloned
+    state: {fileID: 11400000, guid: e3903c8f1d7b83f4d819ecb0687c5a59, type: 2}
   associatedNPCController: {fileID: 0}
 --- !u!114 &3169811318340794325
 MonoBehaviour:
@@ -97,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc59dc5ac27ed841b787c7e7da14d81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBeDeleted: 0
+  canBeDeleted: 1
   fileChange:
     m_PersistentCalls:
       m_Calls: []
@@ -114,7 +116,12 @@ MonoBehaviour:
     - D_Woken
   objectsElements: []
   questItems: []
-  reactElements: []
+  reactElements:
+  - tagToReact: Drunk
+    stateChangeName:
+    - D_Cloned
+    isSuperior: 01
+    condition: 01000000
   playerProperties: []
   playerPrefsElements:
   - playerPrefsName: IsKannathDrunkIntel
