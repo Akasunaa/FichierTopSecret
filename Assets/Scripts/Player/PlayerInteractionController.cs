@@ -82,7 +82,9 @@ public class PlayerInteractionController : MonoBehaviour
         //maybe can be used to check for new object near to player 
         if (focus)
         {
-            if (lastTarget != null && lastDirection != null)
+            GameObject ui = GameObject.FindGameObjectWithTag("UI");
+            bool isInteracting = ui != null && ui.TryGetComponent(out DialogueUIController dc) && dc.dialogueCanvas.isActiveAndEnabled;
+            if (lastTarget != null && lastDirection != null && !isInteracting)
             {
                 CheckForInteraction(lastTarget, lastDirection);
             }
