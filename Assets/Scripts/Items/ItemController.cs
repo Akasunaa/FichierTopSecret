@@ -14,8 +14,6 @@ public class ItemController : ModifiableController
 {
     [Header("Item Variables")]
     [SerializeField] private string item_name;
-    [Header("Item elements")]
-    [SerializeField] public GameObject itemSprite;
 
     public override void SetDefaultProperties()
     {

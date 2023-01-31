@@ -272,9 +272,13 @@ public class LevelManager : MonoBehaviour
                 {
                     DontDestroyOnLoad(newObj);
                     newObj.transform.parent = PlayerItems.Instance.transform;
-                    if (newObj.TryGetComponent(out ItemController ic) && ic.itemSprite != null)
+                    foreach (SpriteRenderer sr in newObj.GetComponentsInChildren<SpriteRenderer>())
                     {
-                        ic.itemSprite.SetActive(false);
+                        sr.enabled = false;
+                    }
+                    foreach (Collider2D col2 in newObj.GetComponentsInChildren<Collider2D>())
+                    {
+                        col2.enabled = false;
                     }
                 }
                 // setup file parser
