@@ -112,13 +112,6 @@ MonoBehaviour:
   canBeInteracted: 0
   portraitRef: Cleaning Drone
   fileProperties:
-  - propertyName: master
-    propertyValue: Kannath
-    propertyType: 1
-    conditionIsSuperior: 
-    propertyCondition: []
-    propertyChangeState:
-    - CD_Change_Owner
   - propertyName: work
     propertyValue: CLEANING
     propertyType: 1
@@ -133,6 +126,13 @@ MonoBehaviour:
     - CD_Change_Work_Killing
     - CD_Correct_Work
     - CD_Death
+  - propertyName: master
+    propertyValue: Kannath
+    propertyType: 1
+    conditionIsSuperior: 
+    propertyCondition: []
+    propertyChangeState:
+    - CD_Change_Owner
   objectsElements: []
   questItems: []
   reactElements: []
