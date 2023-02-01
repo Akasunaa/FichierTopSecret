@@ -30,7 +30,12 @@ public class ExplosiveController : ItemController
         string sceneName = Utils.SceneName(relativePath);
 
         Debug.Log("[EXPLOSIVES] DETONATE in " + sceneName);
-        
+
+        //explosion sprite :
+        GameObject explosionInstance = Instantiate(explosionEffect);
+        explosionInstance.transform.parent = null;
+        explosionInstance.transform.position = transform.position;
+
         //case one : player launch detonate while explosives is in his scene or in hos inventory : dead
         if (sceneName == Utils.PlayerFolderName || (Time.timeSinceLevelLoad > 2f && LevelManager.Capitalize(SceneManager.GetActiveScene().name) == sceneName)) //TODO: c'est moche mais ok tier
         {
@@ -145,8 +150,8 @@ public class ExplosiveController : ItemController
 
     private void OnDestroy()
     {
-        GameObject explosionInstance = Instantiate(explosionEffect);
-        explosionInstance.transform.parent = null;
-        explosionInstance.transform.position= transform.position;
+        //GameObject explosionInstance = Instantiate(explosionEffect);
+        //explosionInstance.transform.parent = null;
+        //explosionInstance.transform.position= transform.position;
     }
 }
