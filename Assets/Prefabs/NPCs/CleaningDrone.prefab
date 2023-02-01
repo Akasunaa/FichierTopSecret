@@ -135,12 +135,7 @@ MonoBehaviour:
     - CD_Death
   objectsElements: []
   questItems: []
-  reactElements:
-  - tagToReact: Litter
-    stateChangeName:
-    - CD_Litter
-    isSuperior: 01
-    condition: 00000000
+  reactElements: []
   playerProperties: []
   playerPrefsElements: []
   grid: {fileID: 0}
